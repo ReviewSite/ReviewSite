@@ -3,7 +3,7 @@ ReviewSite::Application.routes.draw do
 
   get "static_pages/contact"
 
-  root :to => "staticpages#home"
+  root :to => 'static_pages#home'
 
   resources :users
 

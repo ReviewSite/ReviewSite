@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Junior consultant:</b>
+  <%= @review.junior_consultant_id %>
+</p>
+
+<p>
+  <b>Review type:</b>
+  <%= @review.review_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Back', reviews_path %>

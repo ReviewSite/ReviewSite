@@ -1,0 +1,25 @@
+<h1>Listing junior_consultants</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @junior_consultants.each do |junior_consultant| %>
+  <tr>
+    <td><%= junior_consultant.name %></td>
+    <td><%= junior_consultant.email %></td>
+    <td><%= link_to 'Show', junior_consultant %></td>
+    <td><%= link_to 'Edit', edit_junior_consultant_path(junior_consultant) %></td>
+    <td><%= link_to 'Destroy', junior_consultant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Junior consultant', new_junior_consultant_path %>

@@ -1,4 +1,6 @@
 ReviewSite::Application.routes.draw do
+  resources :junior_consultants
+
   get "static_pages/home"
 
   get "static_pages/contact"

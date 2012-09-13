@@ -1,6 +1,7 @@
-<h1>Editing user</h1>
+<% provide(:title, "Edit user") %>
 
-<%= render 'form' %>
+<h1>Update your profile</h1>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= render :partial => 'form', :locals => {:button_title => 'Save changes'} %>
+
+

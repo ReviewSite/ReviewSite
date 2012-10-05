@@ -54,7 +54,23 @@ describe FeedbacksController do
       get :show, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
     end
+
+    describe "with feedback from the user" do
+      before(:each) do
+        @feedback = Feedback.create! valid_attributes
+      end
+
+      it "disallows seeing feedback submitted by other people" do
+        @other_user = FactoryGirl.create(:user)
+        sign_in(@other_user)
+
+        get :show, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
+
+        response.should redirect_to(root_url)
+      end
+    end
   end
+
 
   describe "GET new" do
     it "assigns a new feedback as @feedback" do
@@ -70,6 +86,18 @@ describe FeedbacksController do
       get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
+    end
+    describe "for another user" do
+      before(:each) do
+        @feedback = Feedback.create! valid_attributes
+        @other_user = FactoryGirl.create(:user)
+        sign_in(@other_user)
+        @other_feedback = FactoryGirl.create(:feedback, :review => @review, :user => @other_user)
+      end
+      it "cannot edit another user's feedback" do
+        get :edit, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
+        response.should redirect_to(root_url)
+      end
     end
   end
 

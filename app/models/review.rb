@@ -1,6 +1,9 @@
 class Review < ActiveRecord::Base
   attr_accessible :junior_consultant_id, :review_type
 
-  validates :review_type, :presence => true
+  belongs_to :junior_consultant
+
+  validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month) }
   validates :junior_consultant_id, :presence => true
+
 end

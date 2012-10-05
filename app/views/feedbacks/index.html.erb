@@ -1,0 +1,85 @@
+<h1>Listing feedbacks</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Project worked on</th>
+    <th>Role description</th>
+    <th>Tech exceeded</th>
+    <th>Tech met</th>
+    <th>Tech improve</th>
+    <th>Client exceeded</th>
+    <th>Client met</th>
+    <th>Client improve</th>
+    <th>Ownership exceeded</th>
+    <th>Ownership met</th>
+    <th>Ownership improve</th>
+    <th>Leadership exceeded</th>
+    <th>Leadership met</th>
+    <th>Leadership improve</th>
+    <th>Teamwork exceeded</th>
+    <th>Teamwork met</th>
+    <th>Teamwork improve</th>
+    <th>Attitude exceeded</th>
+    <th>Attitude met</th>
+    <th>Attitude improve</th>
+    <th>Professionalism exceeded</th>
+    <th>Professionalism met</th>
+    <th>Professionalism improve</th>
+    <th>Organizational exceeded</th>
+    <th>Organizational met</th>
+    <th>Organizational improve</th>
+    <th>Innovative exceeded</th>
+    <th>Innovative met</th>
+    <th>Innovative improve</th>
+    <th>Comments</th>
+    <th>Review</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @feedbacks.each do |feedback| %>
+  <tr>
+    <td><%= feedback.user_id %></td>
+    <td><%= feedback.project_worked_on %></td>
+    <td><%= feedback.role_description %></td>
+    <td><%= feedback.tech_exceeded %></td>
+    <td><%= feedback.tech_met %></td>
+    <td><%= feedback.tech_improve %></td>
+    <td><%= feedback.client_exceeded %></td>
+    <td><%= feedback.client_met %></td>
+    <td><%= feedback.client_improve %></td>
+    <td><%= feedback.ownership_exceeded %></td>
+    <td><%= feedback.ownership_met %></td>
+    <td><%= feedback.ownership_improve %></td>
+    <td><%= feedback.leadership_exceeded %></td>
+    <td><%= feedback.leadership_met %></td>
+    <td><%= feedback.leadership_improve %></td>
+    <td><%= feedback.teamwork_exceeded %></td>
+    <td><%= feedback.teamwork_met %></td>
+    <td><%= feedback.teamwork_improve %></td>
+    <td><%= feedback.attitude_exceeded %></td>
+    <td><%= feedback.attitude_met %></td>
+    <td><%= feedback.attitude_improve %></td>
+    <td><%= feedback.professionalism_exceeded %></td>
+    <td><%= feedback.professionalism_met %></td>
+    <td><%= feedback.professionalism_improve %></td>
+    <td><%= feedback.organizational_exceeded %></td>
+    <td><%= feedback.organizational_met %></td>
+    <td><%= feedback.organizational_improve %></td>
+    <td><%= feedback.innovative_exceeded %></td>
+    <td><%= feedback.innovative_met %></td>
+    <td><%= feedback.innovative_improve %></td>
+    <td><%= feedback.comments %></td>
+    <td><%= feedback.review_id %></td>
+    <td><%= link_to 'Show', [@review, feedback] %></td>
+    <td><%= link_to 'Edit', edit_review_feedback_path(@review, feedback) %></td>
+    <td><%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Feedback', new_review_feedback_path(@review) %>

@@ -11,7 +11,44 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120913193845) do
+ActiveRecord::Schema.define(:version => 20121005153452) do
+
+  create_table "feedbacks", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "project_worked_on"
+    t.string   "role_description"
+    t.text     "tech_exceeded"
+    t.text     "tech_met"
+    t.text     "tech_improve"
+    t.text     "client_exceeded"
+    t.text     "client_met"
+    t.text     "client_improve"
+    t.text     "ownership_exceeded"
+    t.text     "ownership_met"
+    t.text     "ownership_improve"
+    t.text     "leadership_exceeded"
+    t.text     "leadership_met"
+    t.text     "leadership_improve"
+    t.text     "teamwork_exceeded"
+    t.text     "teamwork_met"
+    t.text     "teamwork_improve"
+    t.text     "attitude_exceeded"
+    t.text     "attitude_met"
+    t.text     "attitude_improve"
+    t.text     "professionalism_exceeded"
+    t.text     "professionalism_met"
+    t.text     "professionalism_improve"
+    t.text     "organizational_exceeded"
+    t.text     "organizational_met"
+    t.text     "organizational_improve"
+    t.text     "innovative_exceeded"
+    t.text     "innovative_met"
+    t.text     "innovative_improve"
+    t.text     "comments"
+    t.integer  "review_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
 
   create_table "junior_consultants", :force => true do |t|
     t.string   "name"

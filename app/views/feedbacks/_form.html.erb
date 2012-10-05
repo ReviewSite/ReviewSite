@@ -1,0 +1,145 @@
+<%= form_for([@review, @feedback]) do |f| %>
+  <% if @feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+      <ul>
+      <% @feedback.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :project_worked_on %><br />
+    <%= f.text_field :project_worked_on %>
+  </div>
+  <div class="field">
+    <%= f.label :role_description %><br />
+    <%= f.text_field :role_description %>
+  </div>
+  <div class="field">
+    <%= f.label :tech_exceeded %><br />
+    <%= f.text_area :tech_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :tech_met %><br />
+    <%= f.text_area :tech_met %>
+  </div>
+  <div class="field">
+    <%= f.label :tech_improve %><br />
+    <%= f.text_area :tech_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :client_exceeded %><br />
+    <%= f.text_area :client_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :client_met %><br />
+    <%= f.text_area :client_met %>
+  </div>
+  <div class="field">
+    <%= f.label :client_improve %><br />
+    <%= f.text_area :client_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :ownership_exceeded %><br />
+    <%= f.text_area :ownership_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :ownership_met %><br />
+    <%= f.text_area :ownership_met %>
+  </div>
+  <div class="field">
+    <%= f.label :ownership_improve %><br />
+    <%= f.text_area :ownership_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :leadership_exceeded %><br />
+    <%= f.text_area :leadership_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :leadership_met %><br />
+    <%= f.text_area :leadership_met %>
+  </div>
+  <div class="field">
+    <%= f.label :leadership_improve %><br />
+    <%= f.text_area :leadership_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :teamwork_exceeded %><br />
+    <%= f.text_area :teamwork_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :teamwork_met %><br />
+    <%= f.text_area :teamwork_met %>
+  </div>
+  <div class="field">
+    <%= f.label :teamwork_improve %><br />
+    <%= f.text_area :teamwork_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :attitude_exceeded %><br />
+    <%= f.text_area :attitude_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :attitude_met %><br />
+    <%= f.text_area :attitude_met %>
+  </div>
+  <div class="field">
+    <%= f.label :attitude_improve %><br />
+    <%= f.text_area :attitude_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :professionalism_exceeded %><br />
+    <%= f.text_area :professionalism_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :professionalism_met %><br />
+    <%= f.text_area :professionalism_met %>
+  </div>
+  <div class="field">
+    <%= f.label :professionalism_improve %><br />
+    <%= f.text_area :professionalism_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :organizational_exceeded %><br />
+    <%= f.text_area :organizational_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :organizational_met %><br />
+    <%= f.text_area :organizational_met %>
+  </div>
+  <div class="field">
+    <%= f.label :organizational_improve %><br />
+    <%= f.text_area :organizational_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :innovative_exceeded %><br />
+    <%= f.text_area :innovative_exceeded %>
+  </div>
+  <div class="field">
+    <%= f.label :innovative_met %><br />
+    <%= f.text_area :innovative_met %>
+  </div>
+  <div class="field">
+    <%= f.label :innovative_improve %><br />
+    <%= f.text_area :innovative_improve %>
+  </div>
+  <div class="field">
+    <%= f.label :comments %><br />
+    <%= f.text_area :comments %>
+  </div>
+  <div class="field">
+    <%= f.label :review_id %><br />
+    <%= f.number_field :review_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -6,4 +6,6 @@ class Review < ActiveRecord::Base
   validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month) }
   validates :junior_consultant_id, :presence => true
 
+  has_many :feedbacks
+
 end

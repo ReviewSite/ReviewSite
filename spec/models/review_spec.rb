@@ -58,4 +58,11 @@ describe Review do
 
         r.valid?.should == false
     end
+
+    it "has feedback" do
+      r = FactoryGirl.create(:review)
+      f = FactoryGirl.create(:feedback, :review => r)
+
+      r.feedbacks.should == [f]
+    end
 end

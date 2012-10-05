@@ -75,7 +75,6 @@ describe "feedbacks/new" do
       assert_select "textarea#feedback_innovative_met", :name => "feedback[innovative_met]"
       assert_select "textarea#feedback_innovative_improve", :name => "feedback[innovative_improve]"
       assert_select "textarea#feedback_comments", :name => "feedback[comments]"
-      assert_select "input#feedback_review_id", :name => "feedback[review_id]"
     end
   end
 end

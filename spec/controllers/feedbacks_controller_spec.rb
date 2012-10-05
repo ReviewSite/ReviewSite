@@ -72,18 +72,18 @@ describe FeedbacksController do
     describe "with valid params" do
       it "creates a new Feedback" do
         expect {
-          post :create, {:feedback => valid_attributes, :review_id => @review.id}, valid_session
+          post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         }.to change(Feedback, :count).by(1)
       end
 
       it "assigns a newly created feedback as @feedback" do
-        post :create, {:feedback => valid_attributes, :review_id => @review.id}, valid_session
+        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         assigns(:feedback).should be_a(Feedback)
         assigns(:feedback).should be_persisted
       end
 
       it "redirects to the created feedback" do
-        post :create, {:feedback => valid_attributes, :review_id => @review.id}, valid_session
+        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         response.should redirect_to([@review, Feedback.last])
       end
     end
@@ -119,13 +119,13 @@ describe FeedbacksController do
 
       it "assigns the requested feedback as @feedback" do
         feedback = Feedback.create! valid_attributes
-        put :update, {:id => feedback.to_param, :feedback => valid_attributes, :review_id => @review.id}, valid_session
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
         assigns(:feedback).should eq(feedback)
       end
 
       it "redirects to the feedback" do
         feedback = Feedback.create! valid_attributes
-        put :update, {:id => feedback.to_param, :feedback => valid_attributes, :review_id => @review.id}, valid_session
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
         response.should redirect_to([@review, feedback])
       end
     end

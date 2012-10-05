@@ -3,3 +3,44 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      feedback:
+        project_worked_on: 'Project Worked on Together'
+        role_description: 'Your role on that project'
+
+        tech_exceeded: 'Technical Competence: Exceeded Expectations (really excels in this area)'
+        tech_met: 'Technical Competence: Met Expectations (Does a good job)'
+        tech_improve: 'Technical Competence: Improvement Desired'
+
+        client_exceeded: 'Client Interaction: Exceeded Expectations (Really excels in this area)'
+        client_met: 'Client Interaction: Met Expectations (Does a good job)'
+        client_improve: 'Client Interaction: Improvement Desired'
+
+        ownership_exceeded: 'Ownership/Delivery focus: Exceeded Expectations (really excels in this area)'
+        ownership_met: 'Ownership/Delivery focus: Met Expectations (Does a good job)'
+        ownership_improve: 'Ownership/Delivery focus: Improvement Desired'
+
+        leadership_exceeded: 'Leadership: Exceeded Expectations (Really excels in this area)'
+        leadership_met: 'Leadership: Met Expectations (Does a good job)'
+        leadership_improve: 'Leadership: Improvement Desired'
+
+        teamwork_exceeded: 'Teamwork: Exceeded Expectations (Really excels in this area)'
+        teamwork_met: 'Teamwork: Met Expectations (Does a good job)'
+        teamwork_improve: 'Teamwork: Improvement Desired'
+
+        attitude_exceeded: 'Attitude: Exceeded Expectations (Really excels in this area)'
+        attitude_met: 'Attitude: Met Expectations (Does a good job)'
+        attitude_improve: 'Attitude: Improvement Desired'
+
+        professionalism_exceeded: 'Professionalism: Exceeded Expectations (Really excels in this area)'
+        professionalism_met: 'Professionalism: Met Expectations (Does a good job)'
+        professionalism_improve: 'Professionalism: Improvement Desired'
+
+        organizational_exceeded: 'Organizational Improvement: Exceeded Expectations (Really excels in this area)'
+        organizational_met: 'Organizational Improvement: Met Expectations (Does a good job)'
+        organizational_improve: 'Organizational Improvement: Improvement Desired'
+
+        innovative_exceeded: 'Innovation/Out of the box thinking: Exceeded Expectations (Really excels in this area)'
+        innovative_met: 'Innovation/Out of the box thinking: Met Expectations (Does a good job)'
+        innovative_improve: 'Innovation/Out of the box thinking: Improvement Desired'

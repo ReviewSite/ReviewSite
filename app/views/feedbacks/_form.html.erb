@@ -10,11 +10,15 @@
       </ul>
     </div>
   <% end %>
+  <h2>Junior Consultant Review Form</h2>
+  <p>For each section, please read the detailed description in the section header. 
+  This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
 
   <div class="field">
     <%= f.label :user_id %><br />
     <%= f.number_field :user_id %>
   </div>
+
   <div class="field">
     <%= f.label :project_worked_on %><br />
     <%= f.text_field :project_worked_on %>
@@ -23,6 +27,41 @@
     <%= f.label :role_description %><br />
     <%= f.text_field :role_description %>
   </div>
+
+  <h3>The Sections</h3>
+  <p>Your feedback is organized in the following overall Sections: 
+  <ul>
+    <li>Technical Competence</li>
+    <li>Client Interaction</li>
+    <li>Ownership/Delivery focus</li>
+    <li>Leadership</li>
+    <li>Teamwork</li>
+    <li>Attitude</li>
+    <li>Professionalism</li>
+    <li>Organizational Involvement</li>
+    <li>Innovation/Out of the box thinking</li>
+  </ul>
+  </p>
+
+  <h3>The Category Scales</h3>
+  <p>Exceeded Expectations (Really excels in this area)<br />
+  Met Expectations (Does a good job)<br />
+  Improvement Desired<br /><br />
+
+  PLEASE NOTE: There are three categories to organize your detailed feedback for each of the overall Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting & Exceeding expectations) for a given section, please include both responses. There is no need to include responses in all categories, if it does not apply. <br /><br />
+
+  SEE FEEDBACK EXAMPLE HERE: <br />
+  https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0<br />
+  </p>
+
+  <h3>Technical Competence</h3>
+  <p>Aptitude/ knowledge/ skills <br />
+  Able to understand the application?<br />
+  Able to apply existing knowledge and skills during development/analysis?<br />
+  Keen on learning new languages/tools/applications?<br />
+  Share knowledge with other team members as and when required?<br />
+  Self-driven?</p>
+
   <div class="field">
     <%= f.label :tech_exceeded %><br />
     <%= f.text_area :tech_exceeded %>
@@ -35,6 +74,10 @@
     <%= f.label :tech_improve %><br />
     <%= f.text_area :tech_improve %>
   </div>
+
+  <h3>Client Interaction</h3>
+  <p>Presentation/showcase skills, ability to handle unreasonable demands, suggest alternative solutions, negotiation, body language during client interactions</p>
+
   <div class="field">
     <%= f.label :client_exceeded %><br />
     <%= f.text_area :client_exceeded %>
@@ -47,6 +90,10 @@
     <%= f.label :client_improve %><br />
     <%= f.text_area :client_improve %>
   </div>
+
+  <h3>Ownership/Delivery focus</h3>
+  <p>Understands the need to deliver on time,  stretches to deliver if need be, accountability on stories that they have/are working on, dependability</p>
+
   <div class="field">
     <%= f.label :ownership_exceeded %><br />
     <%= f.text_area :ownership_exceeded %>
@@ -59,6 +106,11 @@
     <%= f.label :ownership_improve %><br />
     <%= f.text_area :ownership_improve %>
   </div>
+
+  <h3>Leadership</h3>
+  <p>Proactive, leads by example, motivates etc. <br />
+  Mentoring: Bringing new team members up to speed, work with existing team members on areas that they find difficult to understand</p>
+
   <div class="field">
     <%= f.label :leadership_exceeded %><br />
     <%= f.text_area :leadership_exceeded %>
@@ -71,6 +123,10 @@
     <%= f.label :leadership_improve %><br />
     <%= f.text_area :leadership_improve %>
   </div>
+
+  <h3>Teamwork</h3>
+  <p>Building relationships and working with team members, Updates to team, Pairing, internal communication/sharing feedback right and on time</p>
+
   <div class="field">
     <%= f.label :teamwork_exceeded %><br />
     <%= f.text_area :teamwork_exceeded %>
@@ -83,6 +139,10 @@
     <%= f.label :teamwork_improve %><br />
     <%= f.text_area :teamwork_improve %>
   </div>
+
+  <h3>Attitude</h3>
+  <p>Energy, Enthusiasm, Co-operative, Helpful, Approachable</p>
+
   <div class="field">
     <%= f.label :attitude_exceeded %><br />
     <%= f.text_area :attitude_exceeded %>
@@ -95,6 +155,10 @@
     <%= f.label :attitude_improve %><br />
     <%= f.text_area :attitude_improve %>
   </div>
+
+  <h3>Professionalism</h3>
+  <p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>
+
   <div class="field">
     <%= f.label :professionalism_exceeded %><br />
     <%= f.text_area :professionalism_exceeded %>
@@ -107,6 +171,10 @@
     <%= f.label :professionalism_improve %><br />
     <%= f.text_area :professionalism_improve %>
   </div>
+
+  <h3>Organizational Involvement</h3>
+  <p>Actively involved in TW events, recruiting, user groups, mailing lists, conferences, team dinners, etc.</p>
+
   <div class="field">
     <%= f.label :organizational_exceeded %><br />
     <%= f.text_area :organizational_exceeded %>
@@ -119,6 +187,9 @@
     <%= f.label :organizational_improve %><br />
     <%= f.text_area :organizational_improve %>
   </div>
+
+  <h3>Innovation/Out of the box thinking</h3>
+  <p>Simple new ideas that made lives easier on the project or clients/ unique innovative solutions in or outside of projects</p>
   <div class="field">
     <%= f.label :innovative_exceeded %><br />
     <%= f.text_area :innovative_exceeded %>
@@ -131,13 +202,12 @@
     <%= f.label :innovative_improve %><br />
     <%= f.text_area :innovative_improve %>
   </div>
+
+  <h3>General Comments</h3>
+  <p>Anything not covered above</p>
   <div class="field">
     <%= f.label :comments %><br />
     <%= f.text_area :comments %>
-  </div>
-  <div class="field">
-    <%= f.label :review_id %><br />
-    <%= f.number_field :review_id %>
   </div>
   <div class="actions">
     <%= f.submit %>

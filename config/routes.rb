@@ -1,5 +1,8 @@
 ReviewSite::Application.routes.draw do
-  resources :reviews
+
+  resources :reviews do
+    resources :feedbacks
+  end
 
   resources :junior_consultants
 

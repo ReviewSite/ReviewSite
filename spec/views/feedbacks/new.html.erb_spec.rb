@@ -3,8 +3,9 @@ require 'spec_helper'
 describe "feedbacks/new" do
   before(:each) do
     @review = FactoryGirl.create(:review)
+    @user = FactoryGirl.create(:user)
     assign(:feedback, stub_model(Feedback,
-      :user_id => 1,
+      :user_id => @user.id,
       :project_worked_on => "MyString",
       :role_description => "MyString",
       :tech_exceeded => "MyText",
@@ -37,6 +38,7 @@ describe "feedbacks/new" do
       :comments => "MyText",
       :review_id => @review.id
     ).as_new_record)
+    @user_name = @user.name
   end
 
   it "renders new feedback form" do
@@ -44,7 +46,6 @@ describe "feedbacks/new" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => review_feedbacks_path(@review), :method => "post" do
-      assert_select "input#feedback_user_id", :name => "feedback[user_id]"
       assert_select "input#feedback_project_worked_on", :name => "feedback[project_worked_on]"
       assert_select "input#feedback_role_description", :name => "feedback[role_description]"
       assert_select "textarea#feedback_tech_exceeded", :name => "feedback[tech_exceeded]"

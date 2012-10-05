@@ -31,6 +31,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new.json
   def new
     @feedback = Feedback.new
+    @user_name = current_user.name
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/1/edit
   def edit
     @feedback = Feedback.find(params[:id])
+    @user_name = current_user.name
   end
 
   # POST /feedbacks
@@ -48,6 +50,7 @@ class FeedbacksController < ApplicationController
   def create
     @feedback = Feedback.new(params[:feedback])
     @feedback.review = @review
+    @feedback.user = current_user
 
     respond_to do |format|
       if @feedback.save

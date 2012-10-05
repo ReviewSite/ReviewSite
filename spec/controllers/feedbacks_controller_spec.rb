@@ -21,13 +21,16 @@ require 'spec_helper'
 describe FeedbacksController do
   before(:each) do
     @review = FactoryGirl.create(:review)
+    @user = FactoryGirl.create(:user)
+    sign_in(@user)
   end
 
   # This should return the minimal set of attributes required to create a valid
   # Feedback. As you add validations to Feedback, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { review_id: @review.id}
+    { review_id: @review.id,
+      user_id: @user.id}
   end
   
   # This should return the minimal set of values that should be in the session
@@ -57,6 +60,7 @@ describe FeedbacksController do
     it "assigns a new feedback as @feedback" do
       get :new, {:review_id => @review.id}, valid_session
       assigns(:feedback).should be_a_new(Feedback)
+      assigns(:user_name).should eq(@user.name)
     end
   end
 
@@ -65,6 +69,7 @@ describe FeedbacksController do
       feedback = Feedback.create! valid_attributes
       get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
+      assigns(:user_name).should eq(@user.name)
     end
   end
 
@@ -80,6 +85,8 @@ describe FeedbacksController do
         post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         assigns(:feedback).should be_a(Feedback)
         assigns(:feedback).should be_persisted
+        assigns(:feedback).user.should eq(@user)
+        assigns(:feedback).review.should eq(@review)
       end
 
       it "redirects to the created feedback" do

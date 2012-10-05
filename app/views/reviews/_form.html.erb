@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :junior_consultant_id %><br />
-    <%= f.number_field :junior_consultant_id %>
+    <%= f.select :junior_consultant_id, JuniorConsultant.all.map { |jc| [jc.name, jc.id] } %>
   </div>
   <div class="field">
     <%= f.label :review_type %><br />
-    <%= f.text_field :review_type %>
+    <%= f.select :review_type, [['6-Month'],['12-Month']] %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource :except => [:new, :create]
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_filter :correct_user,   only: [:edit, :update]
 

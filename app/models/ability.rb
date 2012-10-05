@@ -9,12 +9,16 @@ class Ability
         can :manage, Review
         can :manage, JuniorConsultant
         can :manage, Feedback
+        can :manage, User
       else
         can :read, Review
         can :create, Feedback
         can :manage, Feedback do |f|
           f.user == user
         end
+      end
+      can [:update, :read], User do |u|
+        u == user
       end
     end
     # Define abilities for the passed in user here. For example:

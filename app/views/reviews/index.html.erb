@@ -11,7 +11,7 @@
 
 <% @reviews.each do |review| %>
   <tr>
-    <td><%= review.junior_consultant_id %></td>
+    <td><%= review.junior_consultant %></td>
     <td><%= review.review_type %></td>
     <td><%= link_to 'Show', review %></td>
     <td><%= link_to 'Edit', edit_review_path(review) %></td>

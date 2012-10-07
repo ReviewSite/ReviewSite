@@ -6,4 +6,8 @@ class JuniorConsultant < ActiveRecord::Base
             format:     { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false }
   before_save { |user| user.email = user.email.downcase }
+
+  def to_s
+    self.name
+  end
 end

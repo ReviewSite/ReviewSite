@@ -6,6 +6,7 @@ describe JuniorConsultant do
   end
 
   subject { @jc }
+  it{ @jc.to_s.should == "Example User" }
 
   it{ should respond_to(:name)}
   it{ should respond_to(:email)}

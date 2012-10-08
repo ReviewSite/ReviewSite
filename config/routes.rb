@@ -6,10 +6,7 @@ ReviewSite::Application.routes.draw do
 
   resources :junior_consultants
 
-  get "static_pages/home"
-
-  get "static_pages/contact"
-  root :to => 'static_pages#home'
+  root :to => 'reviews#index'
   resources :sessions, only: [:new, :create, :destroy]
 
   match '/signup',  to: 'users#new'

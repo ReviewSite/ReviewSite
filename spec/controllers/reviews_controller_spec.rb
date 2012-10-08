@@ -38,6 +38,10 @@ describe ReviewsController do
   end
 
   describe "GET index" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     it "assigns all reviews as @reviews" do
       review = Review.create! valid_attributes
       get :index, {}, valid_session
@@ -46,6 +50,10 @@ describe ReviewsController do
   end
 
   describe "GET show" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     it "assigns the requested review as @review" do
       review = Review.create! valid_attributes
       get :show, {:id => review.to_param}, valid_session
@@ -54,13 +62,47 @@ describe ReviewsController do
   end
 
   describe "GET new" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     it "assigns a new review as @review" do
       get :new, {}, valid_session
       assigns(:review).should be_a_new(Review)
     end
   end
+  describe "when signed out" do
+    it "cannot GET new" do
+      get :new, {}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot GET edit" do
+      review = Review.create! valid_attributes
+      get :edit, {:id => review.to_param}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot POST create" do
+      review = Review.create! valid_attributes
+      post :create, {:review => valid_attributes}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot PUT update" do
+      review = Review.create! valid_attributes
+      put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot DELETE destroy" do
+      review = Review.create! valid_attributes
+      delete :destroy, {:id => review.to_param}, valid_session
+      response.should redirect_to(root_path)
+    end
+  end
 
   describe "GET edit" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     it "assigns the requested review as @review" do
       review = Review.create! valid_attributes
       get :edit, {:id => review.to_param}, valid_session
@@ -69,6 +111,10 @@ describe ReviewsController do
   end
 
   describe "POST create" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     describe "with valid params" do
       it "creates a new Review" do
         expect {
@@ -106,6 +152,10 @@ describe ReviewsController do
   end
 
   describe "PUT update" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     describe "with valid params" do
       it "updates the requested review" do
         review = Review.create! valid_attributes
@@ -150,6 +200,10 @@ describe ReviewsController do
   end
 
   describe "DELETE destroy" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
     it "destroys the requested review" do
       review = Review.create! valid_attributes
       expect {

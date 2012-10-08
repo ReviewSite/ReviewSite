@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :review do
-    junior_consultant_id 1
+    junior_consultant # FactoryGirl
     review_type '6-Month'
   end
 end

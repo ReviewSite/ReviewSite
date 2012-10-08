@@ -103,5 +103,8 @@ describe User do
     before {@user.password_confirmation=nil}
     it {should_not be_valid}
   end
+  describe "to_s is the name" do
+    it {@user.to_s.should == @user.name}
+  end
 
 end

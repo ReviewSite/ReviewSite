@@ -2,16 +2,26 @@ require 'spec_helper'
 
 describe "reviews/show" do
   before(:each) do
-    @review = assign(:review, stub_model(Review,
-      :junior_consultant_id => 1,
-      :review_type => "Review Type"
-    ))
+    @review = FactoryGirl.create(:review)
+    @user1 = FactoryGirl.create(:user, :name => "Bob")
+    @user2 = FactoryGirl.create(:user, :name => "Jane")
+    @feedback1 = FactoryGirl.create(:feedback, :review => @review, :user => @user1, :project_worked_on => "First Project")
+    @feedback2 = FactoryGirl.create(:feedback, :review => @review, :user => @user2, :project_worked_on => "Second Project")
   end
 
-  it "renders attributes in <p>" do
+  it "renders details of the review" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/1/)
-    rendered.should match(/Review Type/)
+    rendered.should match(/#{@review.junior_consultant.name}/)
+    rendered.should match(/#{@review.review_type}/)
+  end
+  it "renders feedbacks' user names" do
+    render
+    rendered.should match(/Bob/)
+    rendered.should match(/Jane/)
+  end
+  it "renders feedbacks' project names" do
+    render
+    rendered.should match(/First Project/)
+    rendered.should match(/Second Project/)
   end
 end

@@ -9,6 +9,10 @@ describe "reviews/index" do
            @review1, @review2
     ])
     @feedback1 = FactoryGirl.create(:feedback, :review => @review1)
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { @ability }
   end
 
   it "renders a list of reviews" do

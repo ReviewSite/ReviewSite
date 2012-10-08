@@ -3,6 +3,7 @@ class Ability
 
   def initialize(user)
     if user.nil?
+      can :read, Review
     else
       # signed in user
       if user.admin

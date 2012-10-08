@@ -72,6 +72,11 @@ describe ReviewsController do
     end
   end
   describe "when signed out" do
+    it "CAN view the reviews INDEX" do
+      review = Review.create! valid_attributes
+      get :index, {}, valid_session
+      assigns(:reviews).should eq([review])
+    end
     it "cannot GET new" do
       get :new, {}, valid_session
       response.should redirect_to(root_path)

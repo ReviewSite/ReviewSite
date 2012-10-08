@@ -15,15 +15,31 @@
         <td><%= feedback.user %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.created_at.to_s %></td>
-        <td><%= link_to 'Show', [@review, feedback] %></td>
-        <td><%= link_to 'Edit', edit_review_feedback_path(@review, feedback) %></td>
-        <td><%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if can? :read, feedback %>
+            <%= link_to 'Show', [@review, feedback] %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :edit, feedback %>
+            <%= link_to 'Edit', edit_review_feedback_path(@review, feedback) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, feedback %>
+            <%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New Feedback', new_review_feedback_path(@review) %><br /><br />
+<% if can? :create, Feedback %>
+  <%= link_to 'New Feedback', new_review_feedback_path(@review) %><br /><br />
+<% end %>
 
-<%= link_to 'Edit', edit_review_path(@review) %> |
+<% if can? :edit, @review %>
+  <%= link_to 'Edit', edit_review_path(@review) %> |
+<% end %>
 <%= link_to 'Back', reviews_path %>

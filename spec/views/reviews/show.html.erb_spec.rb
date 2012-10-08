@@ -7,6 +7,10 @@ describe "reviews/show" do
     @user2 = FactoryGirl.create(:user, :name => "Jane")
     @feedback1 = FactoryGirl.create(:feedback, :review => @review, :user => @user1, :project_worked_on => "First Project")
     @feedback2 = FactoryGirl.create(:feedback, :review => @review, :user => @user2, :project_worked_on => "Second Project")
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { @ability }
   end
 
   it "renders details of the review" do

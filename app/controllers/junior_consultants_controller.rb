@@ -1,4 +1,6 @@
 class JuniorConsultantsController < ApplicationController
+  load_and_authorize_resource
+
   # GET /junior_consultants
   # GET /junior_consultants.json
   def index

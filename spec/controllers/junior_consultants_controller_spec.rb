@@ -35,7 +35,58 @@ describe JuniorConsultantsController do
     {}
   end
 
+  describe "as a normal user" do
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      sign_in @user
+    end
+    it "cannot list all JCs" do
+      get :index, {}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot show JC" do
+      junior_consultant = JuniorConsultant.create! valid_attributes
+      get :show, {:id => junior_consultant.to_param}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot GET new" do
+      get :new, {}, valid_session
+      assigns(:junior_consultant).should be_a_new(JuniorConsultant)
+      response.should redirect_to(root_path)
+    end
+    it "cannot GET edit" do
+      junior_consultant = JuniorConsultant.create! valid_attributes
+      get :edit, {:id => junior_consultant.to_param}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot POST create" do
+      post :create, {:junior_consultant => valid_attributes}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot PUT update" do
+      junior_consultant = JuniorConsultant.create! valid_attributes
+      put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
+      response.should redirect_to(root_path)
+    end
+    it "cannot DELETE destroy" do
+      junior_consultant = JuniorConsultant.create! valid_attributes
+      delete :destroy, {:id => junior_consultant.to_param}, valid_session
+      response.should redirect_to(root_path)
+    end
+  end
+
+  describe "when not signed in" do
+    it "cannot list all JCs" do
+      get :index, {}, valid_session
+      response.should redirect_to(root_path)
+    end
+  end
+
   describe "GET index" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     it "assigns all junior_consultants as @junior_consultants" do
       junior_consultant = JuniorConsultant.create! valid_attributes
       get :index, {}, valid_session
@@ -44,6 +95,10 @@ describe JuniorConsultantsController do
   end
 
   describe "GET show" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     it "assigns the requested junior_consultant as @junior_consultant" do
       junior_consultant = JuniorConsultant.create! valid_attributes
       get :show, {:id => junior_consultant.to_param}, valid_session
@@ -52,6 +107,10 @@ describe JuniorConsultantsController do
   end
 
   describe "GET new" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     it "assigns a new junior_consultant as @junior_consultant" do
       get :new, {}, valid_session
       assigns(:junior_consultant).should be_a_new(JuniorConsultant)
@@ -59,6 +118,10 @@ describe JuniorConsultantsController do
   end
 
   describe "GET edit" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     it "assigns the requested junior_consultant as @junior_consultant" do
       junior_consultant = JuniorConsultant.create! valid_attributes
       get :edit, {:id => junior_consultant.to_param}, valid_session
@@ -67,6 +130,10 @@ describe JuniorConsultantsController do
   end
 
   describe "POST create" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     describe "with valid params" do
       it "creates a new JuniorConsultant" do
         expect {
@@ -104,6 +171,10 @@ describe JuniorConsultantsController do
   end
 
   describe "PUT update" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     describe "with valid params" do
       it "updates the requested junior_consultant" do
         junior_consultant = JuniorConsultant.create! valid_attributes
@@ -148,6 +219,10 @@ describe JuniorConsultantsController do
   end
 
   describe "DELETE destroy" do
+    before(:each) do
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in @admin_user
+    end
     it "destroys the requested junior_consultant" do
       junior_consultant = JuniorConsultant.create! valid_attributes
       expect {

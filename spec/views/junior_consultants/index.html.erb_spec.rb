@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "junior_consultants/index" do
   before(:each) do
     @jrs = assign(:junior_consultants, [
-      stub_model(JuniorConsultant, :name => "John", :email=>"as@mm.com"),
+      stub_model(JuniorConsultant, :name => "John", :email=>"as@mm.com", :notes => "Some note"),
       stub_model(JuniorConsultant)
     ])
   end
@@ -17,6 +17,7 @@ describe "junior_consultants/index" do
     render
     assert_select "tr>td", :text => @jrs[0].name, :count => 1
     assert_select "tr>td", :text => @jrs[0].email, :count => 1
+    assert_select "tr>td", :text => @jrs[0].notes, :count => 1
 
   end
 

@@ -4,7 +4,7 @@ ReviewSite::Application.routes.draw do
     resources :feedbacks
   end
 
-  resources :junior_consultants
+  resources :junior_consultants, :except => [:show]
 
   root :to => 'reviews#index'
   resources :sessions, only: [:new, :create, :destroy]

@@ -11,6 +11,7 @@ describe "junior_consultants/new" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => junior_consultants_path, :method => "post" do
           assert_select "input#junior_consultant_name", :name => "junior_consultant[name]"
+          assert_select "textarea#junior_consultant_notes", :name => "junior_consultant[notes]"
     end
   end
 end

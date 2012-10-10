@@ -25,7 +25,8 @@ describe JuniorConsultantsController do
   # update the return value of this method accordingly.
   def valid_attributes
     { name: "John Smith",
-      email: "john@tw.com"}
+      email: "john@tw.com",
+      notes: "This is a dev"}
   end
   
   # This should return the minimal set of values that should be in the session
@@ -42,11 +43,6 @@ describe JuniorConsultantsController do
     end
     it "cannot list all JCs" do
       get :index, {}, valid_session
-      response.should redirect_to(root_path)
-    end
-    it "cannot show JC" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
-      get :show, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(root_path)
     end
     it "cannot GET new" do
@@ -94,18 +90,6 @@ describe JuniorConsultantsController do
     end
   end
 
-  describe "GET show" do
-    before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
-    end
-    it "assigns the requested junior_consultant as @junior_consultant" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
-      get :show, {:id => junior_consultant.to_param}, valid_session
-      assigns(:junior_consultant).should eq(junior_consultant)
-    end
-  end
-
   describe "GET new" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
@@ -147,9 +131,9 @@ describe JuniorConsultantsController do
         assigns(:junior_consultant).should be_persisted
       end
 
-      it "redirects to the created junior_consultant" do
+      it "redirects to the junior_consultants index" do
         post :create, {:junior_consultant => valid_attributes}, valid_session
-        response.should redirect_to(JuniorConsultant.last)
+        response.should redirect_to(junior_consultants_path)
       end
     end
 
@@ -195,7 +179,7 @@ describe JuniorConsultantsController do
       it "redirects to the junior_consultant" do
         junior_consultant = JuniorConsultant.create! valid_attributes
         put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
-        response.should redirect_to(junior_consultant)
+        response.should redirect_to(junior_consultants_path)
       end
     end
 

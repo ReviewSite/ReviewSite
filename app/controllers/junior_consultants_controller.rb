@@ -46,8 +46,8 @@ class JuniorConsultantsController < ApplicationController
 
     respond_to do |format|
       if @junior_consultant.save
-        format.html { redirect_to @junior_consultant, notice: 'Junior consultant was successfully created.' }
-        format.json { render json: @junior_consultant, status: :created, location: @junior_consultant }
+        format.html { redirect_to junior_consultants_path, notice: 'Junior consultant was successfully created.' }
+        format.json { render json: @junior_consultant, status: :created, location: junior_consultants_path }
       else
         format.html { render action: "new" }
         format.json { render json: @junior_consultant.errors, status: :unprocessable_entity }
@@ -62,7 +62,7 @@ class JuniorConsultantsController < ApplicationController
 
     respond_to do |format|
       if @junior_consultant.update_attributes(params[:junior_consultant])
-        format.html { redirect_to @junior_consultant, notice: 'Junior consultant was successfully updated.' }
+        format.html { redirect_to junior_consultants_path, notice: 'Junior consultant was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

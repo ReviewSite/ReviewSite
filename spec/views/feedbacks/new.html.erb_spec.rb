@@ -45,6 +45,7 @@ describe "feedbacks/new" do
     render
 
     rendered.should match(/#{@review.junior_consultant}/)
+    rendered.should match(/#{@review.review_type}/)
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => review_feedbacks_path(@review), :method => "post" do

@@ -4,6 +4,8 @@ class Feedback < ActiveRecord::Base
   validates :review_id, :presence => true
   validates :user_id, :presence => true
 
+  validates :review_id, :uniqueness => {:scope => [:user_id]}
+
   belongs_to :review
   belongs_to :user
 end

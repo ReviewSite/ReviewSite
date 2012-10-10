@@ -20,4 +20,19 @@ describe Feedback do
 
     f.valid?.should == true
   end
+
+  it "cannot create 2nd feedback for the same review/user combination" do
+    old_f = FactoryGirl.create(:feedback)
+    new_f = FactoryGirl.build(:feedback)
+
+    new_f.valid?.should ==  true
+
+    new_f.user = old_f.user
+
+    new_f.valid?.should == true
+
+    new_f.review = old_f.review
+
+    new_f.valid?.should == false
+  end
 end

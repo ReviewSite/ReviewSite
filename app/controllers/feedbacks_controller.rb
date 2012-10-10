@@ -37,6 +37,12 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new.json
   def new
     @feedback = Feedback.new
+    @review.feedbacks.each do |f|
+      if f.user == current_user
+        @feedback = f
+        break
+      end
+    end
     @user_name = current_user.name
 
     respond_to do |format|

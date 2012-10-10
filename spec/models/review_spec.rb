@@ -81,4 +81,11 @@ describe Review do
 
       r.feedbacks.should == [f]
     end
+
+    it "cannot have the same review_type for the same JC" do
+      r1 = FactoryGirl.create(:review)
+      r2 = FactoryGirl.build(:review, :review_type => r1.review_type, :junior_consultant => r1.junior_consultant)
+
+      r2.valid?.should == false
+    end
 end

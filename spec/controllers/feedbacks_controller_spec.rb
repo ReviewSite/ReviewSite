@@ -109,6 +109,11 @@ describe FeedbacksController do
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end
+    it "cannot edit feedback that has been 'submitted'" do
+      feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+      get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      response.should redirect_to(root_url)
+    end
     describe "for another user" do
       before(:each) do
         @feedback = Feedback.create! valid_attributes
@@ -137,6 +142,14 @@ describe FeedbacksController do
         assigns(:feedback).should be_persisted
         assigns(:feedback).user.should eq(@user)
         assigns(:feedback).review.should eq(@review)
+      end
+      it "sets the submitted to false by default" do
+        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        assigns(:feedback).submitted.should == false
+      end
+      it "sets the submitted to true if clicked on the 'Submit Final' button" do
+        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        assigns(:feedback).submitted.should == true
       end
 
       it "redirects to the created feedback" do
@@ -184,6 +197,22 @@ describe FeedbacksController do
         feedback = Feedback.create! valid_attributes
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
         response.should redirect_to([@review, feedback])
+      end
+
+      it "sets the submitted to false by default" do
+        feedback = Feedback.create! valid_attributes
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
+        assigns(:feedback).submitted.should == false
+      end
+      it "sets the submitted to true if clicked on the 'Submit Final' button" do
+        feedback = Feedback.create! valid_attributes
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        assigns(:feedback).submitted.should == true
+      end
+      it "cannot update feedback that has been 'submitted'" do
+        feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
+        response.should redirect_to(root_url)
       end
     end
 

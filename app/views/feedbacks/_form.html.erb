@@ -211,6 +211,7 @@
     <%= f.text_area :comments %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Save Feedback' %>
+    <%= f.submit 'Submit Final', {:name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
   </div>
 <% end %>

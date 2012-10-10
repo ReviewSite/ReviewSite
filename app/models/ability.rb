@@ -13,7 +13,11 @@ class Ability
         can :read, Review
         can :create, Feedback
         can :manage, Feedback do |f|
-          f.user == user
+          if f.submitted
+            false
+          else
+            f.user == user
+          end
         end
       end
       can [:update, :read], User do |u|

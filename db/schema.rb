@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121010152058) do
+ActiveRecord::Schema.define(:version => 20121010192035) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -46,8 +46,9 @@ ActiveRecord::Schema.define(:version => 20121010152058) do
     t.text     "innovative_improve"
     t.text     "comments"
     t.integer  "review_id"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+    t.boolean  "submitted",                :default => false
   end
 
   create_table "junior_consultants", :force => true do |t|

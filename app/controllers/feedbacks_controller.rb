@@ -57,6 +57,9 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(params[:feedback])
     @feedback.review = @review
     @feedback.user = current_user
+    if params[:submit_final_button]
+      @feedback.submitted = true
+    end
 
     respond_to do |format|
       if @feedback.save
@@ -73,6 +76,9 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1.json
   def update
     @feedback = Feedback.find(params[:id])
+    if params[:submit_final_button]
+      @feedback.submitted = true
+    end
 
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])

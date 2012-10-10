@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    if signed_in?
+      redirect_to root_url, :alert => exception.message
+    else
+      redirect_to signin_url, :alert => exception.message
+      store_location
+    end
   end
 end

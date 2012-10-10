@@ -74,7 +74,7 @@ describe JuniorConsultantsController do
   describe "when not signed in" do
     it "cannot list all JCs" do
       get :index, {}, valid_session
-      response.should redirect_to(root_path)
+      response.should redirect_to(signin_path)
     end
   end
 

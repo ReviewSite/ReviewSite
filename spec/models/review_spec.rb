@@ -50,6 +50,22 @@ describe Review do
 
         r.valid?.should == true
     end
+    it "allows Review Type of 18-Month" do
+        r = Review.new
+        r.junior_consultant_id = 1
+
+        r.review_type = "18-Month"
+
+        r.valid?.should == true
+    end
+    it "allows Review Type of 24-Month" do
+        r = Review.new
+        r.junior_consultant_id = 1
+
+        r.review_type = "24-Month"
+
+        r.valid?.should == true
+    end
     it "disallows Review Type of 2-Month" do
         r = Review.new
         r.junior_consultant_id = 1

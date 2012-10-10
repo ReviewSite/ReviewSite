@@ -1,6 +1,11 @@
+
+<h1>Feedback Details</h1>
+<h2>Junior Consultant: <%= @feedback.review.junior_consultant %></h2>
+<H2>Review Type: <%= @feedback.review.review_type %></h2>
+
 <p>
-  <b>User:</b>
-  <%= @feedback.user_id %>
+  <b>Reviewer:</b>
+  <%= @feedback.user %>
 </p>
 
 <p>
@@ -152,12 +157,6 @@
   <b>Comments:</b>
   <%= @feedback.comments %>
 </p>
-
-<p>
-  <b>Review:</b>
-  <%= @feedback.review_id %>
-</p>
-
 
 <% if can? :edit, @feedback %>
   <%= link_to 'Edit', edit_review_feedback_path(@review, @feedback) %> |

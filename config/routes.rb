@@ -6,12 +6,18 @@ ReviewSite::Application.routes.draw do
 
   resources :junior_consultants, :except => [:show]
 
-  root :to => 'reviews#index'
+  root :to => 'welcome#index'
   resources :sessions, only: [:new, :create, :destroy]
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+
+  resources :welcome, :only => [:index] do
+    collection do
+      get 'help'
+    end
+  end
 
   resources :users
 

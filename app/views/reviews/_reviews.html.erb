@@ -3,6 +3,7 @@
     <th>Junior consultant</th>
     <th>Review type</th>
     <th>Num Feedback Submitted</th>
+    <th>'New Feedback' Link</th>
     <th colspan="3">Actions</th>
   </tr>
 
@@ -11,6 +12,7 @@
     <td><%= review.junior_consultant %></td>
     <td><%= review.review_type %></td>
     <td><%= review.feedbacks.count %></td>
+    <td><%= link_to 'link', new_review_feedback_url(review) %></td>
     <td>
       <% if can? :read, review %>
         <%= link_to 'Show', review %>

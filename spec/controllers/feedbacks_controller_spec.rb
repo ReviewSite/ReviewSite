@@ -46,6 +46,28 @@ describe FeedbacksController do
       get :index, {:review_id => @review.id}, valid_session
       assigns(:feedbacks).should eq([feedback])
     end
+    describe "as another user" do
+      before(:each) do
+        FactoryGirl.create(:feedback, :review => @review, :user => @user)
+        @new_user = FactoryGirl.create(:user)
+        sign_in(@new_user)
+        @new_feedback = FactoryGirl.create(:feedback, :review => @review, :user => @new_user)
+      end
+      it "doesn't show feedback from the first user" do
+        get :index, {:review_id => @review.id}, valid_session
+        assigns(:feedbacks).should eq([@new_feedback])
+      end
+    end
+    describe "as admin user" do
+      before(:each) do
+        @feedback = Feedback.create! valid_attributes
+        sign_in(FactoryGirl.create(:admin_user))
+      end
+      it "Can see feedback from other users" do
+        get :index, {:review_id => @review.id}, valid_session
+        assigns(:feedbacks).should eq([@feedback])
+      end
+    end
   end
 
   describe "GET show" do

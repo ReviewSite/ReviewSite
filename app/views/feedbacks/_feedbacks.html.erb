@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>Reviewer</th>
+    <th>Junior Consultant</th>
+    <th>Review Type</th>
+    <th>Project worked on</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @feedbacks.each do |feedback| %>
+  <tr>
+    <td><%= feedback.user %></td>
+    <td><%= feedback.review.junior_consultant %></td>
+    <td><%= feedback.review.review_type %></td>
+    <td><%= feedback.project_worked_on %></td>
+    <td><%= link_to 'Show', [feedback.review, feedback] %></td>
+    <td><%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %></td>
+    <td><%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

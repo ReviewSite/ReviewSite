@@ -8,6 +8,12 @@ class WelcomeController < ApplicationController
         @reviews << review
       end
     end
+    @feedbacks = []
+    Feedback.all.each do |feedback|
+      if can? :read, feedback
+        @feedbacks << feedback
+      end
+    end
   end
 
   def help

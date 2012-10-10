@@ -38,6 +38,9 @@ describe "feedbacks/show" do
       :comments => "MyText",
       :review_id => @review.id
     ))
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    controller.stub(:current_ability) { @ability }
   end
 
   it "renders attributes in <p>" do

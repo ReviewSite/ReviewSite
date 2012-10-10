@@ -76,6 +76,12 @@ describe FeedbacksController do
       get :show, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
     end
+    it "CAN show feedback that has been 'submitted'" do
+      feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+      get :show, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      assigns(:feedback).should eq(feedback)
+      response.should be_success
+    end
 
     describe "with feedback from the user" do
       before(:each) do

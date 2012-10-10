@@ -12,6 +12,9 @@ class Ability
       else
         can :read, Review
         can :create, Feedback
+        can :read, Feedback do |f|
+          f.user == user
+        end
         can :manage, Feedback do |f|
           if f.submitted
             false

@@ -4,9 +4,8 @@
     <th>Junior Consultant</th>
     <th>Review Type</th>
     <th>Project worked on</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Status</th>
+    <th colspan="3">Actions</th>
   </tr>
 
 <% @feedbacks.each do |feedback| %>
@@ -15,9 +14,22 @@
     <td><%= feedback.review.junior_consultant %></td>
     <td><%= feedback.review.review_type %></td>
     <td><%= feedback.project_worked_on %></td>
-    <td><%= link_to 'Show', [feedback.review, feedback] %></td>
-    <td><%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %></td>
-    <td><%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= feedback.submitted ? "Submitted" : "Not-Submitted" %></td>
+    <td>
+      <% if can? :show, feedback %>
+        <%= link_to 'Show', [feedback.review, feedback] %>
+      <% end %>
+    </td>
+    <td>
+      <% if can? :edit, feedback %>
+        <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %>
+      <% end %>
+    </td>
+    <td>
+      <% if can? :destroy, feedback %>
+        <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

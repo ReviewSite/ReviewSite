@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>User:</b>
   <%= @feedback.user_id %>
@@ -161,5 +159,7 @@
 </p>
 
 
-<%= link_to 'Edit', edit_review_feedback_path(@review, @feedback) %> |
+<% if can? :edit, @feedback %>
+  <%= link_to 'Edit', edit_review_feedback_path(@review, @feedback) %> |
+<% end %>
 <%= link_to 'Back', review_path(@review) %>

@@ -6,7 +6,7 @@
       <th>Name</th>
       <th>Project</th>
       <th>Date Submitted</th>
-      <th colspan="4">Actions</th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -15,11 +15,6 @@
         <td><%= feedback.user %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.created_at.to_s %></td>
-        <td>
-          <% if can? :see, Feedback %>
-            <%= link_to 'Show all', review_feedbacks_path(@review) %>
-          <% end %>
-        </td>
         <td>
           <% if can? :read, feedback %>
             <%= link_to 'Show', [@review, feedback] %>
@@ -41,8 +36,13 @@
 </table>
 
 <% if can? :create, Feedback %>
-  <%= link_to 'New Feedback', new_review_feedback_path(@review) %><br /><br />
+  <%= link_to 'New Feedback', new_review_feedback_path(@review) %>
 <% end %>
+
+<% if can? :see, Feedback %>
+  | <%= link_to 'Show all', review_feedbacks_path(@review) %>
+<% end %>
+<br /><br />
 
 <% if can? :edit, @review %>
   <%= link_to 'Edit', edit_review_path(@review) %> |

@@ -10,11 +10,10 @@
       </ul>
     </div>
   <% end %>
-  <h2>Junior Consultant Review Form</h2>
-  <h3>Review for JC: <%= @review.junior_consultant %></h3>
-  <h3>Review-Type: <%= @review.review_type %></h3>
+  <h3>Review for JC: <%= @review.junior_consultant %> - Review-Type: <%= @review.review_type %></h3>
   <p>For each section, please read the detailed description in the section header. 
   This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
+  <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
 
   <div class="field">
     Feedback By: <%= @user_name %>
@@ -210,6 +209,8 @@
     <%= f.label :comments %><br />
     <%= f.text_area :comments %>
   </div>
+  <p>Clicking on the 'Save Feedback' button will save the feedback, but allow you to continue editing the feedback.<br />
+  Clicking on the 'Submit Final' will indicate that you are done writing the feedback, and that it can be shared</p>
   <div class="actions">
     <%= f.submit 'Save Feedback' %>
     <%= f.submit 'Submit Final', {:name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>

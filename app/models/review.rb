@@ -9,4 +9,8 @@ class Review < ActiveRecord::Base
 
   has_many :feedbacks
 
+
+  def to_s
+    junior_consultant.to_s + " - " + review_type
+  end
 end

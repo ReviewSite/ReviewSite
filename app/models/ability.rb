@@ -9,6 +9,7 @@ class Ability
         can :manage, JuniorConsultant
         can :manage, Feedback
         can :manage, User
+        can :see, Feedback
       else
         can :create, Feedback
         can :read, Feedback do |f|
@@ -21,6 +22,7 @@ class Ability
             f.user == user
           end
         end
+        cannot :see, Feedback
       end
       can [:update, :read], User do |u|
         u == user

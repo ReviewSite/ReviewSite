@@ -1,7 +1,7 @@
 ReviewSite::Application.routes.draw do
 
   resources :reviews, :except => [:index] do
-    resources :feedbacks, :except => [:index]
+    resources :feedbacks
   end
 
   resources :junior_consultants, :except => [:show]

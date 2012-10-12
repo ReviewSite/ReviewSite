@@ -9,12 +9,8 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks
   # GET /feedbacks.json
   def index
-    @feedbacks = []
-    Feedback.all.each do |feedback|
-      if can? :read, feedback
-        @feedbacks << feedback
-      end
-    end
+    authorize! :see, Feedback
+    @feedbacks = @review.feedbacks
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,0 +1,61 @@
+<h1>Feedback for Review <%= @review %></h1>
+
+<% all_headers = ['tech_exceeded', 'tech_met', 'tech_improve',
+"client_exceeded",
+"client_met",
+"client_improve",
+"ownership_exceeded",
+"ownership_met",
+"ownership_improve",
+"leadership_exceeded",
+"leadership_met",
+"leadership_improve",
+"teamwork_exceeded",
+"teamwork_met",
+"teamwork_improve",
+"attitude_exceeded",
+"attitude_met",
+"attitude_improve",
+"professionalism_exceeded",
+"professionalism_met",
+"professionalism_improve",
+"organizational_exceeded",
+"organizational_met",
+"organizational_improve",
+"innovative_exceeded",
+"innovative_met",
+"innovative_improve",
+"comments"] %>
+
+
+<% (all_headers.count/3 + 1).times do |i| %>
+  <% headers = all_headers[i*3,3] %>
+<table>
+  <thead>
+    <tr>
+      <th>Date/Time</th>
+      <th>Feedback By</th>
+      <th>Project</th>
+      <th>Role on that project</th>
+      <% headers.each do |header| %>
+        <th><%= header %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |f| %>
+    <tr>
+      <td><%= f.updated_at.to_date %></td>
+      <td><%= f.user %></td>
+      <td><%= f.project_worked_on %></td>
+      <td><%= f.role_description %></td>
+      <% headers.each do |header| %>
+        <td><%= f.send(header) %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br />
+<% end %>
+

@@ -26,7 +26,10 @@ describe ReviewsController do
   def valid_attributes
     { 
         review_type: '6-Month',
-        junior_consultant_id: 1
+        junior_consultant_id: 1,
+        review_date: Date.today,
+        feedback_deadline: Date.today,
+        send_link_date: Date.today
     }
   end
   

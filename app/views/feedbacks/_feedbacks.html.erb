@@ -4,6 +4,7 @@
     <th>Junior Consultant</th>
     <th>Review Type</th>
     <th>Project worked on</th>
+    <th>Date Updated</th>
     <th>Status</th>
     <th colspan="3">Actions</th>
   </tr>
@@ -14,6 +15,7 @@
     <td><%= feedback.review.junior_consultant %></td>
     <td><%= feedback.review.review_type %></td>
     <td><%= feedback.project_worked_on %></td>
+    <td><%= feedback.updated_at.to_date %></td>
     <td><%= feedback.submitted ? "Submitted" : "Not-Submitted" %></td>
     <td>
       <% if can? :show, feedback %>

@@ -1,7 +1,9 @@
 <h1>Review Site Homepage</h1>
 
-<h2>Reviews</h2>
-<%= render :partial => 'reviews/reviews' %>
+<% if @reviews.count > 0 %>
+  <h2>Reviews</h2>
+  <%= render :partial => 'reviews/reviews' %>
+<% end %>
 
 <h2>Feedback on Reviews</h2>
 <%= render :partial => 'feedbacks/feedbacks' %>

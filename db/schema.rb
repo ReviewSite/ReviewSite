@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121010192035) do
+ActiveRecord::Schema.define(:version => 20121012172631) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(:version => 20121010192035) do
     t.string   "review_type"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.date     "review_date"
+    t.date     "feedback_deadline"
+    t.date     "send_link_date"
   end
 
   create_table "users", :force => true do |t|

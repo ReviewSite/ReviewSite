@@ -10,7 +10,6 @@ class Ability
         can :manage, Feedback
         can :manage, User
       else
-        can :read, Review
         can :create, Feedback
         can :read, Feedback do |f|
           f.user == user

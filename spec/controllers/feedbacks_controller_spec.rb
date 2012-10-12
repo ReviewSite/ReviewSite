@@ -40,36 +40,6 @@ describe FeedbacksController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all feedbacks as @feedbacks" do
-      feedback = Feedback.create! valid_attributes
-      get :index, {:review_id => @review.id}, valid_session
-      assigns(:feedbacks).should eq([feedback])
-    end
-    describe "as another user" do
-      before(:each) do
-        FactoryGirl.create(:feedback, :review => @review, :user => @user)
-        @new_user = FactoryGirl.create(:user)
-        sign_in(@new_user)
-        @new_feedback = FactoryGirl.create(:feedback, :review => @review, :user => @new_user)
-      end
-      it "doesn't show feedback from the first user" do
-        get :index, {:review_id => @review.id}, valid_session
-        assigns(:feedbacks).should eq([@new_feedback])
-      end
-    end
-    describe "as admin user" do
-      before(:each) do
-        @feedback = Feedback.create! valid_attributes
-        sign_in(FactoryGirl.create(:admin_user))
-      end
-      it "Can see feedback from other users" do
-        get :index, {:review_id => @review.id}, valid_session
-        assigns(:feedbacks).should eq([@feedback])
-      end
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested feedback as @feedback" do
       feedback = Feedback.create! valid_attributes
@@ -258,7 +228,7 @@ describe FeedbacksController do
     it "redirects to the feedbacks list" do
       feedback = Feedback.create! valid_attributes
       delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
-      response.should redirect_to(review_feedbacks_url(@review))
+      response.should redirect_to(welcome_index_url)
     end
   end
 

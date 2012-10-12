@@ -3,10 +3,6 @@ require "spec_helper"
 describe ReviewsController do
   describe "routing" do
 
-    it "routes to #index" do
-      get("/reviews").should route_to("reviews#index")
-    end
-
     it "routes to #new" do
       get("/reviews/new").should route_to("reviews#new")
     end

@@ -104,7 +104,7 @@ class FeedbacksController < ApplicationController
     @feedback.destroy
 
     respond_to do |format|
-      format.html { redirect_to review_feedbacks_url(@review) }
+      format.html { redirect_to welcome_index_path }
       format.json { head :no_content }
     end
   end

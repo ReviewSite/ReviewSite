@@ -40,18 +40,6 @@ describe ReviewsController do
     {}
   end
 
-  describe "GET index" do
-    before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
-    end
-    it "assigns all reviews as @reviews" do
-      review = Review.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:reviews).should eq([review])
-    end
-  end
-
   describe "GET show" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
@@ -75,11 +63,6 @@ describe ReviewsController do
     end
   end
   describe "when signed out" do
-    it "cannot GET index" do
-      review = Review.create! valid_attributes
-      get :index, {}, valid_session
-      response.should redirect_to(signin_path)
-    end
     it "cannot GET new" do
       get :new, {}, valid_session
       response.should redirect_to(signin_path)
@@ -222,7 +205,7 @@ describe ReviewsController do
     it "redirects to the reviews list" do
       review = Review.create! valid_attributes
       delete :destroy, {:id => review.to_param}, valid_session
-      response.should redirect_to(reviews_url)
+      response.should redirect_to(welcome_index_url)
     end
   end
 

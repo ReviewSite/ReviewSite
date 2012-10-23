@@ -39,8 +39,8 @@
   <%= link_to 'New Feedback', new_review_feedback_path(@review) %>
 <% end %>
 
-<% if can? :see, Feedback %>
-  | <%= link_to 'Show all', review_feedbacks_path(@review) %>
+<% if can? :summary, @review %>
+  | <%= link_to 'Show all', summary_review_path(@review) %>
 <% end %>
 <br /><br />
 

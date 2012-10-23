@@ -82,4 +82,20 @@ class ReviewsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # GET /feedbacks
+  # GET /feedbacks.json
+  def summary
+    @feedbacks = []
+    @review.feedbacks.each do |f|
+      if can? :read, f
+        @feedbacks << f
+      end
+    end
+
+    respond_to do |format|
+      format.html # summary.html.erb
+      format.json { render json: @feedbacks }
+    end
+  end
 end

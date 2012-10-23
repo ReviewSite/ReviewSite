@@ -1,6 +1,9 @@
 ReviewSite::Application.routes.draw do
 
   resources :reviews, :except => [:index] do
+    member do
+      get :summary
+    end
     resources :feedbacks do
       member do
         put :submit

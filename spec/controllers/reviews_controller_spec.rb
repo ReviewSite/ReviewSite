@@ -52,6 +52,28 @@ describe ReviewsController do
     end
   end
 
+  describe "GET summary" do
+    before(:each) do
+      @review = FactoryGirl.create(:review)
+      @feedback_sub = FactoryGirl.create(:submitted_feedback, :review => @review)
+      @feedback_unsub = FactoryGirl.create(:feedback, :review => @review)
+      @admin_user = FactoryGirl.create(:admin_user)
+      sign_in(@admin_user)
+    end
+    it "assigns ONLY submitted feedback as @feedbacks" do
+      get :summary, {:id => @review.to_param}, valid_session
+      response.should be_success
+      assigns(:feedbacks).should eq([@feedback_sub])
+    end
+    it "can be seen by the feedback target" do
+      jc_user = FactoryGirl.create(:user, :email => @review.junior_consultant.email)
+      sign_in jc_user
+      get :summary, {:id => @review.to_param}, valid_session
+      response.should be_success
+      assigns(:feedbacks).should eq([@feedback_sub])
+    end
+  end
+
   describe "GET new" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)

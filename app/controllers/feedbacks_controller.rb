@@ -6,18 +6,6 @@ class FeedbacksController < ApplicationController
     @review = Review.find(params[:review_id])
   end
 
-  # GET /feedbacks
-  # GET /feedbacks.json
-  def index
-    authorize! :see, Feedback
-    @feedbacks = @review.feedbacks
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @feedbacks }
-    end
-  end
-
   # GET /feedbacks/1
   # GET /feedbacks/1.json
   def show

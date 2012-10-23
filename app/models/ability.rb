@@ -18,11 +18,20 @@ class Ability
           f.submitted
         end
         can :manage, User
-        can :see, Feedback
+        cannot :summary, Review
+        can :summary, Review do |r|
+          res = false
+          r.feedbacks.each do |f|
+            if can? :read, f
+              res = true
+            end
+          end
+          res
+        end
       else
         can :create, Feedback
         can :read, Feedback do |f|
-          f.user == user
+          f.user == user or (user.email == f.review.junior_consultant.email and f.submitted)
         end
         can :manage, Feedback do |f|
           if f.submitted
@@ -31,7 +40,9 @@ class Ability
             f.user == user
           end
         end
-        cannot :see, Feedback
+        can :summary, Review do |r|
+          user.email == r.junior_consultant.email
+        end
       end
       can [:update, :read], User do |u|
         u == user

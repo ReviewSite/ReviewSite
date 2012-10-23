@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121023024133) do
+ActiveRecord::Schema.define(:version => 20121023033304) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -54,9 +54,10 @@ ActiveRecord::Schema.define(:version => 20121023024133) do
   create_table "junior_consultants", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.text     "notes"
+    t.integer  "reviewing_group_id"
   end
 
   create_table "reviewing_group_members", :force => true do |t|

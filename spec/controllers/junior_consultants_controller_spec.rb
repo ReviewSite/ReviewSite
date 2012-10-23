@@ -19,6 +19,9 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe JuniorConsultantsController do
+  before(:each) do
+    @rgm = FactoryGirl.create(:reviewing_group)
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # JuniorConsultant. As you add validations to JuniorConsultant, be sure to
@@ -26,6 +29,7 @@ describe JuniorConsultantsController do
   def valid_attributes
     { name: "John Smith",
       email: "john@tw.com",
+      reviewing_group_id: @rgm.id,
       notes: "This is a dev"}
   end
   

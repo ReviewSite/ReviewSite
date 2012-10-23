@@ -55,5 +55,9 @@ describe JuniorConsultant do
 
     it { should_not be_valid }
   end
+  it "can have a reviewing group" do
+    @jc.reviewing_group = FactoryGirl.create(:reviewing_group)
+    @jc.valid?.should == true
+  end
 
 end

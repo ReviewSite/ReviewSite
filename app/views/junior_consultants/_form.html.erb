@@ -23,6 +23,10 @@
     <%= f.label :notes %>
     <%= f.text_area :notes %>
   </div>
+  <div class="field">
+    <%= f.label :reviewing_group_id %>
+    <%= f.select :reviewing_group_id, ReviewingGroup.all.map { |rg| [rg.name, rg.id]}  %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

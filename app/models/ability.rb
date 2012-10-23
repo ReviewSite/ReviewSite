@@ -1,13 +1,26 @@
 class Ability
   include CanCan::Ability
 
+  def is_review_member(user, r)
+    rgms = r.junior_consultant.try(:reviewing_group).try(:reviewing_group_members)
+    if rgms.nil?
+      return false
+    end
+    rgms.each do |rgm|
+      if rgm.user == user
+        return true
+      end
+    end
+    return false
+  end
+
   def initialize(user)
     unless user.nil?
       # signed in user
       if user.admin
         can :manage, Review
         can :manage, ReviewingGroup
-        can :manage, ReviewingGroupMember # XXX?
+        can :manage, ReviewingGroupMember
         can :manage, JuniorConsultant
         can :manage, Feedback do |f|
           f.submitted
@@ -43,7 +56,7 @@ class Ability
           end
         end
         can :summary, Review do |r|
-          user.email == r.junior_consultant.email
+          user.email == r.junior_consultant.email or is_review_member(user, r)
         end
       end
       can [:update, :read], User do |u|

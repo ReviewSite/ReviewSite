@@ -72,6 +72,23 @@ describe ReviewsController do
       response.should be_success
       assigns(:feedbacks).should eq([@feedback_sub])
     end
+
+    describe "with a reviewing_group_member" do
+      before(:each) do
+        @junior_consultant = @review.junior_consultant
+        @reviewing_group = FactoryGirl.create(:reviewing_group)
+        @other_user = FactoryGirl.create(:user)
+        @rgm = FactoryGirl.create(:reviewing_group_member, :user => @other_user, :reviewing_group => @reviewing_group)
+        @junior_consultant.reviewing_group = @reviewing_group
+        @junior_consultant.save!
+      end
+
+      it "the reviewing member can see the summary" do
+        sign_in @other_user
+        get :summary, {:id => @review.to_param}, valid_session
+        response.should be_success
+      end
+    end
   end
 
   describe "GET new" do

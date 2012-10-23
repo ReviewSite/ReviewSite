@@ -1,5 +1,7 @@
 ReviewSite::Application.routes.draw do
 
+  resources :reviewing_group_members
+
   resources :reviewing_groups
 
   resources :reviews, :except => [:index] do

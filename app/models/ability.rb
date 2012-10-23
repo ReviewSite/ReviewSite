@@ -7,6 +7,7 @@ class Ability
       if user.admin
         can :manage, Review
         can :manage, ReviewingGroup
+        can :manage, ReviewingGroupMember # XXX?
         can :manage, JuniorConsultant
         can :manage, Feedback do |f|
           f.submitted

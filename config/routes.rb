@@ -1,10 +1,12 @@
 ReviewSite::Application.routes.draw do
 
+  resources :reviewing_groups
+
   resources :reviews, :except => [:index] do
     member do
       get :summary
     end
-    resources :feedbacks do
+    resources :feedbacks, :except => [:index] do
       member do
         put :submit
         put :unsubmit

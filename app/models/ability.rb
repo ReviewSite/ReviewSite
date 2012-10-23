@@ -6,6 +6,7 @@ class Ability
       # signed in user
       if user.admin
         can :manage, Review
+        can :manage, ReviewingGroup
         can :manage, JuniorConsultant
         can :manage, Feedback do |f|
           f.submitted

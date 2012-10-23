@@ -5,5 +5,7 @@
   <%= render :partial => 'reviews/reviews' %>
 <% end %>
 
-<h2>Feedback on Reviews</h2>
-<%= render :partial => 'feedbacks/feedbacks' %>
+<% if @feedbacks.count > 0 %>
+  <h2>Feedback on Reviews</h2>
+  <%= render :partial => 'feedbacks/feedbacks' %>
+<% end %>

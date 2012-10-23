@@ -46,7 +46,7 @@ class Ability
       else
         can :create, Feedback
         can :read, Feedback do |f|
-          f.user == user or (user.email == f.review.junior_consultant.email and f.submitted)
+          f.user == user or (f.submitted and (user.email == f.review.junior_consultant.email or is_review_member(user, f.review)))
         end
         can :manage, Feedback do |f|
           if f.submitted

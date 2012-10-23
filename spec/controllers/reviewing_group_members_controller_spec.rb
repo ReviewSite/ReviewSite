@@ -51,14 +51,6 @@ describe ReviewingGroupMembersController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested reviewing_group_member as @reviewing_group_member" do
-      reviewing_group_member = ReviewingGroupMember.create! valid_attributes
-      get :show, {:id => reviewing_group_member.to_param}, valid_session
-      assigns(:reviewing_group_member).should eq(reviewing_group_member)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new reviewing_group_member as @reviewing_group_member" do
       get :new, {}, valid_session
@@ -90,7 +82,7 @@ describe ReviewingGroupMembersController do
 
       it "redirects to the created reviewing_group_member" do
         post :create, {:reviewing_group_member => valid_attributes}, valid_session
-        response.should redirect_to(ReviewingGroupMember.last)
+        response.should redirect_to(reviewing_group_members_path)
       end
     end
 
@@ -132,7 +124,7 @@ describe ReviewingGroupMembersController do
       it "redirects to the reviewing_group_member" do
         reviewing_group_member = ReviewingGroupMember.create! valid_attributes
         put :update, {:id => reviewing_group_member.to_param, :reviewing_group_member => valid_attributes}, valid_session
-        response.should redirect_to(reviewing_group_member)
+        response.should redirect_to(reviewing_group_members_path)
       end
     end
 

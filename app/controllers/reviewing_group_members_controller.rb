@@ -12,16 +12,6 @@ class ReviewingGroupMembersController < ApplicationController
     end
   end
 
-  # GET /reviewing_group_members/1
-  # GET /reviewing_group_members/1.json
-  def show
-    @reviewing_group_member = ReviewingGroupMember.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @reviewing_group_member }
-    end
-  end
 
   # GET /reviewing_group_members/new
   # GET /reviewing_group_members/new.json
@@ -46,8 +36,8 @@ class ReviewingGroupMembersController < ApplicationController
 
     respond_to do |format|
       if @reviewing_group_member.save
-        format.html { redirect_to @reviewing_group_member, notice: 'Reviewing group member was successfully created.' }
-        format.json { render json: @reviewing_group_member, status: :created, location: @reviewing_group_member }
+        format.html { redirect_to reviewing_group_members_path, notice: 'Reviewing group member was successfully created.' }
+        format.json { render json: @reviewing_group_member, status: :created, location: reviewing_group_members_path }
       else
         format.html { render action: "new" }
         format.json { render json: @reviewing_group_member.errors, status: :unprocessable_entity }
@@ -62,7 +52,7 @@ class ReviewingGroupMembersController < ApplicationController
 
     respond_to do |format|
       if @reviewing_group_member.update_attributes(params[:reviewing_group_member])
-        format.html { redirect_to @reviewing_group_member, notice: 'Reviewing group member was successfully updated.' }
+        format.html { redirect_to reviewing_group_members_path, notice: 'Reviewing group member was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

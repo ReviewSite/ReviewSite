@@ -6,14 +6,12 @@
     <th>User</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @reviewing_group_members.each do |reviewing_group_member| %>
   <tr>
-    <td><%= reviewing_group_member.reviewing_group_id %></td>
-    <td><%= reviewing_group_member.user_id %></td>
-    <td><%= link_to 'Show', reviewing_group_member %></td>
+    <td><%= reviewing_group_member.reviewing_group %></td>
+    <td><%= reviewing_group_member.user %></td>
     <td><%= link_to 'Edit', edit_reviewing_group_member_path(reviewing_group_member) %></td>
     <td><%= link_to 'Destroy', reviewing_group_member, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>

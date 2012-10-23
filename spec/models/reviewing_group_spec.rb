@@ -13,4 +13,13 @@ describe ReviewingGroup do
     rgm = FactoryGirl.create(:reviewing_group_member, :reviewing_group => rg)
     rg.reviewing_group_members.should == [rgm]
   end
+
+  it "has members function which summarizes groups" do
+    rg = FactoryGirl.create(:reviewing_group)
+    user = FactoryGirl.create(:user, :name => "Bob")
+    user2 = FactoryGirl.create(:user, :name => "Jane")
+    rgm = FactoryGirl.create(:reviewing_group_member, :reviewing_group => rg, :user => user)
+    rgm = FactoryGirl.create(:reviewing_group_member, :reviewing_group => rg, :user => user2)
+    rg.members.should == "Bob,Jane"
+  end
 end

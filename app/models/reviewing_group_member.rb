@@ -6,4 +6,8 @@ class ReviewingGroupMember < ActiveRecord::Base
 
   validates :user_id, :presence => true
   validates :reviewing_group_id, :presence => true
+
+  def to_s
+    self.user.to_s
+  end
 end

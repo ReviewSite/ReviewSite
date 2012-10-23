@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Members</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +12,7 @@
 <% @reviewing_groups.each do |reviewing_group| %>
   <tr>
     <td><%= reviewing_group.name %></td>
+    <td><%= reviewing_group.members %></td>
     <td><%= link_to 'Show', reviewing_group %></td>
     <td><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group) %></td>
     <td><%= link_to 'Destroy', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -21,3 +23,4 @@
 <br />
 
 <%= link_to 'New Reviewing group', new_reviewing_group_path %>
+| <%= link_to 'New Reviewing Group Member', new_reviewing_group_member_path %>

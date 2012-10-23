@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
 
     @feedbacks = []
     Feedback.all.each do |feedback|
-      if can? :read, feedback
+      if can? :read, feedback or can? :submit, feedback
         @feedbacks << feedback
       end
     end

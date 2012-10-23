@@ -93,6 +93,40 @@ class FeedbacksController < ApplicationController
     end
   end
 
+  # PUT /feedbacks/1/submit
+  # PUT /feedbacks/1.json
+  def submit
+    @feedback = Feedback.find(params[:id])
+    @feedback.submitted = true
+
+    respond_to do |format|
+      if @feedback.save
+        format.html { redirect_to welcome_index_path, notice: 'Feedback was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @feedback.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /feedbacks/1/unsubmit
+  # PUT /feedbacks/1.json
+  def unsubmit
+    @feedback = Feedback.find(params[:id])
+    @feedback.submitted = false
+
+    respond_to do |format|
+      if @feedback.save
+        format.html { redirect_to welcome_index_path, notice: 'Feedback was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @feedback.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /feedbacks/1
   # DELETE /feedbacks/1.json
   def destroy

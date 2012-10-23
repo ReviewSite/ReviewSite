@@ -67,6 +67,27 @@ describe FeedbacksController do
         response.should redirect_to(root_url)
       end
     end
+    describe "as an admin" do
+      before(:each) do
+        @admin = FactoryGirl.create(:admin_user)
+        sign_in @admin
+      end
+      it "can read feedback that is 'submitted'" do
+        @feedback = FactoryGirl.create(:submitted_feedback)
+        get :show, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
+        @feedback.submitted.should == true
+        assigns(:feedback).should eq(@feedback)
+        response.should be_success
+      end
+
+      it "cannot read feedback that is NOT in the 'submitted' state" do
+        @feedback = FactoryGirl.create(:feedback)
+        get :show, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
+        @feedback.submitted.should == false
+        assigns(:feedback).should eq(@feedback)
+        response.should redirect_to(root_url)
+      end
+    end
   end
 
 
@@ -154,6 +175,36 @@ describe FeedbacksController do
         post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         response.should render_template("new")
       end
+    end
+  end
+
+  describe "PUT unsubmit" do
+    before(:each) do
+      @feedback = FactoryGirl.create(:submitted_feedback)
+      @admin = FactoryGirl.create(:admin_user)
+      sign_in @admin
+    end
+    it "can change the feedback to unsubmited" do
+      @feedback.submitted.should == true
+      put :unsubmit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
+      response.should redirect_to(welcome_index_url)
+      @feedback.reload
+      @feedback.submitted.should == false
+    end
+  end
+
+  describe "PUT submit" do
+    before(:each) do
+      @feedback = FactoryGirl.create(:feedback)
+      @admin = FactoryGirl.create(:admin_user)
+      sign_in @admin
+    end
+    it "can change the feedback to submited" do
+      @feedback.submitted.should == false
+      put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
+      response.should redirect_to(welcome_index_url)
+      @feedback.reload
+      @feedback.submitted.should == true
     end
   end
 

@@ -7,7 +7,16 @@ class Ability
       if user.admin
         can :manage, Review
         can :manage, JuniorConsultant
-        can :manage, Feedback
+        can :manage, Feedback do |f|
+          f.submitted
+        end
+        cannot :submit, Feedback
+        can :submit, Feedback do |f|
+          ! f.submitted
+        end
+        can :unsubmit, Feedback do |f|
+          f.submitted
+        end
         can :manage, User
         can :see, Feedback
       else

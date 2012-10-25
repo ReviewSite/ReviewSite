@@ -3,7 +3,7 @@
     <th>Junior<br />Consultant</th>
     <th>Review<br />Type</th>
     <th>Num Feedback<br />Submitted</th>
-    <% if can? :manage, @review %>
+    <% if can? :create, Review %>
       <th>Review Date</th>
       <th>Feedback<br />Deadline</th>
       <th>Link<br />Date</th>
@@ -17,11 +17,11 @@
     <td><%= review.junior_consultant %></td>
     <td><%= review.review_type %></td>
     <td><%= review.feedbacks.count %></td>
-    <% if can? :manage, @review %>
+    <% if can? :create, Review %>
       <td><%= review.review_date %></td>
       <td><%= review.feedback_deadline %></td>
       <td><%= review.send_link_date %></td>
-      <td><%= link_to 'link', new_review_feedback_url(review) %></td>
+      <td><%= link_to 'link', new_review_feedback_url(review), {:style => "color: blue"} %></td>
     <% end %>
     <td>
       <% if can? :summary, review %>

@@ -60,4 +60,16 @@ describe JuniorConsultant do
     @jc.valid?.should == true
   end
 
+  describe "JC with reviews" do
+    before(:each) do
+      @jc = FactoryGirl.create(:junior_consultant)
+      @review = FactoryGirl.create(:review, :junior_consultant => @jc)
+    end
+
+    it "should delete the review when the junior consultant is deleted" do
+      Review.all.count.should == 1
+      @jc.destroy
+      Review.all.count.should == 0
+    end
+  end
 end

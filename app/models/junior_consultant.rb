@@ -9,6 +9,8 @@ class JuniorConsultant < ActiveRecord::Base
 
   belongs_to :reviewing_group
 
+  has_many :reviews, :dependent => :destroy
+
   def to_s
     self.name
   end

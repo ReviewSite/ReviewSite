@@ -88,4 +88,17 @@ describe Review do
 
       r2.valid?.should == false
     end
+    describe "review with multiple feedbacks" do
+      before(:each) do
+        @review = FactoryGirl.create(:review)
+        @fb1 = FactoryGirl.create(:feedback, :review => @review)
+        @fb2 = FactoryGirl.create(:feedback, :review => @review)
+      end
+
+      it "should delete related feedback" do
+        Feedback.all.count.should == 2
+        @review.destroy
+        Feedback.all.count.should == 0
+      end
+    end
 end

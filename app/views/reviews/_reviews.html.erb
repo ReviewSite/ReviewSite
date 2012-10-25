@@ -40,7 +40,7 @@
     </td>
     <td>
       <% if can? :destroy, review %>
-        <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %>
       <% end %>
     </td>
   </tr>

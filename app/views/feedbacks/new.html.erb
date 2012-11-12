@@ -1,5 +1,5 @@
 <h1>Junior Consultant Review - New Feedback</h1>
 
-<%= render 'form' %>
+<%= render :partial => 'form', :locals => {:additional => false } %>
 
 <%= link_to 'Back', review_path(@review) %>

@@ -13,6 +13,9 @@ ReviewSite::Application.routes.draw do
         put :submit
         put :unsubmit
       end
+      collection do
+        get :additional
+      end
     end
   end
 

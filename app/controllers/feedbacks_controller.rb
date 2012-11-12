@@ -17,12 +17,22 @@ class FeedbacksController < ApplicationController
     end
   end
 
+  # GET /feedbacks/additional
+  def additional
+    @feedback = Feedback.new
+
+    respond_to do |format|
+      format.html # additional.html.erb
+      format.json { render json: @feedback }
+    end
+  end
+
   # GET /feedbacks/new
   # GET /feedbacks/new.json
   def new
     @feedback = Feedback.new
     @review.feedbacks.each do |f|
-      if f.user == current_user
+      if f.user == current_user and f.user_string.nil?
         @feedback = f
         break
       end

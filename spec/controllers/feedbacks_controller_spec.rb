@@ -103,6 +103,22 @@ describe FeedbacksController do
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end
+    describe "when the user already has existing NAMED feedback" do
+      before(:each) do
+        feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user, :user_string => "John Doe")
+      end
+      it "should create a new feedback" do
+        get :new, {:review_id => @review.id}, valid_session
+        assigns(:feedback).should be_a_new(Feedback)
+        assigns(:user_name).should eq(@user.name)
+      end
+      it "loads the existing feedback if one exists for this user" do
+        feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user)
+        get :new, {:review_id => @review.id}, valid_session
+        assigns(:feedback).should eq(feedback)
+        assigns(:user_name).should eq(@user.name)
+      end
+    end
   end
 
   describe "GET edit" do

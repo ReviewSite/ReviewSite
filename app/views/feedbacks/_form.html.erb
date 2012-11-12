@@ -16,7 +16,12 @@
   <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
 
   <div class="field">
-    Feedback By: <%= @user_name %>
+    Feedback By:
+    <% if not additional %>
+      <%= @user_name %>
+    <% else %>
+      <%= f.text_field :user_string %>
+    <% end %>
   </div>
 
   <div class="field">

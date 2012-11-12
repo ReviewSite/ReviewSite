@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Reviewer</th>
       <th>Project</th>
       <th>Date Submitted</th>
       <th colspan="3">Actions</th>
@@ -12,7 +12,7 @@
   <tbody>
     <% @review.feedbacks.each do |feedback| %>
       <tr>
-        <td><%= feedback.user %></td>
+        <td><%= feedback.reviewer %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.created_at.to_s %></td>
         <td>
@@ -37,6 +37,10 @@
 
 <% if can? :create, Feedback %>
   <%= link_to 'New Feedback', new_review_feedback_path(@review) %>
+<% end %>
+
+<% if can? :create_additional, Feedback %>
+  | <%= link_to 'Additional Feedback', additional_review_feedbacks_path(@review) %>
 <% end %>
 
 <% if can? :summary, @review %>

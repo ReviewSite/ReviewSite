@@ -4,6 +4,7 @@ gem 'rails', '3.2.8'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'bootstrap-sass', '2.0.0'
 gem 'cancan'
+gem 'rubycas-client'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -37,7 +38,7 @@ group :test do
   gem 'growl', '1.0.3'
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
-  gem 'launchy', '2.1.0'
+  gem 'launchy', '~> 2.1.2'
 end
 
 gem 'jquery-rails'

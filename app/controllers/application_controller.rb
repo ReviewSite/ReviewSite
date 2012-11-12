@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_filter CASClient::Frameworks::Rails::Filter
+
   check_authorization
   protect_from_forgery
   include SessionsHelper

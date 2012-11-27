@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Feedback do
+  describe "sort" do
+    it "sorts based on updated_date" do
+      review_a = FactoryGirl.create(:feedback, updated_at: 3.days.ago)
+      review_b = FactoryGirl.create(:feedback, updated_at: 4.days.ago)
+      reviews  = [review_b, review_a]
+      reviews.sort.should eq([review_b, review_a])
+    end
+  end
   it "has a review" do
     f = Feedback.new
     f.user = FactoryGirl.create(:user)

@@ -11,6 +11,16 @@ class Feedback < ActiveRecord::Base
   belongs_to :review
   belongs_to :user
 
+  def self.editable_and_submitable_for_user(user)
+    all.inject([]) { |memo,feedback|
+      memo << feedback if user.can? :edit, feedback or user.can? :submit, feedback
+      memo
+    }.sort
+  end
+
+  def <=>(other)
+    self.updated_at <=> other.updated_at
+  end
 
   def reviewer
     if self.user_string.nil?

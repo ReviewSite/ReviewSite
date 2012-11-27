@@ -1,15 +1,11 @@
 class Ability
   include CanCan::Ability
 
-  def is_review_member(user, r)
-    rgms = r.junior_consultant.try(:reviewing_group).try(:reviewing_group_members)
-    if rgms.nil?
-      return false
-    end
-    rgms.each do |rgm|
-      if rgm.user == user
-        return true
-      end
+  def is_review_member(user, review)
+    reviewing_group_members = review.junior_consultant.try(:reviewing_group).try(:reviewing_group_members)
+    return false if reviewing_group_members.nil?
+    reviewing_group_members.each do |reviewing_group_member|
+      return true if reviewing_group_member.user == user
     end
     return false
   end
@@ -27,50 +23,50 @@ class Ability
 
       can :create, Feedback
 
-      can :manage, Feedback do |f|
+      can :manage, Feedback do |feedback|
         # normal user can ONLY manage self if it's not submitted
-        if (not f.submitted) and f.user == user
+        if (not feedback.submitted) and feedback.user == user
           true
-        elsif user.admin 
+        elsif user.admin
           # admin can manage submitted feedback
-          f.submitted
+          feedback.submitted
         end
       end
 
       cannot :submit, Feedback
       cannot :unsubmit, Feedback
-      if user.admin 
-        can :submit, Feedback do |f|
-          ! f.submitted
+      if user.admin
+        can :submit, Feedback do |feedback|
+          not feedback.submitted
         end
-        can :unsubmit, Feedback do |f|
-          f.submitted
+        can :unsubmit, Feedback do |feedback|
+          feedback.submitted
         end
       end
 
       cannot :summary, Review
       if user.admin
-        can :summary, Review do |r|
+        can :summary, Review do |review|
           res = false
-          r.feedbacks.each do |f|
-            if can? :read, f
+          review.feedbacks.each do |feedback|
+            if can? :read, feedback
               res = true
             end
           end
           res
         end
-      else 
-        can :summary, Review do |r|
-          user.email == r.junior_consultant.email or is_review_member(user, r)
+      else
+        can :summary, Review do |review|
+          user.email == review.junior_consultant.email or is_review_member(user, review)
         end
       end
 
-      can :read, Feedback do |f|
-        f.user == user or (f.submitted and (user.email == f.review.junior_consultant.email or is_review_member(user, f.review)))
+      can :read, Feedback do |feedback|
+        feedback.user == user or (feedback.submitted and (user.email == feedback.review.junior_consultant.email or is_review_member(user, feedback.review)))
       end
 
-      can [:update, :read], User do |u|
-        u == user
+      can [:update, :read], User do |user|
+        user == user
       end
     end
   end

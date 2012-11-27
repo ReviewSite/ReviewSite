@@ -41,9 +41,9 @@ describe ReviewsController do
   end
 
   describe "GET show" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
+      sign_in(admin_user)
     end
     it "assigns the requested review as @review" do
       review = Review.create! valid_attributes
@@ -53,6 +53,7 @@ describe ReviewsController do
   end
 
   describe "GET summary" do
+
     before(:each) do
       @review = FactoryGirl.create(:review)
       @feedback_sub = FactoryGirl.create(:submitted_feedback, :review => @review)
@@ -60,6 +61,7 @@ describe ReviewsController do
       @admin_user = FactoryGirl.create(:admin_user)
       sign_in(@admin_user)
     end
+
     it "assigns ONLY submitted feedback as @feedbacks" do
       get :summary, {:id => @review.to_param}, valid_session
       response.should be_success
@@ -74,17 +76,15 @@ describe ReviewsController do
     end
 
     describe "with a reviewing_group_member" do
-      before(:each) do
-        @junior_consultant = @review.junior_consultant
-        @reviewing_group = FactoryGirl.create(:reviewing_group)
-        @other_user = FactoryGirl.create(:user)
-        @rgm = FactoryGirl.create(:reviewing_group_member, :user => @other_user, :reviewing_group => @reviewing_group)
-        @junior_consultant.reviewing_group = @reviewing_group
-        @junior_consultant.save!
-      end
-
       it "the reviewing member can see the summary" do
-        sign_in @other_user
+        junior_consultant = @review.junior_consultant
+        reviewing_group = FactoryGirl.create(:reviewing_group)
+        other_user = FactoryGirl.create(:user)
+        rgm = FactoryGirl.create(:reviewing_group_member, :user => other_user, :reviewing_group => reviewing_group)
+        junior_consultant.reviewing_group = reviewing_group
+        junior_consultant.save!
+
+        sign_in other_user
         get :summary, {:id => @review.to_param}, valid_session
         response.should be_success
       end
@@ -92,11 +92,9 @@ describe ReviewsController do
   end
 
   describe "GET new" do
-    before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
-    end
     it "assigns a new review as @review" do
+      admin_user = FactoryGirl.create(:admin_user)
+      sign_in(admin_user)
       get :new, {}, valid_session
       assigns(:review).should be_a_new(Review)
     end
@@ -129,9 +127,9 @@ describe ReviewsController do
   end
 
   describe "GET edit" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
+      sign_in(admin_user)
     end
     it "assigns the requested review as @review" do
       review = Review.create! valid_attributes
@@ -141,9 +139,9 @@ describe ReviewsController do
   end
 
   describe "POST create" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
+      sign_in(admin_user)
     end
     describe "with valid params" do
       it "creates a new Review" do
@@ -182,9 +180,9 @@ describe ReviewsController do
   end
 
   describe "PUT update" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
+      sign_in(admin_user)
     end
     describe "with valid params" do
       it "updates the requested review" do
@@ -230,9 +228,9 @@ describe ReviewsController do
   end
 
   describe "DELETE destroy" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do
-      @admin_user = FactoryGirl.create(:admin_user)
-      sign_in(@admin_user)
+      sign_in(admin_user)
     end
     it "destroys the requested review" do
       review = Review.create! valid_attributes

@@ -21,7 +21,11 @@
       <th>Project</th>
       <th>Role on that project</th>
       <% header_group.each do |header| %>
-        <th><%= header.try(:titleize) %></th>
+        <% if header.present? %>
+          <th<%= "class='red_text'" if header.match("improve")  %>>
+            <%= header.titleize %>
+          </th>
+        <% end %>
       <% end %>
     </tr>
   </thead>

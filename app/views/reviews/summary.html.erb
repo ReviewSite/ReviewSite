@@ -1,35 +1,18 @@
 <h1>Feedback for Review <%= @review %></h1>
 
 <% all_headers = ['tech_exceeded', 'tech_met', 'tech_improve',
-"client_exceeded",
-"client_met",
-"client_improve",
-"ownership_exceeded",
-"ownership_met",
-"ownership_improve",
-"leadership_exceeded",
-"leadership_met",
-"leadership_improve",
-"teamwork_exceeded",
-"teamwork_met",
-"teamwork_improve",
-"attitude_exceeded",
-"attitude_met",
-"attitude_improve",
-"professionalism_exceeded",
-"professionalism_met",
-"professionalism_improve",
-"organizational_exceeded",
-"organizational_met",
-"organizational_improve",
-"innovative_exceeded",
-"innovative_met",
-"innovative_improve",
-"comments"] %>
+                  "client_exceeded", "client_met", "client_improve",
+                  "ownership_exceeded", "ownership_met", "ownership_improve",
+                  "leadership_exceeded", "leadership_met", "leadership_improve",
+                  "teamwork_exceeded", "teamwork_met", "teamwork_improve",
+                  "attitude_exceeded", "attitude_met", "attitude_improve",
+                  "professionalism_exceeded", "professionalism_met", "professionalism_improve",
+                  "organizational_exceeded", "organizational_met", "organizational_improve",
+                  "innovative_exceeded", "innovative_met", "innovative_improve",
+                  "comments"] %>
 
 
-<% (all_headers.count/3 + 1).times do |i| %>
-  <% headers = all_headers[i*3,3] %>
+<% all_headers.in_groups_of(3) do |header_group| %>
 <table>
   <thead>
     <tr>
@@ -37,20 +20,22 @@
       <th>Feedback By</th>
       <th>Project</th>
       <th>Role on that project</th>
-      <% headers.each do |header| %>
-        <th><%= header %></th>
+      <% header_group.each do |header| %>
+        <th><%= header.titleize %></th>
       <% end %>
     </tr>
   </thead>
   <tbody>
-    <% @feedbacks.each do |f| %>
+    <% @feedbacks.each do |feedback| %>
     <tr>
-      <td><%= f.updated_at.to_date %></td>
-      <td><%= f.user %></td>
-      <td><%= f.project_worked_on %></td>
-      <td><%= f.role_description %></td>
-      <% headers.each do |header| %>
-        <td><%= f.send(header) %></td>
+      <td><%= feedback.updated_at.to_date %></td>
+      <td><%= feedback.user %></td>
+      <td><%= feedback.project_worked_on %></td>
+      <td><%= feedback.role_description %></td>
+      <% header_group.each do |header| %>
+        <td <%= "class='red_text'" if header.match("improve") %>>
+          <%= feedback.public_send(header) %>
+        </td>
       <% end %>
     </tr>
   <% end %>

@@ -1,30 +1,6 @@
 require 'spec_helper'
 
 describe Review do
-  describe "sort" do
-
-    it "considers the first record greater if they both have nil review dates" do
-      review_b = FactoryGirl.create(:review, review_date: nil)
-      review_a = FactoryGirl.create(:review, review_date: nil)
-      reviews  = [review_b, review_a]
-      reviews.sort.should eq([review_a, review_b])
-    end
-
-    it "considers the second record greater if just it has a nil review date" do
-      review_a = FactoryGirl.create(:review)
-      review_b = FactoryGirl.create(:review, review_date: nil)
-      reviews  = [review_a, review_b]
-      reviews.sort.should eq([review_b, review_a])
-    end
-
-    it "sorts based on review date" do
-      review_a = FactoryGirl.create(:review, review_date: 4.days.from_now)
-      review_b = FactoryGirl.create(:review, review_date: 3.days.from_now)
-      reviews  = [review_b, review_a]
-      reviews.sort.should eq([review_b, review_a])
-    end
-
-  end
     it "has a consultant" do
         r = Review.new
         r.review_type = "6-Month"

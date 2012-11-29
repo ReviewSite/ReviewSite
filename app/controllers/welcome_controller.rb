@@ -2,9 +2,21 @@ class WelcomeController < ApplicationController
   skip_authorization_check
 
   def index
-    @reviews = Review.readable_and_sumarizeable_for_user(current_user)
+    @reviews = []
+    Review.all.each do |review|
+      if can? :read, review or can? :summary, review
+        @reviews << review
+      end
+    end
+    @reviews = @reviews.sort{|a,b| a.review_date.nil? ? 1 : b.review_date.nil? ? -1 : a.review_date <=> b.review_date }
 
-    @feedbacks = Feedback.editable_and_submitable_for_user(current_user)
+    @feedbacks = []
+    Feedback.all.each do |feedback|
+      if can? :edit, feedback or can? :submit, feedback
+        @feedbacks << feedback
+      end
+    end
+    @feedbacks = @feedbacks.sort{|a,b| b.updated_at <=> a.updated_at}
   end
 
   def help

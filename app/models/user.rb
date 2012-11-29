@@ -12,14 +12,9 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
   before_save { |user| user.email = user.email.downcase }
   before_save :create_remember_token
-  delegate :can?, :cannot?, :to => :ability
 
   def to_s
     self.name
-  end
-
-  def ability
-    @ability ||= Ability.new(self)
   end
 
   private

@@ -21,7 +21,7 @@
       <th>Project</th>
       <th>Role on that project</th>
       <% header_group.each do |header| %>
-        <th><%= header.titleize %></th>
+        <th><%= header.try(:titleize) %></th>
       <% end %>
     </tr>
   </thead>
@@ -33,7 +33,7 @@
       <td><%= feedback.project_worked_on %></td>
       <td><%= feedback.role_description %></td>
       <% header_group.each do |header| %>
-        <td <%= "class='red_text'" if header.match("improve") %>>
+        <td <%= "class='red_text'" if header.try { |h| h.match("improve") } %>>
           <%= feedback.public_send(header) %>
         </td>
       <% end %>

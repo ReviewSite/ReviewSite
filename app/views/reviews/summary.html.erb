@@ -33,9 +33,11 @@
       <td><%= feedback.project_worked_on %></td>
       <td><%= feedback.role_description %></td>
       <% header_group.each do |header| %>
-        <td <%= "class='red_text'" if header.try { |h| h.match("improve") } %>>
-          <%= feedback.public_send(header) %>
-        </td>
+        <% if header.present? %>
+          <td <%= "class='red_text'" if header.match("improve")  %>>
+            <%= feedback.public_send(header) %>
+          </td>
+        <% end %>
       <% end %>
     </tr>
   <% end %>

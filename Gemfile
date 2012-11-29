@@ -30,6 +30,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'shoulda-matchers', '1.3.0'
   gem 'capybara', '1.1.2'
   gem 'factory_girl_rails', '1.4.0'
   gem 'cucumber-rails', '1.2.1', require: false

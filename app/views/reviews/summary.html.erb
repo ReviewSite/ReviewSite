@@ -22,7 +22,7 @@
       <th>Role on that project</th>
       <% header_group.each do |header| %>
         <% if header.present? %>
-          <th <%= "class=red_text" if header.match("improve")  %>>
+          <th <%= "class=blue_text" if header.match("improve")  %> <%= "class=green_text" if header.match("exceed")  %>>
             <%= header.titleize %>
           </th>
         <% end %>
@@ -38,7 +38,7 @@
       <td><%= feedback.role_description %></td>
       <% header_group.each do |header| %>
         <% if header.present? %>
-          <td <%= "class=red_text" if header.match("improve")  %>>
+          <td <%= "class=blue_text" if header.match("improve")  %> <%= "class=green_text" if header.match("exceed")  %>>
             <%= feedback.public_send(header) %>
           </td>
         <% end %>

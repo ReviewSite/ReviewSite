@@ -12,6 +12,8 @@
                   "comments"] %>
 
 
+<%= link_to("Submit a self review", new_self_assessment_path(review: @review)) %>
+
 <% all_headers.in_groups_of(3) do |header_group| %>
 <table>
   <thead>

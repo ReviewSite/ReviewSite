@@ -1,18 +1,6 @@
 class SelfAssessmentsController < ApplicationController
   load_and_authorize_resource
-  # GET /self_assessments
-  # GET /self_assessments.json
-  def index
-    @self_assessments = SelfAssessment.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @self_assessments }
-    end
-  end
-
-  # GET /self_assessments/1
-  # GET /self_assessments/1.json
   def show
     @self_assessment = SelfAssessment.find(params[:id])
 
@@ -22,10 +10,10 @@ class SelfAssessmentsController < ApplicationController
     end
   end
 
-  # GET /self_assessments/new
-  # GET /self_assessments/new.json
   def new
-    @self_assessment = SelfAssessment.new
+    review = Review.find(params[:review])
+    junior_consultant = @review.junior_consultant
+    @self_assessment = SelfAssessment.new(review: review, junior_consultant: junior_consultant)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -33,13 +21,10 @@ class SelfAssessmentsController < ApplicationController
     end
   end
 
-  # GET /self_assessments/1/edit
   def edit
     @self_assessment = SelfAssessment.find(params[:id])
   end
 
-  # POST /self_assessments
-  # POST /self_assessments.json
   def create
     @self_assessment = SelfAssessment.new(params[:self_assessment])
 
@@ -54,8 +39,6 @@ class SelfAssessmentsController < ApplicationController
     end
   end
 
-  # PUT /self_assessments/1
-  # PUT /self_assessments/1.json
   def update
     @self_assessment = SelfAssessment.find(params[:id])
 
@@ -70,8 +53,6 @@ class SelfAssessmentsController < ApplicationController
     end
   end
 
-  # DELETE /self_assessments/1
-  # DELETE /self_assessments/1.json
   def destroy
     @self_assessment = SelfAssessment.find(params[:id])
     @self_assessment.destroy

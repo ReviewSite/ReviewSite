@@ -1,8 +1,8 @@
 ReviewSite::Application.routes.draw do
 
-  resources :self_assessments
+  resources :self_assessments, except: [:index]
 
-  resources :reviewing_group_members, :except => [:show]
+  resources :reviewing_group_members, except: [:show]
 
   resources :reviewing_groups
 

@@ -49,19 +49,19 @@ textarea {
   color:#3CC929;
 }
 
-thead {
+body.reviews.summary thead {
   background-color: lightgray;
 }
 
-th {
+body.reviews.summary th {
   padding: 10px 15px;
 }
 
-tbody tr {
+body.reviews.summary tbody tr {
   border-bottom: 1px dashed grey;
 }
 
-tbody td {
+body.reviews.summary tbody td {
   padding: 20px 10px;
   text-align: left;
 }

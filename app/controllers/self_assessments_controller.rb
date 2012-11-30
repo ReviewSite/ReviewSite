@@ -12,7 +12,7 @@ class SelfAssessmentsController < ApplicationController
 
   def new
     review = Review.find(params[:review])
-    junior_consultant = @review.junior_consultant
+    junior_consultant = review.junior_consultant
     @self_assessment = SelfAssessment.new(review: review, junior_consultant: junior_consultant)
 
     respond_to do |format|

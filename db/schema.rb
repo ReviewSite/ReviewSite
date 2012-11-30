@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121028000012) do
+ActiveRecord::Schema.define(:version => 20121130204853) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -83,6 +83,17 @@ ActiveRecord::Schema.define(:version => 20121028000012) do
     t.date     "feedback_deadline"
     t.date     "send_link_date"
   end
+
+  create_table "self_assessments", :force => true do |t|
+    t.integer  "review_id"
+    t.integer  "junior_consultant_id"
+    t.text     "response"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "self_assessments", ["junior_consultant_id"], :name => "index_self_assessments_on_junior_consultant_id"
+  add_index "self_assessments", ["review_id"], :name => "index_self_assessments_on_review_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

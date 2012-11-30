@@ -19,6 +19,11 @@ class Ability
         can :manage, ReviewingGroupMember
         can :manage, JuniorConsultant
         can :manage, User
+        can :manage, SelfAssessment
+      end
+
+      can :manage, SelfAssessment do |self_assessment|
+        self_assessment.junior_consultant == user
       end
 
       can :create, Feedback

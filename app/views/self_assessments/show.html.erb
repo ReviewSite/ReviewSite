@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Review:</b>
+  <%= @self_assessment.review %>
+</p>
+
+<p>
+  <b>Junior consultant:</b>
+  <%= @self_assessment.junior_consultant %>
+</p>
+
+<p>
+  <b>Response:</b>
+  <%= @self_assessment.response %>
+</p>
+
+
+<%= link_to 'Edit', edit_self_assessment_path(@self_assessment) %> |
+<%= link_to 'Back', self_assessments_path %>

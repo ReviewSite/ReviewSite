@@ -49,6 +49,23 @@ textarea {
   color:#3CC929;
 }
 
+thead {
+  background-color: lightgray;
+}
+
+th {
+  padding: 10px 15px;
+}
+
+tbody tr {
+  border-bottom: 1px dashed grey;
+}
+
+tbody td {
+  padding: 20px 10px;
+  text-align: left;
+}
+
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }

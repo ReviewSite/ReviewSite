@@ -11,7 +11,6 @@ class Feedback < ActiveRecord::Base
   belongs_to :review
   belongs_to :user
 
-
   def reviewer
     if self.user_string.nil?
       self.user.name

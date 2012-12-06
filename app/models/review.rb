@@ -11,6 +11,6 @@ class Review < ActiveRecord::Base
 
 
   def to_s
-    junior_consultant.to_s + " - " + review_type
+    "#{junior_consultant} - #{review_type}"
   end
 end

@@ -4,6 +4,10 @@
   <h2>Reviews</h2>
   <%= render :partial => 'reviews/reviews' %>
 <% end %>
+<br />
+<% if can? :create, Review %>
+  <%= link_to 'New Review', new_review_path %>
+<% end %>
 
 <% if @feedbacks.count > 0 %>
   <h2>Feedback on Reviews</h2>

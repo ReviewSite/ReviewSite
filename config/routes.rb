@@ -1,7 +1,5 @@
 ReviewSite::Application.routes.draw do
 
-  resources :self_assessments, except: [:index]
-
   resources :reviewing_group_members, except: [:show]
 
   resources :reviewing_groups
@@ -19,6 +17,7 @@ ReviewSite::Application.routes.draw do
         get :additional
       end
     end
+    resources :self_assessments, except: [:index, :show]
   end
 
   resources :junior_consultants, :except => [:show]

@@ -23,7 +23,7 @@ class Ability
       end
 
       can :manage, SelfAssessment do |self_assessment|
-        self_assessment.junior_consultant == user
+        self_assessment.review.junior_consultant.email == user.email
       end
 
       can :create, Feedback

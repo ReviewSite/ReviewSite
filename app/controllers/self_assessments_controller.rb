@@ -1,19 +1,9 @@
 class SelfAssessmentsController < ApplicationController
-  load_and_authorize_resource
-
-  def show
-    @self_assessment = SelfAssessment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @self_assessment }
-    end
-  end
+  load_resource :review
+  load_and_authorize_resource :through => :review
 
   def new
-    review = Review.find(params[:review])
-    junior_consultant = review.junior_consultant
-    @self_assessment = SelfAssessment.new(review: review, junior_consultant: junior_consultant)
+    @self_assessment.junior_consultant = @review.junior_consultant
 
     respond_to do |format|
       format.html # new.html.erb
@@ -22,16 +12,15 @@ class SelfAssessmentsController < ApplicationController
   end
 
   def edit
-    @self_assessment = SelfAssessment.find(params[:id])
   end
 
   def create
-    @self_assessment = SelfAssessment.new(params[:self_assessment])
+    @self_assessment.junior_consultant = @review.junior_consultant
 
     respond_to do |format|
       if @self_assessment.save
-        format.html { redirect_to @self_assessment, notice: 'Self assessment was successfully created.' }
-        format.json { render json: @self_assessment, status: :created, location: @self_assessment }
+        format.html { redirect_to summary_review_path(@review), notice: 'Self assessment was successfully created.' }
+        format.json { render json: @self_assessment, status: :created, location: summary_review_path(@review) }
       else
         format.html { render action: "new" }
         format.json { render json: @self_assessment.errors, status: :unprocessable_entity }
@@ -40,11 +29,10 @@ class SelfAssessmentsController < ApplicationController
   end
 
   def update
-    @self_assessment = SelfAssessment.find(params[:id])
 
     respond_to do |format|
       if @self_assessment.update_attributes(params[:self_assessment])
-        format.html { redirect_to @self_assessment, notice: 'Self assessment was successfully updated.' }
+        format.html { redirect_to summary_review_path(@review), notice: 'Self assessment was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -54,11 +42,10 @@ class SelfAssessmentsController < ApplicationController
   end
 
   def destroy
-    @self_assessment = SelfAssessment.find(params[:id])
     @self_assessment.destroy
 
     respond_to do |format|
-      format.html { redirect_to self_assessments_url }
+      format.html { redirect_to summary_review_path(@review) }
       format.json { head :no_content }
     end
   end

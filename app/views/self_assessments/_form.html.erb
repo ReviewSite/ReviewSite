@@ -1,4 +1,4 @@
-<%= form_for(@self_assessment) do |f| %>
+<%= form_for([@review, @self_assessment]) do |f| %>
   <% if @self_assessment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@self_assessment.errors.count, "error") %> prohibited this self_assessment from being saved:</h2>
@@ -12,12 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :review %><br />
-    <%= f.text_field :review %>
-  </div>
-  <div class="field">
-    <%= f.label :junior_consultant %><br />
-    <%= f.text_field :junior_consultant %>
+    <%= @review %>
   </div>
   <div class="field">
     <%= f.label :response %><br />

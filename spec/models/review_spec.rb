@@ -101,4 +101,9 @@ describe Review do
         Feedback.all.count.should == 0
       end
     end
+    it "has self_assessments" do
+      r = FactoryGirl.create(:review)
+      s = FactoryGirl.create(:self_assessment, :review => r)
+      r.self_assessments.should == [s]
+    end
 end

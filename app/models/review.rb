@@ -8,6 +8,7 @@ class Review < ActiveRecord::Base
   validates :junior_consultant_id, :uniqueness => {:scope => [:review_type]}
 
   has_many :feedbacks, :dependent => :destroy
+  has_many :self_assessments, :dependent => :destroy
 
 
   def to_s

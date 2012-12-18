@@ -70,7 +70,7 @@ class Ability
         feedback.user == user or (feedback.submitted and (user.email == feedback.review.junior_consultant.email or is_review_member(user, feedback.review)))
       end
 
-      can [:update, :read], User do |user|
+      can [:update], User do |user|
         user == user
       end
     end

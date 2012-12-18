@@ -16,13 +16,17 @@
               <% if can? :manage, ReviewingGroupMember %>
                   <li><%= link_to "Reviewing Group Members", reviewing_group_members_path %></li>
               <%end%>
-              <li><%= link_to "Users", users_path %></li>
+              <% if can? :manage, User %>
+                <li><%= link_to "Users", users_path %></li>
+              <% end %>
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   Account <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "Profile", current_user %></li>
+                  <% if can? :read, current_user %>
+                    <li><%= link_to "Profile", current_user %></li>
+                  <% end %>
                   <li><%= link_to "Settings", edit_user_path(current_user) %></li>
                   <li class="divider"></li>
                   <li>

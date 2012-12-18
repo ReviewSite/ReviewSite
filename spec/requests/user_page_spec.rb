@@ -29,7 +29,6 @@ describe "User pages" do
         click_button "Save changes"
       end
 
-      it { should have_selector('title', text: new_name) }
       it { should have_selector('div.alert.alert-success') }
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }

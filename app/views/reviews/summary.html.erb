@@ -16,7 +16,7 @@
 <% else %>
   <%= link_to("Submit a self assessment", new_review_self_assessment_path(@review)) %>
 <% end %>
-
+<%= link_to("Add Additional Feedback", additional_review_feedbacks_path(@review)) %>
 <% all_headers.in_groups_of(3) do |header_group| %>
 <table>
   <thead>
@@ -38,7 +38,7 @@
     <% @feedbacks.each do |feedback| %>
     <tr>
       <td><%= feedback.updated_at.to_date %></td>
-      <td><%= feedback.user %></td>
+      <td><%= feedback.reviewer %></td>
       <td><%= feedback.project_worked_on %></td>
       <td><%= feedback.role_description %></td>
       <% header_group.each do |header| %>
@@ -54,4 +54,22 @@
 </table>
 <br />
 <% end %>
+
+<h3>Self-Assessment</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Date/Time</th>
+      <th>Self-Assessment Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @review.self_assessments.each do |self_assessment| %>
+      <tr>
+        <td><%= self_assessment.updated_at.to_date %></td>
+        <td><%= self_assessment.response %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 

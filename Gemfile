@@ -27,6 +27,8 @@ group :development, :test do
   gem 'debugger'
   gem 'rspec-rails', '2.9.0'
   gem 'guard-rspec', '0.5.5'
+  gem 'foreman'
+  gem 'watchr'
 end
 
 group :test do

@@ -3,4 +3,4 @@
 <%= render :partial => 'form', :locals => {:additional => !@feedback.user_string.nil? } %>
 
 <%= link_to 'Show', [@review, @feedback] %> |
-<%= link_to 'Back', review_path(@review) %>
+<%= link_to 'Home', welcome_index_path %>

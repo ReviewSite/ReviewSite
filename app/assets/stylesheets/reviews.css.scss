@@ -14,4 +14,7 @@ td {
 
 .new_feedback_link {
   color: blue;
+  &:visited {
+    color: blue;
+  }
 }

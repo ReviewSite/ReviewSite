@@ -21,7 +21,7 @@
       <td><%= review.review_date %></td>
       <td><%= review.feedback_deadline %></td>
       <td><%= review.send_link_date %></td>
-      <td><%= link_to 'link', new_review_feedback_url(review), {:style => "color: blue"} %></td>
+      <td><%= link_to 'link', new_review_feedback_url(review), :class => "new_feedback" %></td>
     <% end %>
     <td>
       <% if can? :summary, review %>

@@ -36,7 +36,7 @@
 </table>
 
 <% if can? :create, Feedback %>
-  <%= link_to 'New Feedback', new_review_feedback_path(@review) %>
+  <%= link_to 'New Feedback', new_review_feedback_path(@review), :class => 'new_feedback' %>
 <% end %>
 
 <% if can? :create_additional, Feedback %>

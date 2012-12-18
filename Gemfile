@@ -29,6 +29,7 @@ group :development, :test do
   gem 'guard-rspec', '0.5.5'
   gem 'foreman'
   gem 'watchr'
+  gem "travis-lint"
 end
 
 group :test do
@@ -42,6 +43,7 @@ group :test do
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
   gem 'launchy', '~> 2.1.2'
+  gem 'rake'
 end
 
 gem 'jquery-rails'

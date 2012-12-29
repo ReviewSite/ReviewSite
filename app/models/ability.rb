@@ -62,12 +62,13 @@ class Ability
         end
       else
         can :summary, Review do |review|
-          user.email == review.junior_consultant.email or is_review_member(user, review)
+          user.email == review.junior_consultant.email or is_review_member(user, review) or user.email == review.junior_consultant.coach
         end
+
       end
 
       can :read, Feedback do |feedback|
-        feedback.user == user or (feedback.submitted and (user.email == feedback.review.junior_consultant.email or is_review_member(user, feedback.review)))
+        feedback.user == user or (feedback.submitted and (user.email == feedback.review.junior_consultant.email or user.email == feedback.review.junior_consultant.coach))
       end
 
       can [:update], User do |user|

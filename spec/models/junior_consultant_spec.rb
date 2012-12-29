@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe JuniorConsultant do
   before do
-    @jc = JuniorConsultant.new(name: "Example User", email: "user@example.com")
+    @jc = JuniorConsultant.new(name: "Example User", email: "user@example.com", coach: "coach@test.com")
   end
 
   subject { @jc }
@@ -10,6 +10,10 @@ describe JuniorConsultant do
 
   it{ should respond_to(:name)}
   it{ should respond_to(:email)}
+  it{ should respond_to(:notes)}
+  it{ should respond_to(:reviewing_group_id)}
+  it{ should respond_to(:coach)}
+
   describe "When name is not present" do
     before{@jc.name = ""}
     it { should_not be_valid}
@@ -57,6 +61,16 @@ describe JuniorConsultant do
   end
   it "can have a reviewing group" do
     @jc.reviewing_group = FactoryGirl.create(:reviewing_group)
+    @jc.valid?.should == true
+  end
+
+  it "with invalid coach email the jc shouldn't be valid" do
+    @jc.coach = "some"
+    @jc.valid?.should == false
+  end
+
+  it "with valid coach email the jc should be valid" do
+    @jc.coach = "some@thoughtworks.com"
     @jc.valid?.should == true
   end
 

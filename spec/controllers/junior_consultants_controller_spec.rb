@@ -30,7 +30,9 @@ describe JuniorConsultantsController do
     { name: "John Smith",
       email: "john@tw.com",
       reviewing_group_id: @rgm.id,
-      notes: "This is a dev"}
+      notes: "This is a dev",
+      coach: "coach@thoughtworks.com"
+    }
   end
   
   # This should return the minimal set of values that should be in the session

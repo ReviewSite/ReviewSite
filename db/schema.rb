@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130204853) do
+ActiveRecord::Schema.define(:version => 20121229210229) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20121130204853) do
     t.datetime "updated_at",         :null => false
     t.text     "notes"
     t.integer  "reviewing_group_id"
+    t.string   "coach"
   end
 
   create_table "reviewing_group_members", :force => true do |t|

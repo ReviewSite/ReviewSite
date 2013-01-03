@@ -3,3 +3,6 @@ bundler_args: --without development
 rvm:
   - 1.9.3
 script: bundle exec rspec spec
+before_script:
+  - sed -i .tmp 's/password: password//' config/database.yml
+  - psql -c 'create database review_test;' -U postgres

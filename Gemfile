@@ -25,12 +25,12 @@ group :assets do
 end
 group :development do
   gem 'debugger'
+  gem 'foreman'
+  gem 'watchr'
 end
 group :development, :test do
   gem 'rspec-rails', '2.9.0'
   gem 'guard-rspec', '0.5.5'
-  gem 'foreman'
-  gem 'watchr'
   gem "travis-lint"
 end
 

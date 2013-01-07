@@ -68,7 +68,7 @@ class Ability
       end
 
       can :read, Feedback do |feedback|
-        feedback.user == user or (feedback.submitted and (user.email == feedback.review.junior_consultant.email or is_review_member(user, review) or user.email == feedback.review.junior_consultant.coach))
+        feedback.user == user or (feedback.submitted and ((user.email == feedback.review.junior_consultant.email) or is_review_member(user, feedback.review) or (user.email == feedback.review.junior_consultant.coach)))
       end
 
       can [:update], User do |user|

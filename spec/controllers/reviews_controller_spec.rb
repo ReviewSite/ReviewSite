@@ -24,7 +24,7 @@ describe ReviewsController do
   # Review. As you add validations to Review, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { 
+    {
         review_type: '6-Month',
         junior_consultant_id: 1,
         review_date: Date.today,
@@ -32,7 +32,7 @@ describe ReviewsController do
         send_link_date: Date.today
     }
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ReviewsController. Be sure to keep this updated too.
@@ -73,6 +73,31 @@ describe ReviewsController do
       get :summary, {:id => @review.to_param}, valid_session
       response.should be_success
       assigns(:feedbacks).should eq([@feedback_sub])
+    end
+
+    describe "JC coach" do
+      it "can see the summary for its coachee" do
+        junior_consultant = @review.junior_consultant
+        coach = FactoryGirl.create(:user)
+        junior_consultant.coach = coach.email
+        junior_consultant.save!
+
+        sign_in coach
+        get :summary, {:id => @review.to_param}, valid_session
+        response.should be_succes
+        assigns(:feedbacks).should eq([@feedback_sub])
+      end
+
+      it "can't see the summary for other coachees" do
+        junior_consultant = @review.junior_consultant
+        coach = FactoryGirl.create(:user)
+        junior_consultant.save!
+
+        sign_in coach
+        get :summary, {:id => @review.to_param}, valid_session
+        response.should_not be_succes
+        assigns(:feedbacks).should_not eq([@feedback_sub])
+      end
     end
 
     describe "with a reviewing_group_member" do

@@ -25,7 +25,10 @@ test:
   password: password
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  host: 127.0.0.1
+  database: review_prod
   pool: 5
   timeout: 5000
+  username: postgres
+  password: password

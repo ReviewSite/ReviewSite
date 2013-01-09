@@ -84,7 +84,7 @@ describe ReviewsController do
 
         sign_in coach
         get :summary, {:id => @review.to_param}, valid_session
-        response.should be_succes
+        response.should be_success
         assigns(:feedbacks).should eq([@feedback_sub])
       end
 
@@ -95,7 +95,7 @@ describe ReviewsController do
 
         sign_in coach
         get :summary, {:id => @review.to_param}, valid_session
-        response.should_not be_succes
+        response.should_not be_success
         assigns(:feedbacks).should_not eq([@feedback_sub])
       end
     end

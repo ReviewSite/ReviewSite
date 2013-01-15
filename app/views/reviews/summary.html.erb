@@ -1,75 +1,96 @@
-<h1>Feedback for Review <%= @review %></h1>
+<div class="row">
+  <div id="navbar">
+    <ul class="nav nav-list bs-docs-sidenav affix">
+      <li><a href="#0">Tech</a></li>
+      <li><a href="#1">Client</a></li>
+      <li><a href="#2">Ownership</a></li>
+      <li><a href="#3">Leadership</a></li>
+      <li><a href="#4">Teamwork</a></li>
+      <li><a href="#5">Attitude</a></li>
+      <li><a href="#6">Professionalism</a></li>
+      <li><a href="#7">Organizational</a></li>
+      <li><a href="#8 ">Innovative</a></li>
+      <li><a href="#9 ">Comments</a></li>
 
-<% all_headers = ['tech_exceeded', 'tech_met', 'tech_improve',
-                  "client_exceeded", "client_met", "client_improve",
-                  "ownership_exceeded", "ownership_met", "ownership_improve",
-                  "leadership_exceeded", "leadership_met", "leadership_improve",
-                  "teamwork_exceeded", "teamwork_met", "teamwork_improve",
-                  "attitude_exceeded", "attitude_met", "attitude_improve",
-                  "professionalism_exceeded", "professionalism_met", "professionalism_improve",
-                  "organizational_exceeded", "organizational_met", "organizational_improve",
-                  "innovative_exceeded", "innovative_met", "innovative_improve",
-                  "comments"] %>
+    </ul>
+  </div>
+  <h1>Feedback for Review <%= @review %></h1>
 
-<% if @review.self_assessments.count > 0 %>
-  <%= link_to("Update self assessment", edit_review_self_assessment_path(@review, @review.self_assessments.first)) %>
-<% else %>
-  <%= link_to("Submit a self assessment", new_review_self_assessment_path(@review)) %>
-<% end %>
-<%= link_to("Add Additional Feedback", additional_review_feedbacks_path(@review)) %>
-<% all_headers.in_groups_of(3) do |header_group| %>
-<table>
-  <thead>
-    <tr>
-      <th>Date/Time</th>
-      <th>Feedback By</th>
-      <th>Project</th>
-      <th>Role on that project</th>
-      <% header_group.each do |header| %>
-        <% if header.present? %>
-          <th <%= "class=blue_text" if header.match("improve")  %> <%= "class=green_text" if header.match("exceed")  %>>
-            <%= header.titleize %>
-          </th>
-        <% end %>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @feedbacks.each do |feedback| %>
-    <tr>
-      <td><%= feedback.updated_at.to_date %></td>
-      <td><%= feedback.reviewer %></td>
-      <td><%= feedback.project_worked_on %></td>
-      <td><%= feedback.role_description %></td>
-      <% header_group.each do |header| %>
-        <% if header.present? %>
-          <td <%= "class=blue_text" if header.match("improve")  %> <%= "class=green_text" if header.match("exceed")  %>>
-            <%= feedback.public_send(header) %>
-          </td>
-        <% end %>
-      <% end %>
-    </tr>
+  <% all_headers = ['tech_exceeded', 'tech_met', 'tech_improve',
+                    "client_exceeded", "client_met", "client_improve",
+                    "ownership_exceeded", "ownership_met", "ownership_improve",
+                    "leadership_exceeded", "leadership_met", "leadership_improve",
+                    "teamwork_exceeded", "teamwork_met", "teamwork_improve",
+                    "attitude_exceeded", "attitude_met", "attitude_improve",
+                    "professionalism_exceeded", "professionalism_met", "professionalism_improve",
+                    "organizational_exceeded", "organizational_met", "organizational_improve",
+                    "innovative_exceeded", "innovative_met", "innovative_improve",
+                    "comments"] %>
+
+  <% if @review.self_assessments.count > 0 %>
+      <%= link_to("Update self assessment", edit_review_self_assessment_path(@review, @review.self_assessments.first)) %>
+  <% else %>
+      <%= link_to("Submit a self assessment", new_review_self_assessment_path(@review)) %>
   <% end %>
-  </tbody>
-</table>
-<br />
-<% end %>
+  <%= link_to("Add Additional Feedback", additional_review_feedbacks_path(@review)) %>
+  <% all_headers.in_groups_of(3).each_with_index do |header_group, index| %>
+      <section class="sections" id="<%= index%>">
+        <table class="review-table">
+          <thead>
+          <tr>
+            <th class="caption-font">Info</th>
+            <% header_group.each do |header| %>
+                <% if header.present? %>
+                    <th class="caption-font <%= 'blue_text' if header.match("improve")%><%='green_text' if header.match("exceed")%>">
+                      <%= header.titleize %>
+                    </th>
+                <% end %>
+            <% end %>
+          </tr>
+          </thead>
+          <tbody>
+          <% @feedbacks.each do |feedback| %>
+              <tr >
+                <td class="caption-font">
+                  <p><b>Date:</b> <%= feedback.updated_at.to_date %></p>
+                  <p><b>By:</b> <%= feedback.reviewer %></p>
+                  <p><b>Project worked on:</b> <%= feedback.project_worked_on %></p>
+                  <p><b>Role:</b> <%= feedback.role_description %></p>
+                </td>
+                <% header_group.each do |header| %>
+                    <% if header.present? %>
+                        <td class="feedback-text <%= 'blue_text' if header.match("improve")  %><%= 'green_text' if header.match("exceed")  %>">
+                          <%= feedback.public_send(header) %>
+                        </td>
+                    <% end %>
+                <% end %>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </section>
+      <br />
+  <% end %>
 
-<h3>Self-Assessment</h3>
-<table>
-  <thead>
+  <h3>Self-Assessment</h3>
+  <table>
+    <thead>
     <tr>
       <th>Date/Time</th>
       <th>Self-Assessment Notes</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <% @review.self_assessments.each do |self_assessment| %>
-      <tr>
-        <td><%= self_assessment.updated_at.to_date %></td>
-        <td><%= self_assessment.response %></td>
-      </tr>
+        <tr>
+          <td><%= self_assessment.updated_at.to_date %></td>
+          <td><%= self_assessment.response %></td>
+        </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+<script>
+    $("#navbar").scrollspy();
+</script>
 

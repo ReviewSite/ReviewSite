@@ -14,7 +14,7 @@ describe "junior_consultants/new" do
           assert_select "input#junior_consultant_email", :name => "junior_consultant[email]"
           assert_select "textarea#junior_consultant_notes", :name => "junior_consultant[notes]"
           assert_select "select#junior_consultant_reviewing_group_id", :name => "junior_consultant[reviewing_group_id]"
-          assert_select "select#junior_consultant_coach", :name => "junior_consultant[coach]"
+          assert_select "select#junior_consultant_coach_id", :name => "junior_consultant[coach_id]"
 
     end
   end

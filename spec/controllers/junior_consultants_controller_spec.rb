@@ -31,7 +31,7 @@ describe JuniorConsultantsController do
       email: "john@tw.com",
       reviewing_group_id: @rgm.id,
       notes: "This is a dev",
-      coach: "coach@thoughtworks.com"
+      coach_id: 1
     }
   end
   

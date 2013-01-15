@@ -28,8 +28,8 @@
     <%= f.select :reviewing_group_id, ReviewingGroup.all.map { |rg| [rg.name, rg.id]}  %>
   </div>
   <div>
-    <%= f.label :coach %>
-    <%= f.select :coach, User.all.map { |user| [user.name, user.email]}  %>
+    <%= f.label :coach_id %>
+    <%= f.select :coach_id, User.all.map { |user| [user.name, user.id]}, :include_blank => "Select a coach"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

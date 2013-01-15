@@ -26,7 +26,7 @@ describe Review do
         c = JuniorConsultant.new
         c.name = "Robin"
         c.email = "rdunlop@thoughtworks.com"
-        c.coach = "coach@test.com"
+        c.coach_id = 1
         c.save!
         r.review_type = "6-Month"
 

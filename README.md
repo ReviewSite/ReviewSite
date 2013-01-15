@@ -1,9 +1,8 @@
 ReviewSite
 ==========
 
-Build Status: [![Build
-Status](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
-
+Build Status on TravisCI: [![Build
+Status](https://travis-ci.org/mopkobot/ReviewSite.png?branch=master)](https://travis-ci.org/mopkobot/ReviewSite)
 
 How to contribute time/effort to the ReviewSite
 -----------------------------------------------

@@ -15,7 +15,7 @@
     <td><%= junior_consultant.name %></td>
     <td><%= junior_consultant.email %></td>
     <td><%= junior_consultant.notes %></td>
-    <td><%= junior_consultant.user ? (link_to junior_consultant.user.name, user_path(junior_consultant.user)) : "No coach assigned!" %></td>
+    <td><%= junior_consultant.coach ? (link_to junior_consultant.coach.name, user_path(junior_consultant.coach)) : "No coach assigned!" %></td>
     <td><%= link_to 'Edit', edit_junior_consultant_path(junior_consultant) %></td>
     <td><%= link_to 'Destroy', junior_consultant, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated Reviews.' } %></td>
   </tr>

@@ -79,9 +79,8 @@ describe ReviewsController do
       it "can see the summary for its coachee" do
         junior_consultant = @review.junior_consultant
         coach = FactoryGirl.create(:user)
-        junior_consultant.coach_id = coach.id
+        junior_consultant.coach = coach
         junior_consultant.save!
-
         sign_in coach
         get :summary, {:id => @review.to_param}, valid_session
         response.should be_success

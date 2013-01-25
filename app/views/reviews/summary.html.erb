@@ -62,7 +62,7 @@
                 <% header_group.each do |header| %>
                     <% if header.present? %>
                         <td class="feedback-text <%= 'blue_text' if header.match("improve")  %><%= 'green_text' if header.match("exceed")  %>">
-                          <%= feedback.public_send(header) %>
+                          <%= simple_format(feedback.public_send(header)) %>
                         </td>
                     <% end %>
                 <% end %>

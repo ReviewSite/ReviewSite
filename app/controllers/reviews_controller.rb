@@ -96,6 +96,7 @@ class ReviewsController < ApplicationController
     respond_to do |format|
       format.html # summary.html.erb
       format.json { render json: @feedbacks }
+      format.xlsx
     end
   end
 end

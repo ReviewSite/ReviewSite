@@ -11,28 +11,32 @@
       <li><a href="#7">Organizational</a></li>
       <li><a href="#8 ">Innovative</a></li>
       <li><a href="#9 ">Comments</a></li>
-
+      <li>
+        <%= link_to url_for(:format => 'xlsx') do%>
+          <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
+        <% end %>
+      </li>
     </ul>
   </div>
   <h1>Feedback for Review <%= @review %></h1>
 
-  <% all_headers = ['tech_exceeded', 'tech_met', 'tech_improve',
-                    "client_exceeded", "client_met", "client_improve",
-                    "ownership_exceeded", "ownership_met", "ownership_improve",
-                    "leadership_exceeded", "leadership_met", "leadership_improve",
-                    "teamwork_exceeded", "teamwork_met", "teamwork_improve",
-                    "attitude_exceeded", "attitude_met", "attitude_improve",
-                    "professionalism_exceeded", "professionalism_met", "professionalism_improve",
-                    "organizational_exceeded", "organizational_met", "organizational_improve",
-                    "innovative_exceeded", "innovative_met", "innovative_improve",
-                    "comments"] %>
+  <% all_headers = ["tech_exceeded", "tech_met", "tech_improve",
+"client_exceeded", "client_met", "client_improve",
+"ownership_exceeded", "ownership_met", "ownership_improve",
+"leadership_exceeded", "leadership_met", "leadership_improve",
+"teamwork_exceeded", "teamwork_met", "teamwork_improve",
+"attitude_exceeded", "attitude_met", "attitude_improve",
+"professionalism_exceeded", "professionalism_met", "professionalism_improve",
+"organizational_exceeded", "organizational_met", "organizational_improve",
+"innovative_exceeded", "innovative_met", "innovative_improve",
+"comments"] %>
   <% if current_user.email == @review.junior_consultant.email %>
       <% if @review.self_assessments.count > 0 %>
           <%= link_to("Update self assessment", edit_review_self_assessment_path(@review, @review.self_assessments.first)) %>
-      <% else %>
+<% else %>
           <%= link_to("Submit a self assessment", new_review_self_assessment_path(@review)) %>
-      <% end %>
-  <% end %>
+<% end %>
+<% end %>
 
   <%= link_to("Add Additional Feedback", additional_review_feedbacks_path(@review)) %>
   <% all_headers.in_groups_of(3).each_with_index do |header_group, index| %>

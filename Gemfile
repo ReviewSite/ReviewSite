@@ -11,7 +11,7 @@ gem 'rubycas-client'
 
 gem 'pg'
 
-
+gem 'axlsx_rails'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -31,7 +31,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '2.9.0'
   gem 'guard-rspec', '0.5.5'
-  gem "travis-lint"
+  gem 'travis-lint'
 end
 
 group :test do

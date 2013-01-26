@@ -1,0 +1,67 @@
+wb = xlsx_package.workbook
+title = wb.styles.add_style :sz => 24, :b => true, :i => true, :alignment => {:horizontal => :center}
+info = wb.styles.add_style :sz => 18, :b => true, :alignment => {:horizontal => :center, :wrapText => true}
+title_exceeded = wb.styles.add_style :fg_color => "FF22E988", :sz => 18, :b => true, :alignment => {:horizontal => :center}
+title_met = wb.styles.add_style :sz => 18, :b => true, :alignment => {:horizontal => :center}
+title_improved = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :b => true, :alignment => {:horizontal => :center}
+feedback_info = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+feedback_exceeded = wb.styles.add_style :fg_color => "FF22E988", :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+feedback_met = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+feedback_improved = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+self_assessment = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :i => true, :b => true,  :alignment => {:horizontal => :center, :wrapText => true}
+self_assessment_content_style = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+wrap_text = wb.styles.add_style :alignment => {:wrapText => true}
+all_headers = ["tech_exceeded", "tech_met", "tech_improve",
+                    "client_exceeded", "client_met", "client_improve",
+                    "ownership_exceeded", "ownership_met", "ownership_improve",
+                    "leadership_exceeded", "leadership_met", "leadership_improve",
+                    "teamwork_exceeded", "teamwork_met", "teamwork_improve",
+                    "attitude_exceeded", "attitude_met", "attitude_improve",
+                    "professionalism_exceeded", "professionalism_met", "professionalism_improve",
+                    "organizational_exceeded", "organizational_met", "organizational_improve",
+                    "innovative_exceeded", "innovative_met", "innovative_improve",
+                    "comments"]
+
+wb.add_worksheet(name: "Foobar") do |sheet|
+  sheet.add_row ["Feedback for Review #{@review}"], :style => title
+  sheet.merge_cells "A1:G1"
+  all_headers.in_groups_of(3).each do |header_group|
+     title_row = sheet.add_row
+     title_row.add_cell "Date"
+     title_row.add_cell "Feedback by"
+     title_row.add_cell "Project"
+     title_row.add_cell "Role"
+     header_group.each do |header|
+        if header
+            title_row.add_cell header.titleize
+        end
+     end
+     title_row.style = [info, info, info, info, title_exceeded, title_met, title_improved]
+     @feedbacks.each do |feedback|
+        feedback_row = sheet.add_row
+        feedback_row.add_cell feedback.updated_at.to_date.to_s
+        feedback_row.add_cell feedback.reviewer
+        feedback_row.add_cell feedback.project_worked_on
+        feedback_row.add_cell feedback.role_description
+        header_group.each do |header|
+            if header
+                feedback_row.add_cell feedback.public_send(header)
+            end
+        end
+        feedback_row.style = [feedback_info, feedback_info, feedback_info, feedback_info, feedback_exceeded, feedback_met, feedback_improved]
+     end
+  sheet.add_row
+  end
+  sheet.add_row
+  x = sheet.add_row ["Self Assessment"], :style => self_assessment
+  self_assessment_title_row = sheet.add_row
+  self_assessment_title_row.add_cell "Date/Time", :style => info
+  self_assessment_title_row.add_cell "Self Assessment Notes", :style => info
+  self_assessment_content = sheet.add_row
+  @review.self_assessments.each do |self_assessment|
+    self_assessment_content.add_cell self_assessment.updated_at.to_date.to_s
+    self_assessment_content.add_cell self_assessment.response
+  end
+  self_assessment_content.style = [self_assessment_content_style, self_assessment_content_style]
+  sheet.column_widths 17, 17, 15, 15, 37, 37, 37
+end

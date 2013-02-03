@@ -35,6 +35,10 @@ textarea {
   margin-bottom: 10px;
 }
 
+.container {
+  width: 1080px;
+}
+
 /* typography */
 
 .blue_text {
@@ -140,12 +144,14 @@ footer ul li {
 
 /* forms */
 
+input, textarea, .uneditable-input {
+  height: auto;
+}
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
   padding: 10px;
-  height: auto;
-  margin-bottom: 15px;
   @include box_sizing;
 }
 

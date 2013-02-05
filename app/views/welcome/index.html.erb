@@ -5,11 +5,13 @@
   <%= render :partial => 'reviews/reviews' %>
 <% end %>
 <br />
+
 <% if can? :create, Review %>
-  <%= link_to 'New Review', new_review_path %>
+  <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
 <% end %>
 
 <% if @feedbacks.count > 0 %>
   <h2>Feedback on Reviews</h2>
   <%= render :partial => 'feedbacks/feedbacks' %>
 <% end %>
+

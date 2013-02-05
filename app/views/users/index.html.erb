@@ -1,39 +1,44 @@
 <h1>Listing users</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Admin</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.name %></td>
-    <td><%= user.email %></td>
-    <td><%= user.admin %></td>
-    <td>
-      <% if can? :read, user %>
-        <%= link_to 'Show', user %>
-      <% end %>
-    </td>
-    <td>
-      <% if can? :edit, user %>
-        <%= link_to 'Edit', edit_user_path(user) %>
-      <% end %>
-    </td>
-    <td>
-      <% if can? :destroy, user %>
-        <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
+<table class="datatable">
+  <thead>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Admin</th>
+  <th></th>
+  <th></th>
+  <th></th>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.admin %></td>
+        <td>
+          <% if can? :read, user %>
+              <%= link_to 'Show', user %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :edit, user %>
+              <%= link_to 'Edit', edit_user_path(user) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, user %>
+              <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
 </table>
 
 <br />
 
 <%= link_to 'New User', new_user_path %>
+
+<script>
+    $('.datatable').dataTable();
+</script>

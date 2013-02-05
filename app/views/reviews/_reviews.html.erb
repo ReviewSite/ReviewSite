@@ -1,48 +1,57 @@
-<table>
+<table class="reviews">
+  <thead>
   <tr>
     <th>Junior<br />Consultant</th>
     <th>Review<br />Type</th>
     <th>Num Feedback<br />Submitted</th>
     <% if can? :create, Review %>
-      <th>Review Date</th>
-      <th>Feedback<br />Deadline</th>
-      <th>Link<br />Date</th>
-      <th>'New Feedback'<br />Link</th>
+        <th>Review Date</th>
+        <th>Feedback<br />Deadline</th>
+        <th>Link<br />Date</th>
+        <th>'New Feedback'<br />Link</th>
     <% end %>
-    <th colspan="4"></th>
-  </tr>
-
-<% @reviews.each do |review| %>
-  <tr>
-    <td><%= review.junior_consultant %></td>
-    <td><%= review.review_type %></td>
-    <td><%= review.feedbacks.count %></td>
-    <% if can? :create, Review %>
-      <td><%= review.review_date %></td>
-      <td><%= review.feedback_deadline %></td>
-      <td><%= review.send_link_date %></td>
-      <td><%= link_to 'link', new_review_feedback_url(review), :class => "new_feedback_link" %></td>
+    <th>View Summary Link</th>
+    <% if can? :show, Review %>
+        <th>Show</th>
     <% end %>
-    <td>
-      <% if can? :summary, review %>
-        <%= link_to 'View Summary', summary_review_path(review) %>
-      <% end %>
-    </td>
-    <td>
-      <% if can? :read, review %>
-        <%= link_to 'Show', review %>
-      <% end %>
-    </td>
-    <td>
-      <% if can? :edit, review %>
-        <%= link_to 'Edit', edit_review_path(review) %>
-      <% end %>
-    </td>
-    <td>
-      <% if can? :destroy, review %>
-        <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %>
-      <% end %>
-    </td>
+    <% if can? :edit, Review %>
+        <th>Edit</th>
+    <% end %>
+    <% if can? :delete, Review %>
+        <th>Delete</th>
+    <% end %>
   </tr>
-<% end %>
+  </thead>
+  <tbody>
+  <% @reviews.each do |review| %>
+      <tr>
+        <td><%= review.junior_consultant %></td>
+        <td><%= review.review_type %></td>
+        <td><%= review.feedbacks.count %></td>
+        <% if can? :create, Review %>
+            <td><%= review.review_date %></td>
+            <td><%= review.feedback_deadline %></td>
+            <td><%= review.send_link_date %></td>
+            <td><%= link_to 'link', new_review_feedback_url(review), :class => "new_feedback_link" %></td>
+        <% end %>
+        <td>
+        <% if can? :summary, review %>
+              <%= link_to 'View Summary', summary_review_path(review) %>
+        <% end %>
+        </td>
+        <% if can? :show, review %>
+            <th>Show</th>
+        <% end %>
+        <% if can? :edit, review %>
+            <th>Edit</th>
+        <% end %>
+        <% if can? :delete, review %>
+            <th>Delete</th>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
 </table>
+<script>
+    $('.reviews').dataTable();
+</script>

@@ -10,7 +10,7 @@ gem 'rubycas-client'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-
+gem 'jquery-datatables-rails'
 gem 'axlsx_rails'
 # Gems used only for assets and not required
 # in production environments by default.

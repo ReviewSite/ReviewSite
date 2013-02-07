@@ -1,17 +1,5 @@
 class ReviewsController < ApplicationController
   load_and_authorize_resource
-
-  # GET /reviews
-  # GET /reviews.json
-  def index
-    @reviews = Review.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @reviews }
-    end
-  end
-
   # GET /reviews/1
   # GET /reviews/1.json
   def show

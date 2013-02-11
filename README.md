@@ -1,5 +1,4 @@
 ReviewSite
-==========
 
 Build Status on TravisCI: [![Build
 Status](https://travis-ci.org/mopkobot/ReviewSite.png?branch=master)](https://travis-ci.org/mopkobot/ReviewSite)
@@ -71,3 +70,6 @@ Create a local .env file:
 Start the server:
 
 * `$ foreman start` (this will not return)
+=======
+==========
+>>>>>>> 5560224a90ee824d3c80c556ce087b41890a8145

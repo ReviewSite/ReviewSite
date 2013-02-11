@@ -12,17 +12,6 @@ class JuniorConsultantsController < ApplicationController
     end
   end
 
-  # GET /junior_consultants/1
-  # GET /junior_consultants/1.json
-  def show
-    @junior_consultant = JuniorConsultant.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @junior_consultant }
-    end
-  end
-
   # GET /junior_consultants/new
   # GET /junior_consultants/new.json
   def new

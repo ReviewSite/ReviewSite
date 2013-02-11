@@ -39,15 +39,21 @@
               <%= link_to 'View Summary', summary_review_path(review) %>
         <% end %>
         </td>
-        <% if can? :show, review %>
-            <th>Show</th>
-        <% end %>
-        <% if can? :edit, review %>
-            <th>Edit</th>
-        <% end %>
-        <% if can? :delete, review %>
-            <th>Delete</th>
-        <% end %>
+        <td>
+          <% if can? :read, review %>
+              <%= link_to 'Show', review %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :edit, review %>
+              <%= link_to 'Edit', edit_review_path(review) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, review %>
+              <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %>
+          <% end %>
+        </td>
       </tr>
   <% end %>
   </tbody>

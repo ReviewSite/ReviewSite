@@ -1,5 +1,7 @@
 <h1>Listing reviewing_group_members</h1>
 
+<%= link_to 'New Reviewing group member', new_reviewing_group_member_path, :class => 'btn btn-info' %>
+
 <table>
   <tr>
     <th>Reviewing group</th>
@@ -8,16 +10,15 @@
     <th></th>
   </tr>
 
-<% @reviewing_group_members.each do |reviewing_group_member| %>
-  <tr>
+  <% @reviewing_group_members.each do |reviewing_group_member| %>
+      <tr>
     <td><%= reviewing_group_member.reviewing_group %></td>
     <td><%= reviewing_group_member.user %></td>
     <td><%= link_to 'Edit', edit_reviewing_group_member_path(reviewing_group_member) %></td>
     <td><%= link_to 'Destroy', reviewing_group_member, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
-<% end %>
+  <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Reviewing group member', new_reviewing_group_member_path %>

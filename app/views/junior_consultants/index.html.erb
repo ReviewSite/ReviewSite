@@ -1,5 +1,7 @@
 <h1>Junior Consultants</h1>
 
+<%= link_to 'New Junior consultant', new_junior_consultant_path, :class => 'btn btn-info' %>
+
 <table class="datatable">
   <thead>
   <tr>
@@ -27,7 +29,6 @@
 
 <br />
 
-<%= link_to 'New Junior consultant', new_junior_consultant_path %>
 <script>
     $('.datatable').dataTable();
 </script>

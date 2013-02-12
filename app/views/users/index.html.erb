@@ -1,5 +1,7 @@
 <h1>Listing users</h1>
 
+<%= link_to 'New User', new_user_path, :class => 'btn btn-info' %>
+
 <table class="datatable">
   <thead>
   <th>Name</th>
@@ -36,8 +38,6 @@
 </table>
 
 <br />
-
-<%= link_to 'New User', new_user_path %>
 
 <script>
     $('.datatable').dataTable();

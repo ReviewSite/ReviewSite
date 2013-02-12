@@ -1,5 +1,8 @@
 <h1>Listing Reviewing Groups</h1>
 
+<%= link_to 'New Reviewing group', new_reviewing_group_path %>
+| <%= link_to 'New Reviewing Group Member', new_reviewing_group_member_path %>
+
 <table class="datatable">
   <thead>
   <th>Name</th>
@@ -23,8 +26,6 @@
 
 <br />
 
-<%= link_to 'New Reviewing group', new_reviewing_group_path %>
-| <%= link_to 'New Reviewing Group Member', new_reviewing_group_member_path %>
 
 <script>
     $('.datatable').dataTable();

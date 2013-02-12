@@ -1,14 +1,15 @@
 <h1>Review Site Homepage</h1>
 
-<% if @reviews.count > 0 %>
-  <h2>Reviews</h2>
-  <%= render :partial => 'reviews/reviews' %>
-<% end %>
-<br />
-
 <% if can? :create, Review %>
-  <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
 <% end %>
+
+<% if @reviews.count > 0 %>
+    <h2>Reviews</h2>
+    <%= render :partial => 'reviews/reviews' %>
+<% end %>
+
+<br />
 
 <% if @feedbacks.count > 0 %>
   <h2>Feedback on Reviews</h2>

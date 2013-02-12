@@ -82,7 +82,10 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
-        format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully updated.' }
+        format.html do
+          redirect_to edit_review_feedback_path(@review.id, @feedback.id)
+          flash[:success] = 'Feedback was successfully updated.'
+        end
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

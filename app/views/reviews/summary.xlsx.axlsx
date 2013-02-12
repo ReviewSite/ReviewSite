@@ -22,7 +22,7 @@ all_headers = ["tech_exceeded", "tech_met", "tech_improve",
                     "innovative_exceeded", "innovative_met", "innovative_improve",
                     "comments"]
 
-wb.add_worksheet(name: "#{@review}") do |sheet|
+wb.add_worksheet(name: "#{@review.junior_consultant}") do |sheet|
   sheet.add_row ["Feedback for Review #{@review}"], :style => title
   sheet.merge_cells "A1:G1"
   all_headers.in_groups_of(3).each do |header_group|

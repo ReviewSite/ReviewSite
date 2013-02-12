@@ -245,7 +245,7 @@ describe FeedbacksController do
       it "redirects to the feedback" do
         feedback = Feedback.create! valid_attributes
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
-        response.should redirect_to([@review, feedback])
+        response.should redirect_to edit_review_feedback_path(@review, feedback)
       end
 
       it "sets the submitted to false by default" do

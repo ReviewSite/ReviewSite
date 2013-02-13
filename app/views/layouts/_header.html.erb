@@ -2,6 +2,11 @@
   <div class="navbar-inner">
     <div class="container">
       <%= link_to "Review Website", root_path, id: "logo" %>
+      <% if Rails.env.development? or (request.host == "twreviewsite-dev.herokuapp.com") %>
+          <div id="nonLive_notification">
+           --- Non-Live Site (We developin' up in heezy)
+          </div>
+      <% end %>
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>

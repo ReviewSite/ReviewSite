@@ -107,7 +107,7 @@ td {
   opacity: 1;
 }
 .bs-docs-sidenav.affix {
-  top: 40px;
+  top: 80px;
   position: fixed;
 }
 .bs-docs-sidenav.affix-bottom {
@@ -126,7 +126,8 @@ td {
     max-width: 970px;
   }
   .bs-docs-sidenav {
-    width: 258px;
+
+    width: 175px;
   }
   .bs-docs-sidenav > li > a {
     width: 230px \9; /* Override the previous IE8-9 hack */
@@ -181,7 +182,7 @@ td {
     top: 80px;
   }
 
-  .span9 {
+  .span10 {
     margin-left: 210px;
   }
 }
@@ -193,10 +194,12 @@ td {
   body {
     padding-top: 0;
   }
-
+  .span10 {
+    margin-left: 180px;
+  }
 /* Adjust sidenav width */
   .bs-docs-sidenav {
-    width: 166px;
+    width: 130px;
     margin-top: 20px;
   }
   .bs-docs-sidenav.affix {

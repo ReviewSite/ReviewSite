@@ -1,7 +1,7 @@
 ReviewSite
 
 Build Status on TravisCI: [![Build
-Status](https://travis-ci.org/mopkobot/ReviewSite.png?branch=master)](https://travis-ci.org/mopkobot/ReviewSite)
+Status](https://travis-ci.org/ReviewSite/ReviewSite.png?branch=master)](https://travis-ci.org/ReviewSite/ReviewSite)
 
 How to contribute time/effort to the ReviewSite
 -----------------------------------------------

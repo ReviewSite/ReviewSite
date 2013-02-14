@@ -35,25 +35,25 @@
             <td><%= link_to 'link', new_review_feedback_url(review), :class => "new_feedback_link" %></td>
         <% end %>
         <td>
-        <% if can? :summary, review %>
+          <% if can? :summary, review %>
               <%= link_to 'View Summary', summary_review_path(review) %>
-        <% end %>
+          <% end %>
         </td>
-        <td>
-          <% if can? :read, review %>
+        <% if can? :read, review %>
+            <td>
               <%= link_to 'Show', review %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :edit, review %>
+            </td>
+        <% end %>
+        <% if can? :edit, review %>
+            <td>
               <%= link_to 'Edit', edit_review_path(review) %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :destroy, review %>
+            </td>
+        <% end %>
+        <% if can? :destroy, review %>
+            <td>
               <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %>
-          <% end %>
-        </td>
+            </td>
+        <% end %>
       </tr>
   <% end %>
   </tbody>

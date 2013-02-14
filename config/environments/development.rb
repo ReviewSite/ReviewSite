@@ -29,6 +29,8 @@ ReviewSite::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+  config.action_mailer.raise_delivery_errors = true
+
   # Do not compress assets
   config.assets.compress = false
 

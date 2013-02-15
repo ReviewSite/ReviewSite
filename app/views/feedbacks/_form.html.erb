@@ -253,4 +253,9 @@
     <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
   </div>
 <% end %>
+<script>
+    window.onbeforeunload = function() {
+        return "You have unsaved feedback.";
+    };
+</script>
 

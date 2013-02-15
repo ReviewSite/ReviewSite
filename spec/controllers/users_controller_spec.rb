@@ -24,7 +24,7 @@ describe UsersController do
 
       it 'should redirect to the users page' do
         post:create, params
-        response.should redirect_to(:users)
+        response.should redirect_to root_path
       end
     end
   end

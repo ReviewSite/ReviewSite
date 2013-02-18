@@ -254,15 +254,23 @@
   </div>
 <% end %>
 <script>
-changeMade = false;
+	changeMadeAndUnsaved = false;
 
-$(':input').change(function() {
-	changeMade = true;
-});
+	$(':input').change(function() {
+		changeMadeAndUnsaved = true;
+	});
+	
+	$('.save_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
+	
+	$('.submit_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
 
-window.onbeforeunload = function() {
-	if (changeMade) {
-       return "You have unsaved feedback.";
-	}
-   };
+	window.onbeforeunload = function() {
+		if (changeMadeAndUnsaved) {
+       		return "You have unsaved feedback.";
+		}
+   	};
 </script>

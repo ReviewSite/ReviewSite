@@ -254,8 +254,15 @@
   </div>
 <% end %>
 <script>
-    window.onbeforeunload = function() {
-        return "You have unsaved feedback.";
-    };
-</script>
+changeMade = false;
 
+$(':input').change(function() {
+	changeMade = true;
+});
+
+window.onbeforeunload = function() {
+	if (changeMade) {
+       return "You have unsaved feedback.";
+	}
+   };
+</script>

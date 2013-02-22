@@ -84,7 +84,7 @@ class FeedbacksController < ApplicationController
       if @feedback.update_attributes(params[:feedback])
         format.html do
           redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-          flash[:success] = 'Feedback was successfully updated.'
+          flash[:success] = 'The feedback was saved!'
         end
         format.json { head :no_content }
       else

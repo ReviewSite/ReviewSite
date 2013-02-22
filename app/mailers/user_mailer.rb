@@ -1,8 +1,13 @@
 class UserMailer < ActionMailer::Base
-  default :from => "ryan@railscasts.com"
+  default :from => "do-not-reply@thoughtworks.com"
 
-  def registration_confirmation(user)
+  def self_registration_confirmation(user)
     @user = user
-    mail(:to => "#{user.name} <#{user.email}>", :subject => "Registered")
+    mail(:to => "#{user.name} <#{user.email}>", :subject => "Thanks for registering on the ReviewSite")
+  end
+
+  def admin_registration_confirmation(user)
+    @user = user
+    mail(:to => "#{user.name} <#{user.email}>", :subject => "You were registered on the ReviewSite")
   end
 end

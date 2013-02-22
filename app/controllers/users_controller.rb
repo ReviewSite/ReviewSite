@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      UserMailer.registration_confirmation(@user).deliver
+      signed_in? ? UserMailer.admin_registration_confirmation(@user).deliver : UserMailer.self_registration_confirmation(@user).deliver
       flash[:success] = "User has been successfully created."
       redirect_to root_url
     else

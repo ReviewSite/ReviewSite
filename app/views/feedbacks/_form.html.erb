@@ -254,8 +254,23 @@
   </div>
 <% end %>
 <script>
-    window.onbeforeunload = function() {
-        return "You have unsaved feedback.";
-    };
-</script>
+	changeMadeAndUnsaved = false;
 
+	$(':input').change(function() {
+		changeMadeAndUnsaved = true;
+	});
+	
+	$('.save_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
+	
+	$('.submit_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
+
+	window.onbeforeunload = function() {
+		if (changeMadeAndUnsaved) {
+       		return "You have unsaved feedback.";
+		}
+   	};
+</script>

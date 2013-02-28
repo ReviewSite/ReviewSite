@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
   def index
     @reviews = []
     Review.all.each do |review|
-      if can? :summary, review
+      if can? :read, review or can? :summary, review
         @reviews << review
       end
     end

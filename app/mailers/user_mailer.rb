@@ -10,4 +10,8 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => "#{user.name} <#{user.email}>", :subject => "You were registered on the ReviewSite")
   end
+
+  def password_reset(user)
+
+  end
 end

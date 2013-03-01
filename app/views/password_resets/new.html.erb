@@ -1,2 +1,10 @@
 <% provide :title, 'Reset password' %>
 <h1>Reset password</h1>
+
+<%= form_tag password_resets_path, method: :post do %>
+  <div class="field">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] %>
+  </div>
+  <div class="actions"><%= submit_tag "Reset password", class: "btn btn-primary" %></div>
+<% end %>

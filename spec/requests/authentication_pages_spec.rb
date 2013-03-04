@@ -17,7 +17,7 @@ describe "Authentication pages" do
         before { fill_in "Email", with: user.email }
 
         it "should send email when form is submitted" do
-          UserMailer.should_receive(:password_reset).with(user)
+          UserMailer.should_receive(:password_reset).with(user).and_return(double("mailer", :deliver => true))
           click_button "Reset password"
         end
 

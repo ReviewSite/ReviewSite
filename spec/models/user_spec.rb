@@ -113,13 +113,14 @@ describe User do
     end
 
     it "should send request to UserMailer" do
-      UserMailer.should_receive(:password_reset)
+      UserMailer.should_receive(:password_reset).and_return(double("mailer", :deliver => true))
       @user.request_password_reset
     end
 
     describe "columns" do
       before do
-        UserMailer.stub(:password_reset)
+        @mailerDouble
+        UserMailer.stub(password_reset: double("mailer", :deliver => true))
         @user.request_password_reset
         @user.reload
       end

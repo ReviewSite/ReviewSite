@@ -42,5 +42,5 @@ ReviewSite::Application.configure do
   end
 
   # Allow mailers to use named routes in emails
-  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  config.action_mailer.default_url_options = { :host => "localhost:9292" }
 end

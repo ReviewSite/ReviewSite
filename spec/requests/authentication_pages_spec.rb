@@ -7,11 +7,20 @@ describe "Authentication pages" do
     let(:user) { FactoryGirl.create(:user) }
     describe "request form" do
       before do
+        user.password = ""
+        user.password_confirmation = ""
         visit signin_path
         click_link "Forgot password?"
       end
 
       it { should have_selector('title', text:'Request password reset') }
+
+      describe "with invalid information" do
+        before { click_button "Request password reset" }
+
+        it { should have_selector('h1', text:'Sign in') }
+        it { should have_selector('div.alert.alert-notice') }
+      end
 
       describe "with valid information" do
         before { fill_in "Email", with: user.email }
@@ -21,9 +30,9 @@ describe "Authentication pages" do
           click_button "Request password reset"
         end
 
-        describe "directed to home page" do
+        describe "directed to signin page" do
           before { click_button "Request password reset" }
-          it { should have_selector('h1', text:'Homepage') }
+          it { should have_selector('h1', text:'Sign in') }
           it { should have_selector('div.alert.alert-notice') }
         end
 

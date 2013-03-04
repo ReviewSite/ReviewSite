@@ -17,6 +17,12 @@ class User < ActiveRecord::Base
     self.name
   end
 
+  def request_password_reset
+    self.update_attribute(:password_reset_token, SecureRandom.urlsafe_base64)
+    self.update_attribute(:password_reset_sent_at, Time.zone.now)
+    UserMailer.password_reset(self)
+  end
+
   private
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64

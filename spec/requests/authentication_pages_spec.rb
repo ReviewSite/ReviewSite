@@ -26,6 +26,16 @@ describe "Authentication pages" do
           it { should have_selector('h1', text:'Homepage') }
           it { should have_selector('div.alert.alert-notice') }
         end
+
+        specify "user should still have original password" do
+          click_button "Reset password"
+          visit signin_path
+          fill_in "Password", with: "password"
+          fill_in "Email", with: user.email
+          click_button "Sign in"
+
+          page.should_not have_selector('.alert-error')
+        end
       end
     end
   end

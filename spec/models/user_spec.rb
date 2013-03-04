@@ -29,7 +29,7 @@ describe User do
     it { should be_admin }
   end
 
-  describe "return value of authanticate method" do
+  describe "return value of authenticate method" do
     before{ @user.save}
     let(:found_user) {User.find_by_email(@user.email)}
     describe "with valid password" do
@@ -107,4 +107,31 @@ describe User do
     it {@user.to_s.should == @user.name}
   end
 
+  describe "requests password reset" do
+    before do
+      @user.save!
+    end
+
+    it "should send request to UserMailer" do
+      UserMailer.should_receive(:password_reset)
+      @user.request_password_reset
+    end
+
+    describe "columns" do
+      before do
+        UserMailer.stub(:password_reset)
+        @user.request_password_reset
+        @user.reload
+      end
+
+      it "should have a password reset token" do
+        subject[:password_reset_token].should_not be_nil
+      end
+
+      it "should have a password reset sent_at" do
+        subject[:password_reset_sent_at].should_not be_nil
+      end
+    end
+  end
 end
+  

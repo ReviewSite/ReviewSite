@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
+  attr_protected :password_reset_token, :password_reset_sent_at
   has_secure_password
   has_many :junior_consultants
 

@@ -58,4 +58,18 @@ describe UserMailer do
       mail.body.encoded.should match(user.email)
     end
   end
+
+  describe "Password reset" do
+    let(:user) { FactoryGirl.create(:user, password_reset_token: 'test_token') }
+    let(:mail) { UserMailer.password_reset(user) }
+    subject { mail }
+
+    its(:subject) { should == "Reset password for the ReviewSite" }
+    its(:to) { should == [user.email] }
+    its(:from) { should == ['do-not-reply@thoughtworks.com'] }
+
+    it "provides reset url" do
+      mail.body.encoded.should =~ /test_token\/edit/
+    end
+  end
 end

@@ -56,7 +56,7 @@ Run the test suite
 
 (inside the VM)
 * `cd workspace`
-* `rspec spec`
+* `xvfb-run rspec spec`
 
 Start the local server
 ----------------------

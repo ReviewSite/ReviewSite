@@ -15,4 +15,11 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => "#{user.name} <#{user.email}>", :subject => "Reset password for the ReviewSite")
   end
+
+  def new_feedback_notification(feedback)
+    @feedback = feedback
+    @review = feedback.review
+    @user = feedback.user
+    mail(:to => "#{@user.name} <#{@user.email}>", :subject => "You submitted feedback")
+  end
 end

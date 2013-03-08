@@ -58,4 +58,32 @@ describe UserMailer do
       mail.body.encoded.should match(user.email)
     end
   end
+
+  describe "Feedback submitted notification" do
+    let (:user) { FactoryGirl.create(:user) }
+    let (:jc) { FactoryGirl.create(:junior_consultant) }
+    let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+    let (:feedback) { FactoryGirl.create(:submitted_feedback, user: user, review: review) }
+    let (:mail) { UserMailer.new_feedback_notification(feedback) }
+
+    it 'renders the subject' do
+      mail.subject.should == 'You submitted feedback'
+    end
+
+    it 'renders the receiver email' do
+      mail.to.should == [user.email]
+    end
+
+    it 'renders the sender email' do
+      mail.from.should == ['do-not-reply@thoughtworks.com']
+    end
+
+    it 'contains the name of the JC' do
+      mail.body.encoded.should match(jc.name)
+    end
+
+    it 'includes feedback path' do
+      mail.body.encoded.should match(review_feedback_url(review, feedback))
+    end
+  end
 end

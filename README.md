@@ -92,6 +92,6 @@ MAIL_FULL_EMAIL=do-not-reply@thoughtworks.com
 
 The base domain that should be used for the links that appear in the emails.
 
-DOMAIN=http://twreviewsite.herokuapp.com
+DOMAIN=twreviewsite.herokuapp.com
 
 

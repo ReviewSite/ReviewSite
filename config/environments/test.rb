@@ -47,4 +47,6 @@ ReviewSite::Application.configure do
 
   # Allow mailers to use named routes in emails
   config.action_mailer.default_url_options = { :host => "localhost:9292" }
+
+  ENV['MAIL_FULL_EMAIL'] = "do-not-reply@thoughtworks.org"
 end

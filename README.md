@@ -70,3 +70,28 @@ Create a local .env file:
 Start the server:
 
 * `$ foreman start` (this will not return)
+
+
+Deploying the ReviewSite to heroku
+==================================
+
+When deploying heroku to a new heroku instance (developers will NOT need to do
+this), please specify e-mail account settings in the following configuration
+variables.
+
+Account details for sending emails from:
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_DOMAIN=thoughtworks.org
+MAIL_USERNAME=do-not-reply@thoughtworks.org
+MAIL_PASSWORD=<password>
+MAIL_TLS=true
+
+The Address that should appear in the "from" line of the sent e-mails:
+MAIL_FULL_EMAIL=do-not-reply@thoughtworks.com
+
+The base domain that should be used for the links that appear in the emails.
+
+DOMAIN=http://twreviewsite.herokuapp.com
+
+

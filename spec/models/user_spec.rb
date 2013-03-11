@@ -107,7 +107,7 @@ describe User do
     it {@user.to_s.should == @user.name}
   end
 
-  describe "requests password reset" do
+  describe "request password reset" do
     before do
       @user.save!
     end

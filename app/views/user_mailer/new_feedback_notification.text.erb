@@ -1,0 +1,11 @@
+Dear <%= @user.name %>,
+
+You have submitted new feedback for <%= @review.junior_consultant.name %>. To view your feedback, you can visit the link below:
+
+<%= review_feedback_url(@review, @feedback) %>
+
+Questions? email Aleksandar Serafimoski, Robin Dunlop, or Casey Rimkus
+
+Thanks,
+
+Administration of the ReviewSite

@@ -1,24 +1,25 @@
 <table class="reviews">
   <thead>
   <tr>
-    <th>Junior<br />Consultant</th>
-    <th>Review<br />Type</th>
-    <th>Num Feedback<br />Submitted</th>
+    <th>Junior Consultant</th>
+    <th>Review Type</th>
+    <th>Num Feedback Submitted</th>
     <% if can? :create, Review %>
         <th>Review Date</th>
-        <th>Feedback<br />Deadline</th>
-        <th>Link<br />Date</th>
-        <th>'New Feedback'<br />Link</th>
+        <th>Feedback Deadline</th>
+        <th>Link Date</th>
+        <th></th>
+        <th></th>
     <% end %>
-    <th>View Summary Link</th>
+    <th></th>
     <% if can? :show, Review %>
-        <th>Show</th>
+        <th></th>
     <% end %>
     <% if can? :edit, Review %>
-        <th>Edit</th>
+        <th></th>
     <% end %>
     <% if can? :delete, Review %>
-        <th>Delete</th>
+        <th></th>
     <% end %>
   </tr>
   </thead>
@@ -32,7 +33,8 @@
             <td><%= review.review_date %></td>
             <td><%= review.feedback_deadline %></td>
             <td><%= review.send_link_date %></td>
-            <td><%= link_to 'link', new_review_feedback_url(review), :class => "new_feedback_link" %></td>
+            <td><%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %></td>
+            <td><%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %></td>
         <% end %>
         <td>
           <% if can? :summary, review %>

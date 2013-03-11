@@ -1,9 +1,14 @@
 ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
-    :domain               => "twreviewsite.herokuapp.com",
-    :user_name            => "do-not-reply@thoughtworks.org",
-    :password             => "Th0ughtW0rks@2013",
-    :authentication       => "plain",
-    :enable_starttls_auto => true
+  :address              => ENV['MAIL_SERVER'],
+  :port                 => ENV['MAIL_PORT'],
+  :domain               => ENV['MAIL_DOMAIN'],
+  :user_name            => ENV['MAIL_USERNAME'],
+  :password             => ENV['MAIL_PASSWORD'],
+  :authentication       => "plain",
+  :enable_starttls_auto => (ENV['MAIL_TLS'].nil? ? true : ENV['MAIL_TLS'] == 'true')
 }
+ActionMailer::Base.default :from => ENV['MAIL_FULL_EMAIL']
+
+unless ENV['DOMAIN'].nil?
+  ActionMailer::Base.default_url_options[:host] = ENV['DOMAIN']
+end

@@ -9,9 +9,10 @@ How to contribute time/effort to the ReviewSite
 * Check out this project, and use the provided vagrantbox to do development/testing
 * For any changes, include updated/added unit tests, and ensure that the whole suite runs
 * Push changes to github
-* Push changes to the 'dev' site (ask Aleks/Casey/Robin for access to it)
-* Manually test the changes there too, using the accounts that are provided by the above people
-* Request that the changes be pushed to the 'prod' site by robin
+* [optional] Push changes to the 'dev' site (ask Aleks/Casey/Robin for access to it)
+* Every week or so, change will be pushed to the 'dev' site for testing, and
+  then, if no problems occur, promoted to "production" soon-thereafter
+ * Ask Alex/Robin if you would like code promoted earlier.
 
 
 Development Setup instructions:
@@ -80,18 +81,20 @@ this), please specify e-mail account settings in the following configuration
 variables.
 
 Account details for sending emails from:
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_DOMAIN=thoughtworks.org
-MAIL_USERNAME=do-not-reply@thoughtworks.org
-MAIL_PASSWORD=<password>
-MAIL_TLS=true
+
+* `MAIL_SERVER=smtp.gmail.com`
+* `MAIL_PORT=587`
+* `MAIL_DOMAIN=thoughtworks.org`
+* `MAIL_USERNAME=do-not-reply@thoughtworks.org`
+* `MAIL_PASSWORD=<password>`
+* `MAIL_TLS=true`
 
 The Address that should appear in the "from" line of the sent e-mails:
-MAIL_FULL_EMAIL=do-not-reply@thoughtworks.com
+
+* `MAIL_FULL_EMAIL=do-not-reply@thoughtworks.com`
 
 The base domain that should be used for the links that appear in the emails.
 
-DOMAIN=twreviewsite.herokuapp.com
+* `DOMAIN=twreviewsite.herokuapp.com`
 
 

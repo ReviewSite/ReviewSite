@@ -14,7 +14,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == ['do-not-reply@thoughtworks.com']
     end
 
     it 'assigns @name' do
@@ -43,7 +43,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == ['do-not-reply@thoughtworks.com']
     end
 
     it 'assigns @name' do

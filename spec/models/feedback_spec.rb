@@ -56,4 +56,19 @@ describe Feedback do
     new_f = FactoryGirl.create(:feedback, :user_string => "Holly")
     new_f.reviewer.should == "Holly"
   end
+
+  describe "submit final" do
+    let(:review) { FactoryGirl.create(:review) }
+    subject { FactoryGirl.build(:feedback, id: 1, review: review) }
+
+    it "sets submitted to true" do
+      subject.submit_final
+      subject.submitted.should be_true
+    end
+
+    it "sends notification email" do
+      UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+      subject.submit_final
+    end
+  end
 end

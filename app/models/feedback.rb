@@ -18,4 +18,9 @@ class Feedback < ActiveRecord::Base
       self.user_string
     end
   end
+
+  def submit_final
+    self.submitted = true
+    UserMailer.new_feedback_notification(self).deliver
+  end
 end

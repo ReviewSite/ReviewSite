@@ -57,12 +57,10 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(params[:feedback])
     @feedback.review = @review
     @feedback.user = current_user
-    if params[:submit_final_button]
-      @feedback.submitted = true
-    end
 
     respond_to do |format|
       if @feedback.save
+        @feedback.submit_final if params[:submit_final_button]
         format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
         format.json { render json: [@review, @feedback], status: :created, location: [@review, @feedback] }
       else

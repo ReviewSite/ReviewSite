@@ -162,13 +162,20 @@ describe FeedbacksController do
         assigns(:feedback).user.should eq(@user)
         assigns(:feedback).review.should eq(@review)
       end
+
       it "sets the submitted to false by default" do
         post :create, {:feedback => {}, :review_id => @review.id}, valid_session
         assigns(:feedback).submitted.should == false
       end
+
       it "sets the submitted to true if clicked on the 'Submit Final' button" do
         post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
         assigns(:feedback).submitted.should == true
+      end
+
+      it "sends a notification email if clicked on the 'Submit Final' button" do
+        UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
       end
 
       it "redirects to the created feedback" do

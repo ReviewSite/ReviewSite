@@ -19,7 +19,8 @@ class UserMailer < ActionMailer::Base
   def new_feedback_notification(feedback)
     @feedback = feedback
     @review = feedback.review
-    @user = feedback.user
-    mail(:to => "#{@user.name} <#{@user.email}>", :subject => "You submitted feedback")
+    @reviewer = feedback.user
+    @reviewee = @review.junior_consultant
+    mail(:to => "#{@reviewee.name} <#{@reviewee.email}>", :subject => "You have new feedback")
   end
 end

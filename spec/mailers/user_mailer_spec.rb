@@ -81,19 +81,23 @@ describe UserMailer do
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 
     it 'renders the subject' do
-      mail.subject.should == 'You submitted feedback'
+      mail.subject.should == 'You have new feedback'
     end
 
     it 'renders the receiver email' do
-      mail.to.should == [user.email]
+      mail.to.should == [jc.email]
     end
 
     it 'renders the sender email' do
       mail.from.should == ['do-not-reply@thoughtworks.com']
     end
 
-    it 'contains the name of the JC' do
-      mail.body.encoded.should match(jc.name)
+    it 'addresses the receiver' do
+      mail.body.encoded.should match("Dear " + jc.name)
+    end
+
+    it 'contains the name of the reviewer' do
+      mail.body.encoded.should match(user.name)
     end
 
     it 'includes feedback path' do

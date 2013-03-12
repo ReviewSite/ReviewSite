@@ -14,7 +14,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.com']
+      mail.from.should == ['do-not-reply@thoughtworks.org']
     end
 
     it 'assigns @name' do
@@ -43,7 +43,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.com']
+      mail.from.should == ['do-not-reply@thoughtworks.org']
     end
 
     it 'assigns @name' do
@@ -66,7 +66,7 @@ describe UserMailer do
 
     its(:subject) { should == "Reset password for the ReviewSite" }
     its(:to) { should == [user.email] }
-    its(:from) { should == ['do-not-reply@thoughtworks.com'] }
+    its(:from) { should == ['do-not-reply@thoughtworks.org'] }
 
     it "provides reset url" do
       mail.body.encoded.should =~ /test_token\/edit/
@@ -89,7 +89,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.com']
+      mail.from.should == ['do-not-reply@thoughtworks.org']
     end
 
     it 'contains the name of the JC' do

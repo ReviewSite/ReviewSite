@@ -1,5 +1,4 @@
 class UserMailer < ActionMailer::Base
-  default :from => "do-not-reply@thoughtworks.com"
 
   def self_registration_confirmation(user)
     @user = user

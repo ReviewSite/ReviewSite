@@ -57,6 +57,7 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(params[:feedback])
     @feedback.review = @review
     @feedback.user = current_user
+    @feedback.submitted = true if params[:submit_final_button]
 
     respond_to do |format|
       if @feedback.save
@@ -74,12 +75,11 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1.json
   def update
     @feedback = Feedback.find(params[:id])
-    if params[:submit_final_button]
-      @feedback.submitted = true
-    end
+    @feedback.submitted = true if params[:submit_final_button]
 
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
+        @feedback.submit_final if params[:submit_final_button]
         format.html do
           redirect_to edit_review_feedback_path(@review.id, @feedback.id)
           flash[:success] = 'The feedback was saved!'
@@ -100,6 +100,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
+        @feedback.submit_final
         format.html { redirect_to welcome_index_path, notice: 'Feedback was successfully updated.' }
         format.json { head :no_content }
       else

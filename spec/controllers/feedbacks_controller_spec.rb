@@ -170,6 +170,7 @@ describe FeedbacksController do
 
       it "sets the submitted to true if clicked on the 'Submit Final' button" do
         post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        assigns(:feedback).reload
         assigns(:feedback).submitted.should == true
       end
 
@@ -222,12 +223,18 @@ describe FeedbacksController do
       @admin = FactoryGirl.create(:admin_user)
       sign_in @admin
     end
+
     it "can change the feedback to submited" do
       @feedback.submitted.should == false
       put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
       response.should redirect_to(welcome_index_url)
       @feedback.reload
       @feedback.submitted.should == true
+    end
+
+    it "sends a notification email" do
+      UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+      put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
     end
   end
 
@@ -260,11 +267,19 @@ describe FeedbacksController do
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
         assigns(:feedback).submitted.should == false
       end
+
       it "sets the submitted to true if clicked on the 'Submit Final' button" do
         feedback = Feedback.create! valid_attributes
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
         assigns(:feedback).submitted.should == true
       end
+
+      it "sends a notification email if clicked on the 'Submit Final' button" do
+        feedback = Feedback.create! valid_attributes
+        UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+      end
+
       it "cannot update feedback that has been 'submitted'" do
         feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session

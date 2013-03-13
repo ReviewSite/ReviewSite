@@ -21,6 +21,8 @@ The ReviewSite codebase includes a vagrantbox for local development and testing.
 
 To use this, you must checkout and build the vagrantbox.
 
+* If Vagrant doesn't install properly, install Vagrant directly from the website at http://downloads.vagrantup.com/tags/v1.0.6, or install the vagrant gem
+
 Set your local git credentials
 ------------------------------
 
@@ -72,6 +74,7 @@ Start the server:
 
 * `$ foreman start` (this will not return)
 
+<<<<<<< HEAD
 
 Deploying the ReviewSite to heroku
 ==================================
@@ -98,3 +101,8 @@ The base domain that should be used for the links that appear in the emails.
 * `DOMAIN=twreviewsite.herokuapp.com`
 
 
+=======
+View the dev site locally:
+
+* http://localhost:9292/
+>>>>>>> Updated README

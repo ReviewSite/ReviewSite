@@ -29,7 +29,6 @@ describe "Feedback pages" do
     it "should send notification for previously-saved feedback" do
       UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
       click_button 'Save Feedback'
-      click_link 'Edit'
       click_button 'Submit Final'
       page.evaluate_script("window.confirm = function() { return true; }")
     end

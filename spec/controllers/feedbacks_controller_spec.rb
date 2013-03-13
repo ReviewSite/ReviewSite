@@ -179,9 +179,9 @@ describe FeedbacksController do
         post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
       end
 
-      it "redirects to the created feedback" do
+      it "redirects to the created feedback edit path" do
         post :create, {:feedback => {}, :review_id => @review.id}, valid_session
-        response.should redirect_to([@review, Feedback.last])
+        response.should redirect_to(edit_review_feedback_path(@review.id, Feedback.last.id))
       end
     end
 

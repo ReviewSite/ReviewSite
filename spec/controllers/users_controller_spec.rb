@@ -55,4 +55,45 @@ describe UsersController do
       end
     end
   end
+
+  describe "PUT update/:id" do
+
+    before do
+      @admin = FactoryGirl.create(:admin_user) 
+      @user = FactoryGirl.create(:user)
+      sign_in @admin
+    end
+
+    describe "admin updates other user with valid params" do
+      before(:each) do
+        put :update, id: @user, user: valid_params
+      end
+
+      it "should redirect to home page" do
+        response.should redirect_to root_path
+      end
+
+      it "should have a flash notice" do
+        flash[:success].should_not be_blank
+      end
+
+      it "should stay logged in as admin" do
+        controller.current_user.should == @admin
+      end
+
+      it "should not log in as user" do
+        controller.current_user.should_not == @user
+      end
+    end
+
+    describe "admin updates self" do
+      it "should stay logged in as admin" do
+        put :update, id: @admin, user: valid_params
+        controller.current_user.should == @admin
+      end
+    end
+
+
+    
+  end
 end

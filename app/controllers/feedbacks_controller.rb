@@ -61,16 +61,8 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        if params[:submit_final_button] 
-          @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
-        else
-          format.html do
-            redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-            flash[:success] = 'The feedback was saved!'
-          end
-        end
-        
+        @feedback.submit_final if params[:submit_final_button]
+        format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
         format.json { render json: [@review, @feedback], status: :created, location: [@review, @feedback] }
       else
         format.html { render action: "new" }
@@ -87,16 +79,11 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
-        if params[:submit_final_button] 
-          @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
-        else
-          format.html do
-            redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-            flash[:success] = 'The feedback was saved!'
-          end
+        @feedback.submit_final if params[:submit_final_button]
+        format.html do
+          redirect_to edit_review_feedback_path(@review.id, @feedback.id)
+          flash[:success] = 'The feedback was saved!'
         end
-
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

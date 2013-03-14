@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
-      sign_in @user
+      relogin_as_self_after_logout
       redirect_to root_url
     else
       render 'edit'
@@ -46,4 +46,12 @@ class UsersController < ApplicationController
     flash[:success] = "User destroyed."
     redirect_to users_url
   end
+
+  private
+
+    def relogin_as_self_after_logout
+      if @user == current_user 
+        sign_in @user
+      end
+    end
 end

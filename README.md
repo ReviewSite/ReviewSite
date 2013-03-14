@@ -74,7 +74,10 @@ Start the server:
 
 * `$ foreman start` (this will not return)
 
-<<<<<<< HEAD
+View the dev site locally:
+
+* http://localhost:9292/
+
 
 Deploying the ReviewSite to heroku
 ==================================
@@ -101,8 +104,4 @@ The base domain that should be used for the links that appear in the emails.
 * `DOMAIN=twreviewsite.herokuapp.com`
 
 
-=======
-View the dev site locally:
 
-* http://localhost:9292/
->>>>>>> Updated README

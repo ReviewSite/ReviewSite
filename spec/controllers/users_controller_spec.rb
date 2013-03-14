@@ -93,7 +93,18 @@ describe UsersController do
       end
     end
 
+    describe "normal user" do
+      before do
+        sign_in @user
+      end
 
-    
+      it "cannot update another user's password" do
+        @other_user = FactoryGirl.create(:user, :name => "Jane" )
+        put :update, id: @other_user, user: valid_params
+        response.should redirect_to root_path
+        @other_user.reload
+        @other_user.name.should == "Jane"
+      end
+    end
   end
 end

@@ -62,8 +62,8 @@ class Ability
         is_user_the_feedback_giver(user, feedback) or (feedback.submitted and (is_user_the_jc_associated_with_review(user, feedback.review) or is_review_member(user, feedback.review) or is_coach(user,feedback.review)))
       end
 
-      can [:update], User do |user|
-        user == user
+      can [:update], User do |the_user|
+        the_user == user
       end
     end
   end

@@ -34,8 +34,8 @@ describe "Review pages" do
       jc = FactoryGirl.create(:junior_consultant)
       review = FactoryGirl.create(:review, junior_consultant: jc)
       visit new_review_invitation_path(review)
-      fill_in "Email", with: "reviewer@example.com"
-      fill_in "Message", with: "Why, hello!"
+      fill_in "email", with: "reviewer@example.com"
+      fill_in "message", with: "Why, hello!"
     end
 
     it "redirects to home page after submission" do

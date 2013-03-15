@@ -2,10 +2,20 @@
 <h1>Invite Reviewer</h1>
 
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
-<%= label_tag :email, 'Email' %>
-<%= text_field_tag :email %>
-<%= label_tag :message, 'Message' %>
-<%= text_area_tag :message %>
-<p>An email will be sent with the message above, plus a link to the feedback form.</p>
+
+<p><b>To:</b></p>
+<p><%= text_field_tag :email %></p>
+
+<p><b>Subject:</b> You've been invited to give feedback.</p>
+
+<p><b>Body:</b></p>
+<%= text_area_tag :message, "Custom Message" %>
+
+<p>You have been invited to leave feedback for a JC Review. To leave feedback, please visit <%= new_review_feedback_url(@review) %>.</p>
+
+<p>JC Name: <%= @review.junior_consultant %><br/>
+Review Type: <%= @review.review_type %><br/>
+Deadline: <%= @review.feedback_deadline %></p>
+
 <%= submit_tag "Send invite", class: 'btn btn-large btn-primary' %>
 <% end %>

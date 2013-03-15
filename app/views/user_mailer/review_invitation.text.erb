@@ -1,3 +1,9 @@
 <%= @custom_message %>
 
+You have been invited to leave feedback for a JC Review.
+
+JC Name: <%= @review.junior_consultant %>
+Review Type: <%= @review.review_type %>
+Deadline: <%= @review.feedback_deadline %>
+
 To leave feedback for this review, please visit <%= new_review_feedback_url(@review) %>.

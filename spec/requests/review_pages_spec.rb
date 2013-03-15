@@ -30,15 +30,23 @@ describe "Review pages" do
   end
 
   describe "invitation page" do
-    it "can send an invitation" do
+    before do
       jc = FactoryGirl.create(:junior_consultant)
       review = FactoryGirl.create(:review, junior_consultant: jc)
       visit new_review_invitation_path(review)
       fill_in "Email", with: "reviewer@example.com"
-      fill_in "Personalized message", with: "Why, hello!"
+      fill_in "Message", with: "Why, hello!"
+    end
+
+    it "redirects to home page after submission" do
       click_button "Send invite"
       current_path.should == root_path
       page.should have_selector('div.alert.alert-notice')
+    end
+
+    it "sends an invitation email" do
+      UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
+      click_button "Send invite"
     end
   end
 end

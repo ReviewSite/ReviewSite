@@ -6,6 +6,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
+    UserMailer.review_invitation(params).deliver
     redirect_to root_path, notice: 'An invitation has been sent!'
   end
 end

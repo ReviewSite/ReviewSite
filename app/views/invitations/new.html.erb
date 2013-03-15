@@ -4,7 +4,8 @@
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
 <%= label_tag :email, 'Email' %>
 <%= text_field_tag :email %>
-<%= label_tag :message, 'Personalized message' %>
+<%= label_tag :message, 'Message' %>
 <%= text_area_tag :message %>
+<p>An email will be sent with the message above, plus a link to the feedback form.</p>
 <%= submit_tag "Send invite", class: 'btn btn-large btn-primary' %>
 <% end %>

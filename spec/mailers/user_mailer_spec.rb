@@ -104,4 +104,43 @@ describe UserMailer do
       mail.body.encoded.should match(review_feedback_url(review, feedback))
     end
   end
+
+  describe "Feedback invitation" do
+    let (:jc) { FactoryGirl.create(:junior_consultant) }
+    let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.today) }
+    let (:params) { { email: "recipient@example.com", message: "Hello. Please leave feedback.", review_id: review.id } }
+    let (:mail) { UserMailer.review_invitation(params) }
+
+    it 'renders the subject' do
+      mail.subject.should == "You've been invited to give feedback"
+    end
+
+    it 'renders the receiver email' do
+      mail.to.should == ["recipient@example.com"]
+    end
+
+    it 'renders the sender email' do
+      mail.from.should == ['do-not-reply@thoughtworks.com']
+    end
+
+    it 'contains params[:message]' do
+      mail.body.encoded.should match("Hello. Please leave feedback.")
+    end
+
+    it 'contains link to new feedback form' do
+      mail.body.encoded.should match(new_review_feedback_url(review))
+    end
+
+    it 'contains the jc name' do
+      mail.body.encoded.should match(jc.name)
+    end
+
+    it 'contains the review type' do
+      mail.body.encoded.should match(review.review_type)
+    end
+
+    it 'contains the feedback deadline' do
+      mail.body.encoded.should match(review.feedback_deadline.to_s)
+    end
+  end
 end

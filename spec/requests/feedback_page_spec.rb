@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Feedback pages" do
   describe "Submitting feedback", js: true do
-    let(:user) { FactoryGirl.create(:admin_user) }
+    let(:user) { FactoryGirl.create(:user) }
     let(:jc) { FactoryGirl.create(:junior_consultant) }
     let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
     subject { page }

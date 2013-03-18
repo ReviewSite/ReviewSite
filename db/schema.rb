@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304151708) do
+ActiveRecord::Schema.define(:version => 20130318145143) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(:version => 20130304151708) do
     t.boolean  "submitted",                :default => false
     t.text     "user_string"
   end
+
+  create_table "invitations", :force => true do |t|
+    t.string   "email"
+    t.integer  "review_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "invitations", ["review_id"], :name => "index_invitations_on_review_id"
 
   create_table "junior_consultants", :force => true do |t|
     t.string   "name"

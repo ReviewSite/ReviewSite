@@ -9,6 +9,7 @@ class Review < ActiveRecord::Base
 
   has_many :feedbacks, :dependent => :destroy
   has_many :self_assessments, :dependent => :destroy
+  has_many :invitations, :dependent => :destroy
 
   def to_s
     "#{junior_consultant} - #{review_type}"

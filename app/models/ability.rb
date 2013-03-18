@@ -11,10 +11,15 @@ class Ability
         can :manage, JuniorConsultant
         can :manage, User
         can :manage, SelfAssessment
+        can :manage, Invitation
       end
 
       can :manage, SelfAssessment do |self_assessment|
         self_assessment.review.junior_consultant.email == user.email
+      end
+
+      can :manage, Invitation do |invitation|
+        invitation.review.junior_consultant.email == user.email
       end
 
       can :create, Feedback

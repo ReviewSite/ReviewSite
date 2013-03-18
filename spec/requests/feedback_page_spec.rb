@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Feedback pages" do
   describe "Submitting feedback", js: true do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:admin_user) }
     let(:jc) { FactoryGirl.create(:junior_consultant) }
     let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
     subject { page }
@@ -31,6 +31,7 @@ describe "Feedback pages" do
       click_button 'Save Feedback'
       click_button 'Submit Final'
       page.evaluate_script("window.confirm = function() { return true; }")
+      page.should have_content('The feedback was saved!')
     end
   end
 end

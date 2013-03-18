@@ -11,7 +11,16 @@ class InvitationsController < ApplicationController
     @review = Review.find_by_id(params[:review_id])
     @invitation = @review.invitations.build(email: params[:email])
 
-    UserMailer.review_invitation(params).deliver
-    redirect_to root_path, notice: 'An invitation has been sent!'
+    if @invitation.save
+      UserMailer.review_invitation(@invitation).deliver
+      redirect_to root_path, notice: 'An invitation has been sent!'
+    else
+      render "new"
+    end
+  end
+
+  def destroy
+    Invitation.find_by_id(params[:id]).destroy
+    redirect_to root_path, notice: 'Invitation has been deleted'
   end
 end

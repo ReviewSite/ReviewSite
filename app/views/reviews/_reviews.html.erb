@@ -9,6 +9,8 @@
         <th>Feedback Deadline</th>
         <th>Link Date</th>
         <th></th>
+    <% end %>
+    <% if can? :create, Invitation %>
         <th></th>
     <% end %>
     <th></th>
@@ -34,6 +36,8 @@
             <td><%= review.feedback_deadline %></td>
             <td><%= review.send_link_date %></td>
             <td><%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %></td>
+        <% end %>
+        <% if can? :create, Invitation %>
             <td><%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %></td>
         <% end %>
         <td>

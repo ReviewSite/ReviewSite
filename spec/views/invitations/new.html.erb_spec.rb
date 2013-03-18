@@ -12,9 +12,9 @@ describe "invitations/new" do
       rendered
     end
 
-    it { should =~ /To/ }
-    it { should =~ /You've been invited to give feedback/ }
-    it { should =~ /Body/ }
+    it { should =~ /To \(Email\):/ }
+    it { should =~ /You've been invited to give feedback for #{@jc.name}/ }
+    it { should =~ /Body \(Please add a personal note\):/ }
     it { should =~ /#{@jc.name}/ }
     it { should =~ /#{@review.review_type}/ }
     it { should =~ /#{@review.feedback_deadline}/ }

@@ -112,7 +112,7 @@ describe UserMailer do
     let (:mail) { UserMailer.review_invitation(params) }
 
     it 'renders the subject' do
-      mail.subject.should == "You've been invited to give feedback"
+      mail.subject.should == "You've been invited to give feedback for #{jc.name}."
     end
 
     it 'renders the receiver email' do
@@ -125,22 +125,6 @@ describe UserMailer do
 
     it 'contains params[:message]' do
       mail.body.encoded.should match("Hello. Please leave feedback.")
-    end
-
-    it 'contains link to new feedback form' do
-      mail.body.encoded.should match(new_review_feedback_url(review))
-    end
-
-    it 'contains the jc name' do
-      mail.body.encoded.should match(jc.name)
-    end
-
-    it 'contains the review type' do
-      mail.body.encoded.should match(review.review_type)
-    end
-
-    it 'contains the feedback deadline' do
-      mail.body.encoded.should match(review.feedback_deadline.to_s)
     end
   end
 end

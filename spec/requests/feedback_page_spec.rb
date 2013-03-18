@@ -31,7 +31,7 @@ describe "Feedback pages" do
       click_button 'Save Feedback'
       click_button 'Submit Final'
       page.evaluate_script("window.confirm = function() { return true; }")
-      page.should have_content('Feedback was successfully created.')
+      page.should have_content('Feedback was submitted.')
     end
   end
 end

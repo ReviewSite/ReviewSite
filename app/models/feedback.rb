@@ -20,6 +20,7 @@ class Feedback < ActiveRecord::Base
   end
 
   def submit_final
+    update_attribute(:submitted, true)
     UserMailer.new_feedback_notification(self).deliver
   end
 end

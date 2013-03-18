@@ -57,17 +57,16 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(params[:feedback])
     @feedback.review = @review
     @feedback.user = current_user
-    @feedback.submitted = true if params[:submit_final_button]
 
     respond_to do |format|
       if @feedback.save
         if params[:submit_final_button] 
           @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
+          format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
         else
           format.html do
             redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-            flash[:success] = 'The feedback was saved!'
+            flash[:success] = 'Feedback was saved for further editing.'
           end
         end
         
@@ -83,17 +82,16 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1.json
   def update
     @feedback = Feedback.find(params[:id])
-    @feedback.submitted = true if params[:submit_final_button]
 
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
         if params[:submit_final_button] 
           @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was successfully created.' }
+          format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
         else
           format.html do
             redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-            flash[:success] = 'The feedback was saved!'
+            flash[:success] = 'Feedback was saved for further editing.'
           end
         end
 
@@ -109,7 +107,6 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1.json
   def submit
     @feedback = Feedback.find(params[:id])
-    @feedback.submitted = true
 
     respond_to do |format|
       if @feedback.save

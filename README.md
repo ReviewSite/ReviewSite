@@ -78,6 +78,13 @@ View the dev site locally:
 
 * http://localhost:9292/
 
+Creating sample account on dev site
+===================================
+
+In order to test logging in as a JC, you will need to add both a new JC, as well as a new user with the *same email*.
+
+
+
 
 Deploying the ReviewSite to heroku
 ==================================

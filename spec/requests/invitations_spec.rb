@@ -1,52 +1,15 @@
 require 'spec_helper'
 
-# Adam logs into the review site.
-# Nobody has invited him to give them feedback.
-# --He sees no feedback invitations table.
-
-# Betty has a review coming up.
-# The feedback deadline is 4/1/13
-# Betty logs into the review site.
-# She visits the invitation form.
-# She invites Adam to give her feedback.
-# She invites Carlos to give her feedback.
-
-# Adam logs into the review site.
-# --He sees the invitation from Betty.
-# --The status is "Not started," and the action is "Create."
-# He clicks on "Create."
-# --He is directed to the new feedback form.
-# He fills out the form and clicks "Save draft."
-# He visits the home page.
-# --The status is "Not submitted," and the action is "Edit."
-# He clicks on "Edit."
-# --He is directed to the edit feedback form.
-# He clicks "Submit Final."
-# He visits the home page.
-# --The status is "Submitted," and the action is "View."
-# He clicks on "View."
-# --He is directed to the show feedback page.
-
-# It is 4/2/13.
-
-# Adam logs into the review site.
-# --He no longer sees the invitation from Betty.
-
-# Carlos logs into the review site.
-# --He sees the invitation from Betty.
-# He clicks on "Create."
-# He fills out the form and clicks "Submit final."
-# He visits the home page.
-# --He no longer sees the invitation from Betty.
-
 describe "Invitations" do  
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:jc) { FactoryGirl.create(:junior_consultant) }
   let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
+  let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.tomorrow) }
+
+  subject { page }
 
   describe "invitation form" do
-    let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
-
+    
     context "as admin" do
       before do
         sign_in admin
@@ -93,6 +56,108 @@ describe "Invitations" do
         sign_in other_user
         visit new_review_invitation_path(review)
         current_path.should == root_path
+      end
+    end
+  end
+
+  describe "invitations received form" do
+    let(:invited_user) { FactoryGirl.create(:user) }
+    let!(:invitation) { review.invitations.create(email: invited_user.email) }
+
+    describe "with no invitations" do
+      describe "as normal user" do
+        before do
+          sign_in FactoryGirl.create(:user)
+          visit root_path
+        end
+
+        it "should not display invitations table" do
+          page.should_not have_selector('h2', text: 'Provide feedback for')
+          page.should_not have_selector('table.invitations_received')
+        end
+      end
+
+      describe "as admin" do
+        before do
+          sign_in admin
+          visit root_path
+        end
+
+        it "should not display invitations table" do
+          page.should_not have_selector('h2', text: 'Provide feedback for')
+          page.should_not have_selector('table.invitations_received')
+        end
+      end
+    end
+
+    describe "with a current invitation" do
+      before do
+        sign_in invited_user
+      end
+
+      it "should display invitations table" do
+        visit root_path
+        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('table.invitations_received td', text: jc.name)
+        page.should have_selector('table.invitations_received td', text: review.review_type)
+        page.should have_selector('table.invitations_received td', text: invitation.sent_date.to_s)
+        page.should have_selector('table.invitations_received td', text: review.feedback_deadline.to_s)
+      end
+
+      it "should have 'Create' action and 'Not Started' status if feedback is not started" do
+        visit root_path
+        page.should have_selector('table.invitations_received td', text: "Not Started")
+        page.should have_selector('table.invitations_received td a', text: "Create")
+        within('.invitations_received') { click_link "Create" }
+        current_path.should == new_review_feedback_path(review)
+      end
+
+      it "should have 'Continue' action and 'Not Submitted' status if feedback has been saved but not submitted" do
+        FactoryGirl.create(:feedback, review: review, user: invited_user)
+
+        visit root_path
+        page.should have_selector('table.invitations_received td', text: "Not Submitted")
+        page.should have_selector('table.invitations_received td a', text: "Continue")
+        within('.invitations_received') { click_link "Continue" }
+        current_path.should == edit_review_feedback_path(review, invitation.feedback)
+      end
+
+      it "should have 'View' action and 'Submitted' status if feedback has been submitted" do
+        FactoryGirl.create(:submitted_feedback, review: review, user: invited_user)
+
+        visit root_path
+        page.should have_selector('table.invitations_received td', text: "Submitted")
+        page.should_not have_selector('table.invitations_received td', text: "Not")
+        page.should have_selector('table.invitations_received td a', texts: "View")
+        within('.invitations_received') { click_link "View" }
+        current_path.should == review_feedback_path(review, invitation.feedback)
+      end
+    end
+
+    describe "with an expired invitation" do
+      before do
+        review.update_attribute(:feedback_deadline, Date.yesterday)
+        sign_in invited_user
+      end
+
+      it "should not display invitation if feedback was submitted" do
+        FactoryGirl.create(:submitted_feedback, review: review, user: invited_user)
+        visit root_path
+        page.should_not have_selector('h2', text: 'Provide feedback for')
+        page.should_not have_selector('table.invitations_received')
+      end
+
+      it "should display invitation if feedback was created but not submitted" do
+        FactoryGirl.create(:feedback, review: review, user: invited_user)
+        visit root_path
+        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('table.invitations_received')
+      end
+
+      it "should display invitation if feedback hasn't been created" do
+        visit root_path
+        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('table.invitations_received')
       end
     end
   end

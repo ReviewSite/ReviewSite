@@ -17,6 +17,13 @@ class WelcomeController < ApplicationController
       end
     end
     @feedbacks = @feedbacks.sort{|a,b| b.updated_at <=> a.updated_at}
+
+    @invitations = []
+    Invitation.all.each do |invitation|
+      if invitation.sent_to?(current_user) and not invitation.expired?
+        @invitations << invitation
+      end
+    end
   end
 
   def help

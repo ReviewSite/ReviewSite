@@ -6,4 +6,27 @@ class Invitation < ActiveRecord::Base
   validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false, scope: [:review_id] }
+
+  def sent_date
+    created_at.to_date
+  end
+
+  def user
+    User.find_by_email(email)
+  end
+
+  def feedback
+    review.feedbacks.each do |f|
+      return f if f.user == user
+    end
+    nil
+  end
+
+  def sent_to?(user)
+    user == self.user
+  end
+
+  def expired?
+    review.feedback_deadline < Date.today and feedback and feedback.submitted?
+  end
 end

@@ -30,7 +30,7 @@
       <tr>
         <td><%= review.junior_consultant %></td>
         <td><%= review.review_type %></td>
-        <td class="feedback"><%= review.feedbacks.where(:submitted => true).count  %></td>
+        <td><%= review.feedbacks.where(:submitted => true).count  %></td>
         <% if can? :create, Review %>
             <td><%= review.review_date %></td>
             <td><%= review.feedback_deadline %></td>

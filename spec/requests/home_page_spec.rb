@@ -6,7 +6,7 @@ describe "Home page" do
 
   subject { page }
 
-  describe "as admin" do
+  describe "logged in as Admin" do
     let (:admin) { FactoryGirl.create :admin_user }
     before { sign_in admin }
 
@@ -16,7 +16,7 @@ describe "Home page" do
     end
   end
 
-  describe "as JC" do
+  describe "logged in as a JC" do
     let (:jc_user) { FactoryGirl.create :user, email: jc.email }
     before { sign_in jc_user }
 
@@ -31,7 +31,7 @@ describe "Home page" do
                                     :user => jc_user, 
                                     :project_worked_on => "Unsubmitted Feedback")
       visit root_path
-      page.should have_selector('td.feedback', text: '0')
+      page.should have_selector('td', text: '0')
     end
 
     it "shows the count of submitted feedbacks" do
@@ -40,7 +40,7 @@ describe "Home page" do
                                     :user => jc_user, 
                                     :project_worked_on => "Submitted Feedback")
       visit root_path
-      page.should have_selector('td.feedback', text: '1')
+      page.should have_selector('td', text: '1')
     end
   end
 end

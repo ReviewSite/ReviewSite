@@ -24,5 +24,23 @@ describe "Home page" do
       click_link 'Invite Reviewer'
       page.should have_selector('h1', text: 'Invite Reviewer')
     end
+
+    it "does not show feedback count when not submitted" do
+      feedback = FactoryGirl.create(:feedback, 
+                                    :review => review, 
+                                    :user => jc_user, 
+                                    :project_worked_on => "Unsubmitted Feedback")
+      visit root_path
+      page.should have_selector('td.feedback', text: '0')
+    end
+
+    it "shows the count of submitted feedbacks" do
+      feedback = FactoryGirl.create(:submitted_feedback, 
+                                    :review => review, 
+                                    :user => jc_user, 
+                                    :project_worked_on => "Submitted Feedback")
+      visit root_path
+      page.should have_selector('td.feedback', text: '1')
+    end
   end
 end

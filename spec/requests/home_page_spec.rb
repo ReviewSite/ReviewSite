@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "Home page" do
   let! (:jc) { FactoryGirl.create :junior_consultant }
   let! (:review) { FactoryGirl.create :review, junior_consultant: jc }
+  let! (:feedback) { FactoryGirl.create :feedback, review: review }
 
   subject { page }
 
@@ -14,6 +15,12 @@ describe "Home page" do
       click_link 'Invite Reviewer'
       page.should have_selector('h1', text: 'Invite Reviewer')
     end
+
+    it "has a table column named 'Action'" do
+      page.should have_selector('th', text: 'Action')
+
+    end
+
   end
 
   describe "logged in as a JC" do

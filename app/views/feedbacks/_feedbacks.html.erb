@@ -7,13 +7,9 @@
     <th>Project worked on</th>
     <th>Date Updated</th>
     <th>Status</th>
-    <% submit_column = can? :submit, Feedback %>
-    <% unsubmit_column = can? :unsubmit, Feedback %>
-    <% if submit_column %>
-        <th>Submit</th>
-    <% end %>
-    <% if unsubmit_column %>
-        <th>Unsubmit</th>
+    <% action_column = (can? :unsubmit, Feedback) || (can? :submit, Feedback) %>
+    <% if action_column %>
+        <th>Action</th>
     <% end %>
     <% if can? :show, Feedback %>
         <th>Show</th>
@@ -39,19 +35,14 @@
         <% else %>
             <td class="feedback_not_submitted">Not-Submitted</td>
         <% end %>
-        <% if submit_column %>
+        <% if action_column %>
             <td>
               <%  if can? :submit, feedback %>
-                  <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %>
+                    <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %>
+                  <% elsif can? :unsubmit, feedback %>
+                    <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %>
               <% end %>
-            </td>
-        <%end %>
-        <% if unsubmit_column %>
-            <td>
-              <% if can? :unsubmit, feedback %>
-                  <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %>
-              <% end %>
-            </td>
+            </td> 
         <% end %>
         <td>
           <% if can? :show, feedback %>

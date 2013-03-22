@@ -18,10 +18,14 @@ class WelcomeController < ApplicationController
     end
     @feedbacks = @feedbacks.sort{|a,b| b.updated_at <=> a.updated_at}
 
-    @invitations = []
+    @invitations_sent = []
+    @invitations_received = []
     Invitation.all.each do |invitation|
       if invitation.sent_to?(current_user) and not invitation.expired?
-        @invitations << invitation
+        @invitations_received << invitation
+      end
+      if invitation.reviewee.email == current_user.email
+        @invitations_sent << invitation
       end
     end
   end

@@ -1,4 +1,4 @@
-class Invitation < ActiveRecord::Base
+ class Invitation < ActiveRecord::Base
   belongs_to :review
   attr_accessible :email
 
@@ -22,8 +22,12 @@ class Invitation < ActiveRecord::Base
     nil
   end
 
-  def sent_to?(user)
-    user == self.user
+  def reviewee
+    review.junior_consultant
+  end
+
+  def sent_to?(query_user)
+    query_user == self.user
   end
 
   def expired?

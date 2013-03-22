@@ -4,9 +4,14 @@
     <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
 <% end %>
 
-<% if @invitations.count > 0 %>
-  <h2>Provide feedback for</h2>
+<% if @invitations_received.count > 0 %>
+  <h2>Provide Feedback For</h2>
   <%= render :partial => 'invitations/invitations_received' %>
+<% end %>
+
+<% if @invitations_sent.count > 0 %>
+  <h2>Feedback Invitations Sent</h2>
+  <%= render :partial => 'invitations/invitations_sent' %>
 <% end %>
 
 <% if @reviews.count > 0 %>

@@ -23,6 +23,7 @@ class Invitation < ActiveRecord::Base
   end
 
   def sent_to?(user)
+    return false if user.nil?
     user == self.user
   end
 

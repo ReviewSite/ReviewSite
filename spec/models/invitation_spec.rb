@@ -57,6 +57,10 @@ describe "Invitation" do
     it "should be true if user's email matches invitation's email" do
       subject.sent_to?( FactoryGirl.create(:user, email: invitation.email) ).should be_true
     end
+
+    it "should not be sent to nil" do
+      subject.sent_to?(nil).should be_false
+    end
   end
 
   describe "expired?" do

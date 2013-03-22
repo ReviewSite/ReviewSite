@@ -5,6 +5,7 @@ describe "invitations/new" do
     before do
       @jc = FactoryGirl.create(:junior_consultant)
       @review = FactoryGirl.create(:review, junior_consultant: @jc, feedback_deadline: Date.today)
+      @invitation = FactoryGirl.build(:invitation)
     end
 
     subject do

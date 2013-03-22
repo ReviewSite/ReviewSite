@@ -22,12 +22,13 @@
     nil
   end
 
-  def reviewee
-    review.junior_consultant
+  def sent_to?(user)
+    return false if user.nil?
+    user == self.user
   end
 
-  def sent_to?(query_user)
-    query_user == self.user
+  def reviewee
+    review.junior_consultant
   end
 
   def expired?

@@ -21,6 +21,10 @@ describe "Home page" do
 
     end
 
+    it "shows name of admin currently logged in" do
+      page.should have_css('li a', text: admin.to_s)
+    end
+
   end
 
   describe "logged in as a JC" do
@@ -48,6 +52,10 @@ describe "Home page" do
                                     :project_worked_on => "Submitted Feedback")
       visit root_path
       page.should have_selector('td', text: '1')
+    end
+
+    it "shows name of user currently logged in" do
+      page.should have_css('li a', text: jc_user.to_s)
     end
   end
 end

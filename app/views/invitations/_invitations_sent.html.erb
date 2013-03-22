@@ -12,6 +12,7 @@
       <td><%= invitation.review.review_type %></td>
       <td><%= invitation.sent_date %></td>
       <td><%= invitation.review.feedback_deadline %></td>
+
       <% if invitation.feedback.nil? %>
         <td>Not Started</td>
       <% elsif invitation.feedback.submitted? %>

@@ -23,9 +23,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => "#{@reviewee.name} <#{@reviewee.email}>", :subject => "You have new feedback")
   end
 
-  def review_invitation(params)
-    @custom_message = params[:message]
-    jc = Review.find_by_id(params[:review_id]).junior_consultant
-    mail(:to => "<#{params[:email]}>", :subject => "You've been invited to give feedback for #{jc.name}.")
+  def review_invitation(review, email, message)
+    jc = review.junior_consultant
+    @custom_message = message
+
+    mail(:to => "<#{email}>", :subject => "You've been invited to give feedback for #{jc.name}.")
   end
 end

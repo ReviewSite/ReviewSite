@@ -13,11 +13,14 @@ describe InvitationsController do
         Invitation.last.email.should == "test@example.com"
       end
 
-      it "sends an email" do
-        deliverable = double(deliver: true)
-        deliverable.should_receive(:deliver)
-        UserMailer.stub(review_invitation: deliverable)
-        post :create, email: "test@example.com", review_id: review.id
+      it "sends an email with correct details" do
+        ActionMailer::Base.deliveries.clear
+        post :create, email: "test@example.com", review_id: review.id, message: "This is the custom message"
+        num_deliveries = ActionMailer::Base.deliveries.size
+        num_deliveries.should == 1 # one for error
+        message = ActionMailer::Base.deliveries.first
+        message.to.should == ["test@example.com"]
+        message.body.encoded.should match("This is the custom message")
       end
 
       it "redirects to the homepage" do
@@ -46,6 +49,7 @@ describe InvitationsController do
       it "renders new" do
         post :create, email: "invalid email address", review_id: review.id
         response.should render_template("new")
+        assigns(:jc).should == review.junior_consultant
       end
     end
   end

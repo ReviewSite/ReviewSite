@@ -12,9 +12,10 @@ class InvitationsController < ApplicationController
     @invitation = @review.invitations.build(email: params[:email])
 
     if @invitation.save
-      UserMailer.review_invitation(@invitation).deliver
+      UserMailer.review_invitation(@review, params[:email], params[:message]).deliver
       redirect_to root_path, notice: 'An invitation has been sent!'
     else
+      @jc = @review.junior_consultant
       render "new"
     end
   end

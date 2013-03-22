@@ -108,8 +108,9 @@ describe UserMailer do
   describe "Feedback invitation" do
     let (:jc) { FactoryGirl.create(:junior_consultant) }
     let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.today) }
-    let (:params) { { email: "recipient@example.com", message: "Hello. Please leave feedback.", review_id: review.id } }
-    let (:mail) { UserMailer.review_invitation(params) }
+    let (:email) { "recipient@example.com" }
+    let (:message) { "Hello. Please leave feedback." }
+    let (:mail) { UserMailer.review_invitation(review, email, message) }
 
     it 'renders the subject' do
       mail.subject.should == "You've been invited to give feedback for #{jc.name}."

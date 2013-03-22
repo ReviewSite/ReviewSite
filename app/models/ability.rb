@@ -19,7 +19,7 @@ class Ability
       end
 
       can :manage, Invitation do |invitation|
-        invitation.review.junior_consultant.email == user.email
+        invitation.reviewee.email == user.email
       end
 
       can :read, Invitation do |invitation|

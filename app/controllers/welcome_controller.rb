@@ -24,7 +24,7 @@ class WelcomeController < ApplicationController
       if current_user and invitation.sent_to?(current_user) and not invitation.expired?
         @invitations_received << invitation
       end
-      if current_user and invitation.reviewee.email == current_user.email
+      if can? :manage, invitation
         @invitations_sent << invitation
       end
     end

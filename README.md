@@ -103,5 +103,8 @@ The base domain that should be used for the links that appear in the emails.
 
 * `DOMAIN=twreviewsite.herokuapp.com`
 
+In order to prevent the mailer from sending e-mail on non-production heroku instance, 
+it is possible to redirect all e-mail to an address that you control.
 
+* `EMAIL_OVERRIDE=someone@somewhere.com`
 

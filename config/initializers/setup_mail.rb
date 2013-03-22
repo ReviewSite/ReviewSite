@@ -12,3 +12,13 @@ ActionMailer::Base.default :from => ENV['MAIL_FULL_EMAIL']
 unless ENV['DOMAIN'].nil?
   ActionMailer::Base.default_url_options[:host] = ENV['DOMAIN']
 end
+
+if ENV['EMAIL_OVERRIDE'].any?
+    class OverrideMailRecipient
+        def self.delivering_email(mail)
+            mail.body = "DEVELOPMENT-OVERRIDE. Was being sent to " + mail.to.first + "\n" + mail.body.to_s
+            mail.to = ENV['EMAIL_OVERRIDE']
+        end
+    end
+    ActionMailer::Base.register_interceptor(OverrideMailRecipient)
+end

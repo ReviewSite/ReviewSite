@@ -13,7 +13,7 @@ unless ENV['DOMAIN'].nil?
   ActionMailer::Base.default_url_options[:host] = ENV['DOMAIN']
 end
 
-if ENV['EMAIL_OVERRIDE'].any?
+unless ENV['EMAIL_OVERRIDE'].nil?
     class OverrideMailRecipient
         def self.delivering_email(mail)
             mail.body = "DEVELOPMENT-OVERRIDE. Was being sent to " + mail.to.first + "\n" + mail.body.to_s

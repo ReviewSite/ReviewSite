@@ -21,10 +21,10 @@ class WelcomeController < ApplicationController
     @invitations_sent = []
     @invitations_received = []
     Invitation.all.each do |invitation|
-      if invitation.sent_to?(current_user) and not invitation.expired?
+      if current_user and invitation.sent_to?(current_user) and not invitation.expired?
         @invitations_received << invitation
       end
-      if invitation.reviewee.email == current_user.email
+      if current_user and invitation.reviewee.email == current_user.email
         @invitations_sent << invitation
       end
     end

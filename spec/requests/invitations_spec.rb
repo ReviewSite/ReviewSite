@@ -173,56 +173,80 @@ describe "Invitations" do
     end
 
     it "should not display table if user has not sent any invitations" do
-      sign_in FactoryGirl.create(:user)
+      sign_in invited_user
       visit root_path
       page.should_not have_selector('h2', text:'Feedback Invitations Sent')
       page.should_not have_selector('table.invitations_sent')
     end
 
-    it "should display table if user has sent invitations" do
-      sign_in jc_user
-      visit root_path
-      page.should have_selector('h2', text:'Feedback Invitations Sent')
-      page.should have_selector('table.invitations_sent')
-      page.should have_selector('table.invitations_sent th', text: 'Invited')
-      page.should have_selector('table.invitations_sent th', text: 'Review Type')
-      page.should have_selector('table.invitations_sent th', text: 'Invitation Sent')
-      page.should have_selector('table.invitations_sent th', text: 'Feedback Deadline')
-      page.should have_selector('table.invitations_sent th', text: 'Status')
+    describe "as JC who has sent an invitation" do
 
-      page.should have_selector('table.invitations_sent td', text: invited_user.email)
-      page.should have_selector('table.invitations_sent td', text: review.review_type)
-      page.should have_selector('table.invitations_sent td', text: invitation.sent_date.to_s)
-      page.should have_selector('table.invitations_sent td', text: review.feedback_deadline.to_s)
+      before { sign_in jc_user }
+
+      it "should display table if user has sent invitations" do
+        visit root_path
+        page.should have_selector('h2', text:'Feedback Invitations Sent')
+        page.should have_selector('table.invitations_sent')
+
+        page.should have_selector('table.invitations_sent th', text: 'Invited')
+        page.should have_selector('table.invitations_sent th', text: 'Review Type')
+        page.should have_selector('table.invitations_sent th', text: 'Invitation Sent')
+        page.should have_selector('table.invitations_sent th', text: 'Feedback Deadline')
+        page.should have_selector('table.invitations_sent th', text: 'Status')
+
+        page.should have_selector('table.invitations_sent td', text: invited_user.email)
+        page.should have_selector('table.invitations_sent td', text: review.review_type)
+        page.should have_selector('table.invitations_sent td', text: invitation.sent_date.to_s)
+        page.should have_selector('table.invitations_sent td', text: review.feedback_deadline.to_s)
+      end
+
+      it "should have 'Not Started' status if invited user has not responded." do
+        visit root_path
+        page.should have_selector('table.invitations_sent td', text: 'Not Started')
+      end
+
+      it "should have 'Not Started' status if the invited user has no account." do
+        invitation.destroy
+        review.invitations.create(email: 'example@example.com')
+        visit root_path
+        page.should have_selector('table.invitations_sent td', text: 'Not Started')
+      end
+
+      it "should have 'Not Submitted' status if the invited user has saved but not submitted feedback." do
+        FactoryGirl.create(:feedback, review: review, user: invited_user)
+        visit root_path
+        page.should have_selector('table.invitations_sent td', text: 'Not Submitted')
+      end
+
+      it "should have 'Submitted' status if the invited user has submitted feedback." do
+        FactoryGirl.create(:submitted_feedback, review: review, user: invited_user)
+        visit root_path
+        page.should_not have_selector('table.invitations_sent td', text: 'Not')
+        page.should have_selector('table.invitations_sent td', text: 'Submitted')
+      end
     end
 
-    it "should have 'Not Started' status if invited user has not responded." do
-      sign_in jc_user
-      visit root_path
-      page.should have_selector('table.invitations_sent td', text: 'Not Started')
-    end
+    describe "as an admin" do
 
-    it "should have 'Not Started' status if the invited user has no account." do
-      invitation.destroy
-      review.invitations.create(email: 'example@example.com')
-      sign_in jc_user
-      visit root_path
-      page.should have_selector('table.invitations_sent td', text: 'Not Started')
-    end
+      before { sign_in admin }
 
-    it "should have 'Not Submitted' status if the invited user has saved but not submitted feedback." do
-      FactoryGirl.create(:feedback, review: review, user: invited_user)
-      sign_in jc_user
-      visit root_path
-      page.should have_selector('table.invitations_sent td', text: 'Not Submitted')
-    end
+      it "should display table if user is admin" do
+        visit root_path
+        page.should have_selector('h2', text: 'Feedback Invitations Sent')
+        page.should have_selector('table.invitations_sent')
 
-    it "should have 'Submitted' status if the invited user has submitted feedback." do
-      FactoryGirl.create(:submitted_feedback, review: review, user: invited_user)
-      sign_in jc_user
-      visit root_path
-      page.should_not have_selector('table.invitations_sent td', text: 'Not')
-      page.should have_selector('table.invitations_sent td', text: 'Submitted')
+        #page.should have_selector('table.invitations_sent th', text: 'Reviewee')
+        page.should have_selector('table.invitations_sent th', text: 'Invited')
+        page.should have_selector('table.invitations_sent th', text: 'Review Type')
+        page.should have_selector('table.invitations_sent th', text: 'Invitation Sent')
+        page.should have_selector('table.invitations_sent th', text: 'Feedback Deadline')
+        page.should have_selector('table.invitations_sent th', text: 'Status')
+
+        page.should have_selector('table.invitations_sent td', text: invited_user.email)
+        page.should have_selector('table.invitations_sent td', text: review.review_type)
+        page.should have_selector('table.invitations_sent td', text: invitation.sent_date.to_s)
+        page.should have_selector('table.invitations_sent td', text: review.feedback_deadline.to_s)
+      end
     end
   end
 end

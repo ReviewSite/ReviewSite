@@ -22,6 +22,10 @@ class Ability
         invitation.review.junior_consultant.email == user.email
       end
 
+      can :read, Invitation do |invitation|
+        invitation.email == user.email
+      end
+
       can :create, Feedback
 
       can :manage, Feedback do |feedback|

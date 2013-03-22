@@ -1,0 +1,20 @@
+<table class="invitations_sent">
+  <thead>
+    <th>Invited</th>
+    <th>Review Type</th>
+    <th>Invitation Sent</th>
+    <th>Feedback Deadline</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    <% @invitations_sent.each do |invitation| %>
+      <td><%= invitation.email %></td>
+      <td><%= invitation.review.review_type %></td>
+      <td><%= invitation.sent_date %></td>
+      <td><%= invitation.review.feedback_deadline %></td>
+    <% end %>
+  </tbody>
+</table>
+<script>
+  $('.invitations_sent').dataTable();
+</script>

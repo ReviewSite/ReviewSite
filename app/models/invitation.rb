@@ -1,4 +1,4 @@
-class Invitation < ActiveRecord::Base
+ class Invitation < ActiveRecord::Base
   belongs_to :review
   attr_accessible :email
 
@@ -25,6 +25,10 @@ class Invitation < ActiveRecord::Base
   def sent_to?(user)
     return false if user.nil?
     user == self.user
+  end
+
+  def reviewee
+    review.junior_consultant
   end
 
   def expired?

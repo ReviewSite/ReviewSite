@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe "Invitation" do
-  let (:review) { FactoryGirl.create(:review) }
+  let (:jc) { FactoryGirl.create(:junior_consultant) }
+  let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
   let (:invitation) { review.invitations.build(email: "review@example.com") }
   subject { invitation }
 
   its(:email) { should == "review@example.com"}
   its(:review) { should == review }
+  its(:reviewee) { should == jc }
   it { should be_valid }
 
   describe "email" do

@@ -97,7 +97,7 @@ describe "Invitations" do
 
       it "should display invitations table" do
         visit root_path
-        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('h2', text: 'Provide Feedback For')
         page.should have_selector('table.invitations_received td', text: jc.name)
         page.should have_selector('table.invitations_received td', text: review.review_type)
         page.should have_selector('table.invitations_received td', text: invitation.sent_date.to_s)
@@ -143,22 +143,59 @@ describe "Invitations" do
       it "should not display invitation if feedback was submitted" do
         FactoryGirl.create(:submitted_feedback, review: review, user: invited_user)
         visit root_path
-        page.should_not have_selector('h2', text: 'Provide feedback for')
+        page.should_not have_selector('h2', text: 'Provide Feedback For')
         page.should_not have_selector('table.invitations_received')
       end
 
       it "should display invitation if feedback was created but not submitted" do
         FactoryGirl.create(:feedback, review: review, user: invited_user)
         visit root_path
-        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('h2', text: 'Provide Feedback For')
         page.should have_selector('table.invitations_received')
       end
 
       it "should display invitation if feedback hasn't been created" do
         visit root_path
-        page.should have_selector('h2', text: 'Provide feedback for')
+        page.should have_selector('h2', text: 'Provide Feedback For')
         page.should have_selector('table.invitations_received')
       end
     end
+  end
+
+  describe "invitations sent form" do
+    let(:invited_user) { FactoryGirl.create(:user) }
+    let!(:invitation) { review.invitations.create(email: invited_user.email) }
+
+    it "should not display table if user is not logged in"
+
+    it "should not display table if user has not sent any invitations" do
+      sign_in FactoryGirl.create(:user)
+      visit root_path
+      page.should_not have_selector('h2', text:'Feedback Invitations Sent')
+      page.should_not have_selector('table.invitations_sent')
+    end
+
+    it "should display table if user has sent invitations" do
+      sign_in jc_user
+      visit root_path
+      page.should have_selector('h2', text:'Feedback Invitations Sent')
+      page.should have_selector('table.invitations_sent')
+      page.should have_selector('table.invitations_sent th', text: 'Invited')
+      page.should have_selector('table.invitations_sent th', text: 'Review Type')
+      page.should have_selector('table.invitations_sent th', text: 'Invitation Sent')
+      page.should have_selector('table.invitations_sent th', text: 'Feedback Deadline')
+      page.should have_selector('table.invitations_sent th', text: 'Status')
+
+      page.should have_selector('table.invitations_sent td', text: invited_user.email)
+      page.should have_selector('table.invitations_sent td', text: review.review_type)
+      page.should have_selector('table.invitations_sent td', text: invitation.sent_date.to_s)
+      page.should have_selector('table.invitations_sent td', text: review.feedback_deadline.to_s)
+    end
+
+    it "should have 'Not Started' status if invited user has not responded."
+    it "should have 'Not Started' status if the invited user has no account."
+    it "should have 'Not Submitted' status if the invited user has saved but not submitted feedback."
+    it "should have 'Submitted' status if the invited user has submitted feedback."
+
   end
 end

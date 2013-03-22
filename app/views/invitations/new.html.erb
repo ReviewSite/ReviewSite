@@ -2,6 +2,17 @@
 <h1>Invite Reviewer</h1>
 
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
+  <% if @invitation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+
+      <ul>
+        <% @invitation.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
 <p><b>To (Email):</b></p>
 <p><%= text_field_tag :email %></p>

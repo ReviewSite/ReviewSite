@@ -1,5 +1,8 @@
 <table class="invitations_sent">
   <thead>
+    <% if current_user.admin? %>
+      <th>Reviewee</th>
+    <% end %>
     <th>Invited</th>
     <th>Review Type</th>
     <th>Invitation Sent</th>
@@ -8,18 +11,23 @@
   </thead>
   <tbody>
     <% @invitations_sent.each do |invitation| %>
-      <td><%= invitation.email %></td>
-      <td><%= invitation.review.review_type %></td>
-      <td><%= invitation.sent_date %></td>
-      <td><%= invitation.review.feedback_deadline %></td>
+      <tr>
+        <% if current_user.admin? %>
+          <td><%= invitation.reviewee %></td>
+        <% end %>
+        <td><%= invitation.email %></td>
+        <td><%= invitation.review.review_type %></td>
+        <td><%= invitation.sent_date %></td>
+        <td><%= invitation.review.feedback_deadline %></td>
 
-      <% if invitation.feedback.nil? %>
-        <td>Not Started</td>
-      <% elsif invitation.feedback.submitted? %>
-        <td>Submitted</td>
-      <% else %>
-        <td>Not Submitted</td>
-      <% end %>
+        <% if invitation.feedback.nil? %>
+          <td>Not Started</td>
+        <% elsif invitation.feedback.submitted? %>
+          <td>Submitted</td>
+        <% else %>
+          <td>Not Submitted</td>
+        <% end %>
+      </tr>
     <% end %>
   </tbody>
 </table>

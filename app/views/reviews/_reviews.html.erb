@@ -3,7 +3,7 @@
   <tr>
     <th>Junior Consultant</th>
     <th>Review Type</th>
-    <th>Num Feedback Submitted</th>
+    <th>Feedback Submitted</th>
     <% if can? :create, Review %>
         <th>Review Date</th>
         <th>Feedback Deadline</th>
@@ -15,12 +15,6 @@
     <% end %>
     <th></th>
     <% if can? :show, Review %>
-        <th></th>
-    <% end %>
-    <% if can? :edit, Review %>
-        <th></th>
-    <% end %>
-    <% if can? :delete, Review %>
         <th></th>
     <% end %>
   </tr>
@@ -48,16 +42,6 @@
         <% if can? :read, review %>
             <td>
               <%= link_to 'Show', review %>
-            </td>
-        <% end %>
-        <% if can? :edit, review %>
-            <td>
-              <%= link_to 'Edit', edit_review_path(review) %>
-            </td>
-        <% end %>
-        <% if can? :destroy, review %>
-            <td>
-              <%= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %>
             </td>
         <% end %>
       </tr>

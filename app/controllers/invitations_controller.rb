@@ -24,4 +24,15 @@ class InvitationsController < ApplicationController
     Invitation.find_by_id(params[:id]).destroy
     redirect_to root_path, notice: 'Invitation has been deleted'
   end
+
+  def send_reminder
+    invitation = Invitation.find_by_id(params[:id])
+    if invitation.feedback and invitation.feedback.submitted?
+      flash[:notice] = "Feedback already submitted. Reminder not sent."
+    else
+      UserMailer.feedback_reminder(invitation).deliver
+      flash[:notice] = "Reminder email was sent!"
+    end
+    redirect_to root_path
+  end
 end

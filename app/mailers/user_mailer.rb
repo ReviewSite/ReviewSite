@@ -29,4 +29,11 @@ class UserMailer < ActionMailer::Base
 
     mail(:to => "<#{email}>", :subject => "You've been invited to give feedback for #{jc.name}.")
   end
+
+  def feedback_reminder(invitation)
+    @jc = invitation.reviewee
+    @review = invitation.review
+    @feedback = invitation.feedback
+    mail(:to => "<#{invitation.email}>", :subject => "Please leave feedback for #{invitation.reviewee.name}.")
+  end
 end

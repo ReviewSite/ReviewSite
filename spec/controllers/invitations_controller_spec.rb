@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe InvitationsController do
   let (:admin) { FactoryGirl.create(:admin_user) }
-  let (:review) { FactoryGirl.create(:review) }
+  let (:review) { FactoryGirl.create(:review, feedback_deadline: Date.today) }
 
   before { sign_in admin }
 
@@ -71,5 +71,55 @@ describe InvitationsController do
       delete :destroy, id: invitation.to_param, review_id: review.id
       flash[:notice].should == "Invitation has been deleted"
     end
+  end
+
+  describe "POST send_reminder" do
+    let! (:invitation) { review.invitations.create!(email: "test@example.com") }
+
+    describe "with submitted feedback" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@example.com") }
+      let! (:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer) }
+
+      it "redirects to the homepage" do
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+        response.should redirect_to(root_path)
+      end
+
+      it "notifies that email has not been sent" do
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+        flash[:notice].should == "Feedback already submitted. Reminder not sent."
+      end
+
+      it "does not call UserMailer" do
+        UserMailer.should_not_receive(:feedback_reminder)
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+      end
+    end
+
+    describe "without submitted feedback" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@example.com") }
+      let! (:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+
+      it "redirects to the homepage" do
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+        response.should redirect_to(root_path)
+      end
+
+      it "notifies that email has been sent" do
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+        flash[:notice].should == "Reminder email was sent!"
+      end
+
+      it "calls feedback_reminder on UserMailer" do
+        UserMailer.should_receive(:feedback_reminder).with(invitation).and_return(double(deliver: true))
+        post :send_reminder, id: invitation.to_param, review_id: review.id
+      end
+
+      it "delivers the mail" do
+        expect do
+          post :send_reminder, id: invitation.to_param, review_id: review.id
+        end.to change { ActionMailer::Base.deliveries.length }.by(1)
+      end
+    end      
   end
 end

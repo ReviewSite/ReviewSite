@@ -18,7 +18,11 @@ ReviewSite::Application.routes.draw do
       end
     end
     resources :self_assessments, except: [:index, :show]
-    resources :invitations, only: [:new, :create, :destroy]
+    resources :invitations, only: [:new, :create, :destroy] do
+      member do
+        post :send_reminder
+      end
+    end
   end
 
   resources :junior_consultants, :except => [:show]

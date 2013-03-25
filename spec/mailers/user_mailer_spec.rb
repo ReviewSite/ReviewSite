@@ -128,4 +128,170 @@ describe UserMailer do
       mail.body.encoded.should match("Hello. Please leave feedback.")
     end
   end
+
+  describe "Feedback reminder" do
+    let (:jc) { FactoryGirl.create(:junior_consultant, name: "Bob Smith") }
+    let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.new(2020, 1, 1)) }
+    let (:email) { "recipient@example.com" }
+    let (:invitation) { review.invitations.create(email: email) }
+
+    describe "feedback not started, deadline not passed" do
+      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      subject { mail }
+
+      its (:subject) { should == "Please leave feedback for #{jc.name}." }
+      its (:to) { should == ["recipient@example.com"] }
+
+      it "contains reminder message" do
+        mail.body.encoded.should match(
+          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+        )
+      end
+
+      it "contains deadline message" do
+        mail.body.encoded.should match(
+          "The deadline for leaving feedback is 2020-01-01."
+        )
+      end
+
+      it "does not say the deadline has passed" do
+        mail.body.encoded.should_not match(
+          "Even though the feedback deadline has passed, we would love to hear your thoughts."
+        )
+      end
+
+      it "contains a new feedback link" do
+        mail.body.encoded.should match(
+          "To get started, please visit #{new_review_feedback_url(review)}."
+        )
+      end
+
+      it "does not contain edit feedback message" do
+        mail.body.encoded.should_not match (
+          "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
+        )
+      end
+    end
+
+    describe "feedback started, deadline not passed" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "recipient@example.com") }
+      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      subject { mail }
+
+      its (:subject) { should == "Please leave feedback for #{jc.name}." }
+      its (:to) { should == ["recipient@example.com"] }
+
+      it "contains reminder message" do
+        mail.body.encoded.should match(
+          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+        )
+      end
+
+      it "contains deadline message" do
+        mail.body.encoded.should match(
+          "The deadline for leaving feedback is 2020-01-01."
+        )
+      end
+
+      it "does not say the deadline has passed" do
+        mail.body.encoded.should_not match(
+          "Even though the feedback deadline has passed, we would love to hear your thoughts."
+        )
+      end
+
+      it "contains an edit feedback link" do
+        mail.body.encoded.should match(
+          "You have saved feedback, but it has not yet been submitted. To continue working, please visit #{edit_review_feedback_url(review, feedback)}."
+        )
+      end
+
+      it "does not contain a new feedback link" do
+        mail.body.encoded.should_not match(
+          "To get started, please visit #{new_review_feedback_url(review)}."
+        )
+      end
+    end
+
+    describe "feedback not started, deadline not passed" do
+      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      subject { mail }
+      before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
+
+      its (:subject) { should == "Please leave feedback for #{jc.name}." }
+      its (:to) { should == ["recipient@example.com"] }
+
+      it "contains reminder message" do
+        mail.body.encoded.should match(
+          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+        )
+      end
+
+      it "says the deadline has passed" do
+        mail.body.encoded.should match(
+          "Even though the feedback deadline has passed, we would love to hear your thoughts."
+        )
+      end
+
+      it "does not contain deadline message" do
+        mail.body.encoded.should_not match(
+          "The deadline for leaving feedback is 2020-01-01."
+        )
+      end
+      
+      it "contains a new feedback link" do
+        mail.body.encoded.should match(
+          "To get started, please visit #{new_review_feedback_url(review)}."
+        )
+      end
+
+      it "does not contain edit feedback message" do
+        mail.body.encoded.should_not match (
+          "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
+        )
+      end
+    end
+
+    describe "feedback started, deadline passed" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "recipient@example.com") }
+      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      subject { mail }
+
+      before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
+
+      its (:subject) { should == "Please leave feedback for #{jc.name}." }
+      its (:to) { should == ["recipient@example.com"] }
+
+      it "contains reminder message" do
+        mail.body.encoded.should match(
+          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+        )
+      end
+
+      it "says the deadline has passed" do
+        mail.body.encoded.should match(
+          "Even though the feedback deadline has passed, we would love to hear your thoughts."
+        )
+      end
+
+      it "does not contain deadline message" do
+        mail.body.encoded.should_not match(
+          "The deadline for leaving feedback is 2000-01-01."
+        )
+      end
+
+      it "contains an edit feedback link" do
+        mail.body.encoded.should match(
+          "You have saved feedback, but it has not yet been submitted. To continue working, please visit #{edit_review_feedback_url(review, feedback)}."
+        )
+      end
+
+      it "does not contain a new feedback link" do
+        mail.body.encoded.should_not match(
+          "To get started, please visit #{new_review_feedback_url(review)}."
+        )
+      end
+    end
+  end
 end

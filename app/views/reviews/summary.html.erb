@@ -19,6 +19,10 @@
     </ul>
   </div>
   <div class="span10">
+    <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+
     <h1>Feedback for Review <%= @review %></h1>
 
     <% all_headers = ["tech_exceeded", "tech_met", "tech_improve",
@@ -33,9 +37,9 @@
                       "comments"] %>
     <% if current_user.email == @review.junior_consultant.email %>
         <% if @review.self_assessments.count > 0 %>
-            <%= link_to("Update self assessment", edit_review_self_assessment_path(@review, @review.self_assessments.first)) %>
+            <%= link_to("Update Self Assessment", edit_review_self_assessment_path(@review, @review.self_assessments.first)) %> |
         <% else %>
-            <%= link_to("Submit a self assessment", new_review_self_assessment_path(@review)) %>
+            <%= link_to("Submit Self Assessment", new_review_self_assessment_path(@review)) %> |
         <% end %>
     <% end %>
 

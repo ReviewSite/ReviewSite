@@ -227,7 +227,7 @@ describe "Invitations" do
         page.should have_selector('table.invitations_sent td', text: 'Submitted')
       end
     end
-
+    
     describe "as an admin" do
 
       before { sign_in admin }

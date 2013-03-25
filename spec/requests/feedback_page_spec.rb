@@ -29,9 +29,25 @@ describe "Feedback pages" do
     it "should send notification for previously-saved feedback" do
       UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
       click_button 'Save Feedback'
+      visit new_review_feedback_path(review)
       click_button 'Submit Final'
       page.evaluate_script("window.confirm = function() { return true; }")
       page.should have_content('Feedback was submitted.')
+    end
+  end
+
+  describe "After submitting feedback" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:jc) { FactoryGirl.create(:junior_consultant) }
+    let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+    let!(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: user) }
+    subject { page }
+
+    it "redirects to homepage if new feedback is attempted" do
+      sign_in user
+      visit new_review_feedback_path(review)
+      current_path.should == root_path
+      page.should have_selector('div.alert.alert-notice', text:"You have already submitted feedback.")
     end
   end
 end

@@ -40,7 +40,13 @@ class FeedbacksController < ApplicationController
     @user_name = current_user.name
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html do
+        if @feedback.submitted?
+          redirect_to root_path, notice: "You have already submitted feedback."
+        else
+          render html: @feedback
+        end
+      end
       format.json { render json: @feedback }
     end
   end

@@ -52,6 +52,29 @@ describe InvitationsController do
         assigns(:jc).should == review.junior_consultant
       end
     end
+
+    describe "if invited user has already created feedback" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@example.com") }
+      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+
+      it "does not save the record" do
+        expect do
+          post :create, email: "test@example.com", review_id: review.id
+        end.to change(Invitation, :count).by(0)
+      end
+
+      it "does not send an email" do
+        UserMailer.should_not_receive(:review_invitation)
+        post :create, email: "test@example.com", review_id: review.id
+      end
+
+      it "renders new" do
+        post :create, email: "test@example.com", review_id: review.id
+        flash[:notice].should == "This person has already created feedback for this review."
+        response.should render_template("new")
+        assigns(:jc).should == review.junior_consultant
+      end
+    end
   end
 
   describe "DELETE destroy" do

@@ -11,10 +11,13 @@ class InvitationsController < ApplicationController
     @review = Review.find_by_id(params[:review_id])
     @invitation = @review.invitations.build(email: params[:email])
 
-    if @invitation.save
+    if not @invitation.feedback and @invitation.save
       UserMailer.review_invitation(@review, params[:email], params[:message]).deliver
       redirect_to root_path, notice: 'An invitation has been sent!'
     else
+      if @invitation.feedback
+        flash[:notice] = "This person has already created feedback for this review."
+      end
       @jc = @review.junior_consultant
       render "new"
     end

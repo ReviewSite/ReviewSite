@@ -90,9 +90,10 @@ describe InvitationsController do
         flash[:notice].should == "Feedback already submitted. Reminder not sent."
       end
 
-      it "does not call UserMailer" do
-        UserMailer.should_not_receive(:feedback_reminder)
-        post :send_reminder, id: invitation.to_param, review_id: review.id
+      it "does not send an email" do
+        expect do
+          post :send_reminder, id: invitation.to_param, review_id: review.id
+        end.to change{ ActionMailer::Base.deliveries.length }.by(0)
       end
     end
 
@@ -110,15 +111,16 @@ describe InvitationsController do
         flash[:notice].should == "Reminder email was sent!"
       end
 
-      it "calls feedback_reminder on UserMailer" do
-        UserMailer.should_receive(:feedback_reminder).with(invitation).and_return(double(deliver: true))
+      it "delivers an email with the correct content" do
+        ActionMailer::Base.deliveries.clear
         post :send_reminder, id: invitation.to_param, review_id: review.id
-      end
-
-      it "delivers the mail" do
-        expect do
-          post :send_reminder, id: invitation.to_param, review_id: review.id
-        end.to change { ActionMailer::Base.deliveries.length }.by(1)
+        num_deliveries = ActionMailer::Base.deliveries.size
+        num_deliveries.should == 1
+        message = ActionMailer::Base.deliveries.first
+        message.to.should == ["test@example.com"]
+        message.body.encoded.should match(
+          "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
+        )
       end
     end      
   end

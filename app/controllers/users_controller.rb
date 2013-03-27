@@ -3,7 +3,12 @@ class UsersController < ApplicationController
   load_and_authorize_resource :except => [:new, :create]
 
   def new
-    @user = User.new
+    if not signed_in? or current_user.admin?
+      @user = User.new
+      render 'new'
+    else
+      redirect_to root_url, alert: "You are not authorized to access this page."
+    end
   end
 
   def index
@@ -21,7 +26,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      signed_in? ? UserMailer.admin_registration_confirmation(@user).deliver : UserMailer.self_registration_confirmation(@user).deliver
+      if signed_in?
+        UserMailer.admin_registration_confirmation(@user).deliver
+      else
+        UserMailer.self_registration_confirmation(@user).deliver
+      end
       flash[:success] = "User has been successfully created."
       redirect_to root_url
     else

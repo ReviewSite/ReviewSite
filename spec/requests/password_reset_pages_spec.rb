@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "Authentication pages" do
+describe "Password reset pages" do
   subject { page }
 
-  describe "password reset" do
+  describe "Request password reset" do
     let(:user) { FactoryGirl.create(:user) }
     describe "request form" do
       before do
@@ -48,7 +48,7 @@ describe "Authentication pages" do
       end
     end
 
-    describe "reset form" do
+    describe "Create new password" do
       before do
         visit new_password_reset_path
         fill_in "Email", with: user.email

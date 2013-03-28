@@ -19,10 +19,6 @@
     </ul>
   </div>
   <div class="span10">
-    <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
-
     <h1>Feedback for Review <%= @review %></h1>
 
     <% all_headers = ["tech_exceeded", "tech_met", "tech_improve",

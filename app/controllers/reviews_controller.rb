@@ -1,5 +1,4 @@
 class ReviewsController < ApplicationController
-  layout 'summary', only: :summary
   
   load_and_authorize_resource
   # GET /reviews/1

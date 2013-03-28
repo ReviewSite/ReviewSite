@@ -1,14 +1,8 @@
 class UsersController < ApplicationController
-  skip_authorization_check :only => [:new, :create]
-  load_and_authorize_resource :except => [:new, :create]
+  load_and_authorize_resource
 
   def new
-    if not signed_in? or current_user.admin?
-      @user = User.new
-      render 'new'
-    else
-      redirect_to root_url, alert: "You are not authorized to access this page."
-    end
+    @user = User.new
   end
 
   def index

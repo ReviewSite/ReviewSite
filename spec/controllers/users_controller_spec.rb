@@ -10,12 +10,21 @@ describe UsersController do
     }
   end
   describe "#create" do
-    let(:current_user) { User.new }
-    context 'A user is already logged in' do
-
+    context "Normal user registers another user" do
       before do
-        controller.current_user = current_user
-        User.any_instance.stub(:save).and_return(true)
+        sign_in FactoryGirl.create(:user)
+      end
+
+      it "should be forbidden" do
+        post :create, {user: valid_params}
+        response.should redirect_to root_path
+      end
+    end
+
+    context "Admin registers a user" do
+      before do
+        admin = FactoryGirl.create(:admin_user)
+        sign_in admin
       end
 
       it 'should not sign in the newly created user' do
@@ -28,18 +37,11 @@ describe UsersController do
         flash[:success].should_not be_nil
       end
 
-      it 'should redirect to the users page' do
+      it 'should redirect to the root path' do
         post :create, {user: valid_params}
         response.should redirect_to root_path
       end
 
-    end
-
-    context "Admin registers a user" do
-      before do
-        admin = FactoryGirl.create(:admin_user)
-        sign_in admin
-      end
       it 'should send an admin email' do
         UserMailer.any_instance.should_receive(:admin_registration_confirmation)
         post :create, {user: valid_params}

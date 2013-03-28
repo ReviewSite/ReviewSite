@@ -2,7 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    unless user.nil?
+    if user.nil?
+      can :create, User
+    else
       # signed in user
       if user.admin
         can :manage, Review

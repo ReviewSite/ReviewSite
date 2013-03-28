@@ -36,13 +36,11 @@
 
             <%= link_to("Update Self Assessment", 
                         edit_review_self_assessment_path(@review, @review.self_assessments.first), 
-                        title: 'Update your own thoughts and goals pertaining to your current review',
-                        rel: 'tooltip') %>
+                        title: 'Update your own thoughts and goals pertaining to your current review') %>
         <% else %>
             <%= link_to("Submit Self Assessment", 
                         new_review_self_assessment_path(@review),
-                        title: 'Add your own thoughts and goals pertaining to your current review',
-                        rel: 'tooltip') %>
+                        title: 'Add your own thoughts and goals pertaining to your current review') %>
         <% end %>
     <% end %>
 <br>

@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :reviewing_group do
-    name "Reviewing Grourp"
+    name "Reviewing Group"
   end
 end

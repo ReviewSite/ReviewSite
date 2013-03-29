@@ -68,6 +68,10 @@ describe "User pages" do
         mail.to.should == ["test@example.com"]
         mail.subject.should == "Thank you for registering on the ReviewSite"
         mail.body.encoded.should_not match("foobar")
+
+        new_user = User.last
+        new_user.name.should == "Bob Smith"
+        new_user.email.should == "test@example.com"
       end
     end
 
@@ -89,6 +93,10 @@ describe "User pages" do
         mail.to.should == ["test@example.com"]
         mail.subject.should == "You were registered on the ReviewSite"
         mail.body.encoded.should match("foobar")
+
+        new_user = User.last
+        new_user.name.should == "Bob Smith"
+        new_user.email.should == "test@example.com"
       end
     end
 

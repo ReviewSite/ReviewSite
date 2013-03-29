@@ -140,7 +140,7 @@ describe "User pages" do
     end
   end
 
-  describe "index", js: true do
+  describe "index" do
     let!(:user) { FactoryGirl.create(:user, name: 'Andy', email: 'andy@example.com') }
     let!(:admin) { FactoryGirl.create(:admin_user) }
 
@@ -177,7 +177,7 @@ describe "User pages" do
         current_path.should == edit_user_path(user)
       end
 
-      it "should link to destroy" do
+      it "should link to destroy", js: true do
         click_link "Destroy"
         page.evaluate_script("window.confirm = function() { return true; }")
         current_path.should == users_path

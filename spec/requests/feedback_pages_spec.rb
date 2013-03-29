@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe "Feedback pages" do
-  let(:user) { FactoryGirl.create(:user) }
   let(:jc) { FactoryGirl.create(:junior_consultant) }
+  let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:admin) { FactoryGirl.create(:admin_user) }
   let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
   let(:inputs) { {
     'feedback_project_worked_on' => 'My Project',
@@ -253,6 +255,171 @@ describe "Feedback pages" do
       it "should redirect to homepage" do
         current_path.should == root_path
         page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+      end
+    end
+  end
+
+  describe "additional" do
+    before do
+      sign_in FactoryGirl.create(:user)
+      visit additional_review_feedbacks_path(review)
+      fill_in "feedback_user_string", with: "A non-user"
+      inputs.each do |field, value|
+        fill_in field, with: value
+      end
+    end
+
+    it "saves as draft if 'Save Feedback' is clicked" do
+      click_button "Save Feedback"
+      feedback = Feedback.last
+      current_path.should == edit_review_feedback_path(review, feedback)
+      feedback.submitted.should be_false
+      feedback.user_string.should == "A non-user"
+      inputs.each do |field, value|
+        model_attr = field[9..-1]
+        feedback.send(model_attr).should == value
+      end
+    end
+
+    it "saves as final and sends email if 'Submit Final' is clicked", js: true do
+      ActionMailer::Base.deliveries.clear
+
+      click_button "Submit Final"
+      page.evaluate_script("window.confirm = function() { return true; }")
+      
+      feedback = Feedback.last
+      current_path.should == review_feedback_path(review, feedback)
+      feedback.submitted.should be_true
+      feedback.user_string.should == "A non-user"
+      inputs.each do |field, value|
+        model_attr = field[9..-1]
+        feedback.send(model_attr).should == value
+      end
+
+      ActionMailer::Base.deliveries.length.should == 1
+      mail = ActionMailer::Base.deliveries.last
+      mail.to.should == [jc.email]
+      mail.subject.should == "You have new feedback"
+    end
+  end
+
+  describe "show" do
+    let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+
+    before do
+      inputs.each do |field, value|
+        model_attr = field[9..-1]
+        feedback.update_attribute(model_attr, value)
+      end
+    end
+
+    describe "unsubmitted feedback" do
+      describe "as feedback owner" do
+        before do
+          sign_in user
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "displays feedback information" do
+          page.should have_selector("h2", text: jc.name)
+          page.should have_selector("h2", text: review.review_type)
+          page.should have_content(user.name)
+          inputs.values.each do |value|
+            page.should have_content(value)
+          end
+        end
+
+        it "links to edit page" do
+          click_link "Edit"
+          current_path.should == edit_review_feedback_path(review, feedback)
+        end
+      end
+
+      describe "as an admin" do
+        before do
+          sign_in admin
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "redirects to homepage" do
+          current_path.should == root_path
+          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+        end
+      end
+    end
+
+    describe "submitted feedback" do
+      before do
+        feedback.update_attribute(:submitted, true)
+      end
+
+      describe "as the feedback owner" do
+        before do
+          sign_in user
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "displays feedback information with no 'Edit' link" do
+          page.should have_selector("h2", text: jc.name)
+          page.should have_selector("h2", text: review.review_type)
+          page.should have_content(user.name)
+          inputs.values.each do |value|
+            page.should have_content(value)
+          end
+
+          page.should_not have_selector("a", text: "Edit")
+        end
+      end
+
+      describe "as an admin" do
+        before do
+          sign_in admin
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "displays feedback information" do
+          page.should have_selector("h2", text: jc.name)
+          page.should have_selector("h2", text: review.review_type)
+          page.should have_content(user.name)
+          inputs.values.each do |value|
+            page.should have_content(value)
+          end
+        end
+
+        it "links to edit page" do
+          click_link "Edit"
+          current_path.should == edit_review_feedback_path(review, feedback)
+        end
+      end
+
+      describe "as the junior consultant" do
+        before do
+          sign_in jc_user
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "displays feedback information with no 'Edit' link" do
+          page.should have_selector("h2", text: jc.name)
+          page.should have_selector("h2", text: review.review_type)
+          page.should have_content(user.name)
+          inputs.values.each do |value|
+            page.should have_content(value)
+          end
+
+          page.should_not have_selector("a", text: "Edit")
+        end
+      end
+
+      describe "as another user" do
+        before do
+          sign_in FactoryGirl.create(:user)
+          visit review_feedback_path(review, feedback)
+        end
+
+        it "redirects to homepage" do
+          current_path.should == root_path
+          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+        end
       end
     end
   end

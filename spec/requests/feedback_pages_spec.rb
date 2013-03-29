@@ -4,86 +4,256 @@ describe "Feedback pages" do
   let(:user) { FactoryGirl.create(:user) }
   let(:jc) { FactoryGirl.create(:junior_consultant) }
   let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+  let(:inputs) { {
+    'feedback_project_worked_on' => 'My Project',
+    'feedback_role_description' => 'My Role',
+    'feedback_tech_exceeded' => 'Input 1',
+    'feedback_tech_met' => 'Input 2',
+    'feedback_tech_improve' => 'Input 3',
+    'feedback_client_exceeded' => 'Input 4',
+    'feedback_client_met' => 'Input 5',
+    'feedback_client_improve' => 'Input 6',
+    'feedback_ownership_exceeded' => 'Input 7',
+    'feedback_ownership_met' => 'Input 8',
+    'feedback_ownership_improve' => 'Input 9',
+    'feedback_leadership_exceeded' => 'Input 10',
+    'feedback_leadership_met' => 'Input 11',
+    'feedback_leadership_improve' => 'Input 12',
+    'feedback_teamwork_exceeded' => 'Input 13',
+    'feedback_teamwork_met' => 'Input 14',
+    'feedback_teamwork_improve' => 'Input 15',
+    'feedback_attitude_exceeded' => 'Input 16',
+    'feedback_attitude_met' => 'Input 17',
+    'feedback_attitude_improve' => 'Input 18',
+    'feedback_professionalism_exceeded' => 'Input 19',
+    'feedback_professionalism_met' => 'Input 20',
+    'feedback_professionalism_improve' => 'Input 21',
+    'feedback_organizational_exceeded' => 'Input 22',
+    'feedback_organizational_met' => 'Input 23',
+    'feedback_organizational_improve' => 'Input 24',
+    'feedback_innovative_exceeded' => 'Input 25',
+    'feedback_innovative_met' => 'Input 26',
+    'feedback_innovative_improve' => 'Input 27',
+    'feedback_comments' => 'My Comments'
+  } }
 
   subject { page }
-    
-  describe "Editing saved feedback" do
+
+  describe "new" do
     before do
       sign_in user
-      visit new_review_feedback_path(review)
-      fill_in 'feedback_project_worked_on', with: 'Project X'
-      fill_in 'feedback_leadership_met', with: 'This is some feedback.'
-      click_button 'Save Feedback'
-      visit root_path
     end
 
-    it "reloads your data if you visit new feedback path" do
-      visit new_review_feedback_path(review)
-      page.has_field?('feedback_project_worked_on', with: 'Project X').should be_true
-      page.should have_selector('#feedback_leadership_met', text: 'This is some feedback.')
+    describe "if no existing feedback" do
+      before do
+        visit new_review_feedback_path(review)
+        inputs.each do |field, value|
+          fill_in field, with: value
+        end
+      end
+
+      it "saves as draft if 'Save Feedback' is clicked" do
+        click_button "Save Feedback"
+        feedback = Feedback.last
+        current_path.should == edit_review_feedback_path(review, feedback)
+        feedback.submitted.should be_false
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == value
+        end
+      end
+
+      it "saves as final and sends email if 'Submit Final' is clicked", js: true do
+        ActionMailer::Base.deliveries.clear
+
+        click_button "Submit Final"
+        page.evaluate_script("window.confirm = function() { return true; }")
+        
+        feedback = Feedback.last
+        current_path.should == review_feedback_path(review, feedback)
+        feedback.submitted.should be_true
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == value
+        end
+
+        ActionMailer::Base.deliveries.length.should == 1
+        mail = ActionMailer::Base.deliveries.last
+        mail.to.should == [jc.email]
+        mail.subject.should == "You have new feedback"
+      end
     end
 
-    it "reloads your data if you visit edit feedback path" do
-      feedback = review.feedbacks.find_by_user_id(user.id)
-      visit edit_review_feedback_path(review, feedback)
-      page.has_field?('feedback_project_worked_on', with: 'Project X').should be_true
-      page.should have_selector('#feedback_leadership_met', text: 'This is some feedback.')
+    describe "if feedback has been saved as draft" do
+      let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+
+      before do
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.update_attribute(model_attr, value)
+        end
+        visit new_review_feedback_path(review)
+      end
+
+      it "reloads saved feedback" do
+        inputs.each do |field, value|
+          if ['feedback_project_worked_on', 'feedback_role_description'].include?(field)
+            page.should have_field(field, with: value)
+          else
+            page.should have_selector('#'+field, text: value)
+          end
+        end
+      end
+
+      it "saves as draft if 'Save Feedback' is clicked" do
+        inputs.each do |field, value|
+          fill_in field, with: ""
+        end
+
+        click_button "Save Feedback"
+        feedback = Feedback.last
+        current_path.should == edit_review_feedback_path(review, feedback)
+        feedback.submitted.should be_false
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == ""
+        end
+      end
+
+      it "saves as final if 'Submit Final' is clicked", js: true do
+        ActionMailer::Base.deliveries.clear
+
+        inputs.each do |field, value|
+          fill_in field, with: ""
+        end
+
+        click_button "Submit Final"
+        page.evaluate_script("window.confirm = function() { return true; }")
+        
+        feedback = Feedback.last
+        current_path.should == review_feedback_path(review, feedback)
+        feedback.submitted.should be_true
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == ""
+        end
+
+        ActionMailer::Base.deliveries.length.should == 1
+        mail = ActionMailer::Base.deliveries.last
+        mail.to.should == [jc.email]
+        mail.subject.should == "You have new feedback"
+      end
     end
 
-    it "forbids user from editing other people's feedback" do
-      feedback = review.feedbacks.find_by_user_id(user.id)
-      sign_in FactoryGirl.create(:user)
-      visit edit_review_feedback_path(review, feedback)
-      current_path.should == root_path
-      page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+    describe "if feedback has been submitted" do
+      before do
+        FactoryGirl.create(:submitted_feedback, review: review, user: user)
+        visit new_review_feedback_path(review)
+      end
+
+      it "should redirect to homepage" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-notice', text:"You have already submitted feedback.")
+      end
     end
   end
 
-  describe "Submitting feedback", js: true do
-    before do
-      sign_in user
-      visit new_review_feedback_path(review)
-      fill_in 'feedback_project_worked_on', with: 'Project X'
+  describe "edit" do
+    let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+
+    describe "as feedback owner" do
+      before do
+        sign_in user
+      end
+
+      describe "if feedback has been saved as draft" do
+        before do
+          inputs.each do |field, value|
+            model_attr = field[9..-1]
+            feedback.update_attribute(model_attr, value)
+          end
+          visit edit_review_feedback_path(review, feedback)
+        end
+
+        it "reloads saved feedback" do
+          inputs.each do |field, value|
+            if ['feedback_project_worked_on', 'feedback_role_description'].include?(field)
+              page.should have_field(field, with: value)
+            else
+              page.should have_selector('#'+field, text: value)
+            end
+          end
+        end
+
+        it "saves as draft if 'Save Feedback' is clicked" do
+          inputs.each do |field, value|
+            fill_in field, with: ""
+          end
+
+          click_button "Save Feedback"
+          feedback = Feedback.last
+          current_path.should == edit_review_feedback_path(review, feedback)
+          feedback.submitted.should be_false
+
+          inputs.each do |field, value|
+            model_attr = field[9..-1]
+            feedback.send(model_attr).should == ""
+          end
+        end
+
+        it "saves as final if 'Submit Final' is clicked", js: true do
+          ActionMailer::Base.deliveries.clear
+
+          inputs.each do |field, value|
+            fill_in field, with: ""
+          end
+
+          click_button "Submit Final"
+          page.evaluate_script("window.confirm = function() { return true; }")
+          
+          feedback = Feedback.last
+          current_path.should == review_feedback_path(review, feedback)
+          feedback.submitted.should be_true
+
+          inputs.each do |field, value|
+            model_attr = field[9..-1]
+            feedback.send(model_attr).should == ""
+          end
+
+          ActionMailer::Base.deliveries.length.should == 1
+          mail = ActionMailer::Base.deliveries.last
+          mail.to.should == [jc.email]
+          mail.subject.should == "You have new feedback"
+        end
+      end
+
+      describe "if feedback has been submitted" do
+        before do
+          feedback.update_attribute(:submitted, true)
+          visit edit_review_feedback_path(review, feedback)
+        end
+
+        it "should redirect to homepage" do
+          current_path.should == root_path
+          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+        end
+      end
     end
 
-    it "should redirect to feedback show page" do
-      click_button 'Submit Final'
-      page.evaluate_script("window.confirm = function() { return true; }")
-      page.should have_selector('h1', text: 'Feedback Details')
-      page.should have_content('Project X')
-    end
+    describe "as other user" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        visit edit_review_feedback_path(review, feedback)
+      end
 
-    it "should send an email notification" do
-      UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
-      click_button 'Submit Final'
-      page.evaluate_script("window.confirm = function() { return true; }")
-    end
-
-    it "should send notification for previously-saved feedback" do
-      UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
-      click_button 'Save Feedback'
-      visit new_review_feedback_path(review)
-      click_button 'Submit Final'
-      page.evaluate_script("window.confirm = function() { return true; }")
-      page.should have_content('Feedback was submitted.')
-    end
-  end
-
-  describe "After submitting feedback" do
-    let!(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: user) }
-
-    before { sign_in user }
-
-    it "redirects to homepage if new feedback is attempted" do
-      visit new_review_feedback_path(review)
-      current_path.should == root_path
-      page.should have_selector('div.alert.alert-notice', text:"You have already submitted feedback.")
-    end
-
-    it "redirects to homepage if edit feedback is attempted" do
-      visit edit_review_feedback_path(review, feedback)
-      current_path.should == root_path
-      page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+      it "should redirect to homepage" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+      end
     end
   end
 end

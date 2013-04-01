@@ -20,11 +20,6 @@ describe "Home page" do
       page.should have_selector('th', text: 'Action')
 
     end
-
-    it "shows name of admin currently logged in" do
-      page.should have_css('li a', text: admin.to_s)
-    end
-
   end
 
   describe "logged in as a JC" do

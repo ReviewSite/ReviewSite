@@ -317,7 +317,7 @@ describe FeedbacksController do
     it "redirects to the feedbacks list" do
       feedback = Feedback.create! valid_attributes
       delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
-      response.should redirect_to(welcome_index_url)
+      response.should redirect_to(root_url)
     end
   end
 

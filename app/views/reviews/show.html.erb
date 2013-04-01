@@ -16,20 +16,20 @@
       <tr>
         <td><%= feedback.reviewer %></td>
         <td><%= feedback.project_worked_on %></td>
-        <td><%= feedback.created_at.to_s %></td>
+        <td><%= feedback.updated_at.to_date %></td>
         <td>
           <% if can? :read, feedback %>
-            <%= link_to 'Show', [@review, feedback] %>
+            <%= link_to 'Show', [@review, feedback], id: "feedback_#{feedback.id}_show" %>
           <% end %>
         </td>
         <td>
           <% if can? :edit, feedback %>
-            <%= link_to 'Edit', edit_review_feedback_path(@review, feedback) %>
+            <%= link_to 'Edit', edit_review_feedback_path(@review, feedback), id: "feedback_#{feedback.id}_edit" %>
           <% end %>
         </td>
         <td>
           <% if can? :destroy, feedback %>
-            <%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' }, id: "feedback_#{feedback.id}_destroy" %>
           <% end %>
         </td>
       </tr>
@@ -58,11 +58,11 @@
 <% end %>
 
 <% if can? :edit, @review %>
-  <%= link_to 'Edit', edit_review_path(@review) %> |
+  <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
 <% end %>
 
 <% if can? :destroy, @review %>
-  <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' } %> |
+  <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
 <% end %>
 
-<%= link_to 'Back', welcome_index_path %>
+<%= link_to 'Back', root_path %>

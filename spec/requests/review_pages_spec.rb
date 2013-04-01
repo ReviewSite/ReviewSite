@@ -7,7 +7,7 @@ describe "Review pages" do
   let(:jc) { FactoryGirl.create(:junior_consultant, coach: coach) }
   let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
   let!(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
-  let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer) }
+  let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
   let(:inputs) { {
     'project_worked_on' => 'My Project',
     'role_description' => 'My Role',
@@ -171,6 +171,184 @@ describe "Review pages" do
         current_path.should == root_path
         page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
       end
+    end
+  end
+
+  describe "new" do
+    describe "as an admin" do
+      before do
+        sign_in admin
+        visit new_review_path
+      end
+
+      it "creates a new review" do
+        select jc.name, from: "Junior consultant"
+        select "24-Month", from: "Review type"
+
+        select "2013", from: "review_review_date_1i"
+        select "July", from: "review_review_date_2i"
+        select "1", from: "review_review_date_3i"
+
+        select "2013", from: "review_feedback_deadline_1i"
+        select "June", from: "review_feedback_deadline_2i"
+        select "21", from: "review_feedback_deadline_3i"
+
+        select "2013", from: "review_send_link_date_1i"
+        select "April", from: "review_send_link_date_2i"
+        select "1", from: "review_send_link_date_3i"
+
+        click_button "Create Review"
+
+        new_review = Review.last
+        current_path.should == review_path(new_review)
+        new_review.junior_consultant.should == jc
+        new_review.review_type.should == "24-Month"
+        new_review.review_date.should == Date.new(2013, 7, 1)
+        new_review.feedback_deadline.should == Date.new(2013, 6, 21)
+        new_review.send_link_date.should == Date.new(2013, 4, 1)
+      end
+    end
+
+    describe "as a non-admin" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        visit new_review_path
+      end
+
+       it "redirects to homepage" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+       end
+    end
+  end
+
+  describe "edit" do
+    describe "as an admin" do
+      before do
+        sign_in admin
+        visit edit_review_path(review)
+      end
+
+      it "updates the review details" do
+        select "24-Month", from: "Review type"
+
+        select "2013", from: "review_review_date_1i"
+        select "July", from: "review_review_date_2i"
+        select "1", from: "review_review_date_3i"
+
+        select "2013", from: "review_feedback_deadline_1i"
+        select "June", from: "review_feedback_deadline_2i"
+        select "21", from: "review_feedback_deadline_3i"
+
+        select "2013", from: "review_send_link_date_1i"
+        select "April", from: "review_send_link_date_2i"
+        select "1", from: "review_send_link_date_3i"
+
+        click_button "Update Review"
+
+        current_path.should == review_path(review)
+        review.reload
+        review.review_type.should == "24-Month"
+        review.review_date.should == Date.new(2013, 7, 1)
+        review.feedback_deadline.should == Date.new(2013, 6, 21)
+        review.send_link_date.should == Date.new(2013, 4, 1)
+      end
+    end
+
+    describe "as a non-admin" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        visit edit_review_path(review)
+      end
+
+       it "redirects to homepage" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+       end
+    end
+  end
+
+  describe "show" do
+    describe "as an admin" do
+      before do
+        sign_in admin
+        feedback.update_attribute(:project_worked_on, inputs['project_worked_on'])
+        visit review_path(review)
+      end
+
+      it { should have_selector('h1', text: review.to_s) }
+      it { should have_selector('th', text: 'Reviewer') }
+      it { should have_selector('th', text: 'Project') }
+      it { should have_selector('th', text: 'Date Submitted') }
+      it { should have_selector('td', text: reviewer.name) }
+      it { should have_selector('td', text: inputs['project_worked_on']) }
+      it { should have_selector('td', text: feedback.updated_at.to_date.to_s) }
+
+      it "links to show feedback" do
+        click_link "Show"
+        current_path.should == review_feedback_path(review, feedback)
+      end
+
+      it "links to edit feedback" do
+        click_link "feedback_#{feedback.id}_edit"
+        current_path.should == edit_review_feedback_path(review, feedback)
+      end
+
+      it "links to destroy feedback", js: true do
+        click_link "feedback_#{feedback.id}_destroy"
+        page.evaluate_script("window.confirm = function() { return true; }")
+        current_path.should == root_path
+        Feedback.find_by_id(feedback).should be_nil
+      end
+
+      it "links to invite reviewer" do
+        click_link "Invite Reviewer"
+        current_path.should == new_review_invitation_path(review)
+      end
+
+      it "links to new feedback" do
+        click_link "New Feedback"
+        current_path.should == new_review_feedback_path(review)
+      end
+
+      it "links to additional feedback" do
+        click_link "Additional Feedback"
+        current_path.should == additional_review_feedbacks_path(review)
+      end
+
+      it "links to view summary" do
+        click_link "View Summary"
+        current_path.should == summary_review_path(review)
+      end
+
+      it "links to edit review" do
+        click_link "review_edit"
+        current_path.should == edit_review_path(review)
+      end
+
+      it "links to destroy review", js: true do
+        click_link "review_destroy"
+        page.evaluate_script("window.confirm = function() { return true; }")
+        current_path.should == root_path
+        Review.find_by_id(review).should be_nil
+      end
+
+      it "links to homepage" do
+        click_link "Back"
+        current_path.should == root_path
+      end
+    end
+
+    describe "as a non-admin" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        visit review_path(review)
+      end
+
+       it "redirects to homepage" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+       end
     end
   end
 end

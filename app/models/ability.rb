@@ -21,7 +21,8 @@ class Ability
       end
 
       can :manage, Invitation do |invitation|
-        invitation.reviewee.email == user.email
+        is_user_the_jc_associated_with_review(user, invitation.review) or
+        is_coach(user, invitation.review)
       end
 
       can :read, Invitation do |invitation|
@@ -51,22 +52,8 @@ class Ability
         end
       end
 
-      cannot :summary, Review
-      if user.admin
-        can :summary, Review do |review|
-          res = false
-          review.feedbacks.each do |feedback|
-            if can? :read, feedback
-              res = true
-            end
-          end
-          res
-        end
-      else
-        can :summary, Review do |review|
-          is_user_the_jc_associated_with_review(user, review) or is_review_member(user, review) or is_coach(user, review)
-        end
-
+      can :summary, Review do |review|
+        is_user_the_jc_associated_with_review(user, review) or is_review_member(user, review) or is_coach(user, review)
       end
 
       can :read, Feedback do |feedback|

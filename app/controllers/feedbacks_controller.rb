@@ -117,7 +117,7 @@ class FeedbacksController < ApplicationController
     respond_to do |format|
       if @feedback.save
         @feedback.submit_final
-        format.html { redirect_to welcome_index_path, notice: 'Feedback was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Feedback was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -134,7 +134,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        format.html { redirect_to welcome_index_path, notice: 'Feedback was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Feedback was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

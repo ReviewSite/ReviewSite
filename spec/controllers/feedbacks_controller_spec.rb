@@ -211,7 +211,7 @@ describe FeedbacksController do
     it "can change the feedback to unsubmited" do
       @feedback.submitted.should == true
       put :unsubmit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-      response.should redirect_to(welcome_index_url)
+      response.should redirect_to(root_url)
       @feedback.reload
       @feedback.submitted.should == false
     end
@@ -227,7 +227,7 @@ describe FeedbacksController do
     it "can change the feedback to submited" do
       @feedback.submitted.should == false
       put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-      response.should redirect_to(welcome_index_url)
+      response.should redirect_to(root_url)
       @feedback.reload
       @feedback.submitted.should == true
     end

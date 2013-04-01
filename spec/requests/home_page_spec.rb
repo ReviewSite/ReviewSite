@@ -2,58 +2,332 @@ require 'spec_helper'
 
 describe "Home page" do
   let (:admin) { FactoryGirl.create :admin_user }
-  let! (:jc) { FactoryGirl.create :junior_consultant }
+  let (:coach) { FactoryGirl.create :user }
+  let (:reviewer) { FactoryGirl.create :user }
+  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach }
   let (:jc_user) { FactoryGirl.create :user, email: jc.email}
   let! (:review) { FactoryGirl.create :review, junior_consultant: jc, feedback_deadline: Date.tomorrow }
-  let! (:feedback) { FactoryGirl.create :feedback, review: review }
+  let! (:feedback) { FactoryGirl.create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 
   subject { page }
+
+  describe "new review button" do
+    it "is visible to admins" do
+      sign_in admin
+      click_link "New Review"
+      current_path.should == new_review_path
+    end
+
+    it "is invisible to other users" do
+      page.should_not have_link("New Review")
+      sign_in FactoryGirl.create(:user)
+      page.should_not have_link("New Review")
+    end
+  end
 
   describe "reviews table" do
     describe "as admin" do
       before { sign_in admin }
 
-      it "can navigate to the reviewer invitation page" do
-        click_link 'Invite Reviewer'
-        page.should have_selector('h1', text: 'Invite Reviewer')
+      it { should have_selector("table.reviews td", text: jc.name) }
+      it { should have_selector("table.reviews td", text: review.review_type) }
+      it { should have_selector("table.reviews td.feedback_submitted", text: '0') }
+      it { should have_selector("table.reviews td.review_date", text: review.review_date.to_s) }
+      it { should have_selector("table.reviews td.feedback_deadline", text: review.feedback_deadline.to_s) }
+      it { should have_selector("table.reviews td.send_link_date", text: review.send_link_date.to_s) }
+
+      it "links to new feedback page" do
+        within("table.reviews") do
+          click_link 'New Feedback'
+        end
+        current_path.should == new_review_feedback_path(review)
+      end
+
+      it "links to reviewer invitation page" do
+        within("table.reviews") do
+          click_link 'Invite Reviewer'
+        end
+        current_path.should == new_review_invitation_path(review)
+      end
+
+      it "updates submitted feedback count" do
+        feedback.update_attribute(:submitted, true)
+        visit root_path
+        subject.should have_selector("table.reviews td.feedback_submitted", text: '1')
+      end
+
+      it "links to review summary page" do
+        within("table.reviews") do
+          click_link 'View Summary'
+        end
+        current_path.should == summary_review_path(review)
+      end
+
+      it "links to review show page" do
+        within("table.reviews") do
+          click_link 'Show'
+        end
+        current_path.should == review_path(review)
       end
     end
 
     describe "as JC" do
       before { sign_in jc_user }
 
-      it "can navigate to the reviewer invitation page" do
-        click_link 'Invite Reviewer'
-        page.should have_selector('h1', text: 'Invite Reviewer')
+      it { should have_selector("table.reviews td", text: jc.name) }
+      it { should have_selector("table.reviews td", text: review.review_type) }
+      it { should have_selector("table.reviews td.feedback_submitted", text: '0') }
+      it { should_not have_selector("table.reviews a", text: "New Feedback") }
+      it { should_not have_selector("table.reviews a", text: "Show") }
+
+      it "links to reviewer invitation page" do
+        within("table.reviews") do
+          click_link 'Invite Reviewer'
+        end
+        current_path.should == new_review_invitation_path(review)
       end
 
-      it "does not show feedback count when not submitted" do
-        feedback = FactoryGirl.create(:feedback, 
-                                      :review => review, 
-                                      :user => jc_user, 
-                                      :project_worked_on => "Unsubmitted Feedback")
+      it "updates submitted feedback count" do
+        feedback.update_attribute(:submitted, true)
         visit root_path
-        page.should have_selector('td', text: '0')
+        subject.should have_selector("table.reviews td.feedback_submitted", text: '1')
       end
 
-      it "shows the count of submitted feedbacks" do
-        feedback = FactoryGirl.create(:submitted_feedback, 
-                                      :review => review, 
-                                      :user => jc_user, 
-                                      :project_worked_on => "Submitted Feedback")
-        visit root_path
-        page.should have_selector('td', text: '1')
+      it "links to review summary page" do
+        within("table.reviews") do
+          click_link 'View Summary'
+        end
+        current_path.should == summary_review_path(review)
       end
+    end
+
+    describe "as a coach" do
+      before { sign_in coach }
+
+      it { should have_selector("table.reviews td", text: jc.name) }
+      it { should have_selector("table.reviews td", text: review.review_type) }
+      it { should have_selector("table.reviews td.feedback_submitted", text: '0') }
+      it { should_not have_selector("table.reviews a", text: "New Feedback") }
+      it { should_not have_selector("table.reviews a", text: "Show") }
+
+      it "links to reviewer invitation page" do
+        within("table.reviews") do
+          click_link 'Invite Reviewer'
+        end
+        current_path.should == new_review_invitation_path(review)
+      end
+
+      it "updates submitted feedback count" do
+        feedback.update_attribute(:submitted, true)
+        visit root_path
+        subject.should have_selector("table.reviews td.feedback_submitted", text: '1')
+      end
+
+      it "links to review summary page" do
+        within("table.reviews") do
+          click_link 'View Summary'
+        end
+        current_path.should == summary_review_path(review)
+      end
+    end
+
+    describe "as a user unaffiliated with a review" do
+      before { sign_in FactoryGirl.create(:user) }
+      it { should_not have_selector("table.reviews") }
     end
   end
 
   describe "feedbacks table" do
-    describe "as admin" do
+    describe "as an admin" do
       before { sign_in admin }
 
-      it "has a table column named 'Action'" do
-        page.should have_selector('th', text: 'Action')
+      it { should have_selector('th', text: 'Action') }
+      it { should have_selector("table.feedback td", text: reviewer.name) }
+      it { should have_selector("table.feedback td", text: jc.name) }
+      it { should have_selector("table.feedback td", text: review.review_type) }
+      it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
+      it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
+      it { should have_selector("table.feedback td", text: "Not Submitted") }
+      it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
+      it { should_not have_selector("table.feedback td a", text: "Show") }
+      it { should_not have_selector("table.feedback td a", text: "Edit") }
+      it { should_not have_selector("table.feedback td a", text: "Destroy") }
+
+      it "submits feedback if 'Submit' is clicked" do
+        within("table.feedback") do
+          click_link 'Submit'
+        end
+        current_path.should == root_path
+        page.should have_selector("div.alert.alert-notice", text: "Feedback was successfully updated.")
+        feedback.reload
+        feedback.submitted.should be_true
       end
+
+      describe "with submitted feedback" do
+        before do
+          feedback.update_attribute(:submitted, true)
+          visit root_path
+        end
+
+        it { should_not have_selector("table.feedback td", text: "Not Submitted") }
+        it { should have_selector("table.feedback td", text: "Submitted") }
+        it { should_not have_selector("table.feedback td a", text: "Submit") }
+
+        it "unsubmits feedback if 'Unsubmit' is clicked" do
+          within("table.feedback") do
+            click_link 'Unsubmit'
+          end
+          current_path.should == root_path
+          page.should have_selector("div.alert.alert-notice", text: "Feedback was successfully updated.")
+          feedback.reload
+          feedback.submitted.should be_false
+        end
+
+        it "links to show feedback page" do
+          within("table.feedback") do
+            click_link 'Show'
+          end
+          current_path.should == review_feedback_path(review, feedback)
+        end
+
+        it "links to edit feedback page" do
+          within("table.feedback") do
+            click_link 'Edit'
+          end
+          current_path.should == edit_review_feedback_path(review, feedback)
+        end
+
+        it "links to destroy feedback", js: true do
+          within("table.feedback") do
+            click_link 'Destroy'
+          end
+          page.evaluate_script("window.confirm = function() { return true; }")
+          current_path.should == root_path
+          Feedback.find_by_id(feedback).should be_nil
+        end
+      end
+    end
+
+    describe "as a JC" do
+      before { sign_in jc_user }
+
+      it { should_not have_selector("table.feedback") }
+
+      describe "with submitted feedback" do
+        before do
+          feedback.update_attribute(:submitted, true)
+          visit root_path
+        end
+
+        it { should_not have_selector('th', text: 'Action') }
+        it { should have_selector("table.feedback td", text: reviewer.name) }
+        it { should have_selector("table.feedback td", text: jc.name) }
+        it { should have_selector("table.feedback td", text: review.review_type) }
+        it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
+        it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
+        it { should have_selector("table.feedback td", text: "Submitted") }
+        it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
+        it { should_not have_selector("table.feedback td a", text: "Edit") }
+        it { should_not have_selector("table.feedback td a", text: "Destroy") }
+
+        it "links to show feedback page" do
+          within("table.feedback") do
+            click_link 'Show'
+          end
+          current_path.should == review_feedback_path(review, feedback)
+        end
+      end
+    end
+
+    describe "as a coach" do
+      before { sign_in coach }
+
+      it { should_not have_selector("table.feedback") }
+
+      describe "with submitted feedback" do
+        before do
+          feedback.update_attribute(:submitted, true)
+          visit root_path
+        end
+
+        it { should_not have_selector('th', text: 'Action') }
+        it { should have_selector("table.feedback td", text: reviewer.name) }
+        it { should have_selector("table.feedback td", text: jc.name) }
+        it { should have_selector("table.feedback td", text: review.review_type) }
+        it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
+        it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
+        it { should have_selector("table.feedback td", text: "Submitted") }
+        it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
+        it { should_not have_selector("table.feedback td a", text: "Edit") }
+        it { should_not have_selector("table.feedback td a", text: "Destroy") }
+
+        it "links to show feedback page" do
+          within("table.feedback") do
+            click_link 'Show'
+          end
+          current_path.should == review_feedback_path(review, feedback)
+        end
+      end
+    end
+
+    describe "as a reviewer" do
+      before { sign_in reviewer }
+
+      it { should_not have_selector('th', text: 'Action') }
+      it { should have_selector("table.feedback td", text: reviewer.name) }
+      it { should have_selector("table.feedback td", text: jc.name) }
+      it { should have_selector("table.feedback td", text: review.review_type) }
+      it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
+      it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
+      it { should have_selector("table.feedback td", text: "Not Submitted") }
+      it { should_not have_selector("table.feedback td a", text: "Submit") }
+
+      it "links to show feedback page" do
+        within("table.feedback") do
+          click_link 'Show'
+        end
+        current_path.should == review_feedback_path(review, feedback)
+      end
+
+      it "links to edit feedback page" do
+        within("table.feedback") do
+          click_link 'Edit'
+        end
+        current_path.should == edit_review_feedback_path(review, feedback)
+      end
+
+      it "links to destroy feedback", js: true do
+        within("table.feedback") do
+          click_link 'Destroy'
+        end
+        page.evaluate_script("window.confirm = function() { return true; }")
+        current_path.should == root_path
+        Feedback.find_by_id(feedback).should be_nil
+      end
+
+      describe "with submitted feedback" do
+        before do
+          feedback.update_attribute(:submitted, true)
+          visit root_path
+        end
+
+        it { should have_selector("table.feedback td", text: "Submitted") }
+        it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
+        it { should_not have_selector("table.feedback td a", text: "Edit") }
+        it { should_not have_selector("table.feedback td a", text: "Destroy") }
+
+        it "links to show feedback page" do
+          within("table.feedback") do
+            click_link 'Show'
+          end
+          current_path.should == review_feedback_path(review, feedback)
+        end
+      end
+    end
+
+    describe "as a user unaffiliated with a review" do
+      before { sign_in FactoryGirl.create(:user) }
+      it { should_not have_selector("table.feedback") }      
     end
   end
 

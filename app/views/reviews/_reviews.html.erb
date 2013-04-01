@@ -24,11 +24,11 @@
       <tr>
         <td><%= review.junior_consultant %></td>
         <td><%= review.review_type %></td>
-        <td><%= review.feedbacks.where(:submitted => true).count  %></td>
+        <td class="feedback_submitted"><%= review.feedbacks.where(:submitted => true).count  %></td>
         <% if can? :create, Review %>
-            <td><%= review.review_date %></td>
-            <td><%= review.feedback_deadline %></td>
-            <td><%= review.send_link_date %></td>
+            <td class="review_date"><%= review.review_date %></td>
+            <td class="feedback_deadline"><%= review.feedback_deadline %></td>
+            <td class="send_link_date"><%= review.send_link_date %></td>
             <td><%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %></td>
         <% end %>
         <% if can? :create, Invitation %>

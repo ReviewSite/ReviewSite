@@ -61,6 +61,8 @@ Run the test suite
 * `cd workspace`
 * `xvfb-run rspec spec`
 
+If you repeatedly receive the error "Xvfb failed to start," try `xvfb-run --server-num=1 rspec spec`.
+
 Start the local server
 ----------------------
 

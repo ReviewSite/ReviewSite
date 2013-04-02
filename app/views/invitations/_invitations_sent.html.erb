@@ -40,5 +40,10 @@
 
 <br class="spacer" />
 <script>
-  $('.invitations_sent').dataTable();
+  $('.invitations_sent').dataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bInfo": false
+    });
 </script>

@@ -52,5 +52,10 @@
 <br class="spacer" />
 
 <script>
-    $('.reviews').dataTable();
+    $('.reviews').dataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bInfo": false
+    });
 </script>

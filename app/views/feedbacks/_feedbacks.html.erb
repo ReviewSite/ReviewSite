@@ -67,5 +67,10 @@
 <br class="spacer" />
 
 <script>
-    $('.feedback').dataTable();
+    $('.feedback').dataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bInfo": false
+    });
 </script>

@@ -31,7 +31,7 @@ describe "Home page" do
 
       it { should have_selector("table.reviews td", text: jc.name) }
       it { should have_selector("table.reviews td", text: review.review_type) }
-      it { should have_selector("table.reviews td.feedback_submitted", text: '0') }
+      it { should have_selector("table.reviews td.feedback_submitted", text: "0 / 1") }
       it { should have_selector("table.reviews td.review_date", text: review.review_date.to_s) }
       it { should have_selector("table.reviews td.feedback_deadline", text: review.feedback_deadline.to_s) }
       it { should have_selector("table.reviews td.send_link_date", text: review.send_link_date.to_s) }
@@ -53,7 +53,7 @@ describe "Home page" do
       it "updates submitted feedback count" do
         feedback.update_attribute(:submitted, true)
         visit root_path
-        subject.should have_selector("table.reviews td.feedback_submitted", text: '1')
+        subject.should have_selector("table.reviews td.feedback_submitted", text: "1 / 1")
       end
 
       it "links to review summary page" do

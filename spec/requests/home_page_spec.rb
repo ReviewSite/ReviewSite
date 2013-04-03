@@ -99,6 +99,13 @@ describe "Home page" do
         end
         current_path.should == summary_review_path(review)
       end
+
+      it "shows the name of the reviewer of additional feedback when it is not the same as the user" do
+        feedback.update_attribute(:submitted, true)
+        feedback.update_attribute(:user_string, "Additional Feedback Reviewer")
+        visit root_path
+        subject.should have_selector("table.feedback td", text: feedback.user_string)
+      end
     end
 
     describe "as a coach" do

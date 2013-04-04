@@ -5,7 +5,8 @@
     <tr>
       <th>Reviewer</th>
       <th>Project</th>
-      <th>Date Submitted</th>
+      <th>Date Last Updated</th>
+      <th>Status</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,6 +18,11 @@
         <td><%= feedback.reviewer %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
+        <% if feedback.submitted? %>
+          <td>Submitted</td>
+        <% else %>
+          <td>Not Submitted</td>
+        <% end %>
         <td>
           <% if can? :read, feedback %>
             <%= link_to 'Show', [@review, feedback], id: "feedback_#{feedback.id}_show" %>

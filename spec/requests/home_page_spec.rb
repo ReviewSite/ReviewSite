@@ -457,7 +457,7 @@ describe "Home page" do
       page.should_not have_selector('table.invitations_sent')
     end
 
-    describe "as JC who has sent an invitation" do
+    describe "as JC who has sent an invitation", js: true do
 
       before { sign_in jc_user }
 
@@ -490,6 +490,7 @@ describe "Home page" do
         mail.should_receive(:deliver)
         UserMailer.should_receive(:feedback_reminder).and_return(mail)
         click_link 'Send Reminder'
+        page.evaluate_script("window.confirm = function() { return true; }")
 
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice', text: 'Reminder email was sent!')
@@ -506,6 +507,7 @@ describe "Home page" do
         mail.should_receive(:deliver)
         UserMailer.should_receive(:feedback_reminder).and_return(mail)
         click_link 'Send Reminder'
+        page.evaluate_script("window.confirm = function() { return true; }")
 
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice', text: 'Reminder email was sent!')
@@ -521,6 +523,7 @@ describe "Home page" do
         mail.should_receive(:deliver)
         UserMailer.should_receive(:feedback_reminder).and_return(mail)
         click_link 'Send Reminder'
+        page.evaluate_script("window.confirm = function() { return true; }")
         
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice', text: 'Reminder email was sent!')

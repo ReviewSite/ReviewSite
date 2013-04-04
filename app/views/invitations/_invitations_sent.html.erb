@@ -24,14 +24,18 @@
         <% if invitation.feedback.nil? %>
           <td>Not Started</td>
           <td><%= link_to 'Send Reminder',
-                    send_reminder_review_invitation_path(invitation.review, invitation), method: :post %></td>
+                    send_reminder_review_invitation_path(invitation.review, invitation),
+                    data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
+                    method: :post %></td>
         <% elsif invitation.feedback.submitted? %>
           <td>Submitted</td>
           <td><%= link_to 'View', review_feedback_path(invitation.review, invitation.feedback) %></td>
         <% else %>
           <td>Not Submitted</td>
           <td><%= link_to 'Send Reminder',
-                    send_reminder_review_invitation_path(invitation.review, invitation), method: :post %></td>
+                    send_reminder_review_invitation_path(invitation.review, invitation),
+                    data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
+                    method: :post %></td>
         <% end %>
       </tr>
     <% end %>

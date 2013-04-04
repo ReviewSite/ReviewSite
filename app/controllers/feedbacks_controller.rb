@@ -75,10 +75,14 @@ class FeedbacksController < ApplicationController
             flash[:success] = 'Feedback was saved for further editing.'
           end
         end
-        
+
         format.json { render json: [@review, @feedback], status: :created, location: [@review, @feedback] }
       else
-        format.html { render action: "new" }
+        if params[:feedback][:user_string].nil?
+          format.html { render action: "new" }
+        else
+          format.html { render action: "additional" }
+        end
         format.json { render json: @feedback.errors, status: :unprocessable_entity }
       end
     end

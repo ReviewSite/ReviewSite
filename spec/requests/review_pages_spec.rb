@@ -68,14 +68,25 @@ describe "Review pages" do
 
         page.should have_content(Date.today-2.days)
         page.should have_content(self_assessment.response)
-
-        page.should_not have_selector('a', text: 'Update Self Assessment')
-        page.should_not have_selector('a', text: 'Submit Self Assessment')
       end
 
       it "links to additional feedback" do
         click_link "Add Additional Feedback"
         current_path.should == additional_review_feedbacks_path(review)
+      end
+
+      it "links to update self-assessment if one has been created" do
+        page.should_not have_selector('a', text: 'Submit Self Assessment')
+        click_link "Update Self Assessment"
+        current_path.should == edit_review_self_assessment_path(review, self_assessment)
+      end
+
+      it "links to create self-assessment if none has been created" do
+        self_assessment.destroy
+        visit summary_review_path(review)
+        page.should_not have_selector('a', text: 'Update Self Assessment')
+        click_link "Submit Self Assessment"
+        current_path.should == new_review_self_assessment_path(review)
       end
     end
 

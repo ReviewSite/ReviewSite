@@ -31,9 +31,8 @@
                       "organizational_exceeded", "organizational_met", "organizational_improve",
                       "innovative_exceeded", "innovative_met", "innovative_improve",
                       "comments"] %>
-    <% if current_user.email == @review.junior_consultant.email %>
+    <% if current_user.admin? or current_user.email == @review.junior_consultant.email %>
         <% if @review.self_assessments.count > 0 %>
-
             <%= link_to("Update Self Assessment", 
                         edit_review_self_assessment_path(@review, @review.self_assessments.first), 
                         title: 'Update your own thoughts and goals pertaining to your current review') %>

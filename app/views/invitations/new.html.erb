@@ -17,19 +17,21 @@
   <p><b>To (Email):</b></p>
   <p><%= text_field_tag :email %></p>
 
-  <p><b>Subject:</b> You've been invited to give feedback for <%= @jc.name %>.</p>
+  <div id="email_contents">
+    <p><b>Subject:</b> You've been invited to give feedback for <%= @jc.name %>.</p>
 
-  <p><b>Body (Please add a personal note):</b></p>
-  <% @default_body = <<-EOM
+    <p><b>Body (Please add a personal note):</b></p>
+    <% @default_body = <<-EOM
 You have been invited to provide feedback. Please visit #{new_review_feedback_url(@review)}
 
 Name: #{@review.junior_consultant}
 Review Type: #{@review.review_type}
 Deadline: #{@review.feedback_deadline}
   EOM
-  %>
+    %>
 
-  <%= text_area_tag :message, @default_body %>
+    <%= text_area_tag :message, @default_body %>
+  </div>
 
   <p><b><%= check_box_tag :no_email %> Do not send an email</b> &mdash; Your reviewer will still see your invitation when they log into the website.</p><br/>
 
@@ -39,11 +41,7 @@ Deadline: #{@review.feedback_deadline}
 <script>
 $(document).ready(function($) {
   $("input[type=checkbox]").click(function() {
-    if ($("input[type=checkbox]").attr('checked')) {
-      $("textarea#message").attr("disabled", "disabled");
-    } else {
-      $("textarea#message").removeAttr("disabled");
-    }
+    $("div#email_contents").slideToggle();
   })
 })
 </script>

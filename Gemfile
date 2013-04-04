@@ -5,6 +5,7 @@ gem 'bcrypt-ruby', '3.0.0'
 gem 'bootstrap-sass', '2.0.0'
 gem 'cancan'
 gem 'rubycas-client'
+gem 'exception_notification'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

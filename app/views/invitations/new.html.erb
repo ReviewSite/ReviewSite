@@ -14,22 +14,36 @@
     </div>
   <% end %>
 
-<p><b>To (Email):</b></p>
-<p><%= text_field_tag :email %></p>
+  <p><b>To (Email):</b></p>
+  <p><%= text_field_tag :email %></p>
 
-<p><b>Subject:</b> You've been invited to give feedback for <%= @jc.name %>.</p>
+  <p><b>Subject:</b> You've been invited to give feedback for <%= @jc.name %>.</p>
 
-<p><b>Body (Please add a personal note):</b></p>
-<% @default_body = <<-EOM
-  You have been invited to provide feedback. Please visit #{new_review_feedback_url(@review)}
+  <p><b>Body (Please add a personal note):</b></p>
+  <% @default_body = <<-EOM
+You have been invited to provide feedback. Please visit #{new_review_feedback_url(@review)}
 
-  Name: #{@review.junior_consultant}
-  Review Type: #{@review.review_type}
-  Deadline: #{@review.feedback_deadline}
-EOM
-%>
+Name: #{@review.junior_consultant}
+Review Type: #{@review.review_type}
+Deadline: #{@review.feedback_deadline}
+  EOM
+  %>
 
-<%= text_area_tag :message, @default_body %>
+  <%= text_area_tag :message, @default_body %>
 
-<%= submit_tag "Send invite", class: 'btn btn-large btn-primary' %>
+  <p><b><%= check_box_tag :no_email %> Do not send an email</b> &mdash; Your reviewer will still see your invitation when they log into the website.</p><br/>
+
+  <%= submit_tag "Create Invitation", class: 'btn btn-large btn-primary' %>
 <% end %>
+
+<script>
+$(document).ready(function($) {
+  $("input[type=checkbox]").click(function() {
+    if ($("input[type=checkbox]").attr('checked')) {
+      $("textarea#message").attr("disabled", "disabled");
+    } else {
+      $("textarea#message").removeAttr("disabled");
+    }
+  })
+})
+</script>

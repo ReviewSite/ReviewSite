@@ -13,6 +13,12 @@ describe InvitationsController do
         Invitation.last.email.should == "test@example.com"
       end
 
+      it "doesn't send an email if params[:no_email] is passed" do
+        ActionMailer::Base.deliveries.clear
+        post :create, email: "test@example.com", review_id: review.id, no_email: '1'
+        ActionMailer::Base.deliveries.should == []
+      end
+
       it "sends an email with correct details" do
         ActionMailer::Base.deliveries.clear
         post :create, email: "test@example.com", review_id: review.id, message: "This is the custom message"

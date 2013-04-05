@@ -1,0 +1,55 @@
+<h1>Review Site Homepage</h1>
+
+<% if can? :create, Review %>
+    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+<% end %>
+
+<br />
+
+<% if @invitations_received.count > 0 %>
+  <h2>Provide Feedback For</h2>
+  <%= render :partial => 'invitations/invitations_received' %>
+<% end %>
+
+<br />
+
+<% if @invitations_sent.count > 0 %>
+  <h2>Feedback Invitations Sent</h2>
+  <%= render :partial => 'invitations/invitations_sent' %>
+<% end %>
+
+<br />
+
+<% if @reviews.count > 0 %>
+    <h2>Reviews</h2>
+    <%= render :partial => 'reviews/reviews' %>
+<% end %>
+
+<br />
+
+<% if @feedbacks.count > 0 %>
+  <h2>6 Month Review</h2>
+  <%= render :partial => 'feedbacks/feedbacks', 
+    	:locals => {
+          :review_type => '6-Month' 
+       	} %>
+
+  <h2>12 Month Review</h2>
+  <%= render :partial => 'feedbacks/feedbacks', 
+    	:locals => {
+          :review_type => '12-Month' 
+       	} %>
+
+  <h2>18 Month Review</h2>
+  <%= render :partial => 'feedbacks/feedbacks', 
+    	:locals => {
+          :review_type => '18-Month' 
+       	} %>
+
+  <h2>18 Month Review</h2>
+  <%= render :partial => 'feedbacks/feedbacks', 
+    	:locals => {
+          :review_type => '24-Month' 
+       	} %>
+<% end %>
+

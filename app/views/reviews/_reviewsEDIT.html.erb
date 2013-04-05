@@ -1,0 +1,27 @@
+
+
+
+<% @reviews.each do |review| %>
+  <h2><%= review.review_type.titleize %> Review</h2>
+  <h3>Feedback Deadline: <%= review.feedback_deadline.strftime("%m/%d/%Y") %></h3>
+  <h3>Review Date: <%= review.review_date.strftime("%m/%d/%Y") %></h3>
+    <%= render :partial => 'feedbacks/feedbacks', 
+        :locals => {
+            :review_type => review.review_type
+          } %>
+
+          <%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %>
+
+        <% if can? :create, Invitation %>
+            <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %>
+        <% end %>
+          <% if can? :summary, review %>
+              <%= link_to 'View Summary', summary_review_path(review) %>
+          <% end %>
+        <% if can? :read, review %>
+              <%= link_to 'Show', review %>
+        <% end %>
+
+<br class="spacer" />
+
+<% end %>

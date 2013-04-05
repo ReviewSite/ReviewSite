@@ -1,26 +1,32 @@
 <% provide :title, 'Invite reviewer' %>
 <h1>Invite Reviewer</h1>
 
+<% if @invitation.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+
+    <ul>
+      <% @invitation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
-  <% if @invitation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+  <p><%= label_tag :no_email, class:"checkbox" do %>
+    <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see the invitation when they log into the site.) &nbsp; &nbsp;<% end %></p>
 
-      <ul>
-        <% @invitation.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <br/><br/><br/>
 
-  <p><b>To (Email):</b></p>
+  <p><%= label_tag :email, "To (Email Address):" %></p>
   <p><%= text_field_tag :email %></p>
 
   <div id="email_contents">
-    <p><b>Subject:</b> You've been invited to give feedback for <%= @jc.name %>.</p>
+    <p><%= label_tag :subject, "Subject:" %></p>
+    <p><%= text_field_tag :subject, "You've been invited to give feedback for #{@jc.name}." %></p>
 
-    <p><b>Body (Please add a personal note):</b></p>
+    <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM
 You have been invited to provide feedback. Please visit #{new_review_feedback_url(@review)}
 
@@ -32,8 +38,6 @@ Deadline: #{@review.feedback_deadline}
 
     <%= text_area_tag :message, @default_body %>
   </div>
-
-  <p><b><%= check_box_tag :no_email %> Do not send an email</b> &mdash; Your reviewer will still see your invitation when they log into the website.</p><br/>
 
   <%= submit_tag "Create Invitation", class: 'btn btn-large btn-primary' %>
 <% end %>

@@ -32,4 +32,8 @@ class WelcomeController < ApplicationController
 
   def help
   end
+
+  def test_error
+    raise NotImplementedError, "This controller action breaks on purpose."
+  end
 end

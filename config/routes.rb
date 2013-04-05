@@ -38,6 +38,7 @@ ReviewSite::Application.routes.draw do
   resources :welcome, :only => [:index] do
     collection do
       get 'help'
+      get 'test_error'
     end
   end
 

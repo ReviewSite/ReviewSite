@@ -11,6 +11,7 @@
       <li><a href="#7">Organizational</a></li>
       <li><a href="#8 ">Innovative</a></li>
       <li><a href="#9 ">Comments</a></li>
+      <li><a href="#10 ">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
@@ -86,23 +87,25 @@
         <br />
     <% end %>
 
-    <h3>Self-Assessment</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>Date/Time</th>
-        <th>Self-Assessment Notes</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @review.self_assessments.each do |self_assessment| %>
-          <tr>
-            <td><%= self_assessment.updated_at.to_date %></td>
-            <td><%= simple_format(self_assessment.response) %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <section class="sections" id="10">
+      <h2>Self-Assessment</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Self-Assessment Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @review.self_assessments.each do |self_assessment| %>
+            <tr>
+              <td><%= self_assessment.updated_at.to_date %></td>
+              <td><%= simple_format(self_assessment.response) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </section>
   </div>
 </div>
 <script>

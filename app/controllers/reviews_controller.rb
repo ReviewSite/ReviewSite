@@ -5,6 +5,8 @@ class ReviewsController < ApplicationController
   # GET /reviews/1.json
   def show
     @review = Review.find(params[:id])
+    @feedbacks = @review.feedbacks.where(submitted: true)
+    @invitations_sent = @review.invitations
 
     respond_to do |format|
       format.html # show.html.erb

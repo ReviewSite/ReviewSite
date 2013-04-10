@@ -287,22 +287,16 @@ describe "Review pages" do
         visit review_path(review)
       end
 
-      it { should have_selector('h1', text: review.to_s) }
+      it { should have_selector('h1', text: jc.name) }
       it { should have_selector('th', text: 'Reviewer') }
       it { should have_selector('th', text: 'Project') }
-      it { should have_selector('th', text: 'Date Last Updated') }
+      it { should have_selector('th', text: 'Date Updated') }
       it { should have_selector('th', text: 'Status')}
       it { should have_selector('td', text: reviewer.name) }
       it { should have_selector('td', text: inputs['project_worked_on']) }
       it { should have_selector('td', text: feedback.updated_at.to_date.to_s) }
       it { should have_selector('td', text: 'Submitted') }
       it { should_not have_selector('td', text: 'Not') }
-
-      it "has 'Not Submitted' status if feedback has not been submitted" do
-        feedback.update_attribute(:submitted, :false)
-        visit review_path(review)
-        page.should have_selector('td', text: 'Not Submitted')
-      end
 
       it "links to show feedback" do
         click_link "Show"

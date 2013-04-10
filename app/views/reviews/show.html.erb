@@ -1,74 +1,30 @@
-<h1>Review: <%= @review.junior_consultant %> - <%= @review.review_type %></h1>
+<h1><%= @review.junior_consultant %> - <%= @review.review_type.titleize %> Review</h1>
+  <h3>Feedback Deadline: <%= @review.feedback_deadline %></h3>
+  <h3>Review Date: <%= @review.review_date %></h3>
+    <%= render :partial => 'feedbacks/feedbacks', 
+        :locals => {
+            :review_type => @review.review_type
+          } %>
 
-<table class="feedbacks">
-  <thead>
-    <tr>
-      <th>Reviewer</th>
-      <th>Project</th>
-      <th>Date Last Updated</th>
-      <th>Status</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @review.feedbacks.each do |feedback| %>
-      <tr>
-        <td><%= feedback.reviewer %></td>
-        <td><%= feedback.project_worked_on %></td>
-        <td><%= feedback.updated_at.to_date %></td>
-        <% if feedback.submitted? %>
-          <td>Submitted</td>
-        <% else %>
-          <td>Not Submitted</td>
+          <%= link_to 'New Feedback', new_review_feedback_path(@review), :class => 'new_feedback_link' %> |
+
+        <% if can? :create, Invitation %>
+            <%= link_to 'Invite Reviewer', new_review_invitation_path(@review), :class => 'send_invite_link' %> |
         <% end %>
-        <td>
-          <% if can? :read, feedback %>
-            <%= link_to 'Show', [@review, feedback], id: "feedback_#{feedback.id}_show" %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :edit, feedback %>
-            <%= link_to 'Edit', edit_review_feedback_path(@review, feedback), id: "feedback_#{feedback.id}_edit" %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :destroy, feedback %>
-            <%= link_to 'Destroy', [@review, feedback], method: :delete, data: { confirm: 'Are you sure?' }, id: "feedback_#{feedback.id}_destroy" %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<script>
-    $('.feedbacks').dataTable();
-</script>
+        <% if can? :create_additional, Feedback %>
+          <%= link_to 'Additional Feedback', additional_review_feedbacks_path(@review) %> |
+        <% end %>
+        <% if can? :summary, @review %>
+          <%= link_to 'View Summary', summary_review_path(@review) %> |
+        <% end %>
+        <% if can? :edit, @review %>
+          <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
+        <% end %>
 
-<br class="spacer" />
-<br class="spacer" />
+        <% if can? :destroy, @review %>
+          <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
+        <% end %>
+
+        <%= link_to 'Back', root_path %>
 
 
-<% if can? :create, Feedback %>
-  <%= link_to 'Invite Reviewer', new_review_invitation_path(@review), :class => 'send_invite_link' %> |
-  <%= link_to 'New Feedback', new_review_feedback_path(@review), :class => 'new_feedback_link' %> |
-<% end %>
-
-<% if can? :create_additional, Feedback %>
-  <%= link_to 'Additional Feedback', additional_review_feedbacks_path(@review) %> |
-<% end %>
-
-<% if can? :summary, @review %>
-  <%= link_to 'View Summary', summary_review_path(@review) %> |
-<% end %>
-
-<% if can? :edit, @review %>
-  <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
-<% end %>
-
-<% if can? :destroy, @review %>
-  <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
-<% end %>
-
-<%= link_to 'Back', root_path %>

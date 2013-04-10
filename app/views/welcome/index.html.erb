@@ -13,22 +13,27 @@
 
 <br />
 
-<% if @invitations_sent.count > 0 %>
-  <h2>Feedback Invitations Sent</h2>
-  <%= render :partial => 'invitations/invitations_sent' %>
-<% end %>
-
-<br />
-
 <% if @reviews.count > 0 %>
+  <% if current_user.admin? %>
     <h2>Reviews</h2>
     <%= render :partial => 'reviews/reviews' %>
+  <% else %>
+    <%= render :partial => 'reviews/reviews_by_type' %>
+  <% end %>
 <% end %>
 
 <br />
 
 <% if @feedbacks.count > 0 %>
-  <h2>Feedback on Reviews</h2>
-  <%= render :partial => 'feedbacks/feedbacks' %>
+  <% if current_user.admin? %>
+    <h2>Feedbacks</h2>
+    <%= render :partial => 'feedbacks/feedbacks_all' %>
+  <% end %>
 <% end %>
+
+
+
+
+
+
 

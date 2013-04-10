@@ -2,22 +2,21 @@
   <thead>
   <tr>
     <th>Reviewer</th>
-    <th>Junior Consultant</th>
-    <th>Review Type</th>
     <th>Project worked on</th>
     <th>Date Updated</th>
+    <th>Invitation Sent</th>
     <th>Status</th>
     <th>Action</th>
   </tr>
   </thead>
   <tbody>
   <% @feedbacks.each do |feedback| %>
+    <% if feedback.review.review_type.eql? review_type %>
       <tr>
         <td><%= feedback.reviewer %></td>
-        <td><%= feedback.review.junior_consultant %></td>
-        <td><%= feedback.review.review_type %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
+        <td></td>
         <% if feedback.submitted %>
             <td class="feedback_submitted">Submitted</td>
         <% else %>
@@ -25,23 +24,64 @@
         <% end %>
             <td>
               <%  if can? :submit, feedback %>
-                    <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %>
+                    <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %> |
                   <% elsif can? :unsubmit, feedback %>
-                    <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %>
-              <% end %>
-              <% if can? :show, feedback %>
-                <%= link_to 'Show', [feedback.review, feedback] %>
+                    <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %> |
               <% end %>
               <% if can? :edit, feedback %>
-                <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %>
+                <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit" %> |
               <% end %>
               <% if can? :destroy, feedback %>
-                <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' }, id:"feedback_#{feedback.id}_destroy" %> |
+              <% end %>
+              <% if can? :show, feedback %>
+                <%= link_to 'Show', [feedback.review, feedback] %> 
               <% end %>
             </td> 
         
       </tr>
+    <% end %>
   <% end %>
+
+  <% @invitations_sent.each do |invitation| %>
+    <% if invitation.review.review_type.eql? review_type %>
+      <% if invitation.feedback.nil? %>
+      <tr>
+        <td><%= invitation.email %></td>
+        <td></td>
+        <td></td>
+        <td><%= invitation.sent_date %></td>
+        <td>Not Started</td>
+        <td><%= link_to 'Send Reminder',
+                    send_reminder_review_invitation_path(invitation.review, invitation),
+                    data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
+                    method: :post %>
+        </td>
+      </tr>
+      <% elsif not invitation.feedback.submitted? %>
+      <tr>
+        <td><%= invitation.user %></td>
+        <td><%= invitation.feedback.project_worked_on %></td>
+        <td><%= invitation.feedback.updated_at.to_date %></td>
+        <td><%= invitation.sent_date %></td>
+        <td>Not Submitted</td>
+        <td>
+          <%  if can? :submit, invitation.feedback %>
+              <%= link_to 'Submit', submit_review_feedback_path(invitation.feedback.review, invitation.feedback), method: :put %> |
+          <% end %>
+
+          <%= link_to 'Send Reminder',
+                    send_reminder_review_invitation_path(invitation.review, invitation),
+                    data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
+                    method: :post %>
+        </td>
+      </tr>
+
+      <% end %>
+    <% end %>
+  <% end %>
+
+
   </tbody>
 </table>
 
@@ -52,6 +92,14 @@
         "bPaginate": false,
         "bLengthChange": false,
         "bFilter": false,
-        "bInfo": false
+        "bInfo": false,
+        "bRetrieve": true, 
+        "bDestroy": true,
     });
 </script>
+
+
+
+
+
+

@@ -3,31 +3,19 @@
   <tr>
     <th>Reviewer</th>
     <th>Junior Consultant</th>
+    <th>Review Type</th>
     <th>Project worked on</th>
     <th>Date Updated</th>
     <th>Status</th>
-    <% action_column = (can? :unsubmit, Feedback) || (can? :submit, Feedback) %>
-    <% if action_column %>
-        <th>Action</th>
-    <% end %>
-    <% if can? :show, Feedback %>
-        <th>Show</th>
-    <% end %>
-    <% if can? :edit, Feedback %>
-        <th>Edit</th>
-    <% end %>
-    <% if can? :delete, Feedback %>
-        <th>Delete</th>
-    <% end %>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
-  <% @feedbacks.each do |feedback| %> 
-  <% if feedback.review.review_type.eql? review_type %>
-      
+  <% @feedbacks.each do |feedback| %>
       <tr>
         <td><%= feedback.reviewer %></td>
         <td><%= feedback.review.junior_consultant %></td>
+        <td><%= feedback.review.review_type %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
         <% if feedback.submitted %>
@@ -35,33 +23,24 @@
         <% else %>
             <td class="feedback_not_submitted">Not Submitted</td>
         <% end %>
-        <% if action_column %>
             <td>
               <%  if can? :submit, feedback %>
                     <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %>
                   <% elsif can? :unsubmit, feedback %>
                     <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %>
               <% end %>
+              <% if can? :show, feedback %>
+                <%= link_to 'Show', [feedback.review, feedback] %>
+              <% end %>
+              <% if can? :edit, feedback %>
+                <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %>
+              <% end %>
+              <% if can? :destroy, feedback %>
+                <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
             </td> 
-        <% end %>
-        <td>
-          <% if can? :show, feedback %>
-              <%= link_to 'Show', [feedback.review, feedback] %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :edit, feedback %>
-              <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :destroy, feedback %>
-              <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
+        
       </tr>
-
-    <% end %>
   <% end %>
   </tbody>
 </table>
@@ -73,8 +52,6 @@
         "bPaginate": false,
         "bLengthChange": false,
         "bFilter": false,
-        "bInfo": false,
-        "bRetrieve": true, 
-        "bDestroy": true,
+        "bInfo": false
     });
 </script>

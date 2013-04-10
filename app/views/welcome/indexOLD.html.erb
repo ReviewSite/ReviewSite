@@ -28,28 +28,7 @@
 <br />
 
 <% if @feedbacks.count > 0 %>
-  <h2>6 Month Review</h2>
-  <%= render :partial => 'feedbacks/feedbacks', 
-    	:locals => {
-          :review_type => '6-Month' 
-       	} %>
-
-  <h2>12 Month Review</h2>
-  <%= render :partial => 'feedbacks/feedbacks', 
-    	:locals => {
-          :review_type => '12-Month' 
-       	} %>
-
-  <h2>18 Month Review</h2>
-  <%= render :partial => 'feedbacks/feedbacks', 
-    	:locals => {
-          :review_type => '18-Month' 
-       	} %>
-
-  <h2>18 Month Review</h2>
-  <%= render :partial => 'feedbacks/feedbacks', 
-    	:locals => {
-          :review_type => '24-Month' 
-       	} %>
+  <h2>Feedback on Reviews</h2>
+  <%= render :partial => 'feedbacks/feedbacks' %>
 <% end %>
 

@@ -226,7 +226,6 @@ describe "Home page" do
           visit root_path
         end
 
-        it { should_not have_selector('th', text: 'Action') }
         it { should have_selector("table.feedback td", text: reviewer.name) }
         it { should have_selector("table.feedback td", text: jc.name) }
         it { should have_selector("table.feedback td", text: review.review_type) }
@@ -257,7 +256,6 @@ describe "Home page" do
           visit root_path
         end
 
-        it { should_not have_selector('th', text: 'Action') }
         it { should have_selector("table.feedback td", text: reviewer.name) }
         it { should have_selector("table.feedback td", text: jc.name) }
         it { should have_selector("table.feedback td", text: review.review_type) }
@@ -280,7 +278,6 @@ describe "Home page" do
     describe "as a reviewer" do
       before { sign_in reviewer }
 
-      it { should_not have_selector('th', text: 'Action') }
       it { should have_selector("table.feedback td", text: reviewer.name) }
       it { should have_selector("table.feedback td", text: jc.name) }
       it { should have_selector("table.feedback td", text: review.review_type) }

@@ -1,6 +1,3 @@
-
-
-
 <% @reviews.each do |review| %>
   <h2><%= review.review_type.titleize %> Review</h2>
   <h3>Feedback Deadline: <%= review.feedback_deadline.strftime("%m/%d/%Y") %></h3>

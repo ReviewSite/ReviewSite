@@ -3,20 +3,13 @@
   <tr>
     <th>Junior Consultant</th>
     <th>Review Type</th>
-    <th>Submitted / Total Feedback</th>
+    <th>Submitted / Total<br/>Feedback</th>
     <% if can? :create, Review %>
         <th>Review Date</th>
         <th>Feedback Deadline</th>
         <th>Link Date</th>
-        <th></th>
     <% end %>
-    <% if can? :create, Invitation %>
-        <th></th>
-    <% end %>
-    <th></th>
-    <% if can? :show, Review %>
-        <th></th>
-    <% end %>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -31,20 +24,16 @@
             <td class="review_date"><%= review.review_date %></td>
             <td class="feedback_deadline"><%= review.feedback_deadline %></td>
             <td class="send_link_date"><%= review.send_link_date %></td>
-            <td><%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %></td>
         <% end %>
+        <td>|
         <% if can? :create, Invitation %>
-            <td><%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %></td>
+            <%= link_to 'Invite', new_review_invitation_path(review), :class => 'send_invite_link' %> |
         <% end %>
-        <td>
-          <% if can? :summary, review %>
-              <%= link_to 'View Summary', summary_review_path(review) %>
-          <% end %>
-        </td>
+        <% if can? :summary, review %>
+            <%= link_to 'Summary', summary_review_path(review) %> |
+        <% end %>
         <% if can? :read, review %>
-            <td>
-              <%= link_to 'Show', review %>
-            </td>
+            <%= link_to 'Show', review %> |
         <% end %>
       </tr>
   <% end %>
@@ -52,12 +41,8 @@
 </table>
 
 <br class="spacer" />
+<br class="spacer" />
 
 <script>
-    $('.reviews').dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bInfo": false
-    });
+    $('.reviews').dataTable();
 </script>

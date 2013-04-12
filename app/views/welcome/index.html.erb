@@ -1,37 +1,12 @@
 <h1>Review Site Homepage</h1>
 
-<% if can? :create, Review %>
-    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
-<% end %>
-
-<br />
-
-<% if @invitations_received.count > 0 %>
-  <h2>Provide Feedback For</h2>
-  <%= render :partial => 'invitations/invitations_received' %>
-<% end %>
-
-<br />
-
-<% if @reviews.count > 0 %>
+<% if current_user %>
   <% if current_user.admin? %>
-    <h2>Reviews</h2>
-    <%= render :partial => 'reviews/reviews' %>
+    <%= render :partial => 'welcome/index_admin' %>
   <% else %>
-    <%= render :partial => 'reviews/reviews_by_type' %>
+    <%= render :partial => 'welcome/index_user' %>
   <% end %>
 <% end %>
-
-<br />
-
-<% if @feedbacks.count > 0 %>
-  <% if current_user.admin? %>
-    <h2>Feedbacks</h2>
-    <%= render :partial => 'feedbacks/feedbacks_all' %>
-  <% end %>
-<% end %>
-
-
 
 
 

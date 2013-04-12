@@ -287,7 +287,7 @@ describe "Review pages" do
         visit review_path(review)
       end
 
-      it { should have_selector('h1', text: jc.name) }
+      it { should have_selector('h2', text: review.review_type.titleize) }
       it { should have_selector('th', text: 'Reviewer') }
       it { should have_selector('th', text: 'Project') }
       it { should have_selector('th', text: 'Date Updated') }

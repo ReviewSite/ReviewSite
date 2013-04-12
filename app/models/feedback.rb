@@ -36,4 +36,11 @@ class Feedback < ActiveRecord::Base
     update_attribute(:submitted, true)
     UserMailer.new_feedback_notification(self).deliver
   end
+
+  def invitation
+    review.invitations.each do |i|
+      return i if i.user == user
+    end
+    nil
+  end
 end

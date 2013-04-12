@@ -1,30 +1,13 @@
-<h1><%= @review.junior_consultant %> - <%= @review.review_type.titleize %> Review</h1>
-  <h3>Feedback Deadline: <%= @review.feedback_deadline %></h3>
-  <h3>Review Date: <%= @review.review_date %></h3>
-    <%= render :partial => 'feedbacks/feedbacks', 
-        :locals => {
-            :review_type => @review.review_type
-          } %>
+<%= render :partial => 'reviews/review', :locals => { review: @review } %>
 
-          <%= link_to 'New Feedback', new_review_feedback_path(@review), :class => 'new_feedback_link' %> |
+<% if can? :edit, @review %>
+  <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
+<% end %>
 
-        <% if can? :create, Invitation %>
-            <%= link_to 'Invite Reviewer', new_review_invitation_path(@review), :class => 'send_invite_link' %> |
-        <% end %>
-        <% if can? :create_additional, Feedback %>
-          <%= link_to 'Additional Feedback', additional_review_feedbacks_path(@review) %> |
-        <% end %>
-        <% if can? :summary, @review %>
-          <%= link_to 'View Summary', summary_review_path(@review) %> |
-        <% end %>
-        <% if can? :edit, @review %>
-          <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
-        <% end %>
+<% if can? :destroy, @review %>
+  <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
+<% end %>
 
-        <% if can? :destroy, @review %>
-          <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
-        <% end %>
-
-        <%= link_to 'Back', root_path %>
+<%= link_to 'Back', root_path %>
 
 

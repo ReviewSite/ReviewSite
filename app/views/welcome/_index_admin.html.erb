@@ -1,0 +1,11 @@
+<div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+
+<% if @reviews.count > 0 %>
+  <h2>Reviews</h2>
+  <%= render :partial => 'reviews/reviews' %>
+<% end %>
+
+<% if @feedbacks.count > 0 %>
+  <h2>Feedbacks</h2>
+  <%= render :partial => 'feedbacks/feedbacks_all' %>
+<% end %>

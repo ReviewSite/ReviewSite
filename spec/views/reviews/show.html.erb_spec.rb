@@ -13,17 +13,17 @@ describe "reviews/show" do
     controller.stub(:current_ability) { @ability }
   end
 
-  xit "renders details of the review" do
+  it "renders details of the review" do
     render
     rendered.should match(/#{@review.junior_consultant.name}/)
     rendered.should match(/#{@review.review_type.titleize}/)
   end
-  xit "renders feedbacks' user names" do
+  it "renders feedbacks' user names" do
     render
     rendered.should match(/Bob/)
     rendered.should match(/Jane/)
   end
-  xit "renders feedbacks' project names" do
+  it "renders feedbacks' project names" do
     render
     rendered.should match(/First Project/)
     rendered.should match(/Second Project/)

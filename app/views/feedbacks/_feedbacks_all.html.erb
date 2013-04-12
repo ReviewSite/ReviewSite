@@ -23,20 +23,20 @@
         <% else %>
             <td class="feedback_not_submitted">Not Submitted</td>
         <% end %>
-            <td>
+            <td>|
               <%  if can? :submit, feedback %>
-                    <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %>
+                    <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %> |
                   <% elsif can? :unsubmit, feedback %>
-                    <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %>
+                    <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put  %> |
               <% end %>
               <% if can? :show, feedback %>
-                <%= link_to 'Show', [feedback.review, feedback] %>
+                <%= link_to 'Show', [feedback.review, feedback] %> |
               <% end %>
               <% if can? :edit, feedback %>
-                <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %>
+                <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback) %> |
               <% end %>
               <% if can? :destroy, feedback %>
-                <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' } %> |
               <% end %>
             </td> 
         

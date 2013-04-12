@@ -25,12 +25,12 @@
       <% else %>
           <td class="feedback_not_submitted">Not Submitted</td>
       <% end %>
-          <td>
+          <td>|
             <% if feedback.invitation and not feedback.submitted? %>
               <%= link_to 'Send Reminder',
                   send_reminder_review_invitation_path(feedback.review, feedback.invitation),
                   data: {confirm: "This will send an email to #{feedback.invitation.email}.\nAre you sure you want to?"},
-                  method: :post %>
+                  method: :post %> |
             <% end %>
             <%  if can? :submit, feedback %>
                   <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %> |
@@ -44,7 +44,7 @@
               <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' }, id:"feedback_#{feedback.id}_destroy" %> |
             <% end %>
             <% if can? :show, feedback %>
-              <%= link_to 'Show', [feedback.review, feedback] %> 
+              <%= link_to 'Show', [feedback.review, feedback] %> |
             <% end %>
           </td> 
       
@@ -59,10 +59,10 @@
       <td></td>
       <td><%= invitation.sent_date %></td>
       <td>Not Started</td>
-      <td><%= link_to 'Send Reminder',
+      <td>| <%= link_to 'Send Reminder',
                   send_reminder_review_invitation_path(invitation.review, invitation),
                   data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
-                  method: :post %>
+                  method: :post %> |
       </td>
     </tr>
     <% end %>

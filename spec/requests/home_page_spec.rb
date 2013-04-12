@@ -36,16 +36,10 @@ describe "Home page" do
       it { should have_selector("table.reviews td.feedback_deadline", text: review.feedback_deadline.to_s) }
       it { should have_selector("table.reviews td.send_link_date", text: review.send_link_date.to_s) }
 
-      it "links to new feedback page" do
-        within("table.reviews") do
-          click_link 'New Feedback'
-        end
-        current_path.should == new_review_feedback_path(review)
-      end
 
       it "links to reviewer invitation page" do
         within("table.reviews") do
-          click_link 'Invite Reviewer'
+          click_link 'Invite'
         end
         current_path.should == new_review_invitation_path(review)
       end
@@ -58,7 +52,7 @@ describe "Home page" do
 
       it "links to review summary page" do
         within("table.reviews") do
-          click_link 'View Summary'
+          click_link 'Summary'
         end
         current_path.should == summary_review_path(review)
       end

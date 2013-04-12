@@ -308,13 +308,6 @@ describe "Review pages" do
         current_path.should == edit_review_feedback_path(review, feedback)
       end
 
-      it "links to destroy feedback", js: true do
-        click_link "feedback_#{feedback.id}_destroy"
-        page.evaluate_script("window.confirm = function() { return true; }")
-        current_path.should == root_path
-        Feedback.find_by_id(feedback).should be_nil
-      end
-
       it "links to invite reviewer" do
         click_link "Invite Reviewer"
         current_path.should == new_review_invitation_path(review)

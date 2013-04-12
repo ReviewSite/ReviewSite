@@ -69,6 +69,8 @@ class FeedbacksController < ApplicationController
         if params[:submit_final_button] 
           @feedback.submit_final
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
+        elsif params[:delete_feedback_button]
+          format.html { redirect_to root_path, notice: 'Feedback was successfully deleted.' }
         else
           format.html do
             redirect_to edit_review_feedback_path(@review.id, @feedback.id)

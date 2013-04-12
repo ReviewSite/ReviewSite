@@ -121,7 +121,6 @@ describe "Home page" do
       it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
       it { should_not have_selector("table.feedback td a", text: "Show") }
       it { should_not have_selector("table.feedback td a", text: "Edit") }
-      it { should_not have_selector("table.feedback td a", text: "Destroy") }
 
       it "submits feedback if 'Submit' is clicked" do
         within("table.feedback") do
@@ -167,14 +166,6 @@ describe "Home page" do
           current_path.should == edit_review_feedback_path(review, feedback)
         end
 
-        it "links to destroy feedback", js: true do
-          within("table.feedback") do
-            click_link 'Destroy'
-          end
-          page.evaluate_script("window.confirm = function() { return true; }")
-          current_path.should == root_path
-          Feedback.find_by_id(feedback).should be_nil
-        end
       end
     end
   end

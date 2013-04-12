@@ -40,9 +40,6 @@
             <% if can? :edit, feedback %>
               <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit" %> |
             <% end %>
-            <% if can? :destroy, feedback %>
-              <%= link_to 'Destroy', [feedback.review, feedback], method: :delete, data: { confirm: 'Are you sure?' }, id:"feedback_#{feedback.id}_destroy" %> |
-            <% end %>
             <% if can? :show, feedback %>
               <%= link_to 'Show', [feedback.review, feedback] %> |
             <% end %>

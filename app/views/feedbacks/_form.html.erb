@@ -251,6 +251,13 @@
   <div class="actions">
     <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
     <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+    <% if can? :delete, @feedback %>
+    <%= f.submit 'Delete Feedback', {:class => "delete_feedback_button", :name => "delete_feedback_button", :confirm => 'Are you sure you want to delete this feedback?'}  %>
+    <% end %>
+
+
+
+
   </div>
 <% end %>
 <script>

@@ -1,5 +1,5 @@
 <h2><%= @review.junior_consultant.name %></h2>
-<%= render :partial => 'reviews/review', :locals => { review: @review } %>
+<%= render @review %>
 
 <% if can? :edit, @review %>
   <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |

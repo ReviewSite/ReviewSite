@@ -1,10 +1,11 @@
 <% if @invitations_received.count > 0 %>
   <h2>Provide Feedback For</h2>
+  <br/>
   <%= render :partial => 'invitations/invitations_received' %>
 <% end %>
 
 <% if @reviews.count > 0 %>
   <% @reviews.each do |review| %>
-    <%= render :partial => 'reviews/review', :locals => { review: review } %>
+    <%= render review %>
   <% end %>
 <% end %>

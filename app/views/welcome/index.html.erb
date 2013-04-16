@@ -1,6 +1,6 @@
 <h1>Review Site Homepage</h1>
 
-<% if current_user %>
+<% if signed_in? %>
   <% if current_user.admin? %>
     <%= render :partial => 'welcome/index_admin' %>
   <% else %>

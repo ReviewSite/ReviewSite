@@ -163,4 +163,21 @@ class FeedbacksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def send_reminder
+    feedback = Feedback.find_by_id(params[:id])
+    if feedback.submitted?
+      flash[:notice] = "Feedback already submitted. Reminder not sent."
+    else
+      if feedback.invitation
+        invitation = feedback.invitation
+      else
+        review = feedback.review
+        invitation = review.invitations.build(email: review.user.email)
+      end
+      UserMailer.feedback_reminder(invitation).deliver
+      flash[:notice] = "Reminder email was sent!"
+    end
+    redirect_to root_path
+  end
 end

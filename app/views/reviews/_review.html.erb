@@ -10,9 +10,6 @@
 <% if can? :create_additional, Feedback %>
   <%= link_to 'Additional Feedback', additional_review_feedbacks_path(review) %> |
 <% end %>
-<% if can? :read, review %>
-      <%= link_to 'Show', review %> |
-<% end %>
 <% if can? :summary, review %>
       <%= link_to 'View Summary', summary_review_path(review) %> 
 <% end %>

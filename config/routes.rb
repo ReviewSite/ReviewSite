@@ -12,6 +12,7 @@ ReviewSite::Application.routes.draw do
       member do
         put :submit
         put :unsubmit
+        post :send_reminder
       end
       collection do
         get :additional

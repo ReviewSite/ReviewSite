@@ -66,9 +66,6 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        unless @feedback.invitation 
-          @feedback.review.invitations.create(email: @feedback.user.email)
-        end
         if params[:submit_final_button] 
           @feedback.submit_final
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }

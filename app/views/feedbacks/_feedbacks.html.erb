@@ -26,10 +26,10 @@
           <td class="feedback_not_submitted">Not Submitted</td>
       <% end %>
           <td>|
-            <% if feedback.invitation and not feedback.submitted? %>
+            <% if not feedback.submitted? %>
               <%= link_to 'Send Reminder',
-                  send_reminder_review_invitation_path(feedback.review, feedback.invitation),
-                  data: {confirm: "This will send an email to #{feedback.invitation.email}.\nAre you sure you want to?"},
+                  send_reminder_review_feedback_path(feedback.review, feedback),
+                  data: {confirm: "This will send an email to #{feedback.user.email}.\nAre you sure you want to?"},
                   method: :post %> |
             <% end %>
             <%  if can? :submit, feedback %>

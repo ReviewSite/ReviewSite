@@ -65,9 +65,6 @@ class FeedbacksController < ApplicationController
     @feedback.user = current_user
 
     respond_to do |format|
-      if params[:delete_feedback_button]
-          format.html { redirect_to root_path, notice: 'Feedback was successfully deleted.' }
-      end
       if @feedback.save
         unless @feedback.invitation 
           @feedback.review.invitations.create(email: @feedback.user.email)

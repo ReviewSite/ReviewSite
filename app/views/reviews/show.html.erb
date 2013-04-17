@@ -1,15 +1,6 @@
 <h2><%= @review.junior_consultant.name %></h2>
 <br>
 <%= render @review %>
-
-<% if can? :edit, @review %>
-  <%= link_to 'Edit', edit_review_path(@review), id: "review_edit" %> |
-<% end %>
-
-<% if can? :destroy, @review %>
-  <%= link_to 'Destroy', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
-<% end %>
-
 <%= link_to 'Back', root_path %>
 
 

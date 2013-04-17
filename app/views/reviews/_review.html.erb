@@ -1,22 +1,41 @@
 <h2><%= review.review_type.titleize %> Review</h2>
 <h3>Feedback Deadline: <%= review.feedback_deadline %></h3>
 <h3>Review Date: <%= review.review_date %></h3>
+
+|
+<% if can? :edit, @review %>
+  <%= link_to 'Edit Review', edit_review_path(@review), id: "review_edit" %> |
+<% end %>
+<% if can? :destroy, @review %>
+  <%= link_to 'Delete Review', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
+<% end %>
+<% if can? :summary, review %>
+  <%= link_to 'View Summary', summary_review_path(review) %> |
+<% end %>
 <% if can? :manage, review %>
 	<%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %> |
-<% end %>
-<% if can? :create, Invitation %>
-    <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %> |
 <% end %>
 <% if can? :create_additional, Feedback %>
   <%= link_to 'Additional Feedback', additional_review_feedbacks_path(review) %> |
 <% end %>
-<% if can? :summary, review %>
-      <%= link_to 'View Summary', summary_review_path(review) %> 
+<% if can? :create, Invitation %>
+  <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %> |
 <% end %>
-  <%= render :partial => 'feedbacks/feedbacks', 
-      :locals => {
-          :feedbacks => review.feedbacks, :invitations => review.invitations
-        } %>
+<% if can? :create, SelfAssessment %>
+  <% if review.self_assessments.count > 0 %>
+    <%= link_to("Update Self Assessment", 
+      edit_review_self_assessment_path(review, review.self_assessments.first), 
+      title: 'Update your own thoughts and goals pertaining to your current review') %> |
+  <% else %>
+    <%= link_to("Submit Self Assessment", 
+      new_review_self_assessment_path(review),
+      title: 'Add your own thoughts and goals pertaining to your current review') %> |
+  <% end %>
+<% end %>
+
+<%= render :partial => 'feedbacks/feedbacks', :locals => {
+  :feedbacks => review.feedbacks, :invitations => review.invitations
+} %>
 
 <br class="spacer" />
 <br class="spacer" />

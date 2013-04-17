@@ -17,7 +17,7 @@ class Ability
       end
 
       can :manage, SelfAssessment do |self_assessment|
-        self_assessment.review.junior_consultant.email == user.email
+        is_user_the_jc_associated_with_review(user, self_assessment.review)
       end
 
       can :manage, Invitation do |invitation|

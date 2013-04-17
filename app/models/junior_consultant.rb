@@ -7,9 +7,11 @@ class JuniorConsultant < ActiveRecord::Base
             format:     { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false }
   validates :coach_id, :numericality => { :only_integer => true }, :allow_blank => true
+
   before_save { |user| user.email = user.email.downcase }
 
   belongs_to :reviewing_group
+  belongs_to :user
 
   has_many :reviews, :dependent => :destroy
 

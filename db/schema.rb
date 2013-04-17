@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130412201546) do
+ActiveRecord::Schema.define(:version => 20130417190406) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -69,7 +69,10 @@ ActiveRecord::Schema.define(:version => 20130412201546) do
     t.text     "notes"
     t.integer  "reviewing_group_id"
     t.integer  "coach_id"
+    t.integer  "user_id"
   end
+
+  add_index "junior_consultants", ["user_id"], :name => "index_junior_consultants_on_user_id"
 
   create_table "reviewing_group_members", :force => true do |t|
     t.integer  "reviewing_group_id"

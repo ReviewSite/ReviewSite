@@ -1,10 +1,6 @@
 <h2><%= review.review_type.titleize %> Review</h2>
 <h3>Feedback Deadline: <%= review.feedback_deadline %></h3>
 <h3>Review Date: <%= review.review_date %></h3>
-  <%= render :partial => 'feedbacks/feedbacks', 
-      :locals => {
-          :feedbacks => review.feedbacks, :invitations => review.invitations
-        } %>
 <% if can? :manage, review %>
 	<%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %> |
 <% end %>
@@ -20,6 +16,10 @@
 <% if can? :summary, review %>
       <%= link_to 'View Summary', summary_review_path(review) %> 
 <% end %>
+  <%= render :partial => 'feedbacks/feedbacks', 
+      :locals => {
+          :feedbacks => review.feedbacks, :invitations => review.invitations
+        } %>
 
 <br class="spacer" />
 <br class="spacer" />

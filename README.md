@@ -106,7 +106,7 @@ Account details for sending emails from:
 
 The Address that should appear in the "from" line of the sent e-mails:
 
-* `MAIL_FULL_EMAIL=do-not-reply@thoughtworks.org`
+* `MAIL_FULL_EMAIL="TW ReviewSite <do-not-reply@thoughtworks.org>"`
 
 The base domain that should be used for the links that appear in the emails.
 

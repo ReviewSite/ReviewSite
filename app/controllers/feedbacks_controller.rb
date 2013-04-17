@@ -70,7 +70,7 @@ class FeedbacksController < ApplicationController
       end
       if @feedback.save
         unless @feedback.invitation 
-          @invitation = @feedback.review.invitations.create(email: @feedback.user.email)
+          @feedback.review.invitations.create(email: @feedback.user.email)
         end
         if params[:submit_final_button] 
           @feedback.submit_final
@@ -159,8 +159,7 @@ class FeedbacksController < ApplicationController
   # DELETE /feedbacks/1
   # DELETE /feedbacks/1.json
   def destroy
-    @feedback = Feedback.find(params[:id])
-    @feedback.destroy
+    Feedback.find(params[:id]).destroy
 
     respond_to do |format|
       format.html { redirect_to root_path }

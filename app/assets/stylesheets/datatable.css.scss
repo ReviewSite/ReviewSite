@@ -39,6 +39,56 @@ table {
   clear: both;
 }
 
+thead {
+  background: #454647;
+}
+
+th {
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #eaF6Fa;
+}
+
+
+tbody {
+  font-size: 12px;
+  background: #E8F3F8;
+}
+
+tr.odd td { 
+  background:#E8F3F8;
+}
+
+
+
+tr.odd td.sorting_1 {
+  background-color: #C7EDE8 !important;
+}
+
+tr.odd td.sorting_2 {
+  background-color: #C7EDE8 !important;
+}
+
+tr.odd td.sorting_3 {
+  background-color: #C7EDE8 !important;
+}
+
+tr.even td.sorting_1 {
+  background-color: #DCF7F3 !important;
+}
+
+tr.even td.sorting_2 {
+  background-color: #DCF7F3 !important;
+}
+
+tr.even td.sorting_3 {
+  background-color: #DCF7F3 !important;
+}
+
+
+
+
+
 .spacer {
   clear: both;
 }

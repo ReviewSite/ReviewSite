@@ -68,7 +68,6 @@ describe "Home page" do
     describe "as JC" do
       before { sign_in jc_user }
 
-      it { should have_selector("a", text: "New Feedback") }
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
@@ -93,8 +92,7 @@ describe "Home page" do
       before { sign_in coach }
 
       it { should have_selector("a", text: "New Feedback") }
-      it { should_not have_selector("a", text: "Show") }
-
+  
       it "links to reviewer invitation page" do
         click_link 'Invite Reviewer'
         current_path.should == new_review_invitation_path(review)

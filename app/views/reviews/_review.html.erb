@@ -1,7 +1,7 @@
 <h2><%= review.review_type.titleize %> Review for <%= review.junior_consultant %></h2>
 <h3>Feedback Deadline: <%= review.feedback_deadline %></h3>
 <h3>Review Date: <%= review.review_date %></h3>
-
+<h3>
 |
 <% if can? :edit, @review %>
   <%= link_to 'Edit Review', edit_review_path(@review), id: "review_edit" %> |
@@ -24,14 +24,13 @@
 <% if can? :create, SelfAssessment %>
   <% if review.self_assessments.count > 0 %>
     <%= link_to("Update Self Assessment", 
-      edit_review_self_assessment_path(review, review.self_assessments.first), 
-      title: 'Update your own thoughts and goals pertaining to your current review') %> |
+      edit_review_self_assessment_path(review, review.self_assessments.first)) %> |
   <% else %>
     <%= link_to("Submit Self Assessment", 
-      new_review_self_assessment_path(review),
-      title: 'Add your own thoughts and goals pertaining to your current review') %> |
+      new_review_self_assessment_path(review)) %> |
   <% end %>
 <% end %>
+</h3>
 
 <%= render :partial => 'feedbacks/feedbacks', :locals => {
   :feedbacks => review.feedbacks, :invitations => review.invitations

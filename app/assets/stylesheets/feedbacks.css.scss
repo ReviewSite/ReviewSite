@@ -2,24 +2,39 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+#instructions-label {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#instructions-label:hover {
+  background-color: black;
+  color: white;
+}
+
+#instructions {
+  display: none;  
+}
+
 textarea {
   height: 80px;
 }
+
 .feedback_not_submitted {
   color: red;
 }
 
 .save_feedback_button {
-    background-color: #292EA7;
-    color: white;
+  background-color: #292EA7;
+  color: white;
 }
 
 .submit_feedback_button {
-    background-color: #3EAA58;
-    color: white;
+  background-color: #3EAA58;
+  color: white;
 }
 
 .delete_feedback_button {
-    background-color: #CF0026;
-    color: white;
+  background-color: #CF0026;
+  color: white;
 }

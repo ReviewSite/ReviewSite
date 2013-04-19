@@ -10,12 +10,26 @@
       </ul>
     </div>
   <% end %>
-  <p>For each section, please read the detailed description in the section header. 
-  This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
-  <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
 
+  <label id="instructions-label">Click to view instructions.</label><br/><br/>
+
+  <div id="instructions">
+    <p><a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">See example feedback here</a></p>
+
+    <p>For each section, please read the detailed description in the section header. 
+    This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
+
+    <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
+
+    <p>There are three categories to organize your detailed feedback for each of the overall
+    Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting
+    & Exceeding expectations) for a given section, please include both responses. There is no need to include
+    responses in all categories, if it does not apply.</p>
+  </div>
+
+  <br />
   <div class="field">
-    Feedback By:
+    <%= f.label "Feedback by" %><br />
     <% if not additional %>
       <%= @user_name %>
     <% else %>
@@ -31,32 +45,6 @@
     <%= f.label :role_description %><br />
     <%= f.text_field :role_description %>
   </div>
-
-  <h3>The Sections</h3>
-  <p>Your feedback is organized in the following overall Sections: 
-  <ul>
-    <li>Technical Competence</li>
-    <li>Client Interaction</li>
-    <li>Ownership/Delivery focus</li>
-    <li>Leadership</li>
-    <li>Teamwork</li>
-    <li>Attitude</li>
-    <li>Professionalism</li>
-    <li>Organizational Involvement</li>
-    <li>Innovation/Out of the box thinking</li>
-  </ul>
-  </p>
-
-  <h3>The Category Scales</h3>
-  <p>Exceeded Expectations (Really excels in this area)<br />
-  Met Expectations (Does a good job)<br />
-  Improvement Desired (Suggestions for further development)<br /><br />
-
-  PLEASE NOTE: There are three categories to organize your detailed feedback for each of the overall Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting & Exceeding expectations) for a given section, please include both responses. There is no need to include responses in all categories, if it does not apply. <br /><br />
-
-  SEE FEEDBACK EXAMPLE HERE: <br />
-  https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0<br />
-  </p>
 
   <div id="accordion">
     <h3>Technical Competence</h3>
@@ -261,6 +249,10 @@
 <% end %>
 <script>
 	changeMadeAndUnsaved = false;
+
+  $('#instructions-label').click(function() {
+    $('#instructions').slideToggle();
+  });
 
 	$(':input').change(function() {
 		changeMadeAndUnsaved = true;

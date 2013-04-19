@@ -10,9 +10,11 @@
   <body class="<%= controller_name %> <%= action_name %>" data-spy="scroll" data-target="#navbar">
   <%= render 'layouts/header' %>
   <div class="container">
-    <% flash.each do |key, value| %>
-        <div class="span8 offset2 alert alert-<%= key %>"><%= value %></div>
-    <% end %>
+    <div class="row">
+      <% flash.each do |key, value| %>
+          <div class="span8 offset2 alert alert-<%= key %>"><%= value %></div>
+      <% end %>
+    </div>
     <%= yield %>
     <%= render 'layouts/footer' %>
     <%= debug(params) if Rails.env.development? %>

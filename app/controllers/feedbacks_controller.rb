@@ -170,7 +170,7 @@ class FeedbacksController < ApplicationController
         invitation = feedback.invitation
       else
         review = feedback.review
-        invitation = review.invitations.build(email: review.user.email)
+        invitation = review.invitations.build(:email => feedback.user.email)
       end
       UserMailer.feedback_reminder(invitation).deliver
       flash[:notice] = "Reminder email was sent!"

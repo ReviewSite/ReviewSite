@@ -321,4 +321,21 @@ describe FeedbacksController do
     end
   end
 
+  describe "POST send_reminder" do
+    it "should send a new invitation if the feedback doesn't have one" do
+      feedback = Feedback.create! valid_attributes
+      Invitation.stub(:new).and_return(:invitation)
+      UserMailer.should_receive(:feedback_reminder).with(:invitation).and_return(double(deliver: true))
+      post :send_reminder, {:review_id => @review.id, :id => feedback.id}, valid_session
+    end
+
+    it "creates an invitation with the email of the reviewer" do
+      feedback = Feedback.create! valid_attributes
+      post :send_reminder, {:review_id => @review.id, :id => feedback.id}, valid_session
+      email = ActionMailer::Base.deliveries.last
+      email.to.should == [feedback.user.email]
+    end
+
+  end
+
 end

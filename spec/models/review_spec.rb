@@ -1,80 +1,57 @@
 require 'spec_helper'
 
 describe Review do
-    it "has a consultant" do
-        r = Review.new
-        r.review_type = "6-Month"
-        r.valid?.should == false
+  describe "with a FactoryGirl review" do
+    before(:each) do
+      @review = FactoryGirl.create(:review)
+    end 
 
-        r.junior_consultant_id = 1
-
-        r.valid?.should == true
+    it "is valid" do
+      @review.valid?.should == true
     end
 
-    it "has a review period" do
-        r = Review.new
-        r.junior_consultant_id = 1
-        r.valid?.should == false
+    it "must have a jc" do
+      @review.junior_consultant = nil
+      @review.valid?.should == false
+    end
 
-        r.review_type = "6-Month"
-
-        r.valid?.should == true
+    it "must have a review period" do
+      @review.review_type = nil
+      @review.valid?.should == false
     end
 
     it "can find its consultant" do
-        r = Review.new
-        c = JuniorConsultant.new
-        c.name = "Robin"
-        c.email = "rdunlop@thoughtworks.com"
-        c.coach_id = 1
-        c.save!
-        r.review_type = "6-Month"
+      r = Review.new
+      c = JuniorConsultant.new
+      c.name = "Robin"
+      c.email = "rdunlop@thoughtworks.com"
+      c.coach_id = 1
+      c.save!
+      r.review_type = "6-Month"
+      r.feedback_deadline = Date.today
 
-        r.junior_consultant = c
+      r.junior_consultant = c
 
-        r.save.should == true
+      r.save.should == true
     end
 
-    it "allows Review Type of 6-Month" do
-        r = Review.new
-        r.junior_consultant_id = 1
-
-        r.review_type = "6-Month"
-
-        r.valid?.should == true
-    end
-    it "allows Review Type of 12-Month" do
-        r = Review.new
-        r.junior_consultant_id = 1
-
-        r.review_type = "12-Month"
-
-        r.valid?.should == true
-    end
-    it "allows Review Type of 18-Month" do
-        r = Review.new
-        r.junior_consultant_id = 1
-
-        r.review_type = "18-Month"
-
-        r.valid?.should == true
-    end
-    it "allows Review Type of 24-Month" do
-        r = Review.new
-        r.junior_consultant_id = 1
-
-        r.review_type = "24-Month"
-
-        r.valid?.should == true
+    it "allows different Review Types" do
+      TYPES = ["6-Month", "12-Month", "18-Month", "24-Month"]
+      TYPES.each do |type|
+        @review.review_type = type
+        @review.valid?.should == true
+      end
     end
     it "disallows Review Type of 2-Month" do
-        r = Review.new
-        r.junior_consultant_id = 1
-
-        r.review_type = "2-Month"
-
-        r.valid?.should == false
+      @review.review_type = "2-Month"
+      @review.valid?.should == false
     end
+
+    it "requires a feedback_deadline" do
+      @review.feedback_deadline = nil
+      @review.valid?.should == false
+    end
+  end
 
     it "has feedback" do
       r = FactoryGirl.create(:review)

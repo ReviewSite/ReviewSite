@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   attr_protected :password_reset_token, :password_reset_sent_at
   has_secure_password
   has_many :junior_consultants
+  has_many :feedbacks
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

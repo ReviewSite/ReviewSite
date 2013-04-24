@@ -43,7 +43,9 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+    get :feedbacks, :on => :member
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

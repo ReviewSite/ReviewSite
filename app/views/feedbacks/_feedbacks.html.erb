@@ -26,7 +26,7 @@
           <td class="feedback_not_submitted">Not Submitted</td>
       <% end %>
           <td>|
-            <% if not feedback.submitted? %>
+            <% if (not feedback.submitted?) and (not feedback.review.junior_consultant.email == feedback.user.email) %>
               <%= link_to 'Send Reminder',
                   send_reminder_review_feedback_path(feedback.review, feedback),
                   data: {confirm: "This will send an email to #{feedback.user.email}.\nAre you sure you want to?"},

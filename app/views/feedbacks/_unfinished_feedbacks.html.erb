@@ -1,0 +1,45 @@
+<table class="unfinished_feedbacks">
+  <thead>
+    <th>Reviewee</th>
+    <th>Review Type</th>
+    <th>Invite Received</th>
+    <th>Feedback Deadline</th>
+    <th>Status</th>
+    <th>Action</th>
+  </thead>
+  <tbody>
+    <% @invitations_received.each do |invitation| %>
+      <tr>
+        <td><%= invitation.review.junior_consultant %></td>
+        <td><%= invitation.review.review_type %></td>
+        <td class="invitation_date"><%= invitation.sent_date %></td>
+        <td class="feedback_deadline"><%= invitation.review.feedback_deadline %></td>
+        <td>Not Started</td>
+        <td><%= link_to "Create", new_review_feedback_path(invitation.review) %></td>
+      </tr>
+    <% end %>
+
+    <% @feedbacks_in_progress.each do |feedback| %>
+      <tr>
+        <td><%= feedback.review.junior_consultant %></td>
+        <td><%= feedback.review.review_type %></td>
+        <td class="invitation_date"><%= feedback.invitation.sent_date unless feedback.invitation.nil? %></td>
+        <td class="feedback_deadline"><%= feedback.review.feedback_deadline %></td>
+        <td>Not Submitted</td>
+        <td><%= link_to "Continue", edit_review_feedback_path(feedback.review, feedback) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br class="spacer" />
+<br class="spacer" />
+<br class="spacer" />
+<script>
+    $('.invitations_received').dataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bInfo": false
+    });
+</script>

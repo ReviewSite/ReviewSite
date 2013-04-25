@@ -7,7 +7,6 @@ class AdminController < ApplicationController
     else
       @reviews = Review.all
       @feedbacks = Feedback.all
-      render nothing: true
     end
   end
 end

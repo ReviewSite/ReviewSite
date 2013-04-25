@@ -17,6 +17,9 @@
           <li><%= link_to "Home", root_path %></li>
 
           <% if signed_in? %>
+              <% if current_user.admin? %>
+                <li><%= link_to "Administration", admin_index_path %></li>
+              <%end%>
               <% if can? :manage, JuniorConsultant %>
                   <li><%= link_to "Junior Consultants", junior_consultants_path %></li>
               <%end%>

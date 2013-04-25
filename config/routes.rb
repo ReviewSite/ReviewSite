@@ -4,6 +4,8 @@ ReviewSite::Application.routes.draw do
 
   resources :reviewing_groups
 
+  resources :admin, only: [:index]
+
   resources :reviews, :except => [:index] do
     member do
       get :summary

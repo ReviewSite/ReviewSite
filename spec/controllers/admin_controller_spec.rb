@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AdminController do
 
+
   before do
     @admin = FactoryGirl.build(:admin_user)
   end
@@ -30,6 +31,19 @@ describe AdminController do
         get :index
 
         assigns(:feedbacks).should =~ [feedback_one, feedback_two]
+      end
+    end
+
+    describe 'as a regular user' do
+      before do
+        user = FactoryGirl.build(:user)
+        controller.stub(:current_user).and_return(user)
+      end
+
+      it 'should redirect to home' do
+        get :index
+
+        response.should redirect_to root_path
       end
     end
   end

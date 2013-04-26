@@ -1,7 +1,7 @@
-<% if @invitations_received.count > 0 %>
+<% if @invitations_received.count > 0 or @feedbacks_in_progress.count > 0 %>
   <h2>Provide Feedback For</h2>
   <br/>
-  <%= render :partial => 'invitations/invitations_received' %>
+  <%= render :partial => 'feedbacks/unfinished_feedbacks' %>
 <% end %>
 
 <% if @reviews.count > 0 %>

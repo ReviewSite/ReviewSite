@@ -4,6 +4,8 @@ ReviewSite::Application.routes.draw do
 
   resources :reviewing_groups
 
+  resources :admin, only: [:index]
+
   resources :reviews, :except => [:index] do
     member do
       get :summary
@@ -43,7 +45,9 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+    get :feedbacks, :on => :member
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

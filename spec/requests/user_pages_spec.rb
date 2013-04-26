@@ -208,4 +208,57 @@ describe "User pages" do
       end
     end
   end
+
+  describe "feedbacks" do
+    let(:reviewer) { FactoryGirl.create(:user) }
+    let(:jc) { FactoryGirl.create(:junior_consultant) }
+    let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+    let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+
+    describe "as the reviewer" do
+      before do
+        sign_in reviewer
+      end
+
+      it "displays the feedback with a 'Continue' action if not submitted" do
+        visit feedbacks_user_path(reviewer)
+        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: review.review_type)
+        page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
+        page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('.feedbacks td', text: "Not Submitted")
+        page.should have_selector('.feedbacks td a', text: "Continue")
+        click_link "Continue"
+        current_path.should == edit_review_feedback_path(review, feedback)
+      end
+
+
+      it "displays the feedback with a 'View' action if submitted" do
+        feedback.update_attribute(:submitted, true)
+        visit feedbacks_user_path(reviewer)
+
+        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: review.review_type)
+        page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
+        page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('.feedbacks td', text: "Submitted")
+        page.should_not have_selector('.feedbacks td', text: "Not")
+        page.should have_selector('.feedbacks td a', text: "View")
+        click_link "View"
+        current_path.should == review_feedback_path(review, feedback)
+      end
+    end
+
+    describe "as another user" do
+      before do
+        sign_in FactoryGirl.create(:user)
+        visit feedbacks_user_path(reviewer)
+      end
+
+      it "is inaccessible" do
+        current_path.should == root_path
+        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+      end
+    end
+  end
 end

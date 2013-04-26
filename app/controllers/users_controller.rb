@@ -50,6 +50,11 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def feedbacks
+    @user = User.find(params[:id])
+    @feedbacks = @user.feedbacks
+  end
+
   private
 
     def sign_in_to_stay_logged_in_as_current_user

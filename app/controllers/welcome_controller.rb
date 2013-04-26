@@ -10,17 +10,15 @@ class WelcomeController < ApplicationController
     end
     @reviews = @reviews.sort{|a,b| a.review_date.nil? ? 1 : b.review_date.nil? ? -1 : a.review_date <=> b.review_date }
 
-    @feedbacks = []
-    Feedback.all.each do |feedback|
-      if can? :edit, feedback or can? :read, feedback or can? :submit, feedback
-        @feedbacks << feedback
-      end
+    @feedbacks = Feedback.all.sort{ |a,b| b.updated_at <=> a.updated_at }
+    @feedbacks_in_progress = []
+    @feedbacks.each do |feedback|
+      @feedbacks_in_progress << feedback if can? :edit?, feedback
     end
-    @feedbacks = @feedbacks.sort{|a,b| b.updated_at <=> a.updated_at}
 
     @invitations_received = []
     Invitation.all.each do |invitation|
-      if current_user and invitation.sent_to?(current_user) and not invitation.expired?
+      if signed_in? and invitation.sent_to?(current_user) and invitation.feedback.nil?
         @invitations_received << invitation
       end
     end

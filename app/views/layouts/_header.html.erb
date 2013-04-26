@@ -17,6 +17,9 @@
           <li><%= link_to "Home", root_path %></li>
 
           <% if signed_in? %>
+              <% if current_user.admin? %>
+                <li><%= link_to "Administration", admin_index_path %></li>
+              <%end%>
               <% if can? :manage, JuniorConsultant %>
                   <li><%= link_to "Junior Consultants", junior_consultants_path %></li>
               <%end%>
@@ -28,6 +31,9 @@
               <%end%>
               <% if can? :manage, User %>
                 <li><%= link_to "Users", users_path %></li>
+              <% end %>
+              <% if can? :read, Feedback %>
+                <li><%= link_to "Feedback From Me", feedbacks_user_path(current_user) %></li>
               <% end %>
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

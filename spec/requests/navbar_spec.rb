@@ -94,6 +94,13 @@ describe "Navbar" do
     it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group Members") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
 
+    it "should link to feedbacks page" do
+      within(".navbar-fixed-top") do
+        click_link "Feedback From Me"
+      end
+      current_path.should == feedbacks_user_path(user)
+    end
+
     it "should link to user settings page" do
       within(".navbar-fixed-top") do
         click_link "Settings"

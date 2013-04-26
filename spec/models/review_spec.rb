@@ -22,11 +22,7 @@ describe Review do
 
     it "can find its consultant" do
       r = Review.new
-      c = JuniorConsultant.new
-      c.name = "Robin"
-      c.email = "rdunlop@thoughtworks.com"
-      c.coach_id = 1
-      c.save!
+      c = FactoryGirl.create(:junior_consultant)
       r.review_type = "6-Month"
       r.feedback_deadline = Date.today
 

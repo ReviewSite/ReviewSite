@@ -76,6 +76,11 @@ Start the server:
 
 * `$ foreman start` (this will not return)
 
+If your foreman is very slow, try getting a new network setup:
+
+* `$ sudo dhclient` (this will give a File Exists, that's ok)
+* `$ foreman start `
+
 View the dev site locally:
 
 * http://localhost:9292/

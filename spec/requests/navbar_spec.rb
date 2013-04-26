@@ -74,7 +74,7 @@ describe "Navbar" do
     it "should link to homepage via site name" do
       visit signin_path
       within(".navbar-fixed-top") do
-        click_link "Review Website"
+        click_link "Review Site"
       end
       current_path.should == root_path
     end    
@@ -130,7 +130,7 @@ describe "Navbar" do
     it "should link to homepage via site name" do
       visit signin_path
       within(".navbar-fixed-top") do
-        click_link "Review Website"
+        click_link "Review Site"
       end
       current_path.should == root_path
     end    
@@ -163,7 +163,7 @@ describe "Navbar" do
     it "should link to homepage via site name" do
       visit signin_path
       within(".navbar-fixed-top") do
-        click_link "Review Website"
+        click_link "Review Site"
       end
       current_path.should == root_path
     end

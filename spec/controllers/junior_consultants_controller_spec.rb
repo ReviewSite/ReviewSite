@@ -22,6 +22,7 @@ describe JuniorConsultantsController do
   before(:each) do
     @rgm = FactoryGirl.create(:reviewing_group)
     @coach = FactoryGirl.create(:user)
+    @user = FactoryGirl.create(:user)
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -32,7 +33,8 @@ describe JuniorConsultantsController do
       email: "john@tw.com",
       reviewing_group_id: @rgm.id,
       notes: "This is a dev",
-      coach_id: @coach.id
+      coach_id: @coach.id,
+      user_id: @user.id
     }
   end
   

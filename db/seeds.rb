@@ -98,15 +98,10 @@ admin = User.create({name: 'admin', email: 'admin@example.com', password: 'passw
 admin.admin = true
 admin.save!
 
-sallyJC = JuniorConsultant.create({name: 'sally', email: 'sally@example.com', coach_id: luke.id})
-sallyJC.user_id =  sally.id
-sallyJC.save! # hack until we can set user_id
-bobJC = JuniorConsultant.create({name: 'bob', email: 'bob@example.com'})
-bobJC.user_id = bob.id
-bobJC.save! # hack untile we can set user_id
-###############
-# Sally Review #1
-##############
+
+sallyJC = JuniorConsultant.create({name: 'sally', email: 'sally@example.com', coach_id: luke.id, user_id: sally.id})
+bobJC = JuniorConsultant.create({name: 'bob', email: 'bob@example.com', user_id: bob.id})
+
 
 reviewSally = Review.create({junior_consultant_id: sallyJC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now})
 

@@ -19,6 +19,10 @@
     <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
+  <div>
+    <%= f.label :user_id %>
+    <%= f.select :user_id, User.all.map { |user| [user.name, user.id]}, :include_blank => "Select associated user"  %>
+  </div>
   <div class="field">
     <%= f.label :notes %>
     <%= f.text_area :notes %>

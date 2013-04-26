@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe JuniorConsultant do
   before do
-    @jc = JuniorConsultant.new(name: "Example User", email: "user@example.com", coach_id: 1)
+    @jc = FactoryGirl.build(:junior_consultant, name: "Example User", email: "user@example.com", coach_id: 1)
+    #@jc = JuniorConsultant.new(name: "Example User", email: "user@example.com", coach_id: 1, user_id: 1)
   end
 
   subject { @jc }

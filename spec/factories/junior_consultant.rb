@@ -4,5 +4,6 @@ FactoryGirl.define do
     sequence(:email) {|n| "person#{n}@example.com" }
     notes "This is a note about something"
     coach
+    user
   end
 end

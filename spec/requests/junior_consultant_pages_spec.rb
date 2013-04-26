@@ -73,6 +73,7 @@ describe "Junior consultant pages" do
   describe "new" do
     describe "as an admin" do
       let!(:coach) { FactoryGirl.create(:user) }
+      let!(:user) { FactoryGirl.create(:user) }
       let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
 
       before do
@@ -86,6 +87,7 @@ describe "Junior consultant pages" do
         fill_in "Notes", with: "This is a note."
         select reviewing_group.name, from: "Reviewing group"
         select coach.name, from: "Coach"
+        select user.name, from: "User"
         click_button "Create Junior consultant"
 
         current_path.should == junior_consultants_path

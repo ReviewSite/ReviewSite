@@ -49,4 +49,5 @@ ReviewSite::Application.configure do
   config.action_mailer.default_url_options = { :host => "localhost:9292" }
 
   ENV['MAIL_FULL_EMAIL'] = "do-not-reply@thoughtworks.org"
+  ENV['CAS-TEST-MODE'] = "true"
 end

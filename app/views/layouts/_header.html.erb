@@ -7,9 +7,13 @@
         <span class="icon-bar"></span>
       </button>
       <%= link_to "Review Site", root_path, id: "logo" %>
-      <% if Rails.env.development? or (request.host == "twreviewsite-dev.herokuapp.com") %>
+      <% if ENV['CAS-TEST-MODE'] %>
           <div id="nonLive_notification">
-           --- Non-Live Site (We developin' up in heezy)
+            --- Non-Live Site (We developin' up in heezy)
+          </div>
+          <div id="cas-input">
+            <%= text_field_tag 'temp-cas', nil, maxlength: 9, width: 10 %>
+            <%= submit_tag 'Set CAS' %>
           </div>
       <% end %>
       <div class="nav-collapse collapse">

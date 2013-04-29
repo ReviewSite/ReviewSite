@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
   def set_temp_cas
     local_sign_out
-    self.current_cas_user = params["temp-cas"]
+    self.current_cas_name = params["temp-cas"]
     redirect_to root_url
   end
 end

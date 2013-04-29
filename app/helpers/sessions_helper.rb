@@ -36,11 +36,15 @@ module SessionsHelper
     CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
-  def current_cas_user=(cas_user)
-    session[:temp_cas_user] = cas_user
+  def current_cas_user
+    User.find_by_cas_name current_cas_name
   end
 
-  def current_cas_user
+  def current_cas_name=(cas_name)
+    session[:temp_cas_user] = cas_name
+  end
+
+  def current_cas_name
     session[:temp_cas_user] || session[:cas_user]
   end
 end

@@ -15,7 +15,7 @@
             <%= form_tag '/set_temp_cas' do %>
               <%= text_field_tag 'temp-cas', nil, maxlength: 10 %>
               <%= submit_tag 'Set CAS', id: 'temp-cas-submit' %>
-              Current CAS: <%= current_cas_user %>
+              Current CAS: <%= current_cas_name %>
             <% end %>
           </div>
       <% end %>

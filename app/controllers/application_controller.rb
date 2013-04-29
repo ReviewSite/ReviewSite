@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter CASClient::Frameworks::Rails::Filter
+  before_filter :login_from_cas
 
   check_authorization
   protect_from_forgery
@@ -11,6 +12,12 @@ class ApplicationController < ActionController::Base
     else
       redirect_to signin_url, :alert => exception.message
       store_location
+    end
+  end
+
+  def login_from_cas
+    if current_cas_user and not signed_in?
+      sign_in current_cas_user 
     end
   end
 end

@@ -14,3 +14,11 @@ def sign_in(user)
   # Sign in when not using Capybara.
   cookies[:remember_token] = user.remember_token
 end
+
+def set_cas_user(username)
+  visit root_path
+  within "#cas-input" do
+    fill_in "temp-cas", with: username
+    click_button "Set CAS"
+  end
+end

@@ -12,6 +12,7 @@ describe "Navbar" do
 
     it { should have_selector(".navbar-fixed-top a", text: admin.name) }
     it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
+    it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
 
     it "should link to junior consultants index page" do
       within(".navbar-fixed-top") do
@@ -48,21 +49,6 @@ describe "Navbar" do
       current_path.should == edit_user_path(admin)
     end
 
-    it "should link to sign out" do 
-      within(".navbar-fixed-top") do
-        click_link "Sign out"
-      end
-      current_path.should == root_path
-      page.should have_selector(".navbar-fixed-top a", text: "Sign in")
-      page.should_not have_selector(".navbar-fixed-top a", text: admin.name)
-      page.should_not have_selector(".navbar-fixed-top a", text: "Sign out")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Settings")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Users")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group Members")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Junior Consultants")
-    end
-
     it "should link to homepage" do
       visit signin_path
       within(".navbar-fixed-top") do
@@ -88,6 +74,7 @@ describe "Navbar" do
     end
 
     it { should have_selector(".navbar-fixed-top a", text: user.name) }
+    it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Junior Consultants") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group") }
@@ -106,17 +93,6 @@ describe "Navbar" do
         click_link "Settings"
       end
       current_path.should == edit_user_path(user)
-    end
-
-    it "should link to sign out" do 
-      within(".navbar-fixed-top") do
-        click_link "Sign out"
-      end
-      current_path.should == root_path
-      page.should have_selector(".navbar-fixed-top a", text: "Sign in")
-      page.should_not have_selector(".navbar-fixed-top a", text: user.name)
-      page.should_not have_selector(".navbar-fixed-top a", text: "Sign out")
-      page.should_not have_selector(".navbar-fixed-top a", text: "Settings")
     end
 
     it "should link to homepage" do

@@ -50,7 +50,7 @@ ReviewSite::Application.routes.draw do
   end
 
   if ENV['CAS-TEST-MODE']
-    match '/temp_cas', to: 'sessions#temp_cas', via: :post
+    match '/set_temp_cas', to: 'sessions#set_temp_cas', via: :post
   end
 
   # The priority is based upon order of creation:

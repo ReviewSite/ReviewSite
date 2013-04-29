@@ -16,10 +16,10 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    redirect_to root_url
   end
 
-  def temp_cas
+  def set_temp_cas
+    local_sign_out
     self.current_cas_user = params["temp-cas"]
     redirect_to root_url
   end

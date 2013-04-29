@@ -1,3 +1,5 @@
+require 'rubycas-client'
+
 module SessionsHelper
   def sign_in(user)
     cookies.permanent[:remember_token] = user.remember_token
@@ -23,9 +25,15 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.url
   end
-  def sign_out
+
+  def local_sign_out
     self.current_user = nil
     cookies.delete(:remember_token)
+  end
+
+  def sign_out
+    local_sign_out
+    CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
   def current_cas_user=(cas_user)

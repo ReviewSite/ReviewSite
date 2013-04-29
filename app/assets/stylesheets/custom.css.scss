@@ -118,11 +118,46 @@ p {
   font-weight: normal;
   line-height: 1;
   word-spacing: -5px;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
 }
 
-#logo:hover {
-  color: #fff;
-  text-decoration: none;
+#nonLive_notification {
+  float: left;
+  font-size: 1em;
+  color: lightgreen;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-top: 13px;
+  margin-right: 10px;
+  font-weight: bold;
+  line-height: 1;
+  border: none;
+  display: inline;
+}
+
+#cas-input {
+  float: left;
+  margin-top: 10px;
+  color: #bbb;
+
+  form {
+    margin: 0px;
+  }
+
+  #temp-cas {
+    padding-left: 3px;
+    padding-right: 3px;
+    height: 20px;
+    width: 100px;
+  }
+
+  #temp-cas-submit {
+    padding: 3px;
+  }
 }
 
 /* footer */

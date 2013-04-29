@@ -49,6 +49,10 @@ ReviewSite::Application.routes.draw do
     get :feedbacks, :on => :member
   end
 
+  if ENV['CAS-TEST-MODE']
+    match '/temp_cas', to: 'sessions#temp_cas', via: :post
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

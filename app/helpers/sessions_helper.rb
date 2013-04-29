@@ -28,4 +28,11 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
+  def current_cas_user=(cas_user)
+    session[:temp_cas_user] = cas_user
+  end
+
+  def current_cas_user
+    session[:temp_cas_user] || session[:cas_user]
+  end
 end

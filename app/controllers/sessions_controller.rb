@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_authorization_check :only => [:new, :create, :destroy]
+  skip_authorization_check
   def new
   end
   
@@ -16,6 +16,11 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
+    redirect_to root_url
+  end
+
+  def temp_cas
+    self.current_cas_user = params["temp-cas"]
     redirect_to root_url
   end
 end

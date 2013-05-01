@@ -45,6 +45,10 @@ module SessionsHelper
   end
 
   def current_cas_name
-    session[:temp_cas_user] || session[:cas_user]
+    if ENV['CAS-TEST-MODE']
+      session[:temp_cas_user] || session[:cas_user]
+    else
+      session[:cas_user]
+    end
   end
 end

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user, :aliases => [:coach] do
     name 'Robin'
-    cas_name 'robincas'
+    sequence(:cas_name) { |n| "person#{n}" }
     sequence(:email) {|n| "person#{n}@example.com" }
     password 'password'
     password_confirmation 'password'

@@ -16,8 +16,12 @@ class ApplicationController < ActionController::Base
   end
 
   def login_from_cas
-    if current_cas_user and not signed_in?
-      sign_in current_cas_user 
+    unless signed_in?
+      if current_cas_user
+        sign_in current_cas_user 
+      else
+        redirect_to signin_path
+      end
     end
   end
 end

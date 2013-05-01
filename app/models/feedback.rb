@@ -43,4 +43,8 @@ class Feedback < ActiveRecord::Base
     end
     nil
   end
+
+  def is_additional
+    not user_string.nil?
+  end
 end

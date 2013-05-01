@@ -14,7 +14,7 @@ describe "Invitations" do
       before do
         sign_in admin
         visit new_review_invitation_path(review)
-        fill_in "email", with: "reviewer@example.com"
+        fill_in "username", with: "reviewer"
         fill_in "message", with: "Why, hello!"
       end
 
@@ -42,7 +42,7 @@ describe "Invitations" do
       before do
         sign_in jc_user
         visit new_review_invitation_path(review)
-        fill_in "email", with: "reviewer@example.com"
+        fill_in "username", with: "reviewer"
         fill_in "message", with: "Why, hello!"
       end
 

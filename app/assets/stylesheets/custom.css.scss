@@ -26,7 +26,15 @@ label {
   float:left; 
   clear:none; 
   display:block; 
-  padding: 0 1em 0 0; 
+  padding: 0 5 0 0; 
+}
+
+.checkbox {
+  float: none;
+}
+
+.nofloat {
+  float: none;
 }
 
 textarea {
@@ -207,9 +215,22 @@ input, textarea, .uneditable-input {
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   @include box_sizing;
 }
+
+input.short {
+  width: 20%;
+}
+
+input.normal {
+  width: 30%;
+}
+
+input.long {
+  width: 60%;
+}
+
 
 
 /* miscellaneous */

@@ -13,7 +13,7 @@ describe "invitations/new" do
       rendered
     end
 
-    it { should =~ /To \(Email Address\):/ }
+    it { should =~ /To:/ }
     it { should =~ /Body \(Please add a personal note\):/ }
     it { should =~ /#{@jc.name}/ }
     it { should =~ /#{@review.review_type}/ }

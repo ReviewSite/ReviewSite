@@ -17,14 +17,14 @@
   <p><%= label_tag :no_email, class:"checkbox" do %>
     <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see the invitation when they log into the site.) &nbsp; &nbsp;<% end %></p>
 
-  <br/><br/><br/>
-
-  <p><%= label_tag :email, "To (Email Address):" %></p>
-  <p><%= text_field_tag :email %></p>
-
+  <br/>
+<p>
+  <%= label_tag :username, "To:", class: "nofloat" %>
+  <%= text_field_tag :username, nil, class: "short" %> @ thoughtworks.com
+</p>
   <div id="email_contents">
-    <p><%= label_tag :subject, "Subject:" %></p>
-    <p><%= text_field_tag :subject, "You've been invited to give feedback for #{@jc.name}." %></p>
+    <p><%= label_tag :subject, "Subject:" %>
+    <%= text_field_tag :subject, "You've been invited to give feedback for #{@jc.name}."  %></p>
 
     <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM
@@ -38,7 +38,7 @@ Deadline: #{@review.feedback_deadline}
 
     <%= text_area_tag :message, @default_body %>
   </div>
-
+<br>
   <%= submit_tag "Create Invitation", class: 'btn btn-large btn-primary' %>
 <% end %>
 

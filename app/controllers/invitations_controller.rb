@@ -9,13 +9,13 @@ class InvitationsController < ApplicationController
 
   def create
     @review = Review.find_by_id(params[:review_id])
-    @invitation = @review.invitations.build(email: params[:email])
+    @invitation = @review.invitations.build(email: "#{params[:username]}@thoughtworks.com")
 
     if not @invitation.feedback and @invitation.save
       if params[:no_email]
         flash[:notice] = "An invitation has been created!"
       else
-        UserMailer.review_invitation(@review, params[:email], params[:message]).deliver
+        UserMailer.review_invitation(@review, "#{params[:username]}@thoughtworks.com", params[:message]).deliver
         flash[:notice] = "An invitation has been sent!"
       end
       redirect_to root_path

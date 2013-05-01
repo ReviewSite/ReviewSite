@@ -108,11 +108,10 @@ describe "Password reset pages" do
             click_button "Reset password"
           end
 
-          it { should have_selector('h1', text: 'Homepage') }
+          it { should have_selector('h1', text: 'Sign in') }
           it { should have_selector('.alert-notice') }
 
           specify "old password should not work" do
-            visit signin_path
             fill_in "Email", with: user.email
             fill_in "Password", with: "password"
             click_button "Sign in"
@@ -120,7 +119,6 @@ describe "Password reset pages" do
           end
 
           specify "new password should work" do
-            visit signin_path
             fill_in "Email", with: user.email
             fill_in "Password", with: "newpassword"
             click_button "Sign in"

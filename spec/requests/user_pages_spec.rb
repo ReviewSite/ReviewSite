@@ -60,7 +60,7 @@ describe "User pages" do
         fill_in "Password confirmation", with: "foobar"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should == signin_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1

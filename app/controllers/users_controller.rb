@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
+  skip_before_filter :login_from_cas, only: [:new, :create]
 
   def new
     @user = User.new
@@ -22,11 +23,13 @@ class UsersController < ApplicationController
     if @user.save
       if signed_in?
         UserMailer.admin_registration_confirmation(@user).deliver
+        flash[:success] = "User has been successfully created."
+        redirect_to root_path
       else
         UserMailer.self_registration_confirmation(@user).deliver
+        flash[:success] = "User has been successfully created."
+        redirect_to signin_path
       end
-      flash[:success] = "User has been successfully created."
-      redirect_to root_url
     else
       render 'new'
     end

@@ -121,27 +121,27 @@ describe "Navbar" do
     it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
 
     it "should link to signin page" do
-      visit root_path
+      visit new_password_reset_path
       within(".navbar-fixed-top") do
         click_link "Sign in"
       end
       current_path.should == signin_path
     end
 
-    it "should link to homepage" do
-      visit signin_path
+    it "should redirect to signin page via 'Home' link" do
+      visit new_password_reset_path
       within(".navbar-fixed-top") do
         click_link "Home"
       end
-      current_path.should == root_path
+      current_path.should == signin_path
     end
 
-    it "should link to homepage via site name" do
-      visit signin_path
+    it "should redirect to signin page via site name" do
+      visit new_password_reset_path
       within(".navbar-fixed-top") do
         click_link "Review Site"
       end
-      current_path.should == root_path
+      current_path.should == signin_path
     end
   end
 end

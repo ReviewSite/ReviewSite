@@ -21,7 +21,12 @@
 
     <% @feedbacks_in_progress.each do |feedback| %>
       <tr>
-        <td><%= feedback.review.junior_consultant %></td>
+        <td>
+          <%= feedback.review.junior_consultant %>
+          <% if feedback.is_additional %>
+            (on behalf of <%= feedback.reviewer %>)
+          <% end %>
+        </td>
         <td><%= feedback.review.review_type %></td>
         <td class="invitation_date"><%= feedback.invitation.sent_date unless feedback.invitation.nil? %></td>
         <td class="feedback_deadline"><%= feedback.review.feedback_deadline %></td>

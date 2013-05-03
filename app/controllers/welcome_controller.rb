@@ -3,21 +3,26 @@ class WelcomeController < ApplicationController
 
   def index
     @reviews = []
-    Review.all.each do |review|
+    Review.includes({:junior_consultant => :coach}, 
+                    {:junior_consultant => 
+                        {:reviewing_group => 
+                            {:reviewing_group_members => :user}}}, 
+                    :feedbacks, 
+                    :invitations).all.each do |review|
       if can? :read, review or can? :summary, review
         @reviews << review
       end
     end
     @reviews = @reviews.sort{|a,b| a.review_date.nil? ? 1 : b.review_date.nil? ? -1 : a.review_date <=> b.review_date }
 
-    @feedbacks = Feedback.all.sort{ |a,b| b.updated_at <=> a.updated_at }
+    @feedbacks = Feedback.includes(:review, :user).all.sort{ |a,b| b.updated_at <=> a.updated_at }
     @feedbacks_in_progress = []
     @feedbacks.each do |feedback|
       @feedbacks_in_progress << feedback if can? :edit?, feedback
     end
 
     @invitations_received = []
-    Invitation.all.each do |invitation|
+    Invitation.includes(:review).all.each do |invitation|
       if signed_in? and invitation.sent_to?(current_user) and invitation.feedback.nil?
         @invitations_received << invitation
       end

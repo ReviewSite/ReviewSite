@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       user.update_attribute(:cas_name, current_cas_name)
+      sign_in user
       flash[:notice] = "From now on, we will sign you in automatically via CAS."
       redirect_back_or(root_url)
     else

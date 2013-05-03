@@ -18,7 +18,6 @@ describe UsersController do
       end
 
       it "should be forbidden" do
-        controller.current_user.should_not be_nil
         post :create, {user: valid_params}
         response.should redirect_to root_path
       end

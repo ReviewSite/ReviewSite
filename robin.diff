@@ -1,0 +1,75 @@
+diff --git a/app/controllers/sessions_controller.rb b/app/controllers/sessions_controller.rb
+index eca0124..a43d7d8 100644
+--- a/app/controllers/sessions_controller.rb
++++ b/app/controllers/sessions_controller.rb
+@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
+   def create
+     user = User.find_by_email(params[:session][:email].downcase)
+     if user && user.authenticate(params[:session][:password])
+-      sign_in user
++      user.update_attribute(:cas_name, current_cas_name)
++      flash[:notice] = "From now on, we will sign you in automatically via CAS."
+       redirect_back_or(root_url)
+     else
+       flash.now[:error] = 'Invalid email/password combination'
+diff --git a/spec/controllers/users_controller_spec.rb b/spec/controllers/users_controller_spec.rb
+index c1d6fde..2957645 100644
+--- a/spec/controllers/users_controller_spec.rb
++++ b/spec/controllers/users_controller_spec.rb
+@@ -12,10 +12,13 @@ describe UsersController do
+   describe "#create" do
+     context "Normal user registers another user" do
+       before do
+-        sign_in FactoryGirl.create(:user)
++        user = FactoryGirl.create(:user)
++        session[:temp_cas_name] = user.cas_name
++        sign_in user
+       end
+ 
+       it "should be forbidden" do
++        controller.current_user.should_not be_nil
+         post :create, {user: valid_params}
+         response.should redirect_to root_path
+       end
+diff --git a/spec/requests/signin_spec.rb b/spec/requests/signin_spec.rb
+index 1ad3222..5e3fcb2 100644
+--- a/spec/requests/signin_spec.rb
++++ b/spec/requests/signin_spec.rb
+@@ -10,6 +10,7 @@ describe "Signing in" do
+ 
+     it "should log the user in automatically" do
+       visit root_path
++      current_path.should == root_path
+       page.should have_content("Jennifer Doe")
+       page.should have_content('Sign out')
+       page.should_not have_content('Sign in')
+@@ -17,11 +18,27 @@ describe "Signing in" do
+   end
+ 
+   describe "returning user without saved CAS name" do
+-    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", cas_name: nil }
++    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", cas_name: nil, email: "jdoe@thoughtworks.com" }
+ 
+     it "should redirect to the sign in page" do
+       visit root_path
+       current_path.should == signin_path
+     end
++
++    it "should save CAS name after user logs in" do
++      visit signin_path
++      fill_in 'Email', with: 'jdoe@thoughtworks.com'
++      fill_in 'Password', with: 'password'
++      click_button 'Sign in'
++
++      user.reload
++      user.cas_name.should == 'jdoe'
++
++      current_path.should == root_path
++      page.should have_content("Jennifer Doe")
++      page.should have_content('Sign out')
++      page.should_not have_content('Sign in')
++      page.should have_selector("div.alert", text: "From now on, we will sign you in automatically via CAS.")
++    end
+   end
+ end
+\ No newline at end of file

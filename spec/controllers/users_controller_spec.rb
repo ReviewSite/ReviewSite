@@ -12,10 +12,13 @@ describe UsersController do
   describe "#create" do
     context "Normal user registers another user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        user = FactoryGirl.create(:user)
+        session[:temp_cas_name] = user.cas_name
+        sign_in user
       end
 
       it "should be forbidden" do
+        controller.current_user.should_not be_nil
         post :create, {user: valid_params}
         response.should redirect_to root_path
       end

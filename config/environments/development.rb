@@ -1,9 +1,8 @@
 ReviewSite::Application.configure do
-  config.middleware.use ExceptionNotifier, :email => {
+  config.middleware.use ExceptionNotifier,
       :email_prefix => "[ReviewSite Error] ",
       :sender_address => %{<do-not-reply@thoughtworks.org>},
       :exception_recipients => %w{error_recipient@example.com}
-    }
 
   config.after_initialize do
     Bullet.enable = true

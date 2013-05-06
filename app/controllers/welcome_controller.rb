@@ -2,6 +2,8 @@ class WelcomeController < ApplicationController
   skip_authorization_check
 
   def index
+    redirect_to signin_path unless signed_in?
+    
     @reviews = []
     Review.includes({:junior_consultant => :coach}, 
                     {:junior_consultant => 

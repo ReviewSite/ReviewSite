@@ -1,6 +1,5 @@
 class PasswordResetsController < ApplicationController
   skip_authorization_check
-  skip_before_filter :login_from_cas
 
   def new
   end

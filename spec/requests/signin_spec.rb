@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Signing in" do
   before do
-    set_cas_user "jdoe"
+    sign_in double(cas_name: "jdoe")
   end
 
   describe "returning user with saved CAS name" do

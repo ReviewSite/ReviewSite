@@ -13,7 +13,6 @@ describe UsersController do
     context "Normal user registers another user" do
       before do
         user = FactoryGirl.create(:user)
-        session[:temp_cas_name] = user.cas_name
         set_current_user user
       end
 
@@ -103,11 +102,25 @@ describe UsersController do
       end
 
       it "cannot update another user's password" do
-        @other_user = FactoryGirl.create(:user, :name => "Jane" )
-        put :update, id: @other_user, user: valid_params
+        other_user = FactoryGirl.create(:user, :name => "Jane" )
+        put :update, id: other_user, user: valid_params
         response.should redirect_to root_path
-        @other_user.reload
-        @other_user.name.should == "Jane"
+        other_user.reload
+        other_user.name.should == "Jane"
+      end
+    end
+
+    describe "nil user" do
+      before do
+        set_current_user double(cas_name: nil, admin: false)
+      end
+
+      it "cannot edit a user with no set cas_name" do
+        other_user = FactoryGirl.create(:user, name: "Jane", cas_name: nil)
+        put :update, id: other_user, user: valid_params
+        response.should redirect_to signin_path
+        other_user.reload
+        other_user.name.should == "Jane"
       end
     end
   end

@@ -4,9 +4,9 @@ describe "User pages" do
   subject { page }
 
   describe "edit" do
-    let(:user) {User.new(:name => "Aleksandar Serafimoski",:email => "as438370@loras.edu",:password => "sase1590",:password_confirmation => "sase1590")}
+    let(:user) { FactoryGirl.create(:user) }
+
     before do
-      user.save
       sign_in user
       visit edit_user_path(user)
     end

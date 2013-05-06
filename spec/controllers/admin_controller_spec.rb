@@ -1,16 +1,10 @@
 require 'spec_helper'
 
 describe AdminController do
-
-
-  before do
-    @admin = FactoryGirl.build(:admin_user)
-  end
-
   describe "#index" do
     describe 'as an admin user' do
       before do
-        set_current_user(@admin)
+        set_current_user FactoryGirl.create(:admin_user)
       end
 
       it 'should list all the reviews' do
@@ -36,8 +30,7 @@ describe AdminController do
 
     describe 'as a regular user' do
       before do
-        user = FactoryGirl.build(:user)
-        set_current_user(user)
+        set_current_user FactoryGirl.create(:user)
       end
 
       it 'should redirect to home' do

@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
-  skip_before_filter :login_from_cas, only: [:new, :create]
 
   def new
     @user = User.new
@@ -39,13 +38,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
-      sign_in_to_stay_logged_in_as_current_user
       redirect_to root_url
     else
       render 'edit'
     end
   end
-
 
   def destroy
     User.find(params[:id]).destroy
@@ -57,12 +54,4 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @feedbacks = @user.feedbacks
   end
-
-  private
-
-    def sign_in_to_stay_logged_in_as_current_user
-      if current_user?(@user)
-        sign_in @user
-      end
-    end
 end

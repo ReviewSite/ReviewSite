@@ -6,7 +6,8 @@ describe UsersController do
         name: 'Joe',
         email: 'joe@example.com',
         password: 'password',
-        password_confirmation: 'password'
+        password_confirmation: 'password',
+        cas_name: 'JoeCAS'
     }
   end
   describe "#create" do
@@ -56,6 +57,7 @@ describe UsersController do
         post :create, {user: valid_params}
         ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
       end
+
     end
   end
 

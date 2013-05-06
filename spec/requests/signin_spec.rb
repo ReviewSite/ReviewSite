@@ -18,7 +18,11 @@ describe "Signing in" do
   end
 
   describe "returning user without saved CAS name" do
-    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", cas_name: nil, email: "jdoe@thoughtworks.com" }
+    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", email: "jdoe@thoughtworks.com" }
+
+    before do
+      user.update_attribute(:cas_name, nil)
+    end
 
     it "should redirect to the sign in page" do
       visit root_path

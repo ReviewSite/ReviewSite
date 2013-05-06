@@ -45,7 +45,14 @@ describe "User pages" do
     before { ActionMailer::Base.deliveries.clear }
 
     describe "as a new user" do
-      before { visit new_user_path }
+      before {
+        visit root_path
+        within "#cas-input" do
+          fill_in "temp-cas", with: "roberto"
+          click_button "Set CAS"
+        end
+        visit new_user_path
+      }
 
       it "re-renders page with error message if invalid information" do
         click_button "Create Account"
@@ -54,6 +61,7 @@ describe "User pages" do
       end
 
       it "creates an account and sends an email with no password" do
+
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
         fill_in "Password", with: "foobar"
@@ -83,6 +91,7 @@ describe "User pages" do
         fill_in "Email", with: "test@example.com"
         fill_in "Password", with: "foobar"
         fill_in "Password confirmation", with: "foobar"
+        fill_in "Cas name", with: "roberto"
         click_button 'Create Account'
 
         current_path.should == root_path

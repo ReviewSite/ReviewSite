@@ -51,11 +51,18 @@ describe UsersController do
       end
     end
 
-    context "Users registers him/hersef" do
+    context "Users registers him/herself" do
       it 'should send an admin email' do
         UserMailer.any_instance.should_receive(:self_registration_confirmation)
         post :create, {user: valid_params}
         ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
+      end
+
+      it 'should set the cas_name to the already authenticated cas name' do
+        controller.current_cas_name = "testCAS"
+        post :create, user: {name: "Test", email: "test@example.com", password: "p", password_confirmation: "p", cas_name: "testCAS"}
+        user = assigns(:user)
+        user.cas_name.should == "testCAS"
       end
 
     end
@@ -112,18 +119,5 @@ describe UsersController do
       end
     end
 
-    describe "nil user" do
-      before do
-        set_current_user double(cas_name: nil, admin: false)
-      end
-
-      it "cannot edit a user with no set cas_name" do
-        other_user = FactoryGirl.create(:user, name: "Jane", cas_name: nil)
-        put :update, id: other_user, user: valid_params
-        response.should redirect_to signin_path
-        other_user.reload
-        other_user.name.should == "Jane"
-      end
-    end
   end
 end

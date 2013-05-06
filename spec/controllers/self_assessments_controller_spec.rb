@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SelfAssessmentsController do
   before(:each) do
     @user = FactoryGirl.create(:user)
-    sign_in (@user)
+    set_current_user (@user)
     @jc = FactoryGirl.create(:junior_consultant, :email => @user.email)
     @review = FactoryGirl.create(:review, :junior_consultant => @jc)
   end

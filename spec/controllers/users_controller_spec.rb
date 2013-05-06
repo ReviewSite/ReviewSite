@@ -14,7 +14,7 @@ describe UsersController do
       before do
         user = FactoryGirl.create(:user)
         session[:temp_cas_name] = user.cas_name
-        sign_in user
+        set_current_user user
       end
 
       it "should be forbidden" do
@@ -26,11 +26,11 @@ describe UsersController do
     context "Admin registers a user" do
       before do
         admin = FactoryGirl.create(:admin_user)
-        sign_in admin
+        set_current_user admin
       end
 
       it 'should not sign in the newly created user' do
-        controller.should_not_receive(:sign_in)
+        controller.should_not_receive(:set_current_user)
         post :create, {user: valid_params}
       end
 
@@ -65,7 +65,7 @@ describe UsersController do
     before do
       @admin = FactoryGirl.create(:admin_user) 
       @user = FactoryGirl.create(:user)
-      sign_in @admin
+      set_current_user @admin
     end
 
     describe "admin updates other user with valid params" do
@@ -99,7 +99,7 @@ describe UsersController do
 
     describe "normal user" do
       before do
-        sign_in @user
+        set_current_user @user
       end
 
       it "cannot update another user's password" do

@@ -11,8 +11,8 @@ describe WelcomeController do
       end
 
       it "should sign in the user" do
-        controller.should_receive(:sign_in).with(user)
         get :index
+        controller.current_user.should == user
       end
     end
 

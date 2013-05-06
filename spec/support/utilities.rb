@@ -6,14 +6,15 @@ RSpec::Matchers.define :have_error_message do |message|
   end
 end
 
+def set_current_user(user)
+  controller.current_user = user
+end
+
 def sign_in(user)
   visit signin_path
   fill_in "Email",    with: user.email
   fill_in "Password", with: user.password
   click_button "Sign in"
-  # Sign in when not using Capybara.
-  user.reload
-  cookies[:remember_token] = user.remember_token
 end
 
 def set_cas_user(username)

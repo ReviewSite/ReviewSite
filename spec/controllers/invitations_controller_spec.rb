@@ -4,7 +4,7 @@ describe InvitationsController do
   let (:admin) { FactoryGirl.create(:admin_user) }
   let (:review) { FactoryGirl.create(:review, feedback_deadline: Date.today) }
 
-  before { sign_in admin }
+  before { set_current_user admin }
 
   describe "POST create" do
     describe "with valid record" do

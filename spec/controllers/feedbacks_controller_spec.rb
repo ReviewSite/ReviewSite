@@ -22,7 +22,7 @@ describe FeedbacksController do
   before(:each) do
     @review = FactoryGirl.create(:review)
     @user = FactoryGirl.create(:user)
-    sign_in(@user)
+    set_current_user(@user)
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -60,7 +60,7 @@ describe FeedbacksController do
 
       it "disallows seeing feedback submitted by other people" do
         @other_user = FactoryGirl.create(:user)
-        sign_in(@other_user)
+        set_current_user(@other_user)
 
         get :show, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
 
@@ -70,7 +70,7 @@ describe FeedbacksController do
     describe "as an admin" do
       before(:each) do
         @admin = FactoryGirl.create(:admin_user)
-        sign_in @admin
+        set_current_user @admin
       end
       it "can read feedback that is 'submitted'" do
         @feedback = FactoryGirl.create(:submitted_feedback)
@@ -137,7 +137,7 @@ describe FeedbacksController do
       before(:each) do
         @feedback = Feedback.create! valid_attributes
         @other_user = FactoryGirl.create(:user)
-        sign_in(@other_user)
+        set_current_user(@other_user)
         @other_feedback = FactoryGirl.create(:feedback, :review => @review, :user => @other_user)
       end
       it "cannot edit another user's feedback" do
@@ -206,7 +206,7 @@ describe FeedbacksController do
     before(:each) do
       @feedback = FactoryGirl.create(:submitted_feedback)
       @admin = FactoryGirl.create(:admin_user)
-      sign_in @admin
+      set_current_user @admin
     end
     it "can change the feedback to unsubmited" do
       @feedback.submitted.should == true
@@ -221,7 +221,7 @@ describe FeedbacksController do
     before(:each) do
       @feedback = FactoryGirl.create(:feedback)
       @admin = FactoryGirl.create(:admin_user)
-      sign_in @admin
+      set_current_user @admin
     end
 
     it "can change the feedback to submited" do

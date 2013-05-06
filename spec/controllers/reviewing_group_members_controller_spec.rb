@@ -21,7 +21,7 @@ require 'spec_helper'
 describe ReviewingGroupMembersController do
   before(:each) do
     @admin = FactoryGirl.create(:admin_user)
-    sign_in @admin
+    set_current_user @admin
     @rg = FactoryGirl.create(:reviewing_group)
     @user = FactoryGirl.create(:user)
   end

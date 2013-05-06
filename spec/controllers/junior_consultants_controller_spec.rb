@@ -48,7 +48,7 @@ describe JuniorConsultantsController do
   describe "as a normal user" do
     before(:each) do
       @user = FactoryGirl.create(:user)
-      sign_in @user
+      set_current_user @user
     end
     it "cannot list all JCs" do
       get :index, {}, valid_session
@@ -90,7 +90,7 @@ describe JuniorConsultantsController do
   describe "GET index" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     it "assigns all junior_consultants as @junior_consultants" do
       junior_consultant = JuniorConsultant.create! valid_attributes
@@ -102,7 +102,7 @@ describe JuniorConsultantsController do
   describe "GET new" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     it "assigns a new junior_consultant as @junior_consultant" do
       get :new, {}, valid_session
@@ -113,7 +113,7 @@ describe JuniorConsultantsController do
   describe "GET edit" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     it "assigns the requested junior_consultant as @junior_consultant" do
       junior_consultant = JuniorConsultant.create! valid_attributes
@@ -125,7 +125,7 @@ describe JuniorConsultantsController do
   describe "POST create" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     describe "with valid params" do
       it "creates a new JuniorConsultant" do
@@ -166,7 +166,7 @@ describe JuniorConsultantsController do
   describe "PUT update" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     describe "with valid params" do
       it "updates the requested junior_consultant" do
@@ -214,7 +214,7 @@ describe JuniorConsultantsController do
   describe "DELETE destroy" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
-      sign_in @admin_user
+      set_current_user @admin_user
     end
     it "destroys the requested junior_consultant" do
       junior_consultant = JuniorConsultant.create! valid_attributes

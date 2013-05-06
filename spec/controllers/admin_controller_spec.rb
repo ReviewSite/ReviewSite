@@ -10,7 +10,7 @@ describe AdminController do
   describe "#index" do
     describe 'as an admin user' do
       before do
-        controller.stub(:current_user).and_return(@admin)
+        set_current_user(@admin)
       end
 
       it 'should list all the reviews' do
@@ -37,7 +37,7 @@ describe AdminController do
     describe 'as a regular user' do
       before do
         user = FactoryGirl.build(:user)
-        controller.stub(:current_user).and_return(user)
+        set_current_user(user)
       end
 
       it 'should redirect to home' do

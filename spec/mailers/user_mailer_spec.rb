@@ -31,7 +31,7 @@ describe UserMailer do
     let(:mail) { UserMailer.password_reset(user) }
     subject { mail }
 
-    its(:subject) { should == "Reset password for the ReviewSite" }
+    its(:subject) { should == "Recover account for the ReviewSite" }
     its(:to) { should == [user.email] }
     its(:from) { should == ['do-not-reply@thoughtworks.org'] }
 

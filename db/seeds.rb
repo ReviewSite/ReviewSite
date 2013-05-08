@@ -76,24 +76,24 @@ emails.each do |existing_user|
   end
 end
 
-john = User.create({name: 'John', email: 'john@example.com',
+john = User.create({name: 'John', cas_name: 'john', email: 'john@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-sally = User.create({name: 'sally', email: 'sally@example.com',
+sally = User.create({name: 'sally', cas_name: 'sally', email: 'sally@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-bob = User.create({name: 'bob', email: 'bob@example.com',
+bob = User.create({name: 'bob', cas_name: 'bob', email: 'bob@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-nikki = User.create({name: 'nikki', email: 'nikki@example.com',
+nikki = User.create({name: 'nikki', cas_name: 'nikki', email: 'nikki@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-luke = User.create({name: 'luke', email: 'luke@example.com',
+luke = User.create({name: 'luke', cas_name: 'luke', email: 'luke@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-doug = User.create({name: 'doug', email: 'doug@example.com',
+doug = User.create({name: 'doug', cas_name: 'doug', email: 'doug@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-elvis = User.create({name: 'elvis', email: 'elvis@example.com',
+elvis = User.create({name: 'elvis', cas_name: 'elvis', email: 'elvis@example.com',
                    password: 'password123', password_confirmation: 'password123'})
-george = User.create({name: 'george', email: 'george@example.com',
+george = User.create({name: 'george', cas_name: 'george', email: 'george@example.com',
                    password: 'password123', password_confirmation: 'password123'})
 
-admin = User.create({name: 'admin', email: 'admin@example.com', password: 'password123',
+admin = User.create({name: 'admin', cas_name: 'admin', email: 'admin@example.com', password: 'password123',
                     password_confirmation: 'password123'})
 admin.admin = true
 admin.save!

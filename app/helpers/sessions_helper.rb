@@ -1,8 +1,14 @@
 require 'rubycas-client'
 
 module SessionsHelper
+  def first_time_sign_in(user)
+    user.update_attribute(:cas_name, current_cas_name)
+    flash[:notice] = "From now on, we will sign you in automatically via CAS."
+    redirect_back_or(root_url)
+  end
+
   def signed_in?
-    !current_user.nil?
+    not current_user.nil?
   end
 
   def current_user

@@ -15,9 +15,7 @@ class PasswordResetsController < ApplicationController
     if @user.password_reset_sent_at < 2.hours.ago
       redirect_to new_password_reset_path, :alert => "Password reset has expired."
     else
-      @user.update_attribute(:cas_name, current_cas_name)
-      flash[:notice] = "From now on, we will sign you in automatically via CAS."
-      redirect_back_or(root_url)
+      first_time_sign_in @user
     end
   end
 end

@@ -3,7 +3,7 @@
 
 # For the ReviewSite The following structures are created, or destroyed and recreated (if they already exist):
 #
-# JuniorConsultant User: sally@example.com (password123)
+# JuniorConsultant User: sally@example.com
 # -[[This user is designed to be your average JC user]]
 # - Review: 6-Month
 #  - Feeback:
@@ -19,7 +19,7 @@
 #  - Invited:
 #   - Doug (has replied, submitted)
 #
-# JuniorConsultant User: bob@example.com (password123)
+# JuniorConsultant User: bob@example.com
 # - [[This user is a JC who has submitted feedback to another JC]]
 # - Review: 6-Month
 #  - Feedback:
@@ -28,31 +28,31 @@
 # - Has provided feedback for Sally (not submitted)
 #
 #
-# User: john@example.com (password123)
+# User: john@example.com
 # - [[This user is a non-JC who has provided feedback, without being invited]]
 #  - Has provided feedback for Sally, and Submitted it
 #
-# User: nikki@example.com (password123)
+# User: nikki@example.com
 #  - Has provided feedback for Sally, and Submitted it
 #
-# User: doug@example.com (password123)
+# User: doug@example.com
 # - [[This user has been invited to provide feedback, and has submitted it]]
 # - Has provided feedback for Sally TWICE
 # 
-# User: elvis@example.com (password123)
+# User: elvis@example.com
 # - [[This user has been invited to provide feedback, but hasn't]]
 # - Has been invited to provide feedback
 #
-# User: george@example.com (password123)
+# User: george@example.com
 # - [[This user has been invited to provide feedback, but hasn't submitted final yet]]
 # - Has been invited to provide feedback
 # - Has written feedback, but not finalized
 #
 #
-# Coach User: luke@example.com (password123)
+# Coach User: luke@example.com
 #  - Coach of Sally
 #
-# Admin User: admin@example.com (password123)
+# Admin User: admin@example.com
 #
 emails = ['john@example.com',
           'sally@example.com',
@@ -76,25 +76,16 @@ emails.each do |existing_user|
   end
 end
 
-john = User.create({name: 'John', cas_name: 'john', email: 'john@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-sally = User.create({name: 'sally', cas_name: 'sally', email: 'sally@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-bob = User.create({name: 'bob', cas_name: 'bob', email: 'bob@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-nikki = User.create({name: 'nikki', cas_name: 'nikki', email: 'nikki@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-luke = User.create({name: 'luke', cas_name: 'luke', email: 'luke@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-doug = User.create({name: 'doug', cas_name: 'doug', email: 'doug@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-elvis = User.create({name: 'elvis', cas_name: 'elvis', email: 'elvis@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
-george = User.create({name: 'george', cas_name: 'george', email: 'george@example.com',
-                   password: 'password123', password_confirmation: 'password123'})
+john = User.create(name: 'John', cas_name: 'john', email: 'john@example.com')
+sally = User.create(name: 'sally', cas_name: 'sally', email: 'sally@example.com')
+bob = User.create(name: 'bob', cas_name: 'bob', email: 'bob@example.com')
+nikki = User.create(name: 'nikki', cas_name: 'nikki', email: 'nikki@example.com')
+luke = User.create(name: 'luke', cas_name: 'luke', email: 'luke@example.com')
+doug = User.create(name: 'doug', cas_name: 'doug', email: 'doug@example.com')
+elvis = User.create(name: 'elvis', cas_name: 'elvis', email: 'elvis@example.com')
+george = User.create(name: 'george', cas_name: 'george', email: 'george@example.com')
 
-admin = User.create({name: 'admin', cas_name: 'admin', email: 'admin@example.com', password: 'password123',
-                    password_confirmation: 'password123'})
+admin = User.create(name: 'admin', cas_name: 'admin', email: 'admin@example.com')
 admin.admin = true
 admin.save!
 

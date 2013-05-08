@@ -3,12 +3,11 @@ require 'spec_helper'
 describe "Password reset pages" do
   subject { page }
 
+  let(:user) { FactoryGirl.create(:user, password_digest: BCrypt::Password.create("password")) }
+
   describe "Request password reset" do
-    let(:user) { FactoryGirl.create(:user) }
     describe "request form" do
       before do
-        user.password = ""
-        user.password_confirmation = ""
         visit signin_path
         click_link "Forgot password?"
       end
@@ -64,66 +63,25 @@ describe "Password reset pages" do
 
       describe "with expired token" do
         before do
-          visit edit_password_reset_path(user.password_reset_token)
           user.update_attribute(:password_reset_sent_at, 3.hours.ago)
-          fill_in "Password", with: "newpassword"
-          fill_in "Password confirmation", with: "newpassword"
-          click_button "Reset password"
+          visit edit_password_reset_path(user.password_reset_token)
         end
 
-        it { should have_selector('title', text: 'Request password reset') }
-        it { should have_selector('.alert') }
-
-        specify "old password should still work" do
-          visit signin_path
-          fill_in "Email", with: user.email
-          fill_in "Password", with: "password"
-          click_button "Sign in"
-          page.should_not have_selector('.alert-error')
-        end
-
-        specify "new password should not work" do
-          visit signin_path
-          fill_in "Email", with: user.email
-          fill_in "Password", with: "newpassword"
-          click_button "Sign in"
-          page.should have_selector('.alert-error')
+        it "should redirect to the new password reset form" do
+          page.should have_selector('.alert')
+          current_path.should == new_password_reset_path
         end
       end
 
       describe "with valid token" do
-        before { visit edit_password_reset_path(user.password_reset_token) }
-        it { should have_selector('title', text: 'Reset password') }
-        it { should_not have_selector('.alert-error') }
-
-        it "gives error messages if password validations fail" do
-          click_button "Reset password"
-          page.should have_selector('.error-messages')
+        before do
+          visit edit_password_reset_path(user.password_reset_token)
         end
 
-        describe "successful reset" do
-          before do
-            fill_in "Password", with: "newpassword"
-            fill_in "Password confirmation", with: "newpassword"
-            click_button "Reset password"
-          end
-
-          it { should have_selector('h1', text: 'Sign in') }
-          it { should have_selector('.alert-notice') }
-
-          specify "old password should not work" do
-            fill_in "Email", with: user.email
-            fill_in "Password", with: "password"
-            click_button "Sign in"
-            page.should have_selector('.alert-error')
-          end
-
-          specify "new password should work" do
-            fill_in "Email", with: user.email
-            fill_in "Password", with: "newpassword"
-            click_button "Sign in"
-            page.should_not have_selector('.alert-error')
-          end
+        it "should sign user is and redirect to homepage" do
+          current_path.should == root_path
+          user.reload
+          user.cas_name.should == "homer"
         end
       end
     end

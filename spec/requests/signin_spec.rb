@@ -18,9 +18,13 @@ describe "Signing in" do
   end
 
   describe "returning user without saved CAS name" do
-    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", email: "jdoe@thoughtworks.com" }
+    let!(:user) { FactoryGirl.create(:user, 
+                                      name: "Jennifer Doe",
+                                      email: "jdoe@thoughtworks.com",
+                                      password_digest: BCrypt::Password.create('password') ) }
 
     before do
+      user.stub(:password_digest) {  }
       user.update_attribute(:cas_name, nil)
     end
 
@@ -35,14 +39,14 @@ describe "Signing in" do
       fill_in 'Password', with: 'password'
       click_button 'Sign in'
 
-      user.reload
-      user.cas_name.should == 'jdoe'
-
       current_path.should == root_path
       page.should have_content("Jennifer Doe")
       page.should have_content('Sign out')
       page.should_not have_content('Sign in')
       page.should have_selector("div.alert", text: "From now on, we will sign you in automatically via CAS.")
+
+      user.reload
+      user.cas_name.should == 'jdoe'
     end
   end
 end

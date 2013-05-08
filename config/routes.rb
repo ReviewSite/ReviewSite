@@ -32,7 +32,7 @@ ReviewSite::Application.routes.draw do
 
   root :to => 'welcome#index'
   resources :sessions, only: [:new, :create, :destroy]
-  resources :password_resets, only: [:new, :create, :update, :edit]
+  resources :password_resets, only: [:new, :create, :edit]
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'

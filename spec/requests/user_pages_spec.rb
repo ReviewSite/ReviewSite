@@ -17,15 +17,12 @@ describe "User pages" do
     end
 
     describe "with valid information" do
-
       let(:new_name)  { "New Name" }
       let(:new_email) { "new@example.com" }
 
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
-        fill_in "Password",         with: user.password
-        fill_in "Password confirmation", with: user.password
         click_button "Save changes"
       end
 
@@ -36,7 +33,11 @@ describe "User pages" do
     end
 
     describe "with invalid information" do
-      before { click_button "Save changes" }
+      before do
+        fill_in "Name", with: "a"
+        fill_in "Email", with: "b"
+        click_button "Save changes"
+      end
       it { should have_content('error') }
     end
   end
@@ -64,8 +65,6 @@ describe "User pages" do
 
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
-        fill_in "Password", with: "foobar"
-        fill_in "Password confirmation", with: "foobar"
         click_button 'Create Account'
 
         current_path.should == root_path
@@ -88,8 +87,6 @@ describe "User pages" do
         visit new_user_path
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
-        fill_in "Password", with: "foobar"
-        fill_in "Password confirmation", with: "foobar"
         fill_in "Cas name", with: "roberto"
         click_button 'Create Account'
 

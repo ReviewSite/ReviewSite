@@ -1,20 +1,18 @@
 class User < ActiveRecord::Base
-  attr_accessible :name, :cas_name, :email, :password, :password_confirmation
-  attr_protected :password_reset_token, :password_reset_sent_at
-  has_secure_password
+  attr_accessible :name, :cas_name, :email
+  attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
   has_many :junior_consultants
   has_many :feedbacks
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
-  validates :cas_name, presence: true, uniqueness: {case_sensitive: false}
+  validates :cas_name, presence:   true, 
+                       uniqueness: { case_sensitive: false },
+                       length:     { minimum: 2, maximum: 10 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence:   true,
-            format:     { with: VALID_EMAIL_REGEX },
-            uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }
-  validates :password_confirmation, presence: true
+                    format:     { with: VALID_EMAIL_REGEX },
+                    uniqueness: { case_sensitive: false }
   before_save { |user| user.email = user.email.downcase }
-  before_save :create_remember_token
 
   def to_s
     self.name
@@ -26,8 +24,20 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver
   end
 
-  private
-    def create_remember_token
-      self.remember_token = SecureRandom.urlsafe_base64
+  def authenticate(unencrypted_password)
+    if has_password? and matches_password?(unencrypted_password)
+      self
+    else
+      false
     end
+  end
+
+  private
+  def has_password?
+    not password_digest.nil?
+  end
+
+  def matches_password?(unencrypted_password) 
+    BCrypt::Password.new(password_digest) == unencrypted_password
+  end
 end

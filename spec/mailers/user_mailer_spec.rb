@@ -21,10 +21,6 @@ describe UserMailer do
       mail.body.encoded.should match(user.name)
     end
 
-    it 'assigns @password' do
-      mail.body.encoded.should_not match(user.password)
-    end
-
     it 'assigns @email' do
       mail.body.encoded.should_not match(user.email)
     end

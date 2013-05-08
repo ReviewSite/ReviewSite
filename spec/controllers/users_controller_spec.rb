@@ -5,8 +5,6 @@ describe UsersController do
     {
         name: 'Joe',
         email: 'joe@example.com',
-        password: 'password',
-        password_confirmation: 'password',
         cas_name: 'JoeCAS'
     }
   end
@@ -60,7 +58,7 @@ describe UsersController do
 
       it 'should set the cas_name to the already authenticated cas name' do
         controller.current_cas_name = "testCAS"
-        post :create, user: {name: "Test", email: "test@example.com", password: "p", password_confirmation: "p", cas_name: "testCAS"}
+        post :create, user: {name: "Test", email: "test@example.com", cas_name: "testCAS"}
         user = assigns(:user)
         user.cas_name.should == "testCAS"
       end

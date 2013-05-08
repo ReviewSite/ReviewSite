@@ -3,8 +3,6 @@ FactoryGirl.define do
     name 'Robin'
     sequence(:cas_name) { |n| "person#{n}" }
     sequence(:email) {|n| "person#{n}@example.com" }
-    password 'password'
-    password_confirmation 'password'
     admin false
     factory :admin_user do
       admin true

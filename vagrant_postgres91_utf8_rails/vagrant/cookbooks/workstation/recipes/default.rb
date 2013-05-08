@@ -5,6 +5,5 @@ package 'nodejs'
 package 'libxslt-dev'
 package 'libxml2-dev'
 
-# for capybara-webkit
-package 'qt4-dev-tools'
-package 'xvfb'
+# for phantomjs (require for poltergeist)
+package 'fontconfig'

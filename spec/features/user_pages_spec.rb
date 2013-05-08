@@ -13,7 +13,6 @@ describe "User pages" do
 
     describe "page" do
       it { should have_selector('h1',    text: "Update your profile") }
-      it { should have_selector('title', text: "Edit user") }
     end
 
     describe "with valid information" do
@@ -180,17 +179,17 @@ describe "User pages" do
       end
 
       it "should link to show" do
-        click_link "Show"
+        click_link "show_#{user.id}"
         current_path.should == user_path(user)
       end
 
       it "should link to edit" do
-        click_link "Edit"
+        click_link "edit_#{user.id}"
         current_path.should == edit_user_path(user)
       end
 
       it "should link to destroy", js: true do
-        click_link "Destroy"
+        click_link "destroy_#{user.id}"
         page.evaluate_script("window.confirm = function() { return true; }")
         current_path.should == users_path
         page.should have_selector('div.alert.alert-success', text: 'User destroyed.')

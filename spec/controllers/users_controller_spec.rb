@@ -45,7 +45,7 @@ describe UsersController do
       end
 
       it 'should send an admin email' do
-        UserMailer.any_instance.should_receive(:admin_registration_confirmation)
+        UserMailer.any_instance.should_receive(:registration_confirmation)
         post :create, {user: valid_params}
         ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
       end
@@ -53,7 +53,7 @@ describe UsersController do
 
     context "Users registers him/herself" do
       it 'should send an admin email' do
-        UserMailer.any_instance.should_receive(:self_registration_confirmation)
+        UserMailer.any_instance.should_receive(:registration_confirmation)
         post :create, {user: valid_params}
         ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
       end

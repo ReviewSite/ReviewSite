@@ -1,11 +1,6 @@
 class UserMailer < ActionMailer::Base
 
-  def self_registration_confirmation(user)
-    @user = user
-    mail(:to => "<#{user.email}>", :subject => "Thank you for registering on the ReviewSite")
-  end
-
-  def admin_registration_confirmation(user)
+  def registration_confirmation(user)
     @user = user
     mail(:to => "<#{user.email}>", :subject => "You were registered on the ReviewSite")
   end

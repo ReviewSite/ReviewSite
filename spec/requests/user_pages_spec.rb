@@ -60,7 +60,7 @@ describe "User pages" do
         page.should have_content('error')
       end
 
-      it "creates an account and sends an email with no password" do
+      it "creates an account and sends an email" do
 
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
@@ -68,14 +68,13 @@ describe "User pages" do
         fill_in "Password confirmation", with: "foobar"
         click_button 'Create Account'
 
-        current_path.should == signin_path
+        current_path.should == root_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == ["test@example.com"]
-        mail.subject.should == "Thank you for registering on the ReviewSite"
-        mail.body.encoded.should_not match("foobar")
+        mail.subject.should == "You were registered on the ReviewSite"
 
         new_user = User.last
         new_user.name.should == "Bob Smith"
@@ -84,7 +83,7 @@ describe "User pages" do
     end
 
     describe "as an admin" do
-      it "creates an account and sends an email with a password" do
+      it "creates an account and sends an email" do
         sign_in FactoryGirl.create(:admin_user)
         visit new_user_path
         fill_in "Name", with: "Bob Smith"
@@ -101,7 +100,6 @@ describe "User pages" do
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == ["test@example.com"]
         mail.subject.should == "You were registered on the ReviewSite"
-        mail.body.encoded.should match("foobar")
 
         new_user = User.last
         new_user.name.should == "Bob Smith"

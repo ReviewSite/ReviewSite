@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
-  validates :cas_name, presence: true, uniqueness: {case_sensitive: false}
+  validates :cas_name, uniqueness: {case_sensitive: false}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence:   true,
             format:     { with: VALID_EMAIL_REGEX },

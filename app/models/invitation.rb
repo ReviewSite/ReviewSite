@@ -1,6 +1,6 @@
  class Invitation < ActiveRecord::Base
   belongs_to :review
-  attr_accessible :email
+  attr_accessible :email, :username
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true,
@@ -13,6 +13,10 @@
 
   def user
     User.find_by_email(email)
+  end
+
+  def username=(username)
+    self.email = "#{username}@thoughtworks.com"
   end
 
   def feedback

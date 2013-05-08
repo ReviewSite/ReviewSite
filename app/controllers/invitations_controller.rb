@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
 
   def create
     @review = Review.find_by_id(params[:review_id])
-    @invitation = @review.invitations.build(email: "#{params[:username]}@thoughtworks.com")
+    @invitation = @review.invitations.build(username: params[:username])
 
     if not @invitation.feedback and @invitation.save
       if params[:no_email]

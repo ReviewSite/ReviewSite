@@ -12,6 +12,8 @@ describe "Password reset pages" do
         click_link "Forgot password?"
       end
 
+      it { should have_selector('title', text:'Request password reset') }
+
       describe "with invalid information" do
         before { click_button "Request password reset" }
 

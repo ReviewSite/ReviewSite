@@ -19,17 +19,17 @@
         <td><%= user.admin %></td>
         <td>
           <% if can? :read, user %>
-              <%= link_to 'Show', user, id: "show_#{user.id}" %>
+              <%= link_to 'Show', user %>
           <% end %>
         </td>
         <td>
           <% if can? :edit, user %>
-              <%= link_to 'Edit', edit_user_path(user), id: "edit_#{user.id}" %>
+              <%= link_to 'Edit', edit_user_path(user) %>
           <% end %>
         </td>
         <td>
           <% if can? :destroy, user %>
-              <%= link_to 'Destroy', user, id: "destroy_#{user.id}", method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
           <% end %>
         </td>
       </tr>

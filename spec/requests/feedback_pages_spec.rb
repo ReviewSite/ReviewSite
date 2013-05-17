@@ -55,7 +55,7 @@ describe "Feedback pages" do
       end
 
       it "saves as draft if 'Save Feedback' is clicked" do
-        click_button "bottom_save_feedback_button"
+        click_button "Save Feedback"
         feedback = Feedback.last
         current_path.should == edit_review_feedback_path(review, feedback)
         feedback.submitted.should be_false
@@ -114,7 +114,7 @@ describe "Feedback pages" do
           fill_in field, with: ""
         end
 
-        click_button "bottom_save_feedback_button"
+        click_button "Save Feedback"
         feedback = Feedback.last
         current_path.should == edit_review_feedback_path(review, feedback)
         feedback.submitted.should be_false
@@ -196,7 +196,7 @@ describe "Feedback pages" do
             fill_in field, with: ""
           end
 
-          click_button "bottom_save_feedback_button"
+          click_button "Save Feedback"
           feedback = Feedback.last
           current_path.should == edit_review_feedback_path(review, feedback)
           feedback.submitted.should be_false
@@ -270,7 +270,7 @@ describe "Feedback pages" do
     end
 
     it "saves as draft if 'Save Feedback' is clicked" do
-      click_button "bottom_save_feedback_button"
+      click_button "Save Feedback"
       feedback = Feedback.last
       current_path.should == edit_review_feedback_path(review, feedback)
       feedback.submitted.should be_false

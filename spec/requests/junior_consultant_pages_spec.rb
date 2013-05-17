@@ -72,8 +72,8 @@ describe "Junior consultant pages" do
 
   describe "new" do
     describe "as an admin" do
-      let!(:coach) { FactoryGirl.create(:user, name: "The Coach") }
-      let!(:user) { FactoryGirl.create(:user, name: "The Junior Consultant") }
+      let!(:coach) { FactoryGirl.create(:user) }
+      let!(:user) { FactoryGirl.create(:user) }
       let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
 
       before do

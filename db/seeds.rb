@@ -54,6 +54,8 @@
 #
 # Admin User: admin@example.com
 #
+require 'bcrypt'
+
 emails = ['john@example.com',
           'sally@example.com',
           'bob@example.com',
@@ -62,6 +64,7 @@ emails = ['john@example.com',
           'doug@example.com',
           'elvis@example.com',
           'george@example.com',
+          'jennifer@example.com',
           'admin@example.com'
 ]
 
@@ -84,6 +87,10 @@ luke = User.create(name: 'luke', cas_name: 'luke', email: 'luke@example.com')
 doug = User.create(name: 'doug', cas_name: 'doug', email: 'doug@example.com')
 elvis = User.create(name: 'elvis', cas_name: 'elvis', email: 'elvis@example.com')
 george = User.create(name: 'george', cas_name: 'george', email: 'george@example.com')
+
+jennifer = User.new(name: 'jennifer', email: 'jennifer@example.com')
+jennifer.save(validate: false)
+jennifer.update_attribute(:password_digest, BCrypt::Password.create('password'))
 
 admin = User.create(name: 'admin', cas_name: 'admin', email: 'admin@example.com')
 admin.admin = true

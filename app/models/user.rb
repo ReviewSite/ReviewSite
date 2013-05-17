@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class User < ActiveRecord::Base
   attr_accessible :name, :cas_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest

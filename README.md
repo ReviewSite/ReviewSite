@@ -59,7 +59,9 @@ Run the test suite
 
 (inside the VM)
 * `cd workspace`
-* `rspec spec`
+* `xvfb-run rspec spec`
+
+If you repeatedly receive the error "Xvfb failed to start," try `xvfb-run --server-num=1 rspec spec`.
 
 Start the local server
 ----------------------

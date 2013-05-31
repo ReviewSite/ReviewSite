@@ -80,7 +80,7 @@ describe ReviewsController do
       set_current_user admin_user
     end
     it "assigns the requested review as @review" do
-      review = Review.create! valid_attributes
+      review = FactoryGirl.create(:review) 
       get :show, {:id => review.to_param}, valid_session
       assigns(:review).should eq(review)
     end

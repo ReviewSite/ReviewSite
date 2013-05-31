@@ -52,7 +52,7 @@ class Ability
         end
       end
 
-      can :summary, Review do |review|
+      can [:summary, :index], Review do |review|
         is_user_the_jc_associated_with_review(user, review) or is_review_member(user, review) or is_coach(user, review)
       end
 

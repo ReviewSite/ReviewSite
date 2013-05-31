@@ -6,7 +6,7 @@ ReviewSite::Application.routes.draw do
 
   resources :admin, only: [:index]
 
-  resources :reviews, :except => [:index] do
+  resources :reviews do
     member do
       get :summary
     end

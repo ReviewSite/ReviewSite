@@ -27,5 +27,9 @@ describe ReviewsController do
       delete("/reviews/1").should route_to("reviews#destroy", :id => "1")
     end
 
+    it "routes to #index" do
+      get("/reviews/").should route_to("reviews#index")
+    end
+
   end
 end

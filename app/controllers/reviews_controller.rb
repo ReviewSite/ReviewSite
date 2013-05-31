@@ -1,6 +1,19 @@
 class ReviewsController < ApplicationController
-  
   load_and_authorize_resource
+  def index
+    @reviews = [];
+     Review.includes({:junior_consultant => :coach}, 
+                    {:junior_consultant => 
+                        {:reviewing_group => 
+                            {:reviewing_group_members => :user}}}, 
+                    :feedbacks, 
+                    :invitations).all.each do |review|
+        if can? :summary, review
+          @reviews << review
+        end
+      end
+  end
+
   # GET /reviews/1
   # GET /reviews/1.json
   def show

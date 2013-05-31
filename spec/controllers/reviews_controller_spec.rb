@@ -40,6 +40,40 @@ describe ReviewsController do
     {}
   end
 
+  describe "GET index" do
+    let(:review) { FactoryGirl.build(:review) }
+    let(:user) { FactoryGirl.build(:user) }
+
+    before do
+        User.stub(:find_by_cas_name).and_return(user)
+        set_current_user user
+        Review.stub(:includes).and_return(Review)
+        Review.stub(:all).and_return([review])
+    end
+
+    context 'user has permission to view review summary' do
+      before do
+       controller.stub(:can?).and_return(true)
+      end
+
+      it 'should assign all the reviews the user can summarize' do
+        get :index
+        assigns(:reviews).should =~ [review]
+      end
+    end
+
+    context 'user does not have permission to view review summary' do
+      before do
+        controller.stub(:car?).and_return(false)
+      end
+
+      it 'should not assign reviews that the user can not summarize' do
+        get :index
+        assigns(:reviews).should == []
+      end
+    end
+  end
+
   describe "GET show" do
     let(:admin_user) { FactoryGirl.create(:admin_user) }
     before(:each) do

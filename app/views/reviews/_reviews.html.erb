@@ -4,6 +4,7 @@
     <th>Junior Consultant</th>
     <th>Review Type</th>
     <th>Submitted / Total<br/>Feedback</th>
+    <th>Invitations Sent</th>
     <% if can? :create, Review %>
         <th>Review Date</th>
         <th>Feedback Deadline</th>
@@ -20,6 +21,7 @@
         <td class="feedback_submitted">
           <%= review.feedbacks.where(:submitted => true).count  %> / <%= review.feedbacks.count  %>
         </td>
+        <td class="invitations_sent"> <%= review.invitations.count %> </td>
         <% if can? :create, Review %>
             <td class="review_date"><%= review.review_date %></td>
             <td class="feedback_deadline"><%= review.feedback_deadline %></td>

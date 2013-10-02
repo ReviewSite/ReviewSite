@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :junior_consultant_id %><br />
-    <%= f.select :junior_consultant_id, JuniorConsultant.all.map { |jc| [jc.name, jc.id] } %>
+    <%= f.select :junior_consultant_id, JuniorConsultant.all.map { |jc| [jc.name.capitalize, jc.id] }.sort, :include_blank => "Select consultant" %>
   </div>
   <div class="field">
     <%= f.label :review_type %><br />

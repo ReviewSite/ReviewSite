@@ -36,6 +36,12 @@ td {
   table-layout: fixed;
 }
 
+.three-column > div {
+  display: inline-block;
+  width: 125px;
+  margin-right: 40px;
+}
+
 .feedback-text {
   border: 1px solid black;
   overflow: hidden;

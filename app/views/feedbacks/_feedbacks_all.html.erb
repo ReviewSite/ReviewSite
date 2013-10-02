@@ -23,7 +23,7 @@
         <% else %>
             <td class="feedback_not_submitted">Not Submitted</td>
         <% end %>
-            <td>|
+            <td nowrap>|
               <%  if can? :submit, feedback %>
                     <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put %> |
                   <% elsif can? :unsubmit, feedback %>

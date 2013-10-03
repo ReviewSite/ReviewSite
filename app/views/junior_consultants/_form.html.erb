@@ -21,7 +21,7 @@
   </div>
   <div>
     <%= f.label :user_id %>
-    <%= f.select :user_id, User.all.map { |user| [user.name, user.id]}, :include_blank => "Select associated user"  %>
+    <%= f.select :user_id, User.all.map { |user| [user.name.capitalize, user.id]}.sort, :include_blank => "Select associated user"  %>
   </div>
   <div class="field">
     <%= f.label :notes %>
@@ -33,7 +33,7 @@
   </div>
   <div>
     <%= f.label :coach_id %>
-    <%= f.select :coach_id, User.all.map { |user| [user.name, user.id]}, :include_blank => "Select a coach"  %>
+    <%= f.select :coach_id, User.all.map { |user| [user.name.capitalize, user.id]}.sort, :include_blank => "Select a coach"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

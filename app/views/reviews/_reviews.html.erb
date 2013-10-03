@@ -27,7 +27,7 @@
             <td class="feedback_deadline"><%= review.feedback_deadline %></td>
             <td class="send_link_date"><%= review.send_link_date %></td>
         <% end %>
-        <td>|
+        <td nowrap>|
         <% if can? :create, Invitation %>
             <%= link_to 'Invite', new_review_invitation_path(review), :class => 'send_invite_link' %> |
         <% end %>

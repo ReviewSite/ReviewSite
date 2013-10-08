@@ -54,18 +54,6 @@ describe "Feedback pages" do
         end
       end
 
-      it "saves as draft if 'Save Feedback' is clicked" do
-        click_button "Save Feedback"
-        feedback = Feedback.last
-        current_path.should == edit_review_feedback_path(review, feedback)
-        feedback.submitted.should be_false
-
-        inputs.each do |field, value|
-          model_attr = field[9..-1]
-          feedback.send(model_attr).should == value
-        end
-      end
-
       it "saves as final and sends email if 'Submit Final' is clicked", js: true do
         ActionMailer::Base.deliveries.clear
 
@@ -106,22 +94,6 @@ describe "Feedback pages" do
           else
             page.should have_selector('#'+field, text: value)
           end
-        end
-      end
-
-      it "saves as draft if 'Save Feedback' is clicked" do
-        inputs.each do |field, value|
-          fill_in field, with: ""
-        end
-
-        click_button "Save Feedback"
-        feedback = Feedback.last
-        current_path.should == edit_review_feedback_path(review, feedback)
-        feedback.submitted.should be_false
-
-        inputs.each do |field, value|
-          model_attr = field[9..-1]
-          feedback.send(model_attr).should == ""
         end
       end
 
@@ -191,29 +163,12 @@ describe "Feedback pages" do
           end
         end
 
-        it "saves as draft if 'Save Feedback' is clicked" do
-          inputs.each do |field, value|
-            fill_in field, with: ""
-          end
-
-          click_button "Save Feedback"
-          feedback = Feedback.last
-          current_path.should == edit_review_feedback_path(review, feedback)
-          feedback.submitted.should be_false
-
-          inputs.each do |field, value|
-            model_attr = field[9..-1]
-            feedback.send(model_attr).should == ""
-          end
-        end
-
         it "saves as final if 'Submit Final' is clicked", js: true do
           ActionMailer::Base.deliveries.clear
 
           inputs.each do |field, value|
             fill_in field, with: ""
           end
-
           click_button "Submit Final"
           page.evaluate_script("window.confirm = function() { return true; }")
           
@@ -266,18 +221,6 @@ describe "Feedback pages" do
       fill_in "feedback_user_string", with: "A non-user"
       inputs.each do |field, value|
         fill_in field, with: value
-      end
-    end
-
-    it "saves as draft if 'Save Feedback' is clicked" do
-      click_button "Save Feedback"
-      feedback = Feedback.last
-      current_path.should == edit_review_feedback_path(review, feedback)
-      feedback.submitted.should be_false
-      feedback.user_string.should == "A non-user"
-      inputs.each do |field, value|
-        model_attr = field[9..-1]
-        feedback.send(model_attr).should == value
       end
     end
 

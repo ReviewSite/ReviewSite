@@ -8,8 +8,8 @@ module ApplicationHelper
     end
   end
 
-  def reviewing_group_list
-    ReviewingGroup.all.map { |rg| [rg.name, rg.id] }
+  def alphabetically_sorted_reviewing_groups
+    ReviewingGroup.all.map { |rg| [rg.name, rg.id] }.sort
   end
 
   def users_list

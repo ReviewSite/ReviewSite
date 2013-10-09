@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :reviewing_group_id %><br />
-    <%= f.select :reviewing_group_id, ReviewingGroup.all.map { |rg| [rg.name, rg.id]} %>
+    <%= f.select :reviewing_group_id, reviewing_group_list %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br />
-    <%= f.select :user_id, User.all.map { |user| [user.name, user.id]} %>
+    <%= f.select :user_id, users_list %>
   </div>
   <div class="actions">
     <%= f.submit %>

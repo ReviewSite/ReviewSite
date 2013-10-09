@@ -193,7 +193,7 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        select jc.name.capitalize, from: "Junior consultant"
+        select jc.name, from: "Junior consultant"
         select "24-Month", from: "Review type"
 
         select "2013", from: "review_review_date_1i"

@@ -7,4 +7,20 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def reviewing_group_list
+    ReviewingGroup.all.map { |rg| [rg.name, rg.id] }
+  end
+
+  def users_list
+    User.all.map { |user| [user.name, user.id] } 
+  end
+
+  def alphabetically_sorted_user_names
+    User.all.map { |user| [user.name, user.id]}.sort
+  end
+
+  def alphabetically_sort_junior_consultant_names
+    JuniorConsultant.all.map { |jc| [jc.name, jc.id] }.sort
+  end
 end

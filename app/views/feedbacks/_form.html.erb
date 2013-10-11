@@ -43,6 +43,12 @@
         <%= f.label :project_worked_on %><br />
         <%= f.text_field :project_worked_on %>
       </div>
+
+      <div class="field">
+        <%= f.label :feedback_deadline %><br />
+        <%= f.text_field :feedback_deadline, :value => @review.feedback_deadline, :disabled => true%>
+      </div>
+
       <div class="field">
         <%= f.label :role_description %><br />
         <%= f.text_field :role_description %>

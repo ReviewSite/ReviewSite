@@ -21,7 +21,7 @@
   </div>
   <div>
     <%= f.label :user_id %>
-    <%= f.select :user_id, alphabetically_sorted_user_names, :include_blank => "Select associated user"  %>
+    <%= f.select :user_id, format_all_for_select(User), :include_blank => "Select associated user"  %>
   </div>
   <div class="field">
     <%= f.label :notes %>
@@ -29,11 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :reviewing_group_id %>
-    <%= f.select :reviewing_group_id, alphabetically_sorted_reviewing_groups  %>
+    <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup) %>
   </div>
   <div>
     <%= f.label :coach_id %>
-    <%= f.select :coach_id, alphabetically_sorted_user_names, :include_blank => "Select a coach"  %>
+    <%= f.select :coach_id, format_all_for_select(User), :include_blank => "Select a coach"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

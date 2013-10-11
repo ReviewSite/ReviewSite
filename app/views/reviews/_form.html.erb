@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :junior_consultant_id %><br />
-    <%= f.select :junior_consultant_id, alphabetically_sort_junior_consultant_names, :include_blank => "Select consultant" %>
+    <%= f.select :junior_consultant_id, format_all_for_select(JuniorConsultant), :include_blank => "Select consultant" %>
   </div>
   <div class="field">
     <%= f.label :review_type %><br />

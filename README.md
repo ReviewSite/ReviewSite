@@ -18,6 +18,7 @@ How to contribute time/effort to the ReviewSite
 Development Setup instructions:
 -------------------------------
 The ReviewSite codebase includes a vagrantbox for local development and testing.
+Make sure you have VM VirtualBox installed before doing the next steps.
 
 To use this, you must checkout and build the vagrantbox.
 

@@ -23,13 +23,10 @@
   <div class="field">
     <% if signed_in? and current_user.admin? %>
       <%= f.label :cas_name %><br />
-      <% peekaboo = '' %>
-      <% value = @user.nil? ? "" : @user.cas_name %>
+      <%= f.text_field :cas_name, value: @user.nil? ? "" : @user.cas_name %>
     <% else %> 
-      <% peekaboo = 'hidden' %>
-      <% value = current_cas_name %>
+      <%= f.hidden_field :cas_name, value: current_cas_name %>
     <% end %>
-    <%= f.text_field :cas_name, value: value, type: peekaboo %>
   </div>
 
   <div class="actions">

@@ -90,7 +90,15 @@ Creating sample account on dev site
 
 In order to test logging in as a JC, you will need to add both a new JC, as well as a new user with the *same email*.
 
+Adding Test Data to the Database
+================================
 
+In order to add the test data to the database, the following commands can be run on the virtual machine:
+
+* `$ rake db:drop`
+* `$ rake db:create`
+* `$ rake db:schema:load`
+* `$ rake db:seed`
 
 
 Deploying the ReviewSite to heroku

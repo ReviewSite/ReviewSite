@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :junior_consultant_id %><br />
-    <%= f.select :junior_consultant_id, alphabetically_sort_junior_consultant_names, :include_blank => "Select consultant" %>
+    <%= f.select :junior_consultant_id, format_all_for_select(JuniorConsultant), :include_blank => "Select consultant" %>
   </div>
   <div class="field">
     <%= f.label :review_type %><br />
@@ -26,7 +26,8 @@
     </div>
     <div class="field">
       <%= f.label :feedback_deadline %><br />
-      <%= f.date_select :feedback_deadline %>
+      <%= f.date_select :feedback_deadline %><br />
+      <p class="improvement_text">The feedback deadline will be displayed on the feedback form</p>
     </div>
     <div class="field">
       <%= f.label :send_link_date %><br />

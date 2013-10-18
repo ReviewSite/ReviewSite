@@ -134,7 +134,7 @@ describe "Feedback pages" do
 
         click_button "Submit Final"
         page.evaluate_script("window.confirm = function() { return true; }")
-        
+
         feedback = Feedback.last
         current_path.should == review_feedback_path(review, feedback)
         feedback.submitted.should be_true

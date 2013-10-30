@@ -251,34 +251,5 @@
   <div class="actions">
     <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
     <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
-    <% if not @feedback.new_record? %>
-      <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback'} %>
-    <% end %>
   </div>
-</div>
 <% end %>
-<script>
-	changeMadeAndUnsaved = false;
-
-  $('#instructions-label').click(function() {
-    $('#instructions').slideToggle();
-  });
-
-	$(':input').change(function() {
-		changeMadeAndUnsaved = true;
-	});
-	
-	$('.save_feedback_button').click(function() {
-		changeMadeAndUnsaved = false;
-	});
-	
-	$('.submit_feedback_button').click(function() {
-		changeMadeAndUnsaved = false;
-	});
-
-	window.onbeforeunload = function() {
-		if (changeMadeAndUnsaved) {
-       		return "You have unsaved feedback.";
-		}
-   	};
-</script>

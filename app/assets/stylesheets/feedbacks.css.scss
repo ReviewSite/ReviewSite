@@ -27,6 +27,7 @@ textarea {
 .save_feedback_button {
   background-color: #292EA7;
   color: white;
+  float: left;
 }
 
 .submit_feedback_button {
@@ -38,4 +39,16 @@ textarea {
 .delete_feedback_button {
   background-color: #CF0026;
   color: white;
+  border-top: 0px;
+  margin-left:3px;
+  float: left;
+  padding: 8px;
+}
+
+.delete_padder {
+  padding-bottom: 10px;
+}
+
+.actions {
+  margin-bottom: 0px;
 }

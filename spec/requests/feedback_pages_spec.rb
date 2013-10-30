@@ -71,7 +71,7 @@ describe "Feedback pages" do
 
         click_button "Submit Final"
         page.evaluate_script("window.confirm = function() { return true; }")
-        
+
         feedback = Feedback.last
         current_path.should == review_feedback_path(review, feedback)
         feedback.submitted.should be_true
@@ -85,81 +85,6 @@ describe "Feedback pages" do
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == [jc.email]
         mail.subject.should == "You have new feedback"
-      end
-    end
-
-    describe "if feedback has been saved as draft" do
-      let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
-
-      before do
-        inputs.each do |field, value|
-          model_attr = field[9..-1]
-          feedback.update_attribute(model_attr, value)
-        end
-        visit new_review_feedback_path(review)
-      end
-
-      it "reloads saved feedback" do
-        inputs.each do |field, value|
-          if ['feedback_project_worked_on', 'feedback_role_description'].include?(field)
-            page.should have_field(field, with: value)
-          else
-            page.should have_selector('#'+field, text: value)
-          end
-        end
-      end
-
-      it "saves as draft if 'Save Feedback' is clicked" do
-        inputs.each do |field, value|
-          fill_in field, with: ""
-        end
-
-        click_button "Save Feedback"
-        feedback = Feedback.last
-        current_path.should == edit_review_feedback_path(review, feedback)
-        feedback.submitted.should be_false
-
-        inputs.each do |field, value|
-          model_attr = field[9..-1]
-          feedback.send(model_attr).should == ""
-        end
-      end
-
-      it "saves as final if 'Submit Final' is clicked", js: true do
-        ActionMailer::Base.deliveries.clear
-
-        inputs.each do |field, value|
-          fill_in field, with: ""
-        end
-
-        click_button "Submit Final"
-        page.evaluate_script("window.confirm = function() { return true; }")
-
-        feedback = Feedback.last
-        current_path.should == review_feedback_path(review, feedback)
-        feedback.submitted.should be_true
-
-        inputs.each do |field, value|
-          model_attr = field[9..-1]
-          feedback.send(model_attr).should == ""
-        end
-
-        ActionMailer::Base.deliveries.length.should == 1
-        mail = ActionMailer::Base.deliveries.last
-        mail.to.should == [jc.email]
-        mail.subject.should == "You have new feedback"
-      end
-    end
-
-    describe "if feedback has been submitted" do
-      before do
-        FactoryGirl.create(:submitted_feedback, review: review, user: user)
-        visit new_review_feedback_path(review)
-      end
-
-      it "should redirect to homepage" do
-        current_path.should == root_path
-        page.should have_selector('div.alert.alert-notice', text:"You have already submitted feedback.")
       end
     end
   end
@@ -196,7 +121,8 @@ describe "Feedback pages" do
             fill_in field, with: ""
           end
 
-          click_button "Save Feedback"
+          submit_button = find_button "Save Feedback"
+          submit_button.click
           feedback = Feedback.last
           current_path.should == edit_review_feedback_path(review, feedback)
           feedback.submitted.should be_false

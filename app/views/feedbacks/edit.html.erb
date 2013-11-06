@@ -1,6 +1,7 @@
 <h1>Editing feedback for <%= @review.junior_consultant %></h1>
 
 <%= render :partial => 'form', :locals => {:additional => !@feedback.user_string.nil? } %>
+<div class="delete_padder">
+  <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "delete_feedback_button"  %>
+</div>
 
-<%= link_to 'Show', [@review, @feedback] %> |
-<%= link_to 'Home', welcome_index_path %>

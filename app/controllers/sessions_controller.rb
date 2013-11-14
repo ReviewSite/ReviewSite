@@ -2,6 +2,9 @@ class SessionsController < ApplicationController
   skip_authorization_check
   
   def new
+    if signed_in?
+      redirect_to root_url
+    end
   end
   
   def create

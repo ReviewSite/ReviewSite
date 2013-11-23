@@ -28,6 +28,8 @@ class Feedback < ActiveRecord::Base
   belongs_to :review
   belongs_to :user
 
+  delegate :new_review_format, to: :review
+
   def reviewer
     if self.user_string.nil?
       self.user.name

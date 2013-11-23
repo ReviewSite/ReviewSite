@@ -12,7 +12,14 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      # format.html # show.html.erb
+
+      if @review.new_review_format
+        format.html { render "show_four_questions" }
+      else
+        format.html { render "show" }
+      end
+
       format.json { render json: @feedback }
     end
   end
@@ -45,6 +52,11 @@ class FeedbacksController < ApplicationController
           redirect_to root_path, notice: "You have already submitted feedback."
         else
           render html: @feedback
+          # if @review.new_review_format 
+          #   format.html { render "_form_new_view" }
+          # else
+          #   format.html { render "_form_old_view" }
+          # end
         end
       end
       format.json { render json: @feedback }

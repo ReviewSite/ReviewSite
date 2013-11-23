@@ -1,0 +1,391 @@
+<%= form_for([@review, @feedback]) do |f| %>
+  <% if @feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+      <ul>
+      <% @feedback.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <label id="instructions-label">Click to view instructions.</label><br/><br/>
+
+  <div id="instructions">
+    <p><a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">See example feedback here</a></p>
+
+    <p>For each section, please read the detailed description in the section header. 
+    This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
+
+    <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
+
+    <p>There are three categories to organize your detailed feedback for each of the overall
+    Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting
+    & Exceeding expectations) for a given section, please include both responses. There is no need to include
+    responses in all categories, if it does not apply.</p>
+  </div>
+
+  <br />
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="field">
+        <%= f.label "Feedback by" %>
+        <% if not additional %>
+          <%= @user_name %>
+        <% else %>
+          <%= f.text_field :user_string %>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :project_worked_on %><br />
+        <%= f.text_field :project_worked_on %>
+      </div>
+      <div class="field">
+        <%= f.label :role_description %><br />
+        <%= f.text_field :role_description %>
+      </div>
+
+      <div class="field">
+        <%= f.label :review_id %><br />
+        <%= text_field :review, :feedback_deadline, :value => "#{Review.find(@feedback.review_id).feedback_deadline}" %>
+      </div>  
+    </div>
+
+  <div class="span9">
+  <div id="accordion">
+
+    <h3>Role competence tutututututut </h3>
+    <div>
+      <p> <b>Understanding:</b> Tech stack, domain, trust to onboard others <br />
+      <b>Ownership of concept:</b> go-to person for specific questions, accountability, leads discussions, confidence<br />
+      <b>Learnings:</b> Eager to learn new tools/apps/languages, ability to apply learnings, innovative, side projects, self directed learnings<br />
+      <b>Effective collaborator:</b> Good knowledge transfer, effective pair, knows shortcut keys, drives/navagates/rotates pairs, desk checks<br /></p>
+
+      <div class="field">
+        <%= f.label :role_competence_went_well %><br />
+        <%= f.text_area :role_competence_went_well %>
+      </div>
+      <div class="field">
+        <%= f.label :role_competence_to_be_improved %><br />
+        <%= f.text_area :role_competence_to_be_improved %>
+      </div>
+      <div class="field">
+        <%= f.label :role_competence_action_items %><br />
+        <%= f.text_area :role_competence_action_items %>
+      </div>
+      <div class="scale">
+        <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+        <%= f.select :role_competence_scale, feedback_priorities, :include_blank => "Select a scale" %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %> 
+    </div>
+
+    <h3>Consulting Skills </h3>
+    <div>
+      <p><b>Customer Commitment:</b> understand what the client really needs, understand deadlines and why they are important, building relationships with the client, being able to influence client developers to use technologies<br />
+      <b>Communication skils:</b> Asks questions, professionally offers concerns and alternative solutions, ability to influence, push back when needed<br />
+      <b>Delivery:</b> Stretches to deliver if need be, understands need to deliver on time<br />
+      <b>Aware of Perceptions:</b> professional client facing presence, good understanding of business needs vs. personal wants<br /></p>
+
+      <div class="field">
+        <%= f.label :consulting_skills_went_well %><br />
+        <%= f.text_area :consulting_skills_went_well %>
+      </div>
+      <div class="field">
+        <%= f.label :consulting_skills_to_be_improved %><br />
+        <%= f.text_area :consulting_skills_to_be_improved %>
+      </div>
+      <div class="field">
+        <%= f.label :consulting_skills_action_items %><br />
+        <%= f.text_area :consulting_skills_action_items %>
+      </div>
+      <div class="scale">
+        <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+        <%= f.select :consulting_skills_scale, feedback_priorities, :include_blank => "Select a scale" %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %> 
+    </div>
+
+    <h3>Teamwork</h3>
+    <div>
+      <b>Relationship building:</b> Working with team members, conflict resolution, people want to work with you again<br />
+      <b>Feedback:</b> Ability to deliver and ask for feedback, reacts well to feedback<br />
+      <b>Attitude:</b> Approachable, enthusiastic, helpful, respectful, will work outside of 40 hours to help project if needed<br />
+      <b>Professionalism:</b> Professional client-facing presence, punctual, turns in time sheets, acceptable attendance and visability to team<br /></p>
+
+      <div class="field">
+        <%= f.label :teamwork_went_well %><br />
+        <%= f.text_area :teamwork_went_well %>
+      </div>
+      <div class="field">
+        <%= f.label :teamwork_to_be_improved %><br />
+        <%= f.text_area :teamwork_to_be_improved %>
+      </div>
+      <div class="field">
+        <%= f.label :teamwork_action_items %><br />
+        <%= f.text_area :teamwork_action_items %>
+      </div>
+      <div class="scale">
+        <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+        <%= f.select :teamwork_scale, feedback_priorities, :include_blank => "Select a scale" %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Contritubions </h3>
+    <div>
+      <p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, JC Continuing Learning Sessions, hallway chats<br />
+      <b>Suggestions</b> for further development<br />
+      <b>Social Resposibility:</b> Awareness, involvement, contribution<br />
+      <b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>
+
+      <div class="field">
+        <%= f.label :contritubions_went_well %><br />
+        <%= f.text_area :contritubions_went_well %>
+      </div>
+      <div class="field">
+        <%= f.label :contritubions_to_be_improved %><br />
+        <%= f.text_area :contritubions_to_be_improved %>
+      </div>
+      <div class="field">
+        <%= f.label :contritubions_action_items %><br />
+        <%= f.text_area :contritubions_action_items %>
+      </div>
+      <div class="scale">
+        <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+        <%= f.select :contritubions_scale, feedback_priorities, :include_blank => "Select a scale" %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %> 
+    </div>
+
+    <h3>Technical Competence</h3>
+    <div>
+      <p>Aptitude/ knowledge/ skills <br />
+      Able to understand the application?<br />
+      Able to apply existing knowledge and skills during development/analysis?<br />
+      Keen on learning new languages/tools/applications?<br />
+      Share knowledge with other team members as and when required?<br />
+      Self-driven?</p>
+
+      <div class="field">
+        <%= f.label :tech_exceeded %><br />
+        <%= f.text_area :tech_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :tech_met %><br />
+        <%= f.text_area :tech_met %>
+      </div>
+      <div class="field">
+        <%= f.label :tech_improve %><br />
+        <%= f.text_area :tech_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Client Interaction</h3>
+    <div>
+      <p>Presentation/showcase skills, ability to handle unreasonable demands, suggest alternative solutions, negotiation, body language during client interactions</p>
+
+      <div class="field">
+        <%= f.label :client_exceeded %><br />
+        <%= f.text_area :client_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :client_met %><br />
+        <%= f.text_area :client_met %>
+      </div>
+      <div class="field">
+        <%= f.label :client_improve %><br />
+        <%= f.text_area :client_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Ownership/Delivery focus</h3>
+    <div>
+      <p>Understands the need to deliver on time,  stretches to deliver if need be, accountability on stories that they have/are working on, dependability</p>
+
+      <div class="field">
+        <%= f.label :ownership_exceeded %><br />
+        <%= f.text_area :ownership_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :ownership_met %><br />
+        <%= f.text_area :ownership_met %>
+      </div>
+      <div class="field">
+        <%= f.label :ownership_improve %><br />
+        <%= f.text_area :ownership_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Leadership</h3>
+    <div>
+      <p>Proactive, leads by example, motivates etc. <br />
+      Mentoring: Bringing new team members up to speed, work with existing team members on areas that they find difficult to understand</p>
+
+      <div class="field">
+        <%= f.label :leadership_exceeded %><br />
+        <%= f.text_area :leadership_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :leadership_met %><br />
+        <%= f.text_area :leadership_met %>
+      </div>
+      <div class="field">
+        <%= f.label :leadership_improve %><br />
+        <%= f.text_area :leadership_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Teamwork</h3>
+    <div>
+      <p>Building relationships and working with team members, Updates to team, Pairing, internal communication/sharing feedback right and on time</p>
+
+      <div class="field">
+        <%= f.label :teamwork_exceeded %><br />
+        <%= f.text_area :teamwork_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :teamwork_met %><br />
+        <%= f.text_area :teamwork_met %>
+     </div>
+     <div class="field">
+        <%= f.label :teamwork_improve %><br />
+        <%= f.text_area :teamwork_improve %>
+     </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Attitude</h3>
+    <div>
+      <p>Energy, Enthusiasm, Co-operative, Helpful, Approachable</p>
+
+      <div class="field">
+        <%= f.label :attitude_exceeded %><br />
+        <%= f.text_area :attitude_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :attitude_met %><br />
+        <%= f.text_area :attitude_met %>
+      </div>
+      <div class="field">
+        <%= f.label :attitude_improve %><br />
+        <%= f.text_area :attitude_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Professionalism</h3>
+    <div>
+      <p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>
+
+      <div class="field">
+        <%= f.label :professionalism_exceeded %><br />
+        <%= f.text_area :professionalism_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :professionalism_met %><br />
+        <%= f.text_area :professionalism_met %>
+      </div>
+      <div class="field">
+        <%= f.label :professionalism_improve %><br />
+        <%= f.text_area :professionalism_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Organizational Involvement</h3>
+    <div>
+      <p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>
+      <p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>
+      <p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>
+
+      <div class="field">
+        <%= f.label :organizational_exceeded %><br />
+        <%= f.text_area :organizational_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :organizational_met %><br />
+        <%= f.text_area :organizational_met %>
+      </div>
+      <div class="field">
+        <%= f.label :organizational_improve %><br />
+        <%= f.text_area :organizational_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>Innovation/Out of the box thinking</h3>
+    <div>
+      <p>Simple new ideas that made lives easier on the project or clients/ unique innovative solutions in or outside of projects</p>
+      <div class="field">
+        <%= f.label :innovative_exceeded %><br />
+        <%= f.text_area :innovative_exceeded %>
+      </div>
+      <div class="field">
+        <%= f.label :innovative_met %><br />
+        <%= f.text_area :innovative_met %>
+      </div>
+      <div class="field">
+        <%= f.label :innovative_improve %><br />
+        <%= f.text_area :innovative_improve %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+
+    <h3>General Comments</h3>
+    <div>
+      <p>Anything not covered above</p>
+      <div class="field">
+        <%= f.label :comments %><br />
+        <%= f.text_area :comments %>
+      </div>
+      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    </div>
+  </div>
+  <br /><br />
+  <p>Clicking on the 'Save Feedback' button will save the feedback, but allow you to continue editing the feedback.<br />
+  Clicking on the 'Submit Final' will indicate that you are done writing the feedback, and that it can be shared</p>
+  <div class="actions">
+    <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+    <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+    <% if not @feedback.new_record? %>
+    <%= f.submit 'Delete Feedback', {:class => "delete_feedback_button", :name => "delete_feedback_button", :confirm => 'Are you sure you want to delete this feedback?'}  %>
+    <% end %>
+
+
+  </div>
+  </div>
+</div>
+<% end %>
+<script>
+	changeMadeAndUnsaved = false;
+
+  $('#instructions-label').click(function() {
+    $('#instructions').slideToggle();
+  });
+
+	$(':input').change(function() {
+		changeMadeAndUnsaved = true;
+	});
+	
+	$('.save_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
+	
+	$('.submit_feedback_button').click(function() {
+		changeMadeAndUnsaved = false;
+	});
+
+	window.onbeforeunload = function() {
+		if (changeMadeAndUnsaved) {
+       		return "You have unsaved feedback.";
+		}
+   	};
+</script>

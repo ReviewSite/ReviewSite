@@ -21,6 +21,12 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      # if @review.old_format
+      #   format { "show" }
+      # else
+      #   format { "show_new" }
+      # end
+      # format.html { render select_view_for_review_id(params[:id].to_i) }
       format.json { render json: @review }
     end
   end

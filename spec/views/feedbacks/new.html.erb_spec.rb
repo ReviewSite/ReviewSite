@@ -8,6 +8,18 @@ describe "feedbacks/new" do
       :user_id => @user.id,
       :project_worked_on => "MyString",
       :role_description => "MyString",
+      :role_competence_exceeded => "MyText", 
+      :role_competence_improve => "MyText", 
+      :role_competence_met => "MyText",
+      :consulting_skills_exceeded => "MyText", 
+      :consulting_skills_improve => "MyText", 
+      :consulting_skills_met => "MyText", 
+      :teamwork_exceeded => "MyText",
+      :teamwork_met => "MyText",
+      :teamwork_improve => "MyText",
+      :contritubions_exceeded => "MyText", 
+      :contritubions_improve => "MyText", 
+      :contritubions_met => "MyText", 
       :tech_exceeded => "MyText",
       :tech_met => "MyText",
       :tech_improve => "MyText",
@@ -51,6 +63,18 @@ describe "feedbacks/new" do
     assert_select "form", :action => review_feedbacks_path(@review), :method => "post" do
       assert_select "input#feedback_project_worked_on", :name => "feedback[project_worked_on]"
       assert_select "input#feedback_role_description", :name => "feedback[role_description]"
+      # assert_select "textarea#feedback_role_competence_exceeded", :name => "feedback[role_competence_exceeded]"
+      # assert_select "textarea#feedback_role_competence_met", :name => "feedback[role_competence_met]"
+      # assert_select "textarea#feedback_role_competence_improve", :name => "feedback[role_competence_improve]"
+      # assert_select "textarea#feedback_consulting_skills_exceeded", :name => "feedback[consulting_skills_exceeded]"
+      # assert_select "textarea#feedback_consulting_skills_met", :name => "feedback[consulting_skills_met]"
+      # assert_select "textarea#feedback_consulting_skills_improve", :name => "feedback[consulting_skills_improve]"
+      assert_select "textarea#feedback_teamwork_exceeded", :name => "feedback[teamwork_exceeded]"
+      assert_select "textarea#feedback_teamwork_met", :name => "feedback[teamwork_met]"
+      assert_select "textarea#feedback_teamwork_improve", :name => "feedback[teamwork_improve]"
+      # assert_select "textarea#feedback_contritubions_exceeded", :name => "feedback[contritubions_exceeded]"
+      # assert_select "textarea#feedback_contritubions_met", :name => "feedback[contritubions_met]"
+      # assert_select "textarea#feedback_contritubions_improve", :name => "feedback[contritubions_improve]"
       assert_select "textarea#feedback_tech_exceeded", :name => "feedback[tech_exceeded]"
       assert_select "textarea#feedback_tech_met", :name => "feedback[tech_met]"
       assert_select "textarea#feedback_tech_improve", :name => "feedback[tech_improve]"

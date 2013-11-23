@@ -12,7 +12,14 @@ class Review < ActiveRecord::Base
   has_many :self_assessments, :dependent => :destroy
   has_many :invitations, :dependent => :destroy
 
+  after_initialize :init
+
+  def init
+    self.new_review_format = true if new_record?
+  end
+
   def to_s
     "#{junior_consultant} - #{review_type}"
   end
+
 end

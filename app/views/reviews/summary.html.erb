@@ -1,17 +1,21 @@
 <div class="row">
   <div id="navbar" class="span2 bs-docs-sidebar">
     <ul class="nav nav-list bs-docs-sidenav affix">
-      <li><a href="#0">Tech</a></li>
-      <li><a href="#1">Client</a></li>
-      <li><a href="#2">Ownership</a></li>
-      <li><a href="#3">Leadership</a></li>
-      <li><a href="#4">Teamwork</a></li>
-      <li><a href="#5">Attitude</a></li>
-      <li><a href="#6">Professionalism</a></li>
-      <li><a href="#7">Organizational</a></li>
-      <li><a href="#8 ">Innovative</a></li>
-      <li><a href="#9 ">Comments</a></li>
-      <li><a href="#10 ">Self-Assessment</a></li>
+      <li><a href="#0 ">Role Competence</a></li>
+      <li><a href="#1 ">Consulting Skills</a></li>
+      <li><a href="#2 ">Teamwork</a></li>
+      <li><a href="#3 ">Contritubions</a></li>
+      <li><a href="#4">Tech</a></li>
+      <li><a href="#5">Client</a></li>
+      <li><a href="#6">Ownership</a></li>
+      <li><a href="#7">Leadership</a></li>
+      <li><a href="#8">Teamwork</a></li>
+      <li><a href="#9">Attitude</a></li>
+      <li><a href="#10">Professionalism</a></li>
+      <li><a href="#11">Organizational</a></li>
+      <li><a href="#12">Innovative</a></li>
+      <li><a href="#13 ">Comments</a></li>
+      <li><a href="#14 ">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
@@ -22,7 +26,11 @@
   <div class="span10">
     <h1>Feedback for Review <%= @review %></h1>
 
-    <% all_headers = ["tech_exceeded", "tech_met", "tech_improve",
+    <% all_headers = ["role_competence_went_well", "role_competence_to_be_improved", "role_competence_action_items",
+                      "consulting_skills_went_well", "consulting_skills_to_be_improved", "consulting_skills_action_items",
+                      "teamwork_went_well", "teamwork_to_be_improved", "teamwork_action_items",
+                      "contritubions_went_well", "contritubions_to_be_improved", "contritubions_action_items",
+                      "tech_exceeded", "tech_met", "tech_improve",
                       "client_exceeded", "client_met", "client_improve",
                       "ownership_exceeded", "ownership_met", "ownership_improve",
                       "leadership_exceeded", "leadership_met", "leadership_improve",
@@ -87,7 +95,7 @@
         <br />
     <% end %>
 
-    <section class="sections" id="10">
+    <section class="sections" id="15">
       <h2>Self-Assessment</h2>
       <table>
         <thead>

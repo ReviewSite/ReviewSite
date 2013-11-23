@@ -17,6 +17,7 @@ Vagrant::Config.run do |config|
   # computers to access the VM, whereas host only networking does not.
   # config.vm.forward_port 80, 8080
   config.vm.forward_port 9292, 9292
+  config.vm.forward_port 3000, 3000
 
   config.vm.share_folder "rails_app", "/home/vagrant/workspace", "#{RAILS_DIR}"
 

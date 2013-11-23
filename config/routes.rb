@@ -8,7 +8,7 @@ ReviewSite::Application.routes.draw do
 
   resources :reviews do
     member do
-      get :summary
+        get :summary
     end
     resources :feedbacks, :except => [:index] do
       member do

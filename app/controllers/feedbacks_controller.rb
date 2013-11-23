@@ -12,14 +12,7 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.find(params[:id])
 
     respond_to do |format|
-      # format.html # show.html.erb
-
-      if @review.new_review_format
-        format.html { render "show_four_questions" }
-      else
-        format.html { render "show" }
-      end
-
+      format.html # show.html.erb
       format.json { render json: @feedback }
     end
   end

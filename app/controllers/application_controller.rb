@@ -13,12 +13,4 @@ class ApplicationController < ActionController::Base
       store_location
     end
   end      
-
-  def select_view_for_review_id(id)
-    if id < 2
-      'old_' + params[:action]
-    else
-      params[:action]
-    end
-  end
 end

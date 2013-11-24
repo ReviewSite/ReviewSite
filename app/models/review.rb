@@ -48,7 +48,7 @@ class Review < ActiveRecord::Base
     questions["Leadership"] = Question.new("Leadership", "Leadership", ["leadership_exceeded", "leadership_met", "leadership_improve"],
                                            "<p>Proactive, leads by example, motivates etc. <br />" +
                                            "Mentoring: Bringing new team members up to speed, work with existing team members on areas that they find difficult to understand</p>")
-    questions["Teamwork"] = Question.new("Teamwork", "Teamwork", ["teamwork_exceeded", "teamwork_met", "teamwork_improve"],
+    questions["OldTeamwork"] = Question.new("OldTeamwork", "Teamwork", ["teamwork_exceeded", "teamwork_met", "teamwork_improve"],
                                          "<p>Building relationships and working with team members, Updates to team, Pairing, internal communication/sharing feedback right and on time</p>")
     questions["Attitude"] = Question.new("Attitude", "Attitude", ["attitude_exceeded", "attitude_met", "attitude_improve"],
                                          "<p>Energy, Enthusiasm, Co-operative, Helpful, Approachable</p>")
@@ -97,7 +97,7 @@ class Review < ActiveRecord::Base
     if self.new_review_format
       ["Role Competence","Consulting Skills","Teamwork", "Contritubions"]
     else
-      ["Tech","Client", "Ownership", "Leadership", "Teamwork", "Attitude", "Professionalism", "Organizational", "Innovative"]
+      ["Tech","Client", "Ownership", "Leadership", "OldTeamwork", "Attitude", "Professionalism", "Organizational", "Innovative"]
     end
   end
   def headers

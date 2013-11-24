@@ -38,7 +38,8 @@ GEM
       axlsx
       rails (>= 3.1)
     bcrypt-ruby (3.0.0)
-    bootstrap-sass (2.0.0)
+    bootstrap-sass (2.3.0.1)
+      sass (~> 3.2)
     brakeman (2.1.2)
       erubis (~> 2.6)
       fastercsv (~> 1.5)
@@ -254,7 +255,7 @@ PLATFORMS
 DEPENDENCIES
   axlsx_rails
   bcrypt-ruby (= 3.0.0)
-  bootstrap-sass (= 2.0.0)
+  bootstrap-sass (~> 2.3.0.1)
   brakeman
   bullet
   cancan

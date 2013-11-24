@@ -41,7 +41,7 @@
               <th class="caption-font">Info</th>
               <% header_group.each do |header| %>
                   <% if header.present? %>
-                      <th class="caption-font <%= 'improvement_text' if header.match("improve")%><%='exceed_text' if header.match("exceed")%>">
+                      <th class="caption-font <%= 'improvement_text' if header.match("improve")%><%='exceed_text' if header.match("exceed") or header.match("action_items") %>">
                         <%= header.titleize %>
                       </th>
                   <% end %>
@@ -59,7 +59,7 @@
                   </td>
                   <% header_group.each do |header| %>
                       <% if header.present? %>
-                          <td class="feedback-text <%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed")  %>">
+                          <td class="feedback-text <%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") or header.match("action_items") %>">
                             <%= simple_format(feedback.public_send(header)) %>
                           </td>
                       <% end %>

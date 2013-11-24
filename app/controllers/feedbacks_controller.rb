@@ -45,11 +45,6 @@ class FeedbacksController < ApplicationController
           redirect_to root_path, notice: "You have already submitted feedback."
         else
           render html: @feedback
-          # if @review.new_review_format 
-          #   format.html { render "_form_new_view" }
-          # else
-          #   format.html { render "_form_old_view" }
-          # end
         end
       end
       format.json { render json: @feedback }

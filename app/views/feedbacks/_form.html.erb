@@ -23,7 +23,7 @@
 
     <p>There are three categories to organize your detailed feedback for each of the overall
     Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting
-    & Exceeding expectations) for a given section, please include both responses. There is no need to include
+    &amp; Exceeding expectations) for a given section, please include both responses. There is no need to include
     responses in all categories, if it does not apply.</p>
   </div>
 
@@ -57,174 +57,26 @@
 
   <div class="span9">
   <div id="accordion">
-    <h3>Technical Competence</h3>
-    <div>
-      <p>Aptitude/ knowledge/ skills <br />
-      Able to understand the application?<br />
-      Able to apply existing knowledge and skills during development/analysis?<br />
-      Keen on learning new languages/tools/applications?<br />
-      Share knowledge with other team members as and when required?<br />
-      Self-driven?</p>
+    <% @review.headings.each do |heading| %>
+      <h3><%= @review.heading_title(heading) %></h3>
+      <div>
+        <%= raw @review.description(heading) %>
 
-      <div class="field">
-        <%= f.label :tech_exceeded %><br />
-        <%= f.text_area :tech_exceeded %>
+        <% @review.fields_for_heading(heading).each do |field| %>
+          <div class="field">
+            <%= f.label field %><br />
+            <%= f.text_area field %>
+          </div>
+        <% end %>
+        <% if @review.has_scale(heading) %>
+          <div class="scale">
+            <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+            <%= f.select @review.scale_field(heading), feedback_priorities, :include_blank => "Select a scale" %>
+          </div>
+        <% end %>
       </div>
-      <div class="field">
-        <%= f.label :tech_met %><br />
-        <%= f.text_area :tech_met %>
-      </div>
-      <div class="field">
-        <%= f.label :tech_improve %><br />
-        <%= f.text_area :tech_improve %>
-      </div>
-    </div>
+    <% end %>
 
-    <h3>Client Interaction</h3>
-    <div>
-      <p>Presentation/showcase skills, ability to handle unreasonable demands, suggest alternative solutions, negotiation, body language during client interactions</p>
-
-      <div class="field">
-        <%= f.label :client_exceeded %><br />
-        <%= f.text_area :client_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :client_met %><br />
-        <%= f.text_area :client_met %>
-      </div>
-      <div class="field">
-        <%= f.label :client_improve %><br />
-        <%= f.text_area :client_improve %>
-      </div>
-    </div>
-
-    <h3>Ownership/Delivery focus</h3>
-    <div>
-      <p>Understands the need to deliver on time,  stretches to deliver if need be, accountability on stories that they have/are working on, dependability</p>
-
-      <div class="field">
-        <%= f.label :ownership_exceeded %><br />
-        <%= f.text_area :ownership_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :ownership_met %><br />
-        <%= f.text_area :ownership_met %>
-      </div>
-      <div class="field">
-        <%= f.label :ownership_improve %><br />
-        <%= f.text_area :ownership_improve %>
-      </div>
-    </div>
-
-    <h3>Leadership</h3>
-    <div>
-      <p>Proactive, leads by example, motivates etc. <br />
-      Mentoring: Bringing new team members up to speed, work with existing team members on areas that they find difficult to understand</p>
-
-      <div class="field">
-        <%= f.label :leadership_exceeded %><br />
-        <%= f.text_area :leadership_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :leadership_met %><br />
-        <%= f.text_area :leadership_met %>
-      </div>
-      <div class="field">
-        <%= f.label :leadership_improve %><br />
-        <%= f.text_area :leadership_improve %>
-      </div>
-    </div>
-
-    <h3>Teamwork</h3>
-    <div>
-      <p>Building relationships and working with team members, Updates to team, Pairing, internal communication/sharing feedback right and on time</p>
-
-      <div class="field">
-        <%= f.label :teamwork_exceeded %><br />
-        <%= f.text_area :teamwork_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :teamwork_met %><br />
-        <%= f.text_area :teamwork_met %>
-      </div>
-      <div class="field">
-        <%= f.label :teamwork_improve %><br />
-        <%= f.text_area :teamwork_improve %>
-      </div>
-    </div>
-
-    <h3>Attitude</h3>
-    <div>
-      <p>Energy, Enthusiasm, Co-operative, Helpful, Approachable</p>
-
-      <div class="field">
-        <%= f.label :attitude_exceeded %><br />
-        <%= f.text_area :attitude_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :attitude_met %><br />
-        <%= f.text_area :attitude_met %>
-      </div>
-      <div class="field">
-        <%= f.label :attitude_improve %><br />
-        <%= f.text_area :attitude_improve %>
-      </div>
-    </div>
-
-    <h3>Professionalism</h3>
-    <div>
-      <p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>
-
-      <div class="field">
-        <%= f.label :professionalism_exceeded %><br />
-        <%= f.text_area :professionalism_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :professionalism_met %><br />
-        <%= f.text_area :professionalism_met %>
-      </div>
-      <div class="field">
-        <%= f.label :professionalism_improve %><br />
-        <%= f.text_area :professionalism_improve %>
-      </div>
-    </div>
-
-        <h3>Organizational Involvement</h3>
-    <div>
-      <p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>
-      <p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>
-      <p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>
-
-      <div class="field">
-        <%= f.label :organizational_exceeded %><br />
-        <%= f.text_area :organizational_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :organizational_met %><br />
-        <%= f.text_area :organizational_met %>
-      </div>
-      <div class="field">
-        <%= f.label :organizational_improve %><br />
-        <%= f.text_area :organizational_improve %>
-      </div>
-    </div>
-
-    <h3>Innovation/Out of the box thinking</h3>
-    <div>
-      <p>Simple new ideas that made lives easier on the project or clients/ unique innovative solutions in or outside of projects</p>
-      <div class="field">
-        <%= f.label :innovative_exceeded %><br />
-        <%= f.text_area :innovative_exceeded %>
-      </div>
-      <div class="field">
-        <%= f.label :innovative_met %><br />
-        <%= f.text_area :innovative_met %>
-      </div>
-      <div class="field">
-        <%= f.label :innovative_improve %><br />
-        <%= f.text_area :innovative_improve %>
-      </div>
-    </div>
 
     <h3>General Comments</h3>
     <div>

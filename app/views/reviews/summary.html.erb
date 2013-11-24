@@ -1,21 +1,11 @@
 <div class="row">
   <div id="navbar" class="span2 bs-docs-sidebar">
     <ul class="nav nav-list bs-docs-sidenav affix">
-      <li><a href="#0 ">Role Competence</a></li>
-      <li><a href="#1 ">Consulting Skills</a></li>
-      <li><a href="#2 ">Teamwork</a></li>
-      <li><a href="#3 ">Contritubions</a></li>
-      <li><a href="#4">Tech</a></li>
-      <li><a href="#5">Client</a></li>
-      <li><a href="#6">Ownership</a></li>
-      <li><a href="#7">Leadership</a></li>
-      <li><a href="#8">Teamwork</a></li>
-      <li><a href="#9">Attitude</a></li>
-      <li><a href="#10">Professionalism</a></li>
-      <li><a href="#11">Organizational</a></li>
-      <li><a href="#12">Innovative</a></li>
-      <li><a href="#13 ">Comments</a></li>
-      <li><a href="#14 ">Self-Assessment</a></li>
+      <% @review.headings.each_with_index do |heading, index| %>
+        <li><a href="#<%= index %>"><%= heading %></a></li>
+      <% end %>
+      <li><a href="#<%= @review.headings.count %>">Comments</a></li>
+      <li><a href="#<%= @review.headings.count + 1 %>">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
@@ -26,20 +16,7 @@
   <div class="span10">
     <h1>Feedback for Review <%= @review %></h1>
 
-    <% all_headers = ["role_competence_went_well", "role_competence_to_be_improved", "role_competence_action_items",
-                      "consulting_skills_went_well", "consulting_skills_to_be_improved", "consulting_skills_action_items",
-                      "teamwork_went_well", "teamwork_to_be_improved", "teamwork_action_items",
-                      "contritubions_went_well", "contritubions_to_be_improved", "contritubions_action_items",
-                      "tech_exceeded", "tech_met", "tech_improve",
-                      "client_exceeded", "client_met", "client_improve",
-                      "ownership_exceeded", "ownership_met", "ownership_improve",
-                      "leadership_exceeded", "leadership_met", "leadership_improve",
-                      "teamwork_exceeded", "teamwork_met", "teamwork_improve",
-                      "attitude_exceeded", "attitude_met", "attitude_improve",
-                      "professionalism_exceeded", "professionalism_met", "professionalism_improve",
-                      "organizational_exceeded", "organizational_met", "organizational_improve",
-                      "innovative_exceeded", "innovative_met", "innovative_improve",
-                      "comments"] %>
+    <% all_headers = @review.headers + ["comments"] %>
     <% if current_user.admin? or current_user.email == @review.junior_consultant.email %>
         <% if @review.self_assessments.count > 0 %>
             <%= link_to("Update Self Assessment", 
@@ -95,7 +72,7 @@
         <br />
     <% end %>
 
-    <section class="sections" id="15">
+    <section class="sections" id="<%= @review.headings.count + 1 %>">
       <h2>Self-Assessment</h2>
       <table>
         <thead>

@@ -76,7 +76,7 @@ class Review < ActiveRecord::Base
                                                   "consulting_skills_scale")
 
     questions["Teamwork"] = Question.new("Teamwork", "Teamwork", ["teamwork_went_well", "teamwork_to_be_improved", "teamwork_action_items"],
-                                         " <b>Relationship building:</b> Working with team members, conflict resolution, people want to work with you again<br />" +
+                                         "<p><b>Relationship building:</b> Working with team members, conflict resolution, people want to work with you again<br />" +
                                          "<b>Feedback:</b> Ability to deliver and ask for feedback, reacts well to feedback<br />" +
                                          "<b>Attitude:</b> Approachable, enthusiastic, helpful, respectful, will work outside of 40 hours to help project if needed<br />" +
                                          "<b>Professionalism:</b> Professional client-facing presence, punctual, turns in time sheets, acceptable attendance and visability to team<br /></p>",

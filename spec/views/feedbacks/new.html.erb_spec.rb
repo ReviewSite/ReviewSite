@@ -81,9 +81,9 @@ describe "feedbacks/new" do
           assert_select "textarea#feedback_teamwork_went_well", :name => "feedback[teamwork_went_well]"
           assert_select "textarea#feedback_teamwork_to_be_improved", :name => "feedback[teamwork_to_be_improved]"
           assert_select "textarea#feedback_teamwork_action_items", :name => "feedback[teamwork_action_items]"
-          assert_select "textarea#feedback_contritubions_went_well", :name => "feedback[contritubions_went_well]"
-          assert_select "textarea#feedback_contritubions_to_be_improved", :name => "feedback[contritubions_to_be_improved]"
-          assert_select "textarea#feedback_contritubions_action_items", :name => "feedback[contritubions_action_items]"
+          assert_select "textarea#feedback_contributions_went_well", :name => "feedback[contributions_went_well]"
+          assert_select "textarea#feedback_contributions_to_be_improved", :name => "feedback[contributions_to_be_improved]"
+          assert_select "textarea#feedback_contributions_action_items", :name => "feedback[contributions_action_items]"
 
           assert_select "textarea#feedback_comments", :name => "feedback[comments]"
           assert_select "input", :name => "commit"

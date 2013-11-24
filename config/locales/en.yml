@@ -18,9 +18,9 @@ en:
         teamwork_went_well: 'What went well' 
         teamwork_to_be_improved: 'What can be improved' 
         teamwork_action_items: 'Action Items' 
-        contritubions_went_well: 'What went well' 
-        contritubions_to_be_improved: 'What can be improved' 
-        contritubions_action_items: 'Action Items'
+        contributions_went_well: 'What went well' 
+        contributions_to_be_improved: 'What can be improved' 
+        contributions_action_items: 'Action Items'
 
         tech_exceeded: 'Technical Competence: Exceeded Expectations (Really excels in this area)'
         tech_met: 'Technical Competence: Met Expectations (Does a good job)'

@@ -82,12 +82,12 @@ class Review < ActiveRecord::Base
                                          "<b>Professionalism:</b> Professional client-facing presence, punctual, turns in time sheets, acceptable attendance and visability to team<br /></p>",
                                          "teamwork_scale")
 
-    questions["Contritubions"] = Question.new("Contritubions", "Contritubions", ["contritubions_went_well", "contritubions_to_be_improved", "contritubions_action_items"],
+    questions["Contributions"] = Question.new("Contributions", "Contributions", ["contributions_went_well", "contributions_to_be_improved", "contributions_action_items"],
                                               "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, JC Continuing Learning Sessions, hallway chats<br />" +
                                               "<b>Suggestions</b> for further development<br />" +
                                               "<b>Social Resposibility:</b> Awareness, involvement, contribution<br />" +
                                               "<b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>",
-                                              "contritubions_scale")
+                                              "contributions_scale")
 
     questions
   end
@@ -95,7 +95,7 @@ class Review < ActiveRecord::Base
   # these MUST match keys in the questions block above
   def headings
     if self.new_review_format
-      ["Role Competence","Consulting Skills","Teamwork", "Contritubions"]
+      ["Role Competence","Consulting Skills","Teamwork", "Contributions"]
     else
       ["Tech","Client", "Ownership", "Leadership", "OldTeamwork", "Attitude", "Professionalism", "Organizational", "Innovative"]
     end

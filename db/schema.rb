@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131011204259) do
+ActiveRecord::Schema.define(:version => 20131124200907) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -59,13 +59,13 @@ ActiveRecord::Schema.define(:version => 20131011204259) do
     t.text     "teamwork_went_well"
     t.text     "teamwork_to_be_improved"
     t.text     "teamwork_action_items"
-    t.text     "contritubions_went_well"
-    t.text     "contritubions_to_be_improved"
-    t.text     "contritubions_action_items"
+    t.text     "contributions_went_well"
+    t.text     "contributions_to_be_improved"
+    t.text     "contributions_action_items"
     t.integer  "role_competence_scale"
     t.integer  "consulting_skills_scale"
     t.integer  "teamwork_scale"
-    t.integer  "contritubions_scale"
+    t.integer  "contributions_scale"
   end
 
   create_table "invitations", :force => true do |t|

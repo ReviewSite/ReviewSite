@@ -80,9 +80,9 @@ describe "feedbacks/edit" do
           assert_select "textarea#feedback_teamwork_went_well", :name => "feedback[teamwork_went_well]"
           assert_select "textarea#feedback_teamwork_to_be_improved", :name => "feedback[teamwork_to_be_improved]"
           assert_select "textarea#feedback_teamwork_action_items", :name => "feedback[teamwork_improve]"
-          assert_select "textarea#feedback_contritubions_went_well", :name => "feedback[contritubions_went_well]"
-          assert_select "textarea#feedback_contritubions_to_be_improved", :name => "feedback[contritubions_to_be_improved]"
-          assert_select "textarea#feedback_contritubions_action_items", :name => "feedback[contritubions_improve]"
+          assert_select "textarea#feedback_contributions_went_well", :name => "feedback[contributions_went_well]"
+          assert_select "textarea#feedback_contributions_to_be_improved", :name => "feedback[contributions_to_be_improved]"
+          assert_select "textarea#feedback_contributions_action_items", :name => "feedback[contributions_improve]"
 
           assert_select "textarea#feedback_comments", :name => "feedback[comments]"
         end

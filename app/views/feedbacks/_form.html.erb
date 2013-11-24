@@ -55,47 +55,46 @@
       </div>
     </div>
 
-  </div>
+    <div class="span9">
+      <div id="accordion">
+        <% @review.headings.each do |heading| %>
+          <h3><%= @review.heading_title(heading) %></h3>
+          <div>
+            <%= raw @review.description(heading) %>
 
-  <div class="span9">
-  <div id="accordion">
-    <% @review.headings.each do |heading| %>
-      <h3><%= @review.heading_title(heading) %></h3>
-      <div>
-        <%= raw @review.description(heading) %>
+            <% @review.fields_for_heading(heading).each do |field| %>
+              <div class="field">
+                <%= f.label field %><br />
+                <%= f.text_area field %>
+              </div>
+            <% end %>
+            <% if @review.has_scale(heading) %>
+              <div class="scale">
+                <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
+                <%= f.select @review.scale_field(heading), feedback_priorities, :include_blank => "Select a scale" %>
+              </div>
+            <% end %>
+            <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+          </div>
+        <% end %>
 
-        <% @review.fields_for_heading(heading).each do |field| %>
+        <h3>General Comments</h3>
+        <div>
+          <p>Anything not covered above</p>
           <div class="field">
-            <%= f.label field %><br />
-            <%= f.text_area field %>
+            <%= f.label :comments %><br />
+            <%= f.text_area :comments %>
           </div>
-        <% end %>
-        <% if @review.has_scale(heading) %>
-          <div class="scale">
-            <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
-            <%= f.select @review.scale_field(heading), feedback_priorities, :include_blank => "Select a scale" %>
-          </div>
-        <% end %>
+          <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+        </div>
+      </div>
+      <br /><br />
+      <p>Clicking on the 'Save Feedback' button will save the feedback, but allow you to continue editing the feedback.<br />
+      Clicking on the 'Submit Final' will indicate that you are done writing the feedback, and that it can be shared</p>
+      <div class="actions">
         <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+        <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
       </div>
-    <% end %>
-
-    <h3>General Comments</h3>
-    <div>
-      <p>Anything not covered above</p>
-      <div class="field">
-        <%= f.label :comments %><br />
-        <%= f.text_area :comments %>
-      </div>
-      <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
     </div>
   </div>
-  <br /><br />
-  <p>Clicking on the 'Save Feedback' button will save the feedback, but allow you to continue editing the feedback.<br />
-  Clicking on the 'Submit Final' will indicate that you are done writing the feedback, and that it can be shared</p>
-  <div class="actions">
-    <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
-    <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
-  </div>
-</div>
 <% end %>

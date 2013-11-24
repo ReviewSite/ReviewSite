@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508203955) do
+ActiveRecord::Schema.define(:version => 20131011204259) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -46,10 +46,26 @@ ActiveRecord::Schema.define(:version => 20130508203955) do
     t.text     "innovative_improve"
     t.text     "comments"
     t.integer  "review_id"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.boolean  "submitted",                :default => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+    t.boolean  "submitted",                        :default => false
     t.text     "user_string"
+    t.text     "role_competence_went_well"
+    t.text     "role_competence_to_be_improved"
+    t.text     "role_competence_action_items"
+    t.text     "consulting_skills_went_well"
+    t.text     "consulting_skills_to_be_improved"
+    t.text     "consulting_skills_action_items"
+    t.text     "teamwork_went_well"
+    t.text     "teamwork_to_be_improved"
+    t.text     "teamwork_action_items"
+    t.text     "contritubions_went_well"
+    t.text     "contritubions_to_be_improved"
+    t.text     "contritubions_action_items"
+    t.integer  "role_competence_scale"
+    t.integer  "consulting_skills_scale"
+    t.integer  "teamwork_scale"
+    t.integer  "contritubions_scale"
   end
 
   create_table "invitations", :force => true do |t|
@@ -90,11 +106,12 @@ ActiveRecord::Schema.define(:version => 20130508203955) do
   create_table "reviews", :force => true do |t|
     t.integer  "junior_consultant_id"
     t.string   "review_type"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.date     "review_date"
     t.date     "feedback_deadline"
     t.date     "send_link_date"
+    t.boolean  "new_review_format",    :default => false
   end
 
   create_table "self_assessments", :force => true do |t|

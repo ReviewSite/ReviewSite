@@ -1,8 +1,10 @@
 ReviewSite::Application.configure do
-  config.middleware.use ExceptionNotifier,
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
       :email_prefix => "[ReviewSite Error] ",
       :sender_address => %{<do-not-reply@thoughtworks.org>},
       :exception_recipients => %w{error_recipient@example.com}
+    }
 
   config.after_initialize do
     Bullet.enable = true
@@ -53,7 +55,7 @@ ReviewSite::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Allow mailers to use named routes in emails
-  config.action_mailer.default_url_options = { :host => "localhost:9292" }
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
 
   ENV['CAS-TEST-MODE'] = "true"
 end

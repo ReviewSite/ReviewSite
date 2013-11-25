@@ -3,6 +3,8 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'capybara/rails'
+require 'capybara/rspec'
 
 CASClient::Frameworks::Rails::Filter.fake("homer")
 
@@ -33,6 +35,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 
   Capybara.javascript_driver = :webkit
+  config.include Capybara::DSL
  
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation

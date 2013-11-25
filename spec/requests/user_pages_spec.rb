@@ -13,7 +13,7 @@ describe "User pages" do
 
     describe "page" do
       it { should have_selector('h1',    text: "Update your profile") }
-      it { should have_selector('title', text: "Edit user") }
+      it { title.should == "Review Site | Edit user" }
     end
 
     describe "with valid information" do
@@ -180,19 +180,25 @@ describe "User pages" do
       end
 
       it "should link to show" do
-        click_link "Show"
-        current_path.should == user_path(user)
+        within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
+          click_link "Show"
+          current_path.should == user_path(user)
+        end
       end
 
       it "should link to edit" do
-        click_link "Edit"
-        current_path.should == edit_user_path(user)
+        within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
+          click_link "Edit"
+          current_path.should == edit_user_path(user)
+        end
       end
 
       it "should link to destroy", js: true do
-        click_link "Destroy"
-        page.evaluate_script("window.confirm = function() { return true; }")
-        current_path.should == users_path
+        page.driver.browser.accept_js_confirms
+        within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
+          click_link "Destroy"
+          current_path.should == users_path
+        end
         page.should have_selector('div.alert.alert-success', text: 'User destroyed.')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')

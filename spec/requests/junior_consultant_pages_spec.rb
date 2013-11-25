@@ -40,8 +40,8 @@ describe "Junior consultant pages" do
       end
 
       it "should link to destroy junior consultant", js: true do
+        page.driver.browser.accept_js_confirms
         click_link "Destroy"
-        page.evaluate_script("window.confirm = function() { return true; }")
         current_path.should == junior_consultants_path
         page.should_not have_selector('td', text: jc.name)
         page.should_not have_selector('td', text: jc.email)

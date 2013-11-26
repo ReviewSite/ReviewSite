@@ -84,7 +84,6 @@ class Review < ActiveRecord::Base
 
     questions["Contributions"] = Question.new("Contributions", "Contributions", ["contributions_went_well", "contributions_to_be_improved", "contributions_action_items"],
                                               "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, JC Continuing Learning Sessions, hallway chats<br />" +
-                                              "<b>Suggestions</b> for further development<br />" +
                                               "<b>Social Resposibility:</b> Awareness, involvement, contribution<br />" +
                                               "<b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>",
                                               "contributions_scale")

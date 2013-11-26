@@ -73,16 +73,12 @@ describe "feedbacks/edit" do
 
           assert_select "textarea#feedback_role_competence_went_well", :name => "feedback[role_competence_went_well]"
           assert_select "textarea#feedback_role_competence_to_be_improved", :name => "feedback[role_competence_to_be_improved]"
-          assert_select "textarea#feedback_role_competence_action_items", :name => "feedback[role_competence_action_items]"
           assert_select "textarea#feedback_consulting_skills_went_well", :name => "feedback[consulting_skills_went_well]"
           assert_select "textarea#feedback_consulting_skills_to_be_improved", :name => "feedback[consulting_skills_to_be_improved]"
-          assert_select "textarea#feedback_consulting_skills_action_items", :name => "feedback[consulting_skills_improve]"
           assert_select "textarea#feedback_teamwork_went_well", :name => "feedback[teamwork_went_well]"
           assert_select "textarea#feedback_teamwork_to_be_improved", :name => "feedback[teamwork_to_be_improved]"
-          assert_select "textarea#feedback_teamwork_action_items", :name => "feedback[teamwork_improve]"
           assert_select "textarea#feedback_contributions_went_well", :name => "feedback[contributions_went_well]"
           assert_select "textarea#feedback_contributions_to_be_improved", :name => "feedback[contributions_to_be_improved]"
-          assert_select "textarea#feedback_contributions_action_items", :name => "feedback[contributions_improve]"
 
           assert_select "textarea#feedback_comments", :name => "feedback[comments]"
         end

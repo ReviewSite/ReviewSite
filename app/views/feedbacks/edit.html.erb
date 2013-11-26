@@ -2,6 +2,6 @@
 
 <%= render :partial => 'form', :locals => {:additional => !@feedback.user_string.nil? } %>
 <div class="delete_padder">
-  <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "delete_feedback_button"  %>
+  <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "delete_feedback_button", :confirm => "Are you sure?"  %>
 </div>
 

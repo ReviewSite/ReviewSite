@@ -109,7 +109,14 @@ class Review < ActiveRecord::Base
   end
 
   def description(heading)
-    return questions[heading].description unless questions[heading].nil?
+    result = ""
+    unless questions[heading].nil?
+      if heading != "Comments"
+       result += "<p>Here are some topics to think about... </p>"
+      end
+      result += questions[heading].description
+    end
+    result
   end
 
   def fields_for_heading(heading)

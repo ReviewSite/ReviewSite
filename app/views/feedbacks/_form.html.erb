@@ -60,7 +60,6 @@
         <% @review.headings.each do |heading| %>
           <h3><%= @review.heading_title(heading) %></h3>
           <div>
-            <p>Here are some topics to think about... </p>
             <%= raw @review.description(heading) %>
 
             <% @review.fields_for_heading(heading).each do |field| %>

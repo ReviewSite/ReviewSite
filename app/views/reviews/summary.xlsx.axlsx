@@ -11,12 +11,12 @@ feedback_improved = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 10, :ali
 self_assessment = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :i => true, :b => true,  :alignment => {:horizontal => :center, :wrapText => true}
 self_assessment_content_style = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
 wrap_text = wb.styles.add_style :alignment => {:wrapText => true}
-all_headers = @review.headers + ["comments"]
 
 wb.add_worksheet(name: "#{@review.junior_consultant.name.truncate(31)}") do |sheet|
   sheet.add_row ["Feedback for Review #{@review}"], :style => title
   sheet.merge_cells "A1:G1"
-  all_headers.in_groups_of(3).each do |header_group|
+  @review.headings.each do |heading|
+     header_group = @review.fields_for_heading(heading)
      title_row = sheet.add_row
      title_row.add_cell "Date"
      title_row.add_cell "Feedback by"

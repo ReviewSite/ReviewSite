@@ -4,8 +4,7 @@
       <% @review.headings.each_with_index do |heading, index| %>
         <li><a href="#<%= index %>"><%= heading %></a></li>
       <% end %>
-      <li><a href="#<%= @review.headings.count %>">Comments</a></li>
-      <li><a href="#<%= @review.headings.count + 1 %>">Self-Assessment</a></li>
+      <li><a href="#<%= @review.headings.count %>">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
@@ -16,7 +15,6 @@
   <div class="span10">
     <h1>Feedback for Review <%= @review %></h1>
 
-    <% all_headers = @review.headers + ["comments"] %>
     <% if current_user.admin? or current_user.email == @review.junior_consultant.email %>
         <% if @review.self_assessments.count > 0 %>
             <%= link_to("Update Self Assessment", 
@@ -33,7 +31,8 @@
                 additional_review_feedbacks_path(@review),
                 title: 'Add new feedback on behalf of a third party for your current review',
                 rel: 'tooltip') %>
-    <% all_headers.in_groups_of(3).each_with_index do |header_group, index| %>
+    <% @review.headings.each_with_index do |heading, index| %>
+      <% header_group = @review.fields_for_heading(heading) %>
         <section class="sections" id="<%= index%>">
           <table class="review-table">
             <thead>
@@ -72,7 +71,7 @@
         <br />
     <% end %>
 
-    <section class="sections" id="<%= @review.headings.count + 1 %>">
+    <section class="sections" id="<%= @review.headings.count  %>">
       <h2>Self-Assessment</h2>
       <table>
         <thead>

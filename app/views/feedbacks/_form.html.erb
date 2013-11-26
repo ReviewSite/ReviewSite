@@ -71,8 +71,8 @@
             <% end %>
             <% if @review.has_scale(heading) %>
               <div class="scale">
-                <%= f.label "Please use a scale to prioritze areas you feel the reviewee should focus." %>
-                <%= f.select @review.scale_field(heading), feedback_priorities, :include_blank => "Select a scale" %>
+                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
+                <%= f.label @review.scale_field(heading), "Please use a scale to prioritize areas you feel the reviewee should focus." %>
               </div>
             <% end %>
             <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>

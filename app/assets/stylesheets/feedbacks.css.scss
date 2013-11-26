@@ -20,6 +20,11 @@ textarea {
   height: 80px;
 }
 
+.feedback_scale {
+  float: left;
+  width: auto;
+}
+
 select {
   width: 125px;
 }
@@ -33,6 +38,7 @@ textarea {
 }
 
 .save_feedback_button {
+  clear: both;
   background-color: #292EA7;
   color: white;
   float: left;

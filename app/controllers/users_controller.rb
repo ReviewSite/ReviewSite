@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
+  before_filter :load_user, :only => [:show, :edit, :update, :destroy, :feedbacks]
 
   def new
     @user = User.new
@@ -9,13 +10,9 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def show
-    @user = User.find(params[:id])
-  end
+  def show; end
 
-  def edit
-    @user = User.find(params[:id])
-  end
+  def edit; end
 
   def create
     @user = User.new(params[:user])
@@ -29,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
       redirect_to root_url
@@ -39,13 +35,17 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    @user.destroy
     flash[:success] = "User destroyed."
     redirect_to users_url
   end
 
   def feedbacks
-    @user = User.find(params[:id])
     @feedbacks = @user.feedbacks
+  end
+
+  private
+  def load_user
+    @user = User.find(params[:id])
   end
 end

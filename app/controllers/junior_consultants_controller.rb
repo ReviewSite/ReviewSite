@@ -1,5 +1,6 @@
 class JuniorConsultantsController < ApplicationController
   load_and_authorize_resource
+  before_filter :load_jc, :only => [:edit, :update, :destroy]
 
   # GET /junior_consultants
   # GET /junior_consultants.json
@@ -24,9 +25,7 @@ class JuniorConsultantsController < ApplicationController
   end
 
   # GET /junior_consultants/1/edit
-  def edit
-    @junior_consultant = JuniorConsultant.find(params[:id])
-  end
+  def edit; end
 
   # POST /junior_consultants
   # POST /junior_consultants.json
@@ -47,8 +46,6 @@ class JuniorConsultantsController < ApplicationController
   # PUT /junior_consultants/1
   # PUT /junior_consultants/1.json
   def update
-    @junior_consultant = JuniorConsultant.find(params[:id])
-
     respond_to do |format|
       if @junior_consultant.update_attributes(params[:junior_consultant])
         format.html { redirect_to junior_consultants_path, notice: 'Junior consultant was successfully updated.' }
@@ -63,12 +60,15 @@ class JuniorConsultantsController < ApplicationController
   # DELETE /junior_consultants/1
   # DELETE /junior_consultants/1.json
   def destroy
-    @junior_consultant = JuniorConsultant.find(params[:id])
     @junior_consultant.destroy
-
     respond_to do |format|
       format.html { redirect_to junior_consultants_url }
       format.json { head :no_content }
     end
+  end
+
+  private 
+  def load_jc
+    @junior_consultant = JuniorConsultant.find(params[:id])
   end
 end

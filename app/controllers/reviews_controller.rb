@@ -107,4 +107,13 @@ class ReviewsController < ApplicationController
       format.xlsx
     end
   end
+
+  def send_email
+    @review = Review.find params[:id]
+    UserMailer.review_creation(@review).deliver
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js { head :ok }
+    end
+  end
 end

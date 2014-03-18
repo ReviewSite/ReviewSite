@@ -193,7 +193,7 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        select jc.name, from: "Junior consultant"
+        fill_in 'review_junior_consultant_id', with: jc.name
         select "24-Month", from: "Review type"
 
         select "2013", from: "review_review_date_1i"

@@ -67,6 +67,12 @@ class JuniorConsultantsController < ApplicationController
     end
   end
 
+  def autocomplete_jc_name
+    jc_names = JuniorConsultant.select([:name]).where("name ILIKE ?", "%#{params[:name]}%")
+    @result = jc_names.collect { |jc| {value: jc.name}  }
+    render json: @result
+  end
+
   private 
   def load_jc
     @junior_consultant = JuniorConsultant.find(params[:id])

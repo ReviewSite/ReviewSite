@@ -1,19 +1,15 @@
 require 'spec_helper'
 
 describe "reviews/edit" do
-  before(:each) do
-    @review = assign(:review, stub_model(Review,
-      :junior_consultant_id => 1,
-      :review_type => "MyString"
-    ))
-  end
+  let(:jc) {FactoryGirl.create(:junior_consultant)}
+  before(:each) { @review = FactoryGirl.create(:review)}
 
   it "renders the edit review form" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => reviews_path(@review), :method => "post" do
-      assert_select "select#review_junior_consultant_id", :name => "review[junior_consultant_id]"
+      rendered.should match(@review.junior_consultant.name)
       assert_select "select#review_review_type", :name => "review[review_type]"
     end
   end

@@ -29,7 +29,11 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  resources :junior_consultants, :except => [:show]
+  resources :junior_consultants, :except => [:show] do
+    collection do
+      get :autocomplete_jc_name
+    end
+  end
 
   root :to => 'welcome#index'
   resources :sessions, only: [:new, :create, :destroy]

@@ -4,9 +4,6 @@ class FeedbacksController < ApplicationController
   before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
   before_filter :load_user_name, :only => [:new, :edit]
 
-  def load_review
-    @review = Review.find(params[:review_id])
-  end
 
   # GET /feedbacks/1
   # GET /feedbacks/1.json
@@ -30,12 +27,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new.json
   def new
     @feedback = Feedback.new
-    @review.feedbacks.each do |f|
-      if f.user == current_user and f.user_string.nil?
-        @feedback = f
-        break
-      end
-    end
+    find_feedback_for(current_user) if @review.has_existing_feedbacks?
 
     respond_to do |format|
       format.html do
@@ -55,8 +47,7 @@ class FeedbacksController < ApplicationController
   # POST /feedbacks
   # POST /feedbacks.json
   def create
-    @feedback = Feedback.new(params[:feedback])
-    @feedback.review = @review
+    @feedback = @review.feedbacks.build(params[:feedback])
     @feedback.user = current_user
 
     respond_to do |format|
@@ -66,7 +57,7 @@ class FeedbacksController < ApplicationController
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
         else
           format.html do
-            redirect_to edit_review_feedback_path(@review.id, @feedback.id)
+            redirect_to edit_review_feedback_path(@review, @feedback)
             flash[:success] = 'Feedback was saved for further editing.'
           end
         end
@@ -169,5 +160,18 @@ class FeedbacksController < ApplicationController
 
   def load_user_name
     @user_name = current_user.name
+  end
+
+  def load_review
+    @review = Review.find(params[:review_id])
+  end
+
+  def find_feedback_for(user)
+    @review.feedbacks.each do |f|
+      if f.user == current_user and f.user_string.nil?
+        @feedback = f
+        break
+      end
+    end
   end
 end

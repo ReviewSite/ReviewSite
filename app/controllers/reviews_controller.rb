@@ -41,6 +41,7 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
+    params[:review][:junior_consultant_id] = JuniorConsultant.find_by_name(params[:review][:junior_consultant_id]).id
     @review = Review.new(params[:review])
     respond_to do |format|
       if @review.save

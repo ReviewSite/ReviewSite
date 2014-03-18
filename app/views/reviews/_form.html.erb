@@ -10,11 +10,17 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
-    <%= f.label :junior_consultant_id %><br />
-    <%= f.select :junior_consultant_id, format_all_for_select(JuniorConsultant), :include_blank => "Select consultant" %>
+    <% if @review.persisted? %>
+      <%= f.label :junior_consultant_id %>
+      <%= @review.junior_consultant.name %>
+    <%else%>
+      <%= f.label :junior_consultant_id %><br />
+      <%= f.text_field :junior_consultant_id, value: '', class: 'jc_with_autocomplete',
+                       'data-autocompleteUrl' => autocomplete_jc_name_junior_consultants_path, remote: true %>
+    <%end%>
   </div>
+
   <div class="field">
     <%= f.label :review_type %><br />
     <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']] %>

@@ -6,7 +6,8 @@ require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 
-CASClient::Frameworks::Rails::Filter.fake("homer")
+OmniAuth.config.test_mode = true
+OmniAuth.config.add_mock(:saml, {:uid => 'person2@example.com'})
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -40,7 +41,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end
- 
+
   config.before(:each) do
     if example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
@@ -48,6 +49,7 @@ RSpec.configure do |config|
       DatabaseCleaner.strategy = :transaction
     end
     DatabaseCleaner.start
+
   end
  
   config.after(:each) do

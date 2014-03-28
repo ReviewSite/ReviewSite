@@ -34,6 +34,7 @@ ReviewSite::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit]
 
+  match "/auth/:provider/callback" => "sessions#callback"
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete

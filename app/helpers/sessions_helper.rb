@@ -1,5 +1,3 @@
-require 'rubycas-client'
-
 module SessionsHelper
   def first_time_sign_in(user)
     user.update_attribute(:cas_name, current_cas_name)
@@ -29,7 +27,8 @@ module SessionsHelper
   end
 
   def sign_out
-    CASClient::Frameworks::Rails::Filter.logout(self)
+    session[:userinfo] = nil
+    redirect_to "https://thoughtworks.oktapreview.com/login/signout?fromURI=#{ENV['URL']}"
   end
 
   def current_cas_name=(cas_name)
@@ -38,9 +37,9 @@ module SessionsHelper
 
   def current_cas_name
     if ENV['CAS-TEST-MODE']
-      session[:temp_cas_user] || session[:cas_user]
+      session[:temp_cas_user] || session[:userinfo].split("@")[0]
     else
-      session[:cas_user]
+      session[:userinfo].split("@")[0]
     end
   end
 end

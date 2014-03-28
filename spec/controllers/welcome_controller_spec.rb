@@ -11,15 +11,15 @@ describe WelcomeController do
       end
 
       it "should sign in the user" do
-        get :index
+        get :index, {}, {userinfo: user.cas_name}
         controller.current_user.should == user
       end
     end
 
     describe "user without saved CAS name" do
-      it "should redirect to the signin page" do
-        get :index
-        response.should redirect_to signin_path
+      it "should redirect to the signup page" do
+        get :index, {}, {userinfo: "test@test.com"}
+        response.should redirect_to signup_path
       end
     end
   end

@@ -10,7 +10,7 @@ describe SessionsController do
       end
 
       it "should redirect to home page" do
-        get :new
+        get :new, {}, {userinfo: "test@test.com"}
         response.should redirect_to(root_url)
       end
     end

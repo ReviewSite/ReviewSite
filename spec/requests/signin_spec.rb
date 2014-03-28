@@ -28,9 +28,9 @@ describe "Signing in" do
       user.update_attribute(:cas_name, nil)
     end
 
-    it "should redirect to the sign in page" do
+    it "should redirect to the sign up page" do
       visit root_path
-      current_path.should == signin_path
+      current_path.should == signup_path
     end
 
     it "should save CAS name after user logs in" do

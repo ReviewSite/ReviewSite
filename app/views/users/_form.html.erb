@@ -22,10 +22,10 @@
 
   <div class="field">
     <% if signed_in? and current_user.admin? %>
-      <%= f.label :cas_name %><br />
-      <%= f.text_field :cas_name, value: @user.nil? ? "" : @user.cas_name %>
+      <%= f.label :okta_name %><br />
+      <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
     <% else %> 
-      <%= f.hidden_field :cas_name, value: current_cas_name %>
+      <%= f.hidden_field :okta_name, value: current_okta_name %>
     <% end %>
   </div>
 

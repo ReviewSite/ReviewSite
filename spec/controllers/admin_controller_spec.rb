@@ -10,7 +10,7 @@ describe AdminController do
     describe 'as an admin user' do
       before do
         user = FactoryGirl.build(:admin_user)
-        User.stub(:find_by_cas_name).and_return(user)
+        User.stub(:find_by_okta_name).and_return(user)
         set_current_user user
       end
 

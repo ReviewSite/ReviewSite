@@ -7,15 +7,15 @@
         <span class="icon-bar"></span>
       </button>
       <%= link_to "Review Site", root_path, id: "logo" %>
-      <% if ENV['CAS-TEST-MODE'] %>
+      <% if ENV['OKTA-TEST-MODE'] %>
           <div id="nonLive_notification">
             --- Non-Live Site (We developin' up in heezy)
           </div>
-          <div id="cas-input">
-            <%= form_tag '/set_temp_cas' do %>
-              <%= text_field_tag 'temp-cas', nil, maxlength: 10 %>
-              <%= submit_tag 'Set CAS', id: 'temp-cas-submit' %>
-              Current CAS: <%= current_cas_name %>
+          <div id="okta-input">
+            <%= form_tag '/set_temp_okta' do %>
+              <%= text_field_tag 'temp-okta', nil, maxlength: 10 %>
+              <%= submit_tag 'Set OKTA', id: 'temp-okta-submit' %>
+              Current OKTA: <%= current_okta_name %>
             <% end %>
           </div>
       <% end %>

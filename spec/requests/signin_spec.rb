@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe "Signing in" do
   before do
-    sign_in double(cas_name: "jdoe")
+    sign_in double(okta_name: "jdoe")
   end
 
-  describe "returning user with saved CAS name" do
-    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", cas_name: "jdoe" }
+  describe "returning user with saved OKTA name" do
+    let!(:user) { FactoryGirl.create :user, name: "Jennifer Doe", okta_name: "jdoe" }
 
     it "should log the user in automatically" do
       visit root_path
@@ -17,7 +17,7 @@ describe "Signing in" do
     end
   end
 
-  describe "returning user without saved CAS name" do
+  describe "returning user without saved OKTA name" do
     let!(:user) { FactoryGirl.create(:user, 
                                       name: "Jennifer Doe",
                                       email: "jdoe@thoughtworks.com",
@@ -25,7 +25,7 @@ describe "Signing in" do
 
     before do
       user.stub(:password_digest) {  }
-      user.update_attribute(:cas_name, nil)
+      user.update_attribute(:okta_name, nil)
     end
 
     it "should redirect to the sign up page" do
@@ -33,7 +33,7 @@ describe "Signing in" do
       current_path.should == signup_path
     end
 
-    it "should save CAS name after user logs in" do
+    it "should save OKTA name after user logs in" do
       visit signin_path
       fill_in 'Email', with: 'jdoe@thoughtworks.com'
       fill_in 'Password', with: 'password'
@@ -43,10 +43,10 @@ describe "Signing in" do
       page.should have_content("Jennifer Doe")
       page.should have_content('Sign out')
       page.should_not have_content('Sign in')
-      page.should have_selector("div.alert", text: "From now on, we will sign you in automatically via CAS.")
+      page.should have_selector("div.alert", text: "From now on, we will sign you in automatically via OKTA.")
 
       user.reload
-      user.cas_name.should == 'jdoe'
+      user.okta_name.should == 'jdoe'
     end
   end
 end

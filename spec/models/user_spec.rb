@@ -4,7 +4,7 @@ describe User do
   let(:user) { FactoryGirl.build(:user,
                                  name: "Example User",
                                  email: "user@example.com",
-                                 cas_name: "testCAS",
+                                 okta_name: "testCAS",
                                  password_digest: BCrypt::Password.create("password")) }
 
   subject { user }

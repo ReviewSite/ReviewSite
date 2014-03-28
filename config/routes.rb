@@ -50,8 +50,8 @@ ReviewSite::Application.routes.draw do
     get :feedbacks, :on => :member
   end
 
-  if ENV['CAS-TEST-MODE']
-    match '/set_temp_cas', to: 'sessions#set_temp_cas', via: :post
+  if ENV['OKTA-TEST-MODE']
+    match '/set_temp_okta', to: 'sessions#set_temp_okta', via: :post
   end
 
   # The priority is based upon order of creation:

@@ -5,7 +5,7 @@ describe UsersController do
     {
         name: 'Joe',
         email: 'joe@example.com',
-        cas_name: 'JoeCAS'
+        okta_name: 'JoeCAS'
     }
   end
 
@@ -63,11 +63,11 @@ describe UsersController do
         ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
       end
 
-      it 'should set the cas_name to the already authenticated cas name' do
-        controller.current_cas_name = "testCAS"
-        post :create, {user: {name: "Test", email: "test@example.com", cas_name: "testCAS"}}, valid_session
+      it 'should set the okta_name to the already authenticated okta name' do
+        controller.current_okta_name = "testOKTA"
+        post :create, {user: {name: "Test", email: "test@example.com", okta_name: "testOKTA"}}, valid_session
         user = assigns(:user)
-        user.cas_name.should == "testCAS"
+        user.okta_name.should == "testOKTA"
       end
 
     end

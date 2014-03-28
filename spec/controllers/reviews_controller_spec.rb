@@ -21,7 +21,7 @@ describe ReviewsController do
     let(:user) { FactoryGirl.build(:user) }
 
     before do
-        User.stub(:find_by_cas_name).and_return(user)
+        User.stub(:find_by_okta_name).and_return(user)
         set_current_user user
         Review.stub(:includes).and_return(Review)
         Review.stub(:all).and_return([review])

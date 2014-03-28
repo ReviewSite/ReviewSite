@@ -27,8 +27,8 @@ class SessionsController < ApplicationController
     sign_out
   end
 
-  def set_temp_cas
-    self.current_cas_name = params["temp-cas"]
+  def set_temp_okta
+    self.current_okta_name = params["temp-okta"]
     redirect_to root_url
   end
 end

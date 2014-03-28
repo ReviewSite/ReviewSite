@@ -7,14 +7,14 @@ RSpec::Matchers.define :have_error_message do |message|
 end
 
 def set_current_user(user)
-  session[:temp_cas_user] = user.cas_name
+  session[:temp_okta_user] = user.okta_name
   controller.reset_current_user
 end
 
 def sign_in(user)
   visit root_path
-  within "#cas-input" do
-    fill_in "temp-cas", with: user.cas_name
-    click_button "Set CAS"
+  within "#okta-input" do
+    fill_in "temp-okta", with: user.okta_name
+    click_button "Set OKTA"
   end
 end

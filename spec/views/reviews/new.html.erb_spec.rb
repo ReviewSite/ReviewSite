@@ -17,9 +17,9 @@ describe "reviews/new" do
     assert_select "form", :action => reviews_path, :method => "post" do
       assert_select "input#review_junior_consultant_id", :name => "review[junior_consultant_id]"
       assert_select "select#review_review_type", :name => "review[review_type]"
-      assert_select "select#review_review_date_1i", :name => "review[review_date(1i)]"
-      assert_select "select#review_feedback_deadline_1i", :name => "review[feedback_deadline(1i)]"
-      assert_select "select#review_send_link_date_1i", :name => "review[send_link_date(1i)]"
+      assert_select "input#review_review_date", :name => "review[review_date]"
+      assert_select "input#review_feedback_deadline", :name => "review[feedback_deadline]"
+      assert_select "input#review_send_link_date", :name => "review[send_link_date]"
     end
   end
 end

@@ -34,28 +34,32 @@ td {
   table-layout: fixed;
 }
 
-#review_review_date_1i {
-  float: left;
-  width: 125px;
-  margin-right: 5px;
-  margin-left: -80px;
-}
+// .datepicker {
+//   // width: 15%;
+// }
 
-#review_feedback_deadline_1i {
-  width: 125px;
-  margin-left: -118px;
-}
+// #review_review_date_1i {
+//   float: left;
+//   width: 125px;
+//   margin-right: 5px;
+//   margin-left: -80px;
+// }
 
-#review_send_link_date_1i {
-  width: 125px;
-  margin-left: -89px;
-}
+// #review_feedback_deadline_1i {
+//   width: 125px;
+//   margin-left: -118px;
+// }
 
-#review_review_date_2i, #review_review_date_3i, #review_feedback_deadline_2i,
-#review_feedback_deadline_3i, #review_send_link_date_2i,  #review_send_link_date_3i{
-  width: 125px;
-  margin-right: 2px;
-}
+// #review_send_link_date_1i {
+//   width: 125px;
+//   margin-left: -89px;
+// }
+
+// #review_review_date_2i, #review_review_date_3i, #review_feedback_deadline_2i,
+// #review_feedback_deadline_3i, #review_send_link_date_2i,  #review_send_link_date_3i{
+//   width: 125px;
+//   margin-right: 2px;
+// }
 
 .email_sent_success {
   color: 0080ff;

@@ -86,8 +86,10 @@ describe "Junior consultant pages" do
         fill_in "Email", with: "test@example.com"
         fill_in "Notes", with: "This is a note."
         select reviewing_group.name, from: "Reviewing group"
-        select coach.name, from: "Coach"
-        select user.name, from: "User"
+        fill_in "Coach", with: coach.name
+        fill_in "User", with: user.name
+        # select coach.name, from: "Coach"
+        # select user.name, from: "User"
         click_button "Create Junior consultant"
 
         current_path.should == junior_consultants_path
@@ -117,7 +119,8 @@ describe "Junior consultant pages" do
   describe "edit" do
     let(:coach) { FactoryGirl.create(:user) }
     let(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
-    let!(:jc) { FactoryGirl.create(:junior_consultant, coach: coach, reviewing_group: reviewing_group) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:jc) { FactoryGirl.create(:junior_consultant, coach: coach, reviewing_group: reviewing_group, user: user) }
 
     describe "as an admin" do
       before do
@@ -129,13 +132,13 @@ describe "Junior consultant pages" do
       it { should have_field("Email", with: jc.email) }
       it { should have_selector("textarea#junior_consultant_notes", text: jc.notes) }
       it { should have_select("Reviewing group", selected: reviewing_group.name) }
-      it { should have_select("Coach", selected: coach.name) }
+      it { should have_field("Coach", with: coach.name) }
 
       it "lets you change a junior consultant's properties" do
         fill_in "Name", with: "Amy Jones"
         fill_in "Email", with: "test2@example.com"
         fill_in "Notes", with: "I've edited the note."
-        select "Select a coach", from: "Coach"
+        fill_in "Coach", with: ""
         
         click_button "Update Junior consultant"
         current_path.should == junior_consultants_path

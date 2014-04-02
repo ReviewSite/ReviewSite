@@ -30,6 +30,8 @@ class JuniorConsultantsController < ApplicationController
   # POST /junior_consultants
   # POST /junior_consultants.json
   def create
+    params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) if params[:junior_consultant][:user_id] 
+    params[:junior_consultant][:coach_id] = find_user(params[:junior_consultant][:coach_id]) if params[:junior_consultant][:coach_id] 
     @junior_consultant = JuniorConsultant.new(params[:junior_consultant])
 
     respond_to do |format|
@@ -46,6 +48,9 @@ class JuniorConsultantsController < ApplicationController
   # PUT /junior_consultants/1
   # PUT /junior_consultants/1.json
   def update
+    params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) {} if params[:junior_consultant][:user_id]
+    params[:junior_consultant][:coach_id] = find_user(params[:junior_consultant][:coach_id]) if params[:junior_consultant][:coach_id]
+
     respond_to do |format|
       if @junior_consultant.update_attributes(params[:junior_consultant])
         format.html { redirect_to junior_consultants_path, notice: 'Junior consultant was successfully updated.' }
@@ -76,5 +81,10 @@ class JuniorConsultantsController < ApplicationController
   private 
   def load_jc
     @junior_consultant = JuniorConsultant.find(params[:id])
+  end
+
+  def find_user(data, &block)
+    return nil if data.empty?
+    block ? JuniorConsultant.find_by_name(data).user_id : User.find_by_name(data).id
   end
 end

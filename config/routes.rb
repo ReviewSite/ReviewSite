@@ -53,6 +53,7 @@ ReviewSite::Application.routes.draw do
 
   resources :users do
     get :feedbacks, :on => :member
+    get :autocomplete_coach_name, :on => :collection
   end
 
   if ENV['OKTA-TEST-MODE']

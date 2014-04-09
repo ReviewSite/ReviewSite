@@ -28,7 +28,7 @@ module SessionsHelper
 
   def sign_out
     session[:userinfo] = nil
-    redirect_to "https://thoughtworks.oktapreview.com/login/signout?fromURI=#{ENV['URL']}"
+    redirect_to "https://thoughtworks.okta.com/login/signout?fromURI=#{ENV['URL']}"
   end
 
   def current_okta_name=(okta_name)

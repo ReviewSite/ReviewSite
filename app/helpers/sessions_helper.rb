@@ -1,9 +1,7 @@
-require 'rubycas-client'
-
 module SessionsHelper
   def first_time_sign_in(user)
-    user.update_attribute(:cas_name, current_cas_name)
-    flash[:notice] = "From now on, we will sign you in automatically via CAS."
+    user.update_attribute(:okta_name, current_okta_name)
+    flash[:notice] = "From now on, we will sign you in automatically via OKTA."
     redirect_back_or(root_url)
   end
 
@@ -16,7 +14,7 @@ module SessionsHelper
   end
 
   def reset_current_user
-    @current_user = User.find_by_cas_name( current_cas_name )
+    @current_user = User.find_by_okta_name( current_okta_name )
   end
 
   def redirect_back_or(default)
@@ -29,18 +27,19 @@ module SessionsHelper
   end
 
   def sign_out
-    CASClient::Frameworks::Rails::Filter.logout(self)
+    session[:userinfo] = nil
+    redirect_to "https://thoughtworks.oktapreview.com/login/signout?fromURI=#{ENV['URL']}"
   end
 
-  def current_cas_name=(cas_name)
-    session[:temp_cas_user] = cas_name
+  def current_okta_name=(okta_name)
+    session[:temp_okta_user] = okta_name
   end
 
-  def current_cas_name
-    if ENV['CAS-TEST-MODE']
-      session[:temp_cas_user] || session[:cas_user]
+  def current_okta_name
+    if ENV['OKTA-TEST-MODE']
+      session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
-      session[:cas_user]
+      session[:userinfo].split("@")[0]
     end
   end
 end

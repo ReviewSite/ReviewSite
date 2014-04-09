@@ -6,11 +6,7 @@ gem 'rails', '3.2.12'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'bootstrap-sass', '~> 2.3.0.1'
 gem 'cancan'
-gem 'rubycas-client'
 gem 'exception_notification'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
 gem 'jquery-datatables-rails'
@@ -40,6 +36,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'rack_session_access'
   gem 'shoulda-matchers', '1.3.0'
   gem 'capybara'
   gem 'capybara-webkit'
@@ -53,6 +50,9 @@ group :test do
   gem 'launchy', '~> 2.1.2'
   gem 'rake'
 end
+
+gem 'omniauth'
+gem 'omniauth-saml'
 
 gem 'jquery-rails'
 

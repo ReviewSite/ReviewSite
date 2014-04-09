@@ -1,11 +1,16 @@
 require 'spec_helper'
 
 describe AdminController do
+
+  def valid_session
+    {:userinfo => "test@test.com"}
+  end
+
   describe "#index" do
     describe 'as an admin user' do
       before do
         user = FactoryGirl.build(:admin_user)
-        User.stub(:find_by_cas_name).and_return(user)
+        User.stub(:find_by_okta_name).and_return(user)
         set_current_user user
       end
 
@@ -14,7 +19,7 @@ describe AdminController do
         review_two = FactoryGirl.build(:review)
         Review.stub(:all).and_return([review_one, review_two])
 
-        get :index
+        get :index, {}, valid_session
 
         assigns(:reviews).should =~ [review_one, review_two]
       end
@@ -24,7 +29,7 @@ describe AdminController do
         feedback_two = FactoryGirl.build(:feedback)
         Feedback.stub(:all).and_return([feedback_one, feedback_two])
 
-        get :index
+        get :index, {}, valid_session
 
         assigns(:feedbacks).should =~ [feedback_one, feedback_two]
       end
@@ -36,7 +41,7 @@ describe AdminController do
       end
 
       it 'should redirect to home' do
-        get :index
+        get :index, {}, valid_session
 
         response.should redirect_to root_path
       end

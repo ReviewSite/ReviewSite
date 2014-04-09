@@ -81,7 +81,7 @@ describe "Password reset pages" do
         it "should sign user is and redirect to homepage" do
           current_path.should == root_path
           user.reload
-          user.cas_name.should == "homer"
+          user.okta_name.should == "person2"
         end
       end
     end

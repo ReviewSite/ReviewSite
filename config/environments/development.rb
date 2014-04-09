@@ -57,5 +57,5 @@ ReviewSite::Application.configure do
   # Allow mailers to use named routes in emails
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
 
-  ENV['CAS-TEST-MODE'] = "true"
+  ENV['OKTA-TEST-MODE'] = "true"
 end

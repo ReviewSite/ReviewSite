@@ -79,20 +79,20 @@ emails.each do |existing_user|
   end
 end
 
-john = User.create(name: 'John', cas_name: 'john', email: 'john@example.com')
-sally = User.create(name: 'sally', cas_name: 'sally', email: 'sally@example.com')
-bob = User.create(name: 'bob', cas_name: 'bob', email: 'bob@example.com')
-nikki = User.create(name: 'nikki', cas_name: 'nikki', email: 'nikki@example.com')
-luke = User.create(name: 'luke', cas_name: 'luke', email: 'luke@example.com')
-doug = User.create(name: 'doug', cas_name: 'doug', email: 'doug@example.com')
-elvis = User.create(name: 'elvis', cas_name: 'elvis', email: 'elvis@example.com')
-george = User.create(name: 'george', cas_name: 'george', email: 'george@example.com')
+john = User.create(name: 'John', okta_name: 'john', email: 'john@example.com')
+sally = User.create(name: 'sally', okta_name: 'sally', email: 'sally@example.com')
+bob = User.create(name: 'bob', okta_name: 'bob', email: 'bob@example.com')
+nikki = User.create(name: 'nikki', okta_name: 'nikki', email: 'nikki@example.com')
+luke = User.create(name: 'luke', okta_name: 'luke', email: 'luke@example.com')
+doug = User.create(name: 'doug', okta_name: 'doug', email: 'doug@example.com')
+elvis = User.create(name: 'elvis', okta_name: 'elvis', email: 'elvis@example.com')
+george = User.create(name: 'george', okta_name: 'george', email: 'george@example.com')
 
 jennifer = User.new(name: 'jennifer', email: 'jennifer@example.com')
 jennifer.save(validate: false)
 jennifer.update_attribute(:password_digest, BCrypt::Password.create('password'))
 
-admin = User.create(name: 'admin', cas_name: 'admin', email: 'admin@example.com')
+admin = User.create(name: 'admin', okta_name: 'admin', email: 'admin@example.com')
 admin.admin = true
 admin.save!
 

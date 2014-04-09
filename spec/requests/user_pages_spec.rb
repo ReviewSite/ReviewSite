@@ -48,9 +48,9 @@ describe "User pages" do
     describe "as a new user" do
       before {
         visit root_path
-        within "#cas-input" do
-          fill_in "temp-cas", with: "roberto"
-          click_button "Set CAS"
+        within "#okta-input" do
+          fill_in "temp-okta", with: "roberto"
+          click_button "Set OKTA"
         end
         visit new_user_path
       }
@@ -87,7 +87,7 @@ describe "User pages" do
         visit new_user_path
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
-        fill_in "Cas name", with: "roberto"
+        fill_in "Okta name", with: "roberto"
         click_button 'Create Account'
 
         current_path.should == root_path

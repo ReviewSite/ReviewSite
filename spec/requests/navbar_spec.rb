@@ -128,20 +128,20 @@ describe "Navbar" do
       current_path.should == signin_path
     end
 
-    it "should redirect to signin page via 'Home' link" do
+    it "should redirect to signup page via 'Home' link" do
       visit new_password_reset_path
       within(".navbar-fixed-top") do
         click_link "Home"
       end
-      current_path.should == signin_path
+      current_path.should == signup_path
     end
 
-    it "should redirect to signin page via site name" do
+    it "should redirect to signup page via site name" do
       visit new_password_reset_path
       within(".navbar-fixed-top") do
         click_link "Review Site"
       end
-      current_path.should == signin_path
+      current_path.should == signup_path
     end
   end
 end

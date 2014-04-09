@@ -34,6 +34,7 @@ ReviewSite::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit]
 
+  match "/auth/:provider/callback" => "sessions#callback"
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
@@ -49,8 +50,8 @@ ReviewSite::Application.routes.draw do
     get :feedbacks, :on => :member
   end
 
-  if ENV['CAS-TEST-MODE']
-    match '/set_temp_cas', to: 'sessions#set_temp_cas', via: :post
+  if ENV['OKTA-TEST-MODE']
+    match '/set_temp_okta', to: 'sessions#set_temp_okta', via: :post
   end
 
   # The priority is based upon order of creation:

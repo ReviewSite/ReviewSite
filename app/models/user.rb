@@ -1,13 +1,13 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :cas_name, :email
+  attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
   has_many :junior_consultants
   has_many :feedbacks
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
-  validates :cas_name, presence:   true, 
+  validates :okta_name, presence:   true,
                        uniqueness: { case_sensitive: false },
                        length:     { minimum: 2, maximum: 10 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

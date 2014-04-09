@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
 
   def require_login
-    if !session[:userinfo]
+    unless session[:userinfo]
       store_location
       redirect_to "/auth/saml"
     end

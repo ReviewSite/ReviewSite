@@ -8,12 +8,12 @@ describe JuniorConsultantsController do
   end
 
   def valid_attributes
-    { name: "John Smith",
-      email: "john@tw.com",
+    { name: @user.name,
+      email: @user.email,
       reviewing_group_id: @rgm.id,
       notes: "This is a dev",
-      coach_id: @coach.id,
-      user_id: @user.id
+      coach_id: @coach.name,
+      user_id: @user.name
     }
   end
 
@@ -36,7 +36,7 @@ describe JuniorConsultantsController do
       response.should redirect_to(root_path)
     end
     it "cannot GET edit" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       get :edit, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(root_path)
     end
@@ -45,12 +45,12 @@ describe JuniorConsultantsController do
       response.should redirect_to(root_path)
     end
     it "cannot PUT update" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
       response.should redirect_to(root_path)
     end
     it "cannot DELETE destroy" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       delete :destroy, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(root_path)
     end
@@ -69,7 +69,7 @@ describe JuniorConsultantsController do
       set_current_user @admin_user
     end
     it "assigns all junior_consultants as @junior_consultants" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       get :index, {}, valid_session
       assigns(:junior_consultants).should eq([junior_consultant])
     end
@@ -92,7 +92,7 @@ describe JuniorConsultantsController do
       set_current_user @admin_user
     end
     it "assigns the requested junior_consultant as @junior_consultant" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       get :edit, {:id => junior_consultant.to_param}, valid_session
       assigns(:junior_consultant).should eq(junior_consultant)
     end
@@ -146,7 +146,7 @@ describe JuniorConsultantsController do
     end
     describe "with valid params" do
       it "updates the requested junior_consultant" do
-        junior_consultant = JuniorConsultant.create! valid_attributes
+        junior_consultant = FactoryGirl.create(:junior_consultant)
         # Assuming there are no other junior_consultants in the database, this
         # specifies that the JuniorConsultant created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -156,21 +156,32 @@ describe JuniorConsultantsController do
       end
 
       it "assigns the requested junior_consultant as @junior_consultant" do
-        junior_consultant = JuniorConsultant.create! valid_attributes
+        junior_consultant = FactoryGirl.create(:junior_consultant)
+        user = FactoryGirl.create(:user)
+
+        valid_attributes = 
+          { name: user.name,
+            email: user.email,
+            reviewing_group_id: @rgm.id,
+            notes: "This is a dev",
+            coach_id: @coach.name,
+            user_id: junior_consultant.name
+          }
+
         put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
         assigns(:junior_consultant).should eq(junior_consultant)
       end
 
       it "redirects to the junior_consultant" do
-        junior_consultant = JuniorConsultant.create! valid_attributes
-        put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
+        junior_consultant = FactoryGirl.create(:junior_consultant)
+        put :update, {:id => junior_consultant.to_param, :junior_consultant => {notes: "updated notes"}}, valid_session
         response.should redirect_to(junior_consultants_path)
       end
     end
 
     describe "with invalid params" do
       it "assigns the junior_consultant as @junior_consultant" do
-        junior_consultant = JuniorConsultant.create! valid_attributes
+        junior_consultant = FactoryGirl.create(:junior_consultant)
         # Trigger the behavior that occurs when invalid params are submitted
         JuniorConsultant.any_instance.stub(:save).and_return(false)
         put :update, {:id => junior_consultant.to_param, :junior_consultant => {}}, valid_session
@@ -178,7 +189,7 @@ describe JuniorConsultantsController do
       end
 
       it "re-renders the 'edit' template" do
-        junior_consultant = JuniorConsultant.create! valid_attributes
+        junior_consultant = FactoryGirl.create(:junior_consultant)
         # Trigger the behavior that occurs when invalid params are submitted
         JuniorConsultant.any_instance.stub(:save).and_return(false)
         put :update, {:id => junior_consultant.to_param, :junior_consultant => {}}, valid_session
@@ -193,14 +204,14 @@ describe JuniorConsultantsController do
       set_current_user @admin_user
     end
     it "destroys the requested junior_consultant" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       expect {
         delete :destroy, {:id => junior_consultant.to_param}, valid_session
       }.to change(JuniorConsultant, :count).by(-1)
-    end
+  end
 
     it "redirects to the junior_consultants list" do
-      junior_consultant = JuniorConsultant.create! valid_attributes
+      junior_consultant = FactoryGirl.create(:junior_consultant)
       delete :destroy, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(junior_consultants_url)
     end

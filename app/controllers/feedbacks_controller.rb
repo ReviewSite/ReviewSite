@@ -1,16 +1,13 @@
 class FeedbacksController < ApplicationController
   load_and_authorize_resource
   before_filter :load_review
+  before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
+  before_filter :load_user_name, :only => [:new, :edit]
 
-  def load_review
-    @review = Review.find(params[:review_id])
-  end
 
   # GET /feedbacks/1
   # GET /feedbacks/1.json
   def show
-    @feedback = Feedback.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @feedback }
@@ -20,7 +17,6 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/additional
   def additional
     @feedback = Feedback.new
-
     respond_to do |format|
       format.html # additional.html.erb
       format.json { render json: @feedback }
@@ -31,13 +27,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new.json
   def new
     @feedback = Feedback.new
-    @review.feedbacks.each do |f|
-      if f.user == current_user and f.user_string.nil?
-        @feedback = f
-        break
-      end
-    end
-    @user_name = current_user.name
+    find_feedback_for(current_user) if @review.has_existing_feedbacks?
 
     respond_to do |format|
       format.html do
@@ -52,16 +42,12 @@ class FeedbacksController < ApplicationController
   end
 
   # GET /feedbacks/1/edit
-  def edit
-    @feedback = Feedback.find(params[:id])
-    @user_name = current_user.name
-  end
+  def edit; end
 
   # POST /feedbacks
   # POST /feedbacks.json
   def create
-    @feedback = Feedback.new(params[:feedback])
-    @feedback.review = @review
+    @feedback = @review.feedbacks.build(params[:feedback])
     @feedback.user = current_user
 
     respond_to do |format|
@@ -71,7 +57,7 @@ class FeedbacksController < ApplicationController
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
         else
           format.html do
-            redirect_to edit_review_feedback_path(@review.id, @feedback.id)
+            redirect_to edit_review_feedback_path(@review, @feedback)
             flash[:success] = 'Feedback was saved for further editing.'
           end
         end
@@ -91,8 +77,6 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1
   # PUT /feedbacks/1.json
   def update
-    @feedback = Feedback.find(params[:id])
-
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
         if params[:submit_final_button] 
@@ -116,8 +100,6 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1/submit
   # PUT /feedbacks/1.json
   def submit
-    @feedback = Feedback.find(params[:id])
-
     respond_to do |format|
       if @feedback.save
         @feedback.submit_final
@@ -133,9 +115,7 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1/unsubmit
   # PUT /feedbacks/1.json
   def unsubmit
-    @feedback = Feedback.find(params[:id])
     @feedback.submitted = false
-
     respond_to do |format|
       if @feedback.save
         format.html { redirect_to root_path, notice: 'Feedback was successfully updated.' }
@@ -150,8 +130,7 @@ class FeedbacksController < ApplicationController
   # DELETE /feedbacks/1
   # DELETE /feedbacks/1.json
   def destroy
-    Feedback.find(params[:id]).destroy
-
+    @feedback.destroy
     respond_to do |format|
       format.html { redirect_to root_path }
       format.json { head :no_content }
@@ -159,19 +138,40 @@ class FeedbacksController < ApplicationController
   end
 
   def send_reminder
-    feedback = Feedback.find_by_id(params[:id])
-    if feedback.submitted?
+    if @feedback.submitted?
       flash[:notice] = "Feedback already submitted. Reminder not sent."
     else
-      if feedback.invitation
-        invitation = feedback.invitation
+      if @feedback.invitation
+        invitation = @feedback.invitation
       else
-        review = feedback.review
-        invitation = review.invitations.build(:email => feedback.user.email)
+        review = @feedback.review
+        invitation = review.invitations.build(:email => @feedback.user.email)
       end
       UserMailer.feedback_reminder(invitation).deliver
       flash[:notice] = "Reminder email was sent!"
     end
     redirect_to root_path
+  end
+
+  private 
+  def load_feedback
+    @feedback = Feedback.find_by_id(params[:id])
+  end
+
+  def load_user_name
+    @user_name = current_user.name
+  end
+
+  def load_review
+    @review = Review.find(params[:review_id])
+  end
+
+  def find_feedback_for(user)
+    @review.feedbacks.each do |f|
+      if f.user == current_user and f.user_string.nil?
+        @feedback = f
+        break
+      end
+    end
   end
 end

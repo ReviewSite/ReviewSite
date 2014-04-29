@@ -28,6 +28,9 @@
             <td class="send_link_date"><%= review.send_link_date %></td>
         <% end %>
         <td nowrap>|
+        <% if can? :send_email, Review %>
+            <%= link_to 'Email', send_email_review_path(review), remote: true, class: "send_email_link"%> |
+        <% end%>
         <% if can? :create, Invitation %>
             <%= link_to 'Invite', new_review_invitation_path(review), :class => 'send_invite_link' %> |
         <% end %>

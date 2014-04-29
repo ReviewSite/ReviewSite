@@ -2,10 +2,16 @@ require 'spec_helper'
 
 describe ReviewsController do
 
+  # This should return the minimal set of attributes required to create a valid
+  # Review. As you add validations to Review, be sure to
+  # update the return value of this method accordingly.
+
+  let(:jc) {FactoryGirl.create(:junior_consultant)}
+
   def valid_attributes
     {
         review_type: '6-Month',
-        junior_consultant_id: 1,
+        junior_consultant_id: jc.name,
         review_date: Date.today,
         feedback_deadline: Date.today,
         send_link_date: Date.today
@@ -200,14 +206,14 @@ describe ReviewsController do
       it "assigns a newly created but unsaved review as @review" do
         # Trigger the behavior that occurs when invalid params are submitted
         Review.any_instance.stub(:save).and_return(false)
-        post :create, {:review => {}}, valid_session
+        post :create, {:review => { junior_consultant_id: jc.name}}, valid_session
         assigns(:review).should be_a_new(Review)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Review.any_instance.stub(:save).and_return(false)
-        post :create, {:review => {}}, valid_session
+        post :create, {:review => {junior_consultant_id: jc.name}}, valid_session
         response.should render_template("new")
       end
     end

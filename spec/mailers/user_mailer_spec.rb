@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe UserMailer do
+
   describe 'Registration confirmation' do
     let(:user) { FactoryGirl.create(:user) }
     let(:mail) { UserMailer.registration_confirmation(user) }
@@ -23,6 +24,33 @@ describe UserMailer do
 
     it 'assigns @email' do
       mail.body.encoded.should_not match(user.email)
+    end
+  end
+
+  describe 'Review creation' do
+    let(:jc) {FactoryGirl.create(:junior_consultant)}
+    let(:review)  {FactoryGirl.create(:new_review_type, junior_consultant: jc)}
+    let(:mail) {UserMailer.review_creation(review) }
+
+    it 'renders the subject' do
+      mail.subject.should ==  "#{jc.name}, #{review.review_type} review is created"
+    end
+
+    it 'renders the receiver email' do
+      mail.to.should == ["#{jc.email}"]
+    end
+
+    it 'renders the sender email' do
+      mail.from.should == ['do-not-reply@thoughtworks.org']
+    end
+
+    it 'contains link to review' do
+      mail.body.encoded.should match("You can invite peers to provide feedbacks and work on your self-assessment by clicking on the link:\r\n#{review_url(review)}")
+    end
+
+    it 'contains the feedback deadline and review date' do
+      mail.body.encoded.should match("Please write and submit your self-assessment by #{review.review_date}")
+      mail.body.encoded.should match("feedback deadline is #{review.feedback_deadline}")
     end
   end
 
@@ -96,6 +124,7 @@ describe UserMailer do
     end
   end
 
+
   describe "Feedback reminder" do
     let (:jc) { FactoryGirl.create(:junior_consultant, name: "Bob Smith") }
     let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.new(2020, 1, 1)) }
@@ -111,7 +140,7 @@ describe UserMailer do
 
       it "contains reminder message" do
         mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+          "This is a reminder to submit some feedback for the #{review.review_type} review of Bob Smith."
         )
       end
 
@@ -151,7 +180,7 @@ describe UserMailer do
 
       it "contains reminder message" do
         mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+          "This is a reminder to submit some feedback for the #{review.review_type} review of Bob Smith."
         )
       end
 
@@ -190,7 +219,7 @@ describe UserMailer do
 
       it "contains reminder message" do
         mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+          "This is a reminder to submit some feedback for the #{review.review_type} review of Bob Smith."
         )
       end
 
@@ -232,7 +261,7 @@ describe UserMailer do
 
       it "contains reminder message" do
         mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the 6-Month review of Bob Smith."
+          "This is a reminder to submit some feedback for the #{review.review_type} review of Bob Smith."
         )
       end
 

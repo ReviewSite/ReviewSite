@@ -11,30 +11,51 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :junior_consultant_id %><br />
-    <%= f.select :junior_consultant_id, format_all_for_select(JuniorConsultant), :include_blank => "Select consultant" %>
-  </div>
-  <div class="field">
-    <%= f.label :review_type %><br />
-    <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']] %>
-  </div>
-  <div class="three-column">
-    <div class="field">
-      <%= f.label :review_date %><br />
-      <%= f.date_select :review_date %>
+  <div class="form-horizontal">
+    <div class="control-group">
+        <% if @review.persisted? %>
+          <%= f.label :junior_consultant_id %>
+          <%= @review.junior_consultant.name %>
+        <%else%>
+          <%= f.label :junior_consultant_id %>
+          <div class="controls">
+            <%= f.text_field :junior_consultant_id, value: '', class: 'jc_with_autocomplete input-xlarge',
+                             'data-autocompleteUrl' => autocomplete_jc_name_junior_consultants_path, remote: true %>
+          </div>
+        <%end%>
     </div>
-    <div class="field">
-      <%= f.label :feedback_deadline %><br />
-      <%= f.date_select :feedback_deadline %><br />
-      <p class="improvement_text">The feedback deadline will be displayed on the feedback form</p>
+
+    <div class="control-group">
+      <%= f.label :review_type %>
+      <div class="controls">
+        <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']], class: "span4" %>
+      </div>
     </div>
-    <div class="field">
-      <%= f.label :send_link_date %><br />
-      <%= f.date_select :send_link_date %>
+
+    <div class="control-group">
+      <%= f.label :review_date %>
+      <div class="controls">
+        <%= f.text_field :review_date, class: "datepicker input-medium", placeholder: "mm/dd/yyyy" %>
+      </div>
+    </div>  
+
+    <div class="control-group">
+      <%= f.label :feedback_deadline %>
+      <div class="controls">
+        <%= f.text_field :feedback_deadline, class: "datepicker input-medium", placeholder: "mm/dd/yyyy"%>
+      </div>
+      <p class="improvement_text pull-left">The feedback deadline will be displayed on the feedback form</p>
+    </div>  
+
+    <div class="control-group">
+      <%= f.label :send_link_date %>
+      <div class="controls">
+        <%= f.text_field :send_link_date, class: "datepicker input-medium", placeholder: "mm/dd/yyyy" %>
+      </div>
+    </div>  
+
+    <div class="actions">
+      <%= f.submit %>
     </div>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
   </div>
 <% end %>

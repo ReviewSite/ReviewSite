@@ -10,6 +10,15 @@ class UserMailer < ActionMailer::Base
     mail(:to => "<#{user.email}>", :subject => "Recover account for the ReviewSite")
   end
 
+  def review_creation(review)
+    @review = review
+    @jc_name = review.junior_consultant.name 
+    @review_type = review.review_type
+    @review_date = review.review_date
+    @feedback_deadline = review.feedback_deadline
+    mail(:to => "<#{review.junior_consultant.email}>", :subject => "#{@jc_name}, #{@review_type} review is created")
+  end
+
   def new_feedback_notification(feedback)
     @feedback = feedback
     @review = feedback.review

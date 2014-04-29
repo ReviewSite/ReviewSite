@@ -193,30 +193,23 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        select jc.name, from: "Junior consultant"
+        fill_in 'review_junior_consultant_id', with: jc.name
         select "24-Month", from: "Review type"
 
-        select "2013", from: "review_review_date_1i"
-        select "July", from: "review_review_date_2i"
-        select "1", from: "review_review_date_3i"
-
-        select "2013", from: "review_feedback_deadline_1i"
-        select "June", from: "review_feedback_deadline_2i"
-        select "21", from: "review_feedback_deadline_3i"
-
-        select "2013", from: "review_send_link_date_1i"
-        select "April", from: "review_send_link_date_2i"
-        select "1", from: "review_send_link_date_3i"
+        fill_in "review_review_date", with: "07/01/2014"
+        fill_in "review_feedback_deadline", with: "21/06/2014"
+        fill_in "review_send_link_date", with: "04/01/2014"
 
         click_button "Create Review"
 
         new_review = Review.last
+        new_review.reload
         current_path.should == review_path(new_review)
         new_review.junior_consultant.should == jc
         new_review.review_type.should == "24-Month"
-        new_review.review_date.should == Date.new(2013, 7, 1)
-        new_review.feedback_deadline.should == Date.new(2013, 6, 21)
-        new_review.send_link_date.should == Date.new(2013, 4, 1)
+        new_review.review_date.should == Date.new(2014, 1, 7)
+        new_review.feedback_deadline.should == Date.new(2014, 06, 21)
+        new_review.send_link_date.should == Date.new(2014, 1, 4)
       end
     end
 
@@ -243,26 +236,18 @@ describe "Review pages" do
       it "updates the review details" do
         select "24-Month", from: "Review type"
 
-        select "2013", from: "review_review_date_1i"
-        select "July", from: "review_review_date_2i"
-        select "1", from: "review_review_date_3i"
-
-        select "2013", from: "review_feedback_deadline_1i"
-        select "June", from: "review_feedback_deadline_2i"
-        select "21", from: "review_feedback_deadline_3i"
-
-        select "2013", from: "review_send_link_date_1i"
-        select "April", from: "review_send_link_date_2i"
-        select "1", from: "review_send_link_date_3i"
+        fill_in "review_review_date", with: "07/01/2013"
+        fill_in "review_feedback_deadline", with: "21/06/2013"
+        fill_in "review_send_link_date", with: "04/01/2013"
 
         click_button "Update Review"
 
         current_path.should == review_path(review)
         review.reload
         review.review_type.should == "24-Month"
-        review.review_date.should == Date.new(2013, 7, 1)
-        review.feedback_deadline.should == Date.new(2013, 6, 21)
-        review.send_link_date.should == Date.new(2013, 4, 1)
+        review.review_date.should == Date.new(2013, 1, 7)
+        review.feedback_deadline.should == Date.new(2013, 06, 21)
+        review.send_link_date.should == Date.new(2013, 1, 4)
       end
     end
 

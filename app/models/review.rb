@@ -127,6 +127,7 @@ class Review < ActiveRecord::Base
   def has_scale(heading)
     !scale_field(heading).nil?
   end
+
   def scale_field(heading)
     return questions[heading].scale_field unless questions[heading].nil?
     nil
@@ -136,4 +137,7 @@ class Review < ActiveRecord::Base
     "#{junior_consultant} - #{review_type}"
   end
 
+  def has_existing_feedbacks?
+    feedbacks.size > 0
+  end
 end

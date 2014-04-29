@@ -1,5 +1,5 @@
 class JuniorConsultant < ActiveRecord::Base
-  attr_accessible :name, :email, :notes, :reviewing_group_id, :coach_id, :user_id
+  attr_accessible :name, :email, :notes, :reviewing_group_id, :coach_id, :user_id, :junior_consultant_id
   belongs_to :coach, :class_name => "User", :foreign_key => :coach_id
   belongs_to :user, :foreign_key => :user_id
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }

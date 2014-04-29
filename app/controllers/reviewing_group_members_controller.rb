@@ -1,11 +1,11 @@
 class ReviewingGroupMembersController < ApplicationController
   load_and_authorize_resource
+  before_filter :load_reviewing_group_member, :only => [:edit, :update, :destroy]
 
   # GET /reviewing_group_members
   # GET /reviewing_group_members.json
   def index
     @reviewing_group_members = ReviewingGroupMember.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @reviewing_group_members }
@@ -17,7 +17,6 @@ class ReviewingGroupMembersController < ApplicationController
   # GET /reviewing_group_members/new.json
   def new
     @reviewing_group_member = ReviewingGroupMember.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @reviewing_group_member }
@@ -25,9 +24,7 @@ class ReviewingGroupMembersController < ApplicationController
   end
 
   # GET /reviewing_group_members/1/edit
-  def edit
-    @reviewing_group_member = ReviewingGroupMember.find(params[:id])
-  end
+  def edit; end
 
   # POST /reviewing_group_members
   # POST /reviewing_group_members.json
@@ -48,8 +45,6 @@ class ReviewingGroupMembersController < ApplicationController
   # PUT /reviewing_group_members/1
   # PUT /reviewing_group_members/1.json
   def update
-    @reviewing_group_member = ReviewingGroupMember.find(params[:id])
-
     respond_to do |format|
       if @reviewing_group_member.update_attributes(params[:reviewing_group_member])
         format.html { redirect_to reviewing_group_members_path, notice: 'Reviewing group member was successfully updated.' }
@@ -64,12 +59,16 @@ class ReviewingGroupMembersController < ApplicationController
   # DELETE /reviewing_group_members/1
   # DELETE /reviewing_group_members/1.json
   def destroy
-    @reviewing_group_member = ReviewingGroupMember.find(params[:id])
     @reviewing_group_member.destroy
 
     respond_to do |format|
       format.html { redirect_to reviewing_group_members_url }
       format.json { head :no_content }
     end
+  end
+
+  private 
+  def load_reviewing_group_member
+    @reviewing_group_member = ReviewingGroupMember.find(params[:id])
   end
 end

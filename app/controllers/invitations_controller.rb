@@ -1,14 +1,14 @@
 class InvitationsController < ApplicationController
   load_resource :review
   load_and_authorize_resource :through => :review
+  before_filter :load_review, :only => [:new, :create]
+  before_filter :load_invitation, :only => [:destroy, :send_reminder]
 
   def new
-    @review = Review.find_by_id(params[:review_id])
     @jc = @review.junior_consultant
   end
 
   def create
-    @review = Review.find_by_id(params[:review_id])
     @invitation = @review.invitations.build(username: params[:username])
 
     if not @invitation.feedback and @invitation.save
@@ -29,18 +29,26 @@ class InvitationsController < ApplicationController
   end
 
   def destroy
-    Invitation.find_by_id(params[:id]).destroy
+    @invitation.destroy
     redirect_to root_path, notice: 'Invitation has been deleted'
   end
 
   def send_reminder
-    invitation = Invitation.find_by_id(params[:id])
-    if invitation.feedback and invitation.feedback.submitted?
+    if @invitation.feedback and @invitation.feedback.submitted?
       flash[:notice] = "Feedback already submitted. Reminder not sent."
     else
-      UserMailer.feedback_reminder(invitation).deliver
+      UserMailer.feedback_reminder(@invitation).deliver
       flash[:notice] = "Reminder email was sent!"
     end
     redirect_to root_path
+  end
+
+  private
+  def load_review
+    @review = Review.find_by_id(params[:review_id])
+  end
+
+  def load_invitation
+    @invitation = Invitation.find_by_id(params[:id])
   end
 end

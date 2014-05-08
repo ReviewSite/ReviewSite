@@ -1,10 +1,12 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :okta_name, :email
+  attr_accessible :name, :okta_name, :email, :reviewing_group_id
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
   has_many :junior_consultants
   has_many :feedbacks
+
+  belongs_to :reviewing_group
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,

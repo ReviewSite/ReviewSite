@@ -5,3 +5,16 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.dev-list li {
+  list-style: none;
+  display: inline-block;
+  width: 25%;
+  margin-left: 6%;
+}
+
+.dev-info figcaption {
+  text-align: center;
+  padding-top: 5px;
+}
+

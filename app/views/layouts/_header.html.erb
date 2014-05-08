@@ -24,27 +24,32 @@
           <li><%= link_to "Home", root_path %></li>
 
           <% if signed_in? %>
-              <% if current_user.admin? %>
-                <li><%= link_to "Administration", admin_index_path %></li>
-              <%end%>
+
               <% if can? :manage, JuniorConsultant %>
                   <li><%= link_to "Junior Consultants", junior_consultants_path %></li>
               <%end%>
-              <% if can? :manage, ReviewingGroup %>
-                  <li><%= link_to "Reviewing Group", reviewing_groups_path %></li>
-              <%end%>
-              <% if can? :manage, ReviewingGroupMember %>
-                  <li><%= link_to "Reviewing Group Members", reviewing_group_members_path %></li>
-              <%end%>
-              <% if can? :manage, User %>
-                <li><%= link_to "Users", users_path %></li>
-              <% end %>
               <% if can? :read, Feedback %>
                 <li><%= link_to "Feedback From Me", feedbacks_user_path(current_user) %></li>
               <% end %>
               <% if can? :index, Review %>
                 <li> <%= link_to "Reviews", reviews_path %></li>
               <% end %>
+
+              <% if current_user.admin? %>
+                <li id="admin-menu" class="dropdown">
+                  <a href="#">
+                    Admin Tasks
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "Create New Review", new_review_path %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to "Manage Users", users_path %></li>
+                    <li><%= link_to "Manage Reviewing Groups", reviewing_groups_path %></li>
+                  </ul>
+                </li>
+              <%end%>
+
+
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= current_user %> <b class="caret"></b>

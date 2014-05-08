@@ -1,6 +1,10 @@
 class WelcomeController < ApplicationController
   skip_authorization_check
 
+  def contributors
+  end
+
+
   def index
     redirect_to signup_path unless signed_in?
 

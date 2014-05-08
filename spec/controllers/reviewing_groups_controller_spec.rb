@@ -23,14 +23,6 @@ describe ReviewingGroupsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested reviewing_group as @reviewing_group" do
-      reviewing_group = ReviewingGroup.create! valid_attributes
-      get :show, {:id => reviewing_group.to_param}, valid_session
-      assigns(:reviewing_group).should eq(reviewing_group)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new reviewing_group as @reviewing_group" do
       get :new, {}, valid_session
@@ -60,9 +52,9 @@ describe ReviewingGroupsController do
         assigns(:reviewing_group).should be_persisted
       end
 
-      it "redirects to the created reviewing_group" do
+      it "redirects to the reviewing_groups list" do
         post :create, {:reviewing_group => valid_attributes}, valid_session
-        response.should redirect_to(ReviewingGroup.last)
+        response.should redirect_to(reviewing_groups_url)
       end
     end
 
@@ -104,7 +96,7 @@ describe ReviewingGroupsController do
       it "redirects to the reviewing_group" do
         reviewing_group = ReviewingGroup.create! valid_attributes
         put :update, {:id => reviewing_group.to_param, :reviewing_group => valid_attributes}, valid_session
-        response.should redirect_to(reviewing_group)
+        response.should redirect_to(reviewing_groups_url)
       end
     end
 

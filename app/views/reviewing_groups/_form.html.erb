@@ -1,7 +1,7 @@
-<%= form_for(@reviewing_group) do |f| %>
+<%= nested_form_for(@reviewing_group) do |f| %>
   <% if @reviewing_group.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this reviewing_group from being saved:</h2>
+      <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this Reviewing Group from being saved:</h2>
 
       <ul>
       <% @reviewing_group.errors.full_messages.each do |msg| %>
@@ -12,10 +12,33 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
+
+  <div class="field">
+    <%= f.fields_for :users do |builder| %>
+      <%= builder.label "New Member" %>
+      <%= builder.select :id, format_all_for_select(User), :include_blank => "Choose an existing user" %>
+      <%= builder.link_to_remove "Remove this member" %>
+    <% end %>
+  </div>
+
+  <p>
+   <%# img class="glyph-plus" src="/assets/images/glyphicons_432_plus.png" %>
+   <%= f.link_to_add "Add Member", :users %>
+  </p>
+
+
+
+  <%#
+  # div class="field"
+  #   <%= check_box_tag(:pet_dog) %
+  #   <%= label_tag(:pet_dog, "I own a dog") %
+  # </div>
+  # %>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create" %>
   </div>
 <% end %>

@@ -152,6 +152,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.9.3)
     multi_test (0.1.1)
+    nested_form (0.3.2)
     nokogiri (1.5.11)
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
@@ -283,6 +284,7 @@ DEPENDENCIES
   jquery-datatables-rails
   jquery-rails
   launchy (~> 2.1.2)
+  nested_form
   omniauth
   omniauth-saml
   pg

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if @user.save
       UserMailer.registration_confirmation(@user).deliver
       flash[:success] = "User has been successfully created."
-      redirect_to root_path
+      redirect_to users_url
     else
       render 'new'
     end
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
-      redirect_to root_url
+      redirect_to users_url
     else
       render 'edit'
     end

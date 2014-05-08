@@ -67,7 +67,7 @@ describe "User pages" do
         fill_in "Email", with: "test@example.com"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should == users_url
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -90,7 +90,7 @@ describe "User pages" do
         fill_in "Okta name", with: "roberto"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should == users_url
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1

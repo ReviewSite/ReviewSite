@@ -37,7 +37,8 @@ module SessionsHelper
 
   def current_okta_name
     if ENV['OKTA-TEST-MODE']
-      session[:temp_okta_user] || session[:userinfo].split("@")[0]
+      "admin"
+#      session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
       session[:userinfo].split("@")[0]
     end

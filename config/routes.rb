@@ -2,7 +2,7 @@ ReviewSite::Application.routes.draw do
 
   resources :reviewing_group_members, except: [:show]
 
-  resources :reviewing_groups
+  resources :reviewing_groups, except: [:show]
 
   resources :admin, only: [:index]
 
@@ -47,6 +47,7 @@ ReviewSite::Application.routes.draw do
   resources :welcome, :only => [:index] do
     collection do
       get 'help'
+      get 'contributors'
       get 'test_error'
     end
   end

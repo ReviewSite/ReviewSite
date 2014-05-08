@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :require_login
+#  before_filter :require_login
 
   check_authorization
   protect_from_forgery

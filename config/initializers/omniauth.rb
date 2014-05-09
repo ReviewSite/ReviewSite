@@ -1,9 +1,9 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :saml,
-           :assertion_consumer_service_url     => "https://localhost:9292/auth/saml/callback",
-           :issuer                             => "TW Review Site",
-           :idp_sso_target_url                 => "https://thoughtworks.oktapreview.com/app/template_saml_2_0/k208u3xtTCAPGDHDUFON/sso/saml",
-           :idp_cert                           => "-----BEGIN CERTIFICATE-----
+    provider :saml,
+             :assertion_consumer_service_url     => "https://localhost:9292/auth/saml/callback",
+             :issuer                             => "TW Review Site",
+             :idp_sso_target_url                 => "https://thoughtworks.oktapreview.com/app/template_saml_2_0/k208u3xtTCAPGDHDUFON/sso/saml",
+             :idp_cert                           => "-----BEGIN CERTIFICATE-----
                                                   MIICozCCAgygAwIBAgIGAT+fauIOMA0GCSqGSIb3DQEBBQUAMIGUMQswCQYDVQQGEwJVUzETMBEG
                                                   A1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEU
                                                   MBIGA1UECwwLU1NPUHJvdmlkZXIxFTATBgNVBAMMDHRob3VnaHR3b3JrczEcMBoGCSqGSIb3DQEJ
@@ -17,5 +17,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                                                   GvZhS5LO3q2PUvq4qHx1SchiKbxje+CUHCqOOODOjQeD+SVcUBUPJ8I9OWi9aDiQjKnmpr87h8PH
                                                   +Ni1yB2C2KRHdxxSR6SfRjkyNeVEwzTyh2Y2zu+hghddKvllWQoSfwXhIcSrLKtsL71NrQ==
                                                   -----END CERTIFICATE-----",
-           :name_identifier_format             => "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+             :name_identifier_format             => "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
 end

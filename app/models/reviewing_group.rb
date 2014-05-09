@@ -10,7 +10,7 @@ class ReviewingGroup < ActiveRecord::Base
   accepts_nested_attributes_for :users
 
   def members
-    self.users.map { |m| m.to_s}.join(', ')
+    self.users.map { |m| m.to_s}.sort.join(', ')
   end
 
   def to_s

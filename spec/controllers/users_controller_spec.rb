@@ -5,7 +5,8 @@ describe UsersController do
     {
         name: 'Joe',
         email: 'joe@example.com',
-        okta_name: 'JoeCAS'
+        okta_name: 'JoeCAS',
+        admin: false
     }
   end
 
@@ -65,7 +66,7 @@ describe UsersController do
 
       it 'should set the okta_name to the already authenticated okta name' do
         controller.current_okta_name = "testOKTA"
-        post :create, {user: {name: "Test", email: "test@example.com", okta_name: "testOKTA"}}, valid_session
+        post :create, {user: {name: "Test", email: "test@example.com", okta_name: "testOKTA", admin: false}}, valid_session
         user = assigns(:user)
         user.okta_name.should == "testOKTA"
       end

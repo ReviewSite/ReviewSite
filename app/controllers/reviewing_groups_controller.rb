@@ -66,7 +66,7 @@ class ReviewingGroupsController < ApplicationController
   def update
     respond_to do |format|
       if @reviewing_group.update_attributes(params[:reviewing_group])
-        format.html { redirect_to @reviewing_group, notice: 'Reviewing group was successfully updated.' }
+        format.html { redirect_to reviewing_groups_url, notice: 'Reviewing group was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

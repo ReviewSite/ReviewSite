@@ -16,4 +16,16 @@
 //= require bootstrap
 //= require_tree .
 //= require bootstrap-datepicker
-//= require jquery_nested_form
+//
+//
+//
+
+
+jQuery (function () {
+  $("#reviewing_group_user_tokens").tokenInput("/users.json", {
+    crossDomain: false,
+    prePopulate: $("#reviewing_group_user_tokens").data("pre"),
+    preventDuplicates: true
+  });
+
+});

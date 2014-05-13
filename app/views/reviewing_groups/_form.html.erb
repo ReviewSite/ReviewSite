@@ -1,4 +1,4 @@
-<%= nested_form_for(@reviewing_group) do |f| %>
+<%= form_for(@reviewing_group) do |f| %>
   <% if @reviewing_group.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this Reviewing Group from being saved:</h2>
@@ -17,28 +17,11 @@
   </div>
 
   <div class="field">
-    <%= f.fields_for :users do |builder| %>
-      <%= builder.label "New Member" %>
-      <%= builder.select :id, format_all_for_select(User), :include_blank => "Choose an existing user" %>
-      <%= builder.link_to_remove "Remove this member" %>
-    <% end %>
-  </div>
 
-  <p>
-   <%# img class="glyph-plus" src="/assets/images/glyphicons_432_plus.png" %>
-   <%= f.link_to_add "Add Member", :users %>
-  </p>
-
-
-
-  <%#
-  # div class="field"
-  #   <%= check_box_tag(:pet_dog) %
-  #   <%= label_tag(:pet_dog, "I own a dog") %
-  # </div>
-  # %>
-
+    <%= f.label :user_tokens, "Members" %>
+    <%= f.text_field :user_tokens, "data-pre" => @reviewing_group.users.map(&:attributes).to_json %>
+    
   <div class="actions">
-    <%= f.submit "Create" %>
+    <%= f.submit "Submit" %>
   </div>
 <% end %>

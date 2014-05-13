@@ -7,7 +7,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.where("name ILIKE ?", "%#{params[:q]}%")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @users.map(&:attributes) }
+    end
+
   end
 
   def show; end

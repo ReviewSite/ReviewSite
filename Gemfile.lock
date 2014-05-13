@@ -165,6 +165,8 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-nav (0.2.3)
+      pry (~> 0.9.10)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -286,6 +288,8 @@ DEPENDENCIES
   omniauth
   omniauth-saml
   pg
+  pry
+  pry-nav
   rack_session_access
   rails (= 3.2.12)
   rake

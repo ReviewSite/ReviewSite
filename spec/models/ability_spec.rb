@@ -9,7 +9,6 @@ describe Ability do
     subject{@ability}
     it{ should be_able_to(:manage, Review) }
     it{ should be_able_to(:manage, ReviewingGroup) }
-    it{ should be_able_to(:manage, ReviewingGroupMember) }
     it{ should be_able_to(:manage, JuniorConsultant) }
     it{ should be_able_to(:manage, User) }
     it{ should be_able_to(:manage, SelfAssessment) }
@@ -28,7 +27,6 @@ describe Ability do
     subject{@ability}
     it{ should_not be_able_to(:manage, Review) }
     it{ should_not be_able_to(:manage, ReviewingGroup) }
-    it{ should_not be_able_to(:manage, ReviewingGroupMember) }
     it{ should_not be_able_to(:manage, JuniorConsultant) }
     it{ should_not be_able_to(:manage, User) }
     it{ should be_able_to(:manage, SelfAssessment) }

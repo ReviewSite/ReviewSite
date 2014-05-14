@@ -4,11 +4,10 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = [];
-     Review.includes({:junior_consultant => :coach}, 
-                    {:junior_consultant => 
-                        {:reviewing_group => 
-                            {:reviewing_group_members => :user}}}, 
-                    :feedbacks, 
+     Review.includes({:junior_consultant => :coach},
+                    {:junior_consultant =>
+                        {:reviewing_group => :user}},
+                    :feedbacks,
                     :invitations).all.each do |review|
         if can? :summary, review
           @reviews << review
@@ -103,8 +102,8 @@ class ReviewsController < ApplicationController
     end
   end
 
-  private 
+  private
   def load_review
-    @review = Review.find params[:id] 
+    @review = Review.find params[:id]
   end
 end

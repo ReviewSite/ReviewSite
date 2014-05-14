@@ -9,7 +9,6 @@ class Ability
       if user.admin
         can :manage, Review
         can :manage, ReviewingGroup
-        can :manage, ReviewingGroupMember
         can :manage, JuniorConsultant
         can :manage, User
         can :manage, SelfAssessment
@@ -82,10 +81,10 @@ class Ability
   end
 
   def is_review_member(user, review)
-    reviewing_group_members = review.junior_consultant.try(:reviewing_group).try(:reviewing_group_members)
+    reviewing_group_members = review.junior_consultant.try(:reviewing_group).try(:users)
     return false if reviewing_group_members.nil?
     reviewing_group_members.each do |reviewing_group_member|
-      return true if reviewing_group_member.user == user
+      return true if reviewing_group_member == user
     end
     return false
   end

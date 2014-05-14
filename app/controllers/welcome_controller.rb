@@ -9,11 +9,10 @@ class WelcomeController < ApplicationController
     redirect_to signup_path unless signed_in?
 
     @reviews = []
-    Review.includes({:junior_consultant => :coach}, 
-                    {:junior_consultant => 
-                        {:reviewing_group => 
-                            {:reviewing_group_members => :user}}}, 
-                    :feedbacks, 
+    Review.includes({:junior_consultant => :coach},
+                    {:junior_consultant =>
+                        {:reviewing_group => :user}},
+                    :feedbacks,
                     :invitations).all.each do |review|
       if can? :read, review or can? :summary, review
         @reviews << review

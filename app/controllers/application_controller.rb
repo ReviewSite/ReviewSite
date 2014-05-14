@@ -20,5 +20,5 @@ class ApplicationController < ActionController::Base
       redirect_to signin_path, alert: "You must be signed in to access this page"
       store_location
     end
-  end      
+  end
 end

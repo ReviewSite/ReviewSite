@@ -62,7 +62,7 @@ describe ReviewsController do
       set_current_user admin_user
     end
     it "assigns the requested review as @review" do
-      review = FactoryGirl.create(:review) 
+      review = FactoryGirl.create(:review)
       get :show, {:id => review.to_param}, valid_session
       assigns(:review).should eq(review)
     end
@@ -115,12 +115,11 @@ describe ReviewsController do
       end
     end
 
-    describe "with a reviewing_group_member" do
+    describe "with a reviewing group member" do
       it "the reviewing member can see the summary" do
         junior_consultant = @review.junior_consultant
         reviewing_group = FactoryGirl.create(:reviewing_group)
         other_user = FactoryGirl.create(:user)
-        rgm = FactoryGirl.create(:reviewing_group_member, :user => other_user, :reviewing_group => reviewing_group)
         junior_consultant.reviewing_group = reviewing_group
         junior_consultant.save!
 

@@ -1,7 +1,5 @@
 ReviewSite::Application.routes.draw do
 
-  resources :reviewing_group_members, except: [:show]
-
   resources :reviewing_groups, except: [:show]
 
   resources :admin, only: [:index]

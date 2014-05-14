@@ -119,7 +119,7 @@ describe ReviewsController do
       it "the reviewing member can see the summary" do
         junior_consultant = @review.junior_consultant
         reviewing_group = FactoryGirl.create(:reviewing_group)
-        other_user = FactoryGirl.create(:user)
+        other_user = FactoryGirl.create(:reviewing_group_member, :reviewing_group => reviewing_group)
         junior_consultant.reviewing_group = reviewing_group
         junior_consultant.save!
 

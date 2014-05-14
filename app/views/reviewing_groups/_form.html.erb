@@ -17,10 +17,10 @@
   </div>
 
   <div class="field">
-
     <%= f.label :user_tokens, "Members" %>
     <%= f.text_field :user_tokens, "data-pre" => @reviewing_group.users.map(&:attributes).to_json %>
-    
+  </div>
+
   <div class="actions">
     <%= f.submit "Submit" %>
   </div>

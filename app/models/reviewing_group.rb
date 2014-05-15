@@ -2,7 +2,7 @@ class ReviewingGroup < ActiveRecord::Base
   attr_accessible :name, :user_tokens
   attr_reader :user_tokens
 
-  has_many :users, :dependent => :nullify
+  has_and_belongs_to_many :users
 
   validates :name, presence: true
 

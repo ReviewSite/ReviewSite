@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140514162328) do
+ActiveRecord::Schema.define(:version => 20140515175750) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -90,6 +90,11 @@ ActiveRecord::Schema.define(:version => 20140514162328) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "reviewing_groups_users", :id => false, :force => true do |t|
+    t.integer "reviewing_group_id"
+    t.integer "user_id"
   end
 
   create_table "reviews", :force => true do |t|

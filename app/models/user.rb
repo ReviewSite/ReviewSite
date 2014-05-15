@@ -1,12 +1,10 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :okta_name, :email, :reviewing_group_id
+  attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
   has_many :junior_consultants
   has_many :feedbacks
-
-  belongs_to :reviewing_group
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,
@@ -41,7 +39,7 @@ class User < ActiveRecord::Base
     not password_digest.nil?
   end
 
-  def matches_password?(unencrypted_password) 
+  def matches_password?(unencrypted_password)
     BCrypt::Password.new(password_digest) == unencrypted_password
   end
 end

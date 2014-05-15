@@ -9,8 +9,13 @@ describe ReviewingGroup do
   end
 
   it "has members who are Users" do
-    rg = FactoryGirl.create(:reviewing_group)
-    user = FactoryGirl.create(:user, :reviewing_group => rg)
+    user = FactoryGirl.create(:user)
+    rg = FactoryGirl.create(:reviewing_group_with_users, :users => [user])
+    # user = FactoryGirl.create(:user, :reviewing_group => rg)
+
+
+    # user = FactoryGirl.create(:user, :companies => [company])
+
     rg.users.should eql [user]
   end
 

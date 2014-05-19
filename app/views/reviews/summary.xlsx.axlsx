@@ -12,7 +12,7 @@ self_assessment = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :i => 
 self_assessment_content_style = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
 wrap_text = wb.styles.add_style :alignment => {:wrapText => true}
 
-wb.add_worksheet(name: "#{@review.junior_consultant.name.truncate(31)}") do |sheet|
+wb.add_worksheet(name: "#{@review.junior_consultant.user.name.truncate(31)}") do |sheet|
   sheet.add_row ["Feedback for Review #{@review}"], :style => title
   sheet.merge_cells "A1:G1"
   @review.headings.each do |heading|

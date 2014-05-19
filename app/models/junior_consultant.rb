@@ -1,7 +1,11 @@
 class JuniorConsultant < ActiveRecord::Base
   attr_accessible :name, :email, :notes, :reviewing_group_id, :coach_id, :user_id, :junior_consultant_id
+
+  belongs_to :reviewing_group
   belongs_to :coach, :class_name => "User", :foreign_key => :coach_id
   belongs_to :user, :foreign_key => :user_id
+  has_many :reviews, :dependent => :destroy
+
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence:   true,
@@ -12,11 +16,7 @@ class JuniorConsultant < ActiveRecord::Base
 
   before_save { |user| user.email = user.email.downcase }
 
-  belongs_to :reviewing_group
-
-  has_many :reviews, :dependent => :destroy
-
   def to_s
-    self.name
+    self.user.name
   end
 end

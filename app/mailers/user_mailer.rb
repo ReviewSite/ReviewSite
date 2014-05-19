@@ -12,11 +12,12 @@ class UserMailer < ActionMailer::Base
 
   def review_creation(review)
     @review = review
-    @jc_name = review.junior_consultant.name 
+    @jc_name = review.junior_consultant.user.name
+    @jc_email = review.junior_consultant.user.email
     @review_type = review.review_type
     @review_date = review.review_date
     @feedback_deadline = review.feedback_deadline
-    mail(:to => "<#{review.junior_consultant.email}>", :subject => "#{@jc_name}, #{@review_type} review is created")
+    mail(:to => "<#{@jc_email}>", :subject => "#{@jc_name}, #{@review_type} review is created")
   end
 
   def new_feedback_notification(feedback)
@@ -24,20 +25,20 @@ class UserMailer < ActionMailer::Base
     @review = feedback.review
     @reviewer = feedback.user
     @reviewee = @review.junior_consultant
-    mail(:to => "<#{@reviewee.email}>", :subject => "You have new feedback")
+    mail(:to => "<#{@reviewee.user.email}>", :subject => "You have new feedback")
   end
 
   def review_invitation(review, email, message)
     jc = review.junior_consultant
     @custom_message = message
 
-    mail(:to => "<#{email}>", :subject => "You've been invited to give feedback for #{jc.name}.")
+    mail(:to => "<#{email}>", :subject => "You've been invited to give feedback for #{jc.user.name}.")
   end
 
   def feedback_reminder(invitation)
     @jc = invitation.reviewee
     @review = invitation.review
     @feedback = invitation.feedback
-    mail(:to => "<#{invitation.email}>", :subject => "Please leave feedback for #{invitation.reviewee.name}.")
+    mail(:to => "<#{invitation.email}>", :subject => "Please leave feedback for #{@jc.user.name}.")
   end
 end

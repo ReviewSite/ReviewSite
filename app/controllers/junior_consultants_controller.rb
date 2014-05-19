@@ -30,8 +30,8 @@ class JuniorConsultantsController < ApplicationController
   # POST /junior_consultants
   # POST /junior_consultants.json
   def create
-    params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) if params[:junior_consultant][:user_id] 
-    params[:junior_consultant][:coach_id] = find_user(params[:junior_consultant][:coach_id]) if params[:junior_consultant][:coach_id] 
+    params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) if params[:junior_consultant][:user_id]
+    params[:junior_consultant][:coach_id] = find_user(params[:junior_consultant][:coach_id]) if params[:junior_consultant][:coach_id]
     @junior_consultant = JuniorConsultant.new(params[:junior_consultant])
 
     respond_to do |format|
@@ -48,7 +48,16 @@ class JuniorConsultantsController < ApplicationController
   # PUT /junior_consultants/1
   # PUT /junior_consultants/1.json
   def update
-    params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) {} if params[:junior_consultant][:user_id]
+    # params[:junior_consultant][:user_id] = find_user(params[:junior_consultant][:user_id]) if params[:junior_consultant][:user_id]
+
+
+  associated_user_name = params[:junior_consultant][:user_id]
+
+  if associated_user_name
+    params[:junior_consultant][:user_id] = User.find_by_name(associated_user_name).id
+  end
+
+
     params[:junior_consultant][:coach_id] = find_user(params[:junior_consultant][:coach_id]) if params[:junior_consultant][:coach_id]
 
     respond_to do |format|
@@ -78,7 +87,7 @@ class JuniorConsultantsController < ApplicationController
     render json: @result
   end
 
-  private 
+  private
   def load_jc
     @junior_consultant = JuniorConsultant.find(params[:id])
   end

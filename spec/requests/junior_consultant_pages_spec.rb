@@ -19,8 +19,8 @@ describe "Junior consultant pages" do
       it { should have_selector('th', text: 'Notes') }
       it { should have_selector('th', text: 'Coach') }
 
-      it { should have_selector('td', text: jc.name) }
-      it { should have_selector('td', text: jc.email) }
+      it { should have_selector('td', text: jc.user.name) }
+      it { should have_selector('td', text: jc.user.email) }
       it { should have_selector('td', text: jc.notes) }
       it { should have_selector('td a', text: coach.name) }
 
@@ -43,8 +43,8 @@ describe "Junior consultant pages" do
         page.driver.browser.accept_js_confirms
         click_link "Destroy"
         current_path.should == junior_consultants_path
-        page.should_not have_selector('td', text: jc.name)
-        page.should_not have_selector('td', text: jc.email)
+        page.should_not have_selector('td', text: jc.user.name)
+        page.should_not have_selector('td', text: jc.user.email)
         page.should_not have_selector('td', text: jc.notes)
         page.should_not have_selector('td a', text: coach.name)
       end
@@ -127,7 +127,7 @@ describe "Junior consultant pages" do
         sign_in FactoryGirl.create(:admin_user)
         visit edit_junior_consultant_path(jc)
       end
-    
+
       it { should have_field("Name", with: jc.name) }
       it { should have_field("Email", with: jc.email) }
       it { should have_selector("textarea#junior_consultant_notes", text: jc.notes) }
@@ -139,7 +139,7 @@ describe "Junior consultant pages" do
         fill_in "Email", with: "test2@example.com"
         fill_in "Notes", with: "I've edited the note."
         fill_in "Coach", with: ""
-        
+
         click_button "Update Junior consultant"
         current_path.should == junior_consultants_path
 

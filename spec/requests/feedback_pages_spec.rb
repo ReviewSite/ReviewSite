@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "Feedback pages", :type => :feature do
-  let(:jc) { FactoryGirl.create(:junior_consultant) }
-  let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
+  let(:jc_user) { FactoryGirl.create(:user) }
+  let(:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }

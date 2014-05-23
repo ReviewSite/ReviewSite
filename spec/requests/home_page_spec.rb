@@ -4,8 +4,8 @@ describe "Home page" do
   let (:admin) { FactoryGirl.create :admin_user }
   let (:coach) { FactoryGirl.create :user }
   let (:reviewer) { FactoryGirl.create :user }
-  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach }
-  let (:jc_user) { FactoryGirl.create :user, email: jc.email}
+  let (:jc_user) { FactoryGirl.create :user}
+  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach, :user => jc_user }
   let! (:review) { FactoryGirl.create :review, junior_consultant: jc, feedback_deadline: Date.tomorrow }
   let! (:feedback) { FactoryGirl.create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 

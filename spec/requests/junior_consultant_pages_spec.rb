@@ -82,8 +82,6 @@ describe "Junior consultant pages" do
       end
 
       it "creates a junior consultant with the specified properties" do
-        fill_in "Name", with: "Bob Smith"
-        fill_in "Email", with: "test@example.com"
         fill_in "Notes", with: "This is a note."
         select reviewing_group.name, from: "Reviewing group"
         fill_in "Coach", with: coach.name
@@ -95,8 +93,8 @@ describe "Junior consultant pages" do
         current_path.should == junior_consultants_path
 
         new_jc = JuniorConsultant.last
-        new_jc.name.should == "Bob Smith"
-        new_jc.email.should == "test@example.com"
+        new_jc.user.name.should == user.name
+        new_jc.user.email.should == user.email
         new_jc.notes.should == "This is a note."
         new_jc.reviewing_group.should == reviewing_group
         new_jc.coach.should == coach
@@ -128,15 +126,11 @@ describe "Junior consultant pages" do
         visit edit_junior_consultant_path(jc)
       end
 
-      it { should have_field("Name", with: jc.name) }
-      it { should have_field("Email", with: jc.email) }
       it { should have_selector("textarea#junior_consultant_notes", text: jc.notes) }
       it { should have_select("Reviewing group", selected: reviewing_group.name) }
       it { should have_field("Coach", with: coach.name) }
 
       it "lets you change a junior consultant's properties" do
-        fill_in "Name", with: "Amy Jones"
-        fill_in "Email", with: "test2@example.com"
         fill_in "Notes", with: "I've edited the note."
         fill_in "Coach", with: ""
 
@@ -144,8 +138,6 @@ describe "Junior consultant pages" do
         current_path.should == junior_consultants_path
 
         jc.reload
-        jc.name.should == "Amy Jones"
-        jc.email.should  == "test2@example.com"
         jc.notes.should == "I've edited the note."
         jc.coach.should be_nil
       end

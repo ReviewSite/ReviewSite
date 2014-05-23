@@ -11,7 +11,7 @@ class WelcomeController < ApplicationController
     @reviews = []
     Review.includes({:junior_consultant => :coach},
                     {:junior_consultant =>
-                        {:reviewing_group => :user}},
+                        {:reviewing_group => :users}},
                     :feedbacks,
                     :invitations).all.each do |review|
       if can? :read, review or can? :summary, review

@@ -77,7 +77,7 @@ class Ability
   end
 
   def is_user_the_jc_associated_with_review(user, review)
-    user.email == review.junior_consultant.email
+    user == review.junior_consultant.user
   end
 
   def is_review_member(user, review)

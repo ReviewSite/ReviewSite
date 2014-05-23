@@ -4,7 +4,7 @@ describe Review do
   describe "with a FactoryGirl review" do
     before(:each) do
       @review = FactoryGirl.create(:review)
-    end 
+    end
 
     it "is valid" do
       @review.valid?.should == true
@@ -43,10 +43,10 @@ describe Review do
       @review.valid?.should == false
     end
 
-    it "requires a feedback_deadline" do
-      @review.feedback_deadline = nil
-      @review.valid?.should == false
-    end
+    # it "requires a feedback_deadline" do
+      # @review.feedback_deadline = nil
+      # @review.valid?.should == false
+    # end
   end
 
     it "has feedback" do

@@ -2,18 +2,17 @@ require 'spec_helper'
 
 describe JuniorConsultantsController do
   before(:each) do
-    @rgm = FactoryGirl.create(:reviewing_group)
+    @rg = FactoryGirl.create(:reviewing_group)
     @coach = FactoryGirl.create(:user)
-    @user = FactoryGirl.create(:user)
+    @jc_user = FactoryGirl.create(:user)
   end
 
   def valid_attributes
-    { name: @user.name,
-      email: @user.email,
-      reviewing_group_id: @rgm.id,
+    {
+      reviewing_group_id: @rg.id,
       notes: "This is a dev",
       coach_id: @coach.name,
-      user_id: @user.name
+      user_id: @jc_user.name
     }
   end
 
@@ -21,53 +20,60 @@ describe JuniorConsultantsController do
     {:userinfo => "test@test.com"}
   end
 
-  describe "as a normal user" do
+  describe "-- An ordinary user" do
     before(:each) do
       @user = FactoryGirl.create(:user)
       set_current_user @user
     end
-    it "cannot list all JCs" do
+
+    it "cannot GET index on all JCs" do
       get :index, {}, valid_session
       response.should redirect_to(root_path)
     end
-    it "cannot GET new" do
+
+    it "cannot GET new on a JC" do
       get :new, {}, valid_session
       assigns(:junior_consultant).should be_a_new(JuniorConsultant)
       response.should redirect_to(root_path)
     end
-    it "cannot GET edit" do
+
+    it "cannot GET edit on a JC" do
       junior_consultant = FactoryGirl.create(:junior_consultant)
       get :edit, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(root_path)
     end
-    it "cannot POST create" do
+
+    it "cannot POST create on a JC" do
       post :create, {:junior_consultant => valid_attributes}, valid_session
       response.should redirect_to(root_path)
     end
-    it "cannot PUT update" do
+
+    it "cannot PUT update on a JC" do
       junior_consultant = FactoryGirl.create(:junior_consultant)
       put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session
       response.should redirect_to(root_path)
     end
-    it "cannot DELETE destroy" do
+
+    it "cannot DELETE a jc" do
       junior_consultant = FactoryGirl.create(:junior_consultant)
       delete :destroy, {:id => junior_consultant.to_param}, valid_session
       response.should redirect_to(root_path)
     end
   end
 
-  describe "when not signed in" do
+  describe "-- A user not logged in" do
     it "cannot list all JCs" do
       get :index, {}, valid_session
       response.should redirect_to(signin_path)
     end
   end
 
-  describe "GET index" do
+  describe "-- Admin GET index" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user
     end
+
     it "assigns all junior_consultants as @junior_consultants" do
       junior_consultant = FactoryGirl.create(:junior_consultant)
       get :index, {}, valid_session
@@ -75,22 +81,24 @@ describe JuniorConsultantsController do
     end
   end
 
-  describe "GET new" do
+  describe "-- Admin GET new" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user
     end
+
     it "assigns a new junior_consultant as @junior_consultant" do
       get :new, {}, valid_session
       assigns(:junior_consultant).should be_a_new(JuniorConsultant)
     end
   end
 
-  describe "GET edit" do
+  describe "-- Admin GET edit" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user
     end
+
     it "assigns the requested junior_consultant as @junior_consultant" do
       junior_consultant = FactoryGirl.create(:junior_consultant)
       get :edit, {:id => junior_consultant.to_param}, valid_session
@@ -98,11 +106,12 @@ describe JuniorConsultantsController do
     end
   end
 
-  describe "POST create" do
+  describe "--Admin POST create" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user
     end
+
     describe "with valid params" do
       it "creates a new JuniorConsultant" do
         expect {
@@ -139,7 +148,7 @@ describe JuniorConsultantsController do
     end
   end
 
-  describe "PUT update" do
+  describe "-- Admin PUT update" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user
@@ -160,9 +169,7 @@ describe JuniorConsultantsController do
         junior_consultant = FactoryGirl.create(:junior_consultant, :user => user)
 
         valid_attributes =
-          { name: user.name,
-            email: user.email,
-            reviewing_group_id: @rgm.id,
+          { reviewing_group_id: @rg.id,
             notes: "This is a dev",
             coach_id: @coach.name,
             user_id: junior_consultant.user.name
@@ -198,7 +205,7 @@ describe JuniorConsultantsController do
     end
   end
 
-  describe "DELETE destroy" do
+  describe "-- Admin DELETE destroy" do
     before(:each) do
       @admin_user = FactoryGirl.create(:admin_user)
       set_current_user @admin_user

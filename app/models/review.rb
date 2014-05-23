@@ -6,7 +6,7 @@ class Review < ActiveRecord::Base
   validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
   validates :junior_consultant_id, :presence => true
   validates :junior_consultant_id, :uniqueness => {:scope => [:review_type]}
-  validates :feedback_deadline, :presence => true
+  # validates :feedback_deadline, :presence => true
 
   has_many :feedbacks, :dependent => :destroy
   has_many :self_assessments, :dependent => :destroy
@@ -55,7 +55,7 @@ class Review < ActiveRecord::Base
     questions["Professionalism"] = Question.new("Professionalism", "Professionalism", ["professionalism_exceeded", "professionalism_met", "professionalism_improve"],
                                                "<p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>")
     questions["Organizational"] = Question.new("Organizational", "Organizational Involvement", ["organizational_exceeded", "organizational_met", "organizational_improve"],
-                                               "<p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>" + 
+                                               "<p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
                                                "<p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>" +
                                                "<p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>")
     questions["Innovative"] = Question.new("Innovative", "Innovation/Out of the box thinking", ["innovative_exceeded", "innovative_met", "innovative_improve"],
@@ -64,14 +64,14 @@ class Review < ActiveRecord::Base
     # new-style questions
     questions["Role Competence"] = Question.new("Role Competence", "Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
                                                 "<p> <b>Understanding:</b> Tech stack, domain, trust to onboard others <br />" +
-                                                "<b>Ownership of concept:</b> go-to person for specific questions, accountability, leads discussions, confidence<br />" + 
+                                                "<b>Ownership of concept:</b> go-to person for specific questions, accountability, leads discussions, confidence<br />" +
                                                 "<b>Learnings:</b> Eager to learn new tools/apps/languages, ability to apply learnings, innovative, side projects, self directed learnings<br />" +
                                                 "<b>Effective collaborator:</b> Good knowledge transfer, effective pair, knows shortcut keys, drives/navagates/rotates pairs, desk checks<br /></p>",
                                                 "role_competence_scale")
     questions["Consulting Skills"] = Question.new("Consulting Skills", "Consulting Skills", ["consulting_skills_went_well", "consulting_skills_to_be_improved"],
                                                   "<p><b>Customer Commitment:</b> understand what the client really needs, understand deadlines and why they are important, building relationships with the client, being able to influence client de    velopers to use technologies<br />" +
                                                   "<b>Communication skils:</b> Asks questions, professionally offers concerns and alternative solutions, ability to influence, push back when needed<br />" +
-                                                  "<b>Delivery:</b> Stretches to deliver if need be, understands need to deliver on time<br />" + 
+                                                  "<b>Delivery:</b> Stretches to deliver if need be, understands need to deliver on time<br />" +
                                                   "<b>Aware of Perceptions:</b> professional client facing presence, good understanding of business needs vs. personal wants<br /></p>",
                                                   "consulting_skills_scale")
 
@@ -134,7 +134,7 @@ class Review < ActiveRecord::Base
   end
 
   def to_s
-    "#{junior_consultant} - #{review_type}"
+    "#{junior_consultant.user.name} - #{review_type}"
   end
 
   def has_existing_feedbacks?

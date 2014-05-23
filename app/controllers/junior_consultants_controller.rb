@@ -83,7 +83,7 @@ class JuniorConsultantsController < ApplicationController
 
   def autocomplete_jc_name
     jc_names = JuniorConsultant.select([:name]).where("name ILIKE ?", "%#{params[:name]}%")
-    @result = jc_names.collect { |jc| {value: jc.name}  }
+    @result = jc_names.collect { |jc| {value: jc.user.name}  }
     render json: @result
   end
 

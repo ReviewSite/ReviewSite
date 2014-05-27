@@ -1,4 +1,4 @@
-<%= form_for(@user) do |f| %>
+<%= nested_form_for @user do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -28,6 +28,13 @@
       <%= f.hidden_field :okta_name, value: current_okta_name %>
     <% end %>
   </div>
+
+
+  <div class="field">
+    <%= check_box_tag 'isjc' %> <b>This user is a Junior Consultant</b>
+  </div>
+
+  <%= f.fields_for :junior_consultants %>
 
   <div class="actions">
     <%= f.submit "#{button_title}" %>

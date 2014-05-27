@@ -1,0 +1,14 @@
+<div class="field">
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :reviewing_group_id %>
+    <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup) %>
+  </div>
+  <div>
+    <%= f.label :coach_id %>
+    <%# <% coach = @junior_consultant.persisted? && !@junior_consultant.coach.nil? ? @junior_consultant.coach.name : '' %1> %>
+    <%= f.text_field :coach_id, value: '', class: 'coach_with_autocomplete input-xlarge',
+                      'data-autocompleteUrl' => autocomplete_coach_name_users_path, remote: true %>
+  </div>

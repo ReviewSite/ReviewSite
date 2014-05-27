@@ -55,7 +55,7 @@ describe "User pages" do
         visit root_path
         within "#okta-input" do
           fill_in "temp-okta", with: "roberto"
-          click_button "Set OKTA"
+          click_button "Set new OKTA user"
         end
         visit new_user_path
       }

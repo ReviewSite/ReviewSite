@@ -13,3 +13,8 @@
  *= require_tree .
  *= require datepicker
  */
+
+
+.fields {
+  display: none;
+}

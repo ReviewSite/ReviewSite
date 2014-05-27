@@ -28,4 +28,14 @@ jQuery (function () {
     preventDuplicates: true
   });
 
+
+  $("#isjc").change(function() {
+    if (this.checked) {
+      $(".fields").show();
+    } else {
+      $(".fields").hide();
+    }
+  });
+
+
 });

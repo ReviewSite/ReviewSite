@@ -7,7 +7,7 @@ class JuniorConsultant < ActiveRecord::Base
   has_many :reviews, :dependent => :destroy
 
   validates :coach_id, :numericality => { :only_integer => true }, :allow_blank => true
-  validates :user, presence: true, :allow_blank => false
+  # validates :user, presence: true, :allow_blank => false
 
   def to_s
     self.user.name

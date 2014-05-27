@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :junior_consultants
   has_many :feedbacks
 
+  accepts_nested_attributes_for :junior_consultants, :reject_if => :all_blank, :limit => 1
+
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,
                        uniqueness: { case_sensitive: false },

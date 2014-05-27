@@ -22,7 +22,15 @@ class UsersController < ApplicationController
   def edit; end
 
   def create
+
+    jc_attributes = params[:user][:junior_consultants_attributes]
+
+    if jc_attributes.present? && jc_attributes.values.first[:coach_id].present?
+      params[:user][:junior_consultants_attributes].values.first[:coach_id] = User.find_by_name(jc_attributes.values.first[:coach_id]).id
+    end
+
     @user = User.new(params[:user])
+
     if @user.save
       UserMailer.registration_confirmation(@user).deliver
       flash[:success] = "User has been successfully created."

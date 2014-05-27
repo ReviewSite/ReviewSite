@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "User pages" do
+describe "User pages: " do
   subject { page }
 
-  describe "edit" do
+  describe "EDIT/UPDATE" do
     let(:user) { FactoryGirl.create(:user) }
 
     before do
@@ -16,7 +16,7 @@ describe "User pages" do
       it { title.should == "Review Site | Edit user" }
     end
 
-    describe "with valid information" do
+    describe "user with valid information" do
       let(:new_name)  { "Imma NewName" }
       let(:new_email) { "immanew@example.com" }
 
@@ -26,18 +26,13 @@ describe "User pages" do
         click_button "Save changes"
       end
 
-      it "should derpaderp" do
-        current_path.should eql root_path
-#        current_path.should eql user_path(user)
-      end
-
       it { should have_selector('div.alert.alert-success') }
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
     end
 
-    describe "with invalid information" do
+    describe "user with invalid information" do
       before do
         fill_in "Name", with: "a"
         fill_in "Email", with: "b"
@@ -47,7 +42,7 @@ describe "User pages" do
     end
   end
 
-  describe "new" do
+  describe "NEW/CREATE action" do
     before { ActionMailer::Base.deliveries.clear }
 
     describe "as a new user" do
@@ -73,7 +68,6 @@ describe "User pages" do
         click_button 'Create Account'
 
         current_path.should eql root_path
-        # breakpoint
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -88,9 +82,16 @@ describe "User pages" do
     end
 
     describe "as an admin" do
-      it "creates an account and sends an email" do
+
+      let!(:coach) { FactoryGirl.create(:coach) }
+      let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
+
+      before do
         sign_in FactoryGirl.create(:admin_user)
         visit new_user_path
+      end
+
+      it "creates an account and sends an email" do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
         fill_in "Okta name", with: "roberto"
@@ -108,10 +109,39 @@ describe "User pages" do
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
       end
+
+      it "creates a jc account and sends an email" do
+        fill_in "Name", with: "Roberto Glob"
+        fill_in "Email", with: "test2@example.com"
+        fill_in "Okta name", with: "glob"
+        check('isjc')
+
+        fill_in "Notes", with: "Here are some notes"
+        select reviewing_group.name, from: "Reviewing group"
+        fill_in "Coach", with: coach.name
+
+        click_button 'Create Account'
+
+        current_path.should eql users_path
+        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+
+        new_user = User.last
+        new_jc = JuniorConsultant.last
+        new_user.should == new_jc.user
+
+        ActionMailer::Base.deliveries.length.should == 1
+        mail = ActionMailer::Base.deliveries.last
+        mail.to.should == ["test2@example.com"]
+        mail.subject.should == "You were registered on the ReviewSite"
+
+        new_user.name.should == "Roberto Glob"
+        new_user.email.should == "test2@example.com"
+      end
     end
 
     describe "as a non-admin user" do
-      it "does not allow other logged-in users to create new users" do
+
+      it "cannot create new users" do
         sign_in FactoryGirl.create(:user)
         visit new_user_path
         current_path.should == root_path
@@ -120,7 +150,7 @@ describe "User pages" do
     end
   end
 
-  describe "show" do
+  describe "SHOW page" do
     let (:admin) { FactoryGirl.create(:admin_user) }
     let!(:user) { FactoryGirl.create(:user) }
 
@@ -158,7 +188,7 @@ describe "User pages" do
     end
   end
 
-  describe "index" do
+  describe "INDEX page" do
     let!(:user) { FactoryGirl.create(:user, name: 'Andy', email: 'andy@example.com') }
     let!(:admin) { FactoryGirl.create(:admin_user) }
 
@@ -225,7 +255,8 @@ describe "User pages" do
     end
   end
 
-  describe "feedbacks" do
+ #TODO: why are the feedback tests in user_pages_spec?
+  describe "FEEDBACKS" do
     let(:reviewer) { FactoryGirl.create(:user) }
     let(:jc) { FactoryGirl.create(:junior_consultant) }
     let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }

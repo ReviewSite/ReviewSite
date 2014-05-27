@@ -31,7 +31,7 @@
 
 
   <div class="field">
-    <%= check_box_tag 'isjc' %> <b>This user is a Junior Consultant</b>
+    <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
   </div>
 
   <%= f.fields_for :junior_consultants %>

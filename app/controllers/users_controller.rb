@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user.junior_consultants.build
+    @user.build_junior_consultant
   end
 
   def index
@@ -22,11 +22,10 @@ class UsersController < ApplicationController
   def edit; end
 
   def create
+    jc_attributes = params[:user][:junior_consultant_attributes]
 
-    jc_attributes = params[:user][:junior_consultants_attributes]
-
-    if jc_attributes.present? && jc_attributes.values.first[:coach_id].present?
-      params[:user][:junior_consultants_attributes].values.first[:coach_id] = User.find_by_name(jc_attributes.values.first[:coach_id]).id
+    if jc_attributes.present? && jc_attributes[:coach_id].present?
+      params[:user][:junior_consultant_attributes][:coach_id] = User.find_by_name(jc_attributes[:coach_id]).id
     end
 
     @user = User.new(params[:user])

@@ -3,10 +3,12 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
-  has_many :junior_consultants
+  # has_many :junior_consultants
+  has_many :coachees, :class_name => "JuniorConsultant"
+  has_one :junior_consultant
   has_many :feedbacks
 
-  accepts_nested_attributes_for :junior_consultants, :reject_if => :all_blank, :limit => 1
+  accepts_nested_attributes_for :junior_consultant, :reject_if => :all_blank
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,

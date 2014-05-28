@@ -110,7 +110,7 @@ describe "User pages: " do
         new_user.email.should == "test@example.com"
       end
 
-      it "creates a jc account and sends an email" do
+      it "creates a jc account" do
         fill_in "Name", with: "Roberto Glob"
         fill_in "Email", with: "test2@example.com"
         fill_in "Okta name", with: "glob"
@@ -126,16 +126,8 @@ describe "User pages: " do
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         new_user = User.last
-        new_jc = JuniorConsultant.last
-        new_user.should == new_jc.user
+        page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'true')
 
-        ActionMailer::Base.deliveries.length.should == 1
-        mail = ActionMailer::Base.deliveries.last
-        mail.to.should == ["test2@example.com"]
-        mail.subject.should == "You were registered on the ReviewSite"
-
-        new_user.name.should == "Roberto Glob"
-        new_user.email.should == "test2@example.com"
       end
     end
 
@@ -238,7 +230,7 @@ describe "User pages: " do
         page.should have_selector('div.alert.alert-success', text: 'User deleted.')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')
-        page.should_not have_selector('td', text: 'false')
+        page.should_not have_selector('td.delete', text: 'false')
       end
     end
 

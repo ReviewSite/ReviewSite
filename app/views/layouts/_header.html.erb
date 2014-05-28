@@ -29,9 +29,6 @@
 
           <% if signed_in? %>
 
-              <% if can? :manage, JuniorConsultant %>
-                  <li><%= link_to "Junior Consultants", junior_consultants_path %></li>
-              <%end%>
               <% if can? :read, Feedback %>
                 <li><%= link_to "Feedback From Me", feedbacks_user_path(current_user) %></li>
               <% end %>

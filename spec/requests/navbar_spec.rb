@@ -14,13 +14,6 @@ describe "Navbar" do
     it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
     it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
 
-    it "should link to junior consultants index page" do
-      within(".navbar-fixed-top") do
-        click_link "Junior Consultants"
-      end
-      current_path.should == junior_consultants_path
-    end
-
     it "should link to reviewing group index page" do
       within(".navbar-fixed-top") do
         click_link "Reviewing Group"
@@ -48,7 +41,7 @@ describe "Navbar" do
         click_link "Home"
       end
       current_path.should == root_path
-    end    
+    end
 
     it "should link to homepage via site name" do
       visit signin_path
@@ -56,7 +49,7 @@ describe "Navbar" do
         click_link "Review Site"
       end
       current_path.should == root_path
-    end    
+    end
   end
 
   describe "as a normal user" do
@@ -94,7 +87,7 @@ describe "Navbar" do
         click_link "Home"
       end
       current_path.should == root_path
-    end    
+    end
 
     it "should link to homepage via site name" do
       visit signin_path
@@ -102,7 +95,7 @@ describe "Navbar" do
         click_link "Review Site"
       end
       current_path.should == root_path
-    end    
+    end
   end
 
   describe "not signed in" do

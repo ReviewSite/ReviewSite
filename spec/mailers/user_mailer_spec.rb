@@ -126,7 +126,7 @@ describe UserMailer do
 
 
   describe "Feedback reminder" do
-    let (:jc) { FactoryGirl.create(:junior_consultant, name: "Bob Smith") }
+    let (:jc) { FactoryGirl.create(:junior_consultant) }
     let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.new(2020, 1, 1)) }
     let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }

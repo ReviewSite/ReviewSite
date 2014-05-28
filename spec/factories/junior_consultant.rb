@@ -3,5 +3,6 @@ FactoryGirl.define do
     notes "This is a note about something"
     coach
     user
+    reviewing_group
   end
 end

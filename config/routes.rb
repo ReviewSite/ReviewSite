@@ -27,10 +27,8 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  resources :junior_consultants, :except => [:show] do
-    collection do
-      get :autocomplete_jc_name
-    end
+  scope :junior_consultants, :controller => 'junior_consultants' do
+    get 'autocomplete_jc_name'
   end
 
   root :to => 'welcome#index'

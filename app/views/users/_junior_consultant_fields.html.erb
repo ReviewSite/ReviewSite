@@ -4,7 +4,7 @@
   </div>
   <div class="field">
     <%= f.label :reviewing_group_id %>
-    <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup) %>
+    <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup), :include_blank => "Select Associated Reviewing Group" %>
   </div>
   <div>
     <%= f.label :coach_id %>

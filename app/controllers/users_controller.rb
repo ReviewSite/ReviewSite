@@ -71,9 +71,9 @@ class UsersController < ApplicationController
     @feedbacks = @user.feedbacks
   end
 
-  def autocomplete_coach_name
-    coach_names = User.select([:name]).where("name ILIKE ?", "%#{params[:name]}%")
-    @result = coach_names.collect { |coach| {value: coach.name} }
+  def autocomplete_user_name
+    user_names = User.select([:name]).where("name ILIKE ?", "%#{params[:name]}%")
+    @result = user_names.collect { |user| {value: user.name} }
     render json: @result
   end
 

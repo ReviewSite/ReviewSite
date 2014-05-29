@@ -27,10 +27,6 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  scope :junior_consultants, :controller => 'junior_consultants' do
-    get 'autocomplete_jc_name'
-  end
-
   root :to => 'welcome#index'
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit]
@@ -50,7 +46,11 @@ ReviewSite::Application.routes.draw do
 
   resources :users do
     get :feedbacks, :on => :member
-    get :autocomplete_coach_name, :on => :collection
+    # get :autocomplete_coach_name, :on => :collection
+  end
+
+  scope :users, :controller => 'users' do
+    get 'autocomplete_user_name'
   end
 
   if ENV['OKTA-TEST-MODE']

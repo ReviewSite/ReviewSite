@@ -24,6 +24,11 @@ class User < ActiveRecord::Base
     self.name
   end
 
+  def jc?
+    !self.junior_consultant.nil?
+  end
+
+
   def request_password_reset
     self.update_column(:password_reset_token, SecureRandom.urlsafe_base64)
     self.update_column(:password_reset_sent_at, Time.zone.now)

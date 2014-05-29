@@ -17,7 +17,7 @@
     <tr id="user_<%= user.id %>">
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td class="jc" ><%= !user.junior_consultant.nil? %></td>
+        <td class="jc" ><%= user.jc? %></td>
         <td><%= user.admin %></td>
         <td>
           <% if can? :read, user %>

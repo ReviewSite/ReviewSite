@@ -117,5 +117,15 @@ describe User do
       end
     end
   end
+
+  describe "#jc?" do
+    it "returns true if a user is a jc" do
+      user = FactoryGirl.create(:user)
+      jc = FactoryGirl.create(:junior_consultant, :user => user)
+
+      user.jc?.should eq(true)
+    end
+  end
+
 end
-  
+

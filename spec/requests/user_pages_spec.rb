@@ -128,6 +128,14 @@ describe "User pages: " do
         new_user = User.last
         page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'true')
 
+        visit user_path(new_user)
+
+        new_jc = new_user.junior_consultant
+        page.should have_selector("#isJC", text: 'true')
+        page.should have_selector("#notes", text: new_jc.notes)
+        page.should have_selector("#reviewing-group", text: new_jc.reviewing_group)
+        page.should have_selector("#coach", text: new_jc.coach)
+
       end
     end
 

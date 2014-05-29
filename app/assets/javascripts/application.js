@@ -28,6 +28,11 @@ jQuery (function () {
     preventDuplicates: true
   });
 
+$("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
+    crossDomain: false,
+    prePopulate: $("#user_junior_consultant_attributes_coach_id").data("pre"),
+    tokenLimit: 1
+  });
 
   $("#isjc").change(function() {
     if (this.checked) {

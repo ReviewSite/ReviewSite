@@ -8,6 +8,7 @@ gem 'bootstrap-sass', '~> 2.3.0.1'
 gem 'cancan'
 gem 'exception_notification'
 gem 'nested_form'
+gem 'bootstrap-datepicker-rails'
 
 gem 'pg'
 gem 'jquery-datatables-rails'

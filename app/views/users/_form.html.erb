@@ -30,20 +30,24 @@
     <%= f.hidden_field :okta_name, value: current_okta_name %>
   <% end %>
 
+  <% if signed_in? and current_user.admin? and current_user != @user %> 
+    <div class="field">
 
-  <div class="field">
+      <% if @user.jc? %>
+        <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "This user is a Junior Consultant" %>
+      <% else %>
+        <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
+      <% end %>
 
-    <% if @user.jc? %>
-      <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "This user is a Junior Consultant" %>
-    <% else %>
-      <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
-    <% end %>
+    </div>
 
-  </div>
+    <%= f.fields_for :junior_consultant %>
 
-  <%= f.fields_for :junior_consultant %>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "#{button_title}" %>
   </div>
+
 <% end %>
+

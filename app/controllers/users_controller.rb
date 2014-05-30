@@ -19,7 +19,11 @@ class UsersController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit
+    if @user.junior_consultant.nil?
+      @user.build_junior_consultant
+    end
+  end
 
   def create
     jc_attributes = params[:user][:junior_consultant_attributes]

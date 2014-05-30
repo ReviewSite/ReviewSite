@@ -40,10 +40,9 @@ jQuery (function () {
     $(".fields").hide();
   }
 
-  $("#isjc").change(function() {
+  $("#isjc").on('change', function() {
     $(".fields").toggle();
   });
-
 
 
 

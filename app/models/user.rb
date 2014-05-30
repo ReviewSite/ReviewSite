@@ -3,7 +3,7 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
-  # has_many :junior_consultants
+
   has_many :coachees, :class_name => "JuniorConsultant"
   has_one :junior_consultant
   has_many :feedbacks
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   end
 
   def jc?
-    !self.junior_consultant.nil?
+    !self.junior_consultant.nil? && self.junior_consultant.persisted?
   end
 
 

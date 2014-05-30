@@ -15,23 +15,30 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+
   <div class="field">
     <%= f.label :email %><br />
     <%= f.text_field :email %>
   </div>
 
-  <div class="field">
-    <% if signed_in? and current_user.admin? %>
+  <% if signed_in? and current_user.admin? %>
+    <div class="field">
       <%= f.label :okta_name %><br />
       <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
-    <% else %> 
-      <%= f.hidden_field :okta_name, value: current_okta_name %>
-    <% end %>
-  </div>
+    </div>
+  <% else %> 
+    <%= f.hidden_field :okta_name, value: current_okta_name %>
+  <% end %>
 
 
   <div class="field">
-    <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
+
+    <% if @user.jc? %>
+      <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "This user is a Junior Consultant" %>
+    <% else %>
+      <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
+    <% end %>
+
   </div>
 
   <%= f.fields_for :junior_consultant %>

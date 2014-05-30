@@ -28,19 +28,23 @@ jQuery (function () {
     preventDuplicates: true
   });
 
-$("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
+  $("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
     crossDomain: false,
     prePopulate: $("#user_junior_consultant_attributes_coach_id").data("pre"),
     tokenLimit: 1
   });
 
+  if ($("#isjc")[0].checked) {
+    $(".fields").show();
+  } else {
+    $(".fields").hide();
+  }
+
   $("#isjc").change(function() {
-    if (this.checked) {
-      $(".fields").show();
-    } else {
-      $(".fields").hide();
-    }
+    $(".fields").toggle();
   });
+
+
 
 
 });

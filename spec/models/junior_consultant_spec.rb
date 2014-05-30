@@ -14,6 +14,11 @@ describe JuniorConsultant do
   it{ should respond_to(:reviewing_group_id)}
   it{ should respond_to(:coach_id)}
 
+  describe "has associations" do
+    it { should belong_to(:user) }
+  end
+
+
   it "can have a reviewing group" do
     @jc.reviewing_group = FactoryGirl.create(:reviewing_group)
     @jc.valid?.should == true

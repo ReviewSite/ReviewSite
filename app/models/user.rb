@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
   has_many :coachees, :class_name => "JuniorConsultant"
-  has_one :junior_consultant
+  has_one :junior_consultant, :dependent => :destroy
   has_many :feedbacks
 
   accepts_nested_attributes_for :junior_consultant, :reject_if => :all_blank

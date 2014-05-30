@@ -26,12 +26,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    jc_attributes = params[:user][:junior_consultant_attributes]
-
-    if jc_attributes.present? && jc_attributes[:coach_id].present?
-      params[:user][:junior_consultant_attributes][:coach_id] = User.find_by_name(jc_attributes[:coach_id]).id
-    end
-
     @user = User.new(params[:user])
 
     if @user.save

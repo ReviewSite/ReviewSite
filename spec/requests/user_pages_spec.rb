@@ -118,7 +118,7 @@ describe "User pages: " do
 
         fill_in "Notes", with: "Here are some notes"
         select reviewing_group.name, from: "Reviewing group"
-        fill_in "Coach", with: coach.name
+        fill_in "Coach", with: coach.id
 
         click_button 'Create Account'
 

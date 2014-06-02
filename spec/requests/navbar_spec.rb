@@ -28,13 +28,6 @@ describe "Navbar" do
       current_path.should == reviewing_groups_path
     end
 
-    it "should link to reviewing group members index page" do
-      within(".navbar-fixed-top") do
-        click_link "Reviewing Group Members"
-      end
-      current_path.should == reviewing_group_members_path
-    end
-
     it "should link to users index page" do
       within(".navbar-fixed-top") do
         click_link "Users"

@@ -7,6 +7,7 @@ gem 'bcrypt-ruby', '3.0.0'
 gem 'bootstrap-sass', '~> 2.3.0.1'
 gem 'cancan'
 gem 'exception_notification'
+gem 'nested_form'
 
 gem 'pg'
 gem 'jquery-datatables-rails'
@@ -33,6 +34,8 @@ group :development, :test do
   gem 'rspec-rails', '2.9.0'
   gem 'guard-rspec', '0.5.5'
   gem 'travis-lint'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :test do

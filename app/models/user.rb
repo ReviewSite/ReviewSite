@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
     not password_digest.nil?
   end
 
-  def matches_password?(unencrypted_password) 
+  def matches_password?(unencrypted_password)
     BCrypt::Password.new(password_digest) == unencrypted_password
   end
 end

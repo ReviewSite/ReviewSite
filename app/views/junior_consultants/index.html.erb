@@ -16,8 +16,8 @@
   <tbody>
   <% @junior_consultants.each do |junior_consultant| %>
       <tr>
-        <td><%= junior_consultant.name %></td>
-        <td><%= junior_consultant.email %></td>
+        <td><%= junior_consultant.user.name %></td>
+        <td><%= junior_consultant.user.email %></td>
         <td><%= junior_consultant.notes %></td>
         <td><%= junior_consultant.coach ? (link_to junior_consultant.coach.name, user_path(junior_consultant.coach)) : "No coach assigned!" %></td>
         <td><%= link_to 'Edit', edit_junior_consultant_path(junior_consultant) %></td>

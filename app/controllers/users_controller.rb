@@ -7,7 +7,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.where("name ILIKE ?", "%#{params[:q]}%")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }
+    end
+
   end
 
   def show; end
@@ -19,7 +25,13 @@ class UsersController < ApplicationController
     if @user.save
       UserMailer.registration_confirmation(@user).deliver
       flash[:success] = "User has been successfully created."
-      redirect_to root_path
+
+      if current_user && current_user.admin?
+        redirect_to users_path
+      else
+        redirect_to root_path
+      end
+
     else
       render 'new'
     end
@@ -28,7 +40,14 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
-      redirect_to root_url
+
+      if current_user.admin?
+        redirect_to users_path
+      else
+        redirect_to root_path
+#        redirect_to user_path(@user)
+      end
+
     else
       render 'edit'
     end
@@ -36,7 +55,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    flash[:success] = "User destroyed."
+    flash[:success] = "User deleted."
     redirect_to users_url
   end
 

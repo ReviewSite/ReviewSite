@@ -4,11 +4,10 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = [];
-     Review.includes({:junior_consultant => :coach}, 
-                    {:junior_consultant => 
-                        {:reviewing_group => 
-                            {:reviewing_group_members => :user}}}, 
-                    :feedbacks, 
+     Review.includes({:junior_consultant => :coach},
+                    {:junior_consultant =>
+                        {:reviewing_group => :users}},
+                    :feedbacks,
                     :invitations).all.each do |review|
         if can? :summary, review
           @reviews << review
@@ -41,7 +40,9 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    params[:review][:junior_consultant_id] = JuniorConsultant.find_by_name(params[:review][:junior_consultant_id]).id
+
+    params[:review][:junior_consultant_id] = find_jc_id_from_user_name(params[:review][:junior_consultant_id])
+
     @review = Review.new(params[:review])
     respond_to do |format|
       if @review.save
@@ -57,6 +58,9 @@ class ReviewsController < ApplicationController
   # PUT /reviews/1
   # PUT /reviews/1.json
   def update
+
+    # params[:review][:feedback_deadline] = Date.strptime(params[:review][:feedback_deadline], "%m/%d/%Y")
+
     respond_to do |format|
       if @review.update_attributes(params[:review])
         format.html { redirect_to @review, notice: 'Review was successfully updated.' }
@@ -103,8 +107,14 @@ class ReviewsController < ApplicationController
     end
   end
 
-  private 
+
+  private
+  def find_jc_id_from_user_name(name)
+    JuniorConsultant.joins(:user).where(users: { name: name }).first.id
+  end
+
+  private
   def load_review
-    @review = Review.find params[:id] 
+    @review = Review.find params[:id]
   end
 end

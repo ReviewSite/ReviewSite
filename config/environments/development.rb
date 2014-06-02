@@ -58,4 +58,8 @@ ReviewSite::Application.configure do
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
 
   ENV['OKTA-TEST-MODE'] = "true"
+  ENV['URL_CALLBACK'] = "http://localhost:9292/auth/saml/callback"
+  ENV['TARGET_URL'] = "https://thoughtworks.oktapreview.com/app/template_saml_2_0/k2eulbsbVVITQLIFHADM/sso/saml"
+  ENV['FINGERPRINT'] = "B8:53:D4:A7:E6:1B:86:FF:4E:91:F6:2D:34:EB:A6:A2:8F:89:9E:6F"
+  ENV['URL'] = "https://localhost:9292"
 end

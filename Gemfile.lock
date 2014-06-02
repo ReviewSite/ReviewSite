@@ -152,6 +152,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.9.3)
     multi_test (0.1.1)
+    nested_form (0.3.2)
     nokogiri (1.5.11)
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
@@ -165,6 +166,8 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-nav (0.2.3)
+      pry (~> 0.9.10)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -283,9 +286,12 @@ DEPENDENCIES
   jquery-datatables-rails
   jquery-rails
   launchy (~> 2.1.2)
+  nested_form
   omniauth
   omniauth-saml
   pg
+  pry
+  pry-nav
   rack_session_access
   rails (= 3.2.12)
   rake

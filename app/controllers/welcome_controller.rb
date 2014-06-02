@@ -1,15 +1,18 @@
 class WelcomeController < ApplicationController
   skip_authorization_check
 
+  def contributors
+  end
+
+
   def index
     redirect_to signup_path unless signed_in?
 
     @reviews = []
-    Review.includes({:junior_consultant => :coach}, 
-                    {:junior_consultant => 
-                        {:reviewing_group => 
-                            {:reviewing_group_members => :user}}}, 
-                    :feedbacks, 
+    Review.includes({:junior_consultant => :coach},
+                    {:junior_consultant =>
+                        {:reviewing_group => :users}},
+                    :feedbacks,
                     :invitations).all.each do |review|
       if can? :read, review or can? :summary, review
         @reviews << review

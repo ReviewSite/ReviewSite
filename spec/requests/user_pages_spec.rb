@@ -17,13 +17,18 @@ describe "User pages" do
     end
 
     describe "with valid information" do
-      let(:new_name)  { "New Name" }
-      let(:new_email) { "new@example.com" }
+      let(:new_name)  { "Imma NewName" }
+      let(:new_email) { "immanew@example.com" }
 
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
         click_button "Save changes"
+      end
+
+      it "should derpaderp" do
+        current_path.should eql root_path
+#        current_path.should eql user_path(user)
       end
 
       it { should have_selector('div.alert.alert-success') }
@@ -67,7 +72,8 @@ describe "User pages" do
         fill_in "Email", with: "test@example.com"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should eql root_path
+        # breakpoint
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -90,7 +96,7 @@ describe "User pages" do
         fill_in "Okta name", with: "roberto"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should eql users_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -162,7 +168,7 @@ describe "User pages" do
         visit users_path
       end
 
-      it { should have_selector('h1', text: 'Listing users') }
+      it { should have_selector('h1', text: 'Manage Users') }
       it { should have_selector('th', text: 'Name') }
       it { should have_selector('th', text: 'Email') }
       it { should have_selector('th', text: 'Admin') }
@@ -181,7 +187,7 @@ describe "User pages" do
 
       it "should link to show" do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Show"
+          click_link "View Profile"
           current_path.should == user_path(user)
         end
       end
@@ -196,10 +202,10 @@ describe "User pages" do
       it "should link to destroy", js: true do
         page.driver.browser.accept_js_confirms
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Destroy"
+          click_link "Delete"
           current_path.should == users_path
         end
-        page.should have_selector('div.alert.alert-success', text: 'User destroyed.')
+        page.should have_selector('div.alert.alert-success', text: 'User deleted.')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')
         page.should_not have_selector('td', text: 'false')
@@ -232,7 +238,7 @@ describe "User pages" do
 
       it "displays the feedback with a 'Continue' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: jc.user.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
@@ -247,7 +253,7 @@ describe "User pages" do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: jc.user.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)

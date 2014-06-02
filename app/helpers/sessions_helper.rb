@@ -37,6 +37,10 @@ module SessionsHelper
 
   def current_okta_name
     if ENV['OKTA-TEST-MODE']
+#      "newuser" #change every time if not clearing db
+      # "abcde"
+      # "imajc"
+     # "admin"
       session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
       session[:userinfo].split("@")[0]

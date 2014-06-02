@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe "Invitations" do  
+describe "Invitations" do
   let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:jc) { FactoryGirl.create(:junior_consultant) }
-  let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
+  let(:jc_user) { FactoryGirl.create(:user) }
+  let(:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
   let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.tomorrow) }
 
   subject { page }
 
   describe "invitation form" do
-    
+
     context "as admin" do
       before do
         sign_in admin

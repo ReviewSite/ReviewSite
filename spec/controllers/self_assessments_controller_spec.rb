@@ -4,7 +4,7 @@ describe SelfAssessmentsController do
   before(:each) do
     @user = FactoryGirl.create(:user)
     set_current_user (@user)
-    @jc = FactoryGirl.create(:junior_consultant, :email => @user.email)
+    @jc = FactoryGirl.create(:junior_consultant, :user => @user)
     @review = FactoryGirl.create(:review, :junior_consultant => @jc)
   end
 

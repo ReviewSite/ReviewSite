@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Self assessment page" do
   let (:admin) { FactoryGirl.create(:admin_user) }
   let (:jc_user) { FactoryGirl.create(:user) }
-  let (:jc) { FactoryGirl.create(:junior_consultant, email: jc_user.email) }
+  let (:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
   let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
   let (:feedback) { FactoryGirl.create(:feedback) }
 

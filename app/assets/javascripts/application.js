@@ -16,3 +16,16 @@
 //= require bootstrap
 //= require_tree .
 //= require bootstrap-datepicker
+//
+//
+//
+
+
+jQuery (function () {
+  $("#reviewing_group_user_tokens").tokenInput("/users.json", {
+    crossDomain: false,
+    prePopulate: $("#reviewing_group_user_tokens").data("pre"),
+    preventDuplicates: true
+  });
+
+});

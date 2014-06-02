@@ -9,7 +9,7 @@ describe "reviews/edit" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => reviews_path(@review), :method => "post" do
-      rendered.should match(@review.junior_consultant.name)
+      rendered.should match(@review.junior_consultant.user.name)
       assert_select "select#review_review_type", :name => "review[review_type]"
     end
   end

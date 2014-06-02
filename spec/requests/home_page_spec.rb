@@ -4,8 +4,8 @@ describe "Home page" do
   let (:admin) { FactoryGirl.create :admin_user }
   let (:coach) { FactoryGirl.create :user }
   let (:reviewer) { FactoryGirl.create :user }
-  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach }
-  let (:jc_user) { FactoryGirl.create :user, email: jc.email}
+  let (:jc_user) { FactoryGirl.create :user}
+  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach, :user => jc_user }
   let! (:review) { FactoryGirl.create :review, junior_consultant: jc, feedback_deadline: Date.tomorrow }
   let! (:feedback) { FactoryGirl.create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 
@@ -29,7 +29,7 @@ describe "Home page" do
     describe "as admin" do
       before { sign_in admin }
 
-      it { should have_selector("table.reviews td", text: jc.name) }
+      it { should have_selector("table.reviews td", text: jc.user.name) }
       it { should have_selector("table.reviews td", text: review.review_type) }
       it { should have_selector("table.reviews td.feedback_submitted", text: "0 / 1") }
       it { should have_selector("table.reviews td.review_date", text: review.review_date.to_s) }
@@ -111,7 +111,7 @@ describe "Home page" do
 
       it { should have_selector('th', text: 'Action') }
       it { should have_selector("table.feedback td", text: reviewer.name) }
-      it { should have_selector("table.feedback td", text: jc.name) }
+      it { should have_selector("table.feedback td", text: jc.user.name) }
       it { should have_selector("table.feedback td", text: review.review_type) }
       it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
       it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
@@ -197,11 +197,11 @@ describe "Home page" do
 
         it "should display table with feedback details" do
           visit root_path
-          page.should have_selector('table.unfinished_feedbacks td', text: jc.name)
+          page.should have_selector('table.unfinished_feedbacks td', text: jc.user.name)
           page.should have_selector('table.unfinished_feedbacks td', text: review.review_type)
           page.should have_selector('table.unfinished_feedbacks td', text: review.feedback_deadline.to_s)
           page.should have_selector('table.unfinished_feedbacks td', text: "Not Submitted")
-          
+
           within('.unfinished_feedbacks') { click_link "Continue" }
           current_path.should == edit_review_feedback_path(review, feedback)
         end
@@ -222,7 +222,7 @@ describe "Home page" do
       it "should have 'Create' action and 'Not Started' status if feedback is not started" do
         visit root_path
         page.should have_selector('h2', text: 'Provide Feedback For')
-        page.should have_selector('table.unfinished_feedbacks td', text: jc.name)
+        page.should have_selector('table.unfinished_feedbacks td', text: jc.user.name)
         page.should have_selector('table.unfinished_feedbacks td', text: review.review_type)
         page.should have_selector('td.invitation_date', text: invitation.sent_date.to_s)
         page.should have_selector('td.feedback_deadline', text: review.feedback_deadline.to_s)
@@ -237,7 +237,7 @@ describe "Home page" do
 
         visit root_path
         page.should have_selector('h2', text: 'Provide Feedback For')
-        page.should have_selector('table.unfinished_feedbacks td', text: jc.name)
+        page.should have_selector('table.unfinished_feedbacks td', text: jc.user.name)
         page.should have_selector('table.unfinished_feedbacks td', text: review.review_type)
         page.should have_selector('td.invitation_date', text: invitation.sent_date.to_s)
         page.should have_selector('td.feedback_deadline', text: review.feedback_deadline.to_s)

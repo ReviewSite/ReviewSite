@@ -33,6 +33,9 @@ div {
   &.field, &.actions {
     margin-bottom: 10px;
   }
+  &.actions {
+    margin-top: 20px;
+  }
 }
 
 #notice {

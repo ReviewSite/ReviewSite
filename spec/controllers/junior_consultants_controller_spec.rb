@@ -156,16 +156,16 @@ describe JuniorConsultantsController do
       end
 
       it "assigns the requested junior_consultant as @junior_consultant" do
+        junior_consultant = FactoryGirl.create(:junior_consultant)
         user = FactoryGirl.create(:user)
-        junior_consultant = FactoryGirl.create(:junior_consultant, :user => user)
 
-        valid_attributes =
+        valid_attributes = 
           { name: user.name,
             email: user.email,
             reviewing_group_id: @rgm.id,
             notes: "This is a dev",
             coach_id: @coach.name,
-            user_id: junior_consultant.user.name
+            user_id: junior_consultant.name
           }
 
         put :update, {:id => junior_consultant.to_param, :junior_consultant => valid_attributes}, valid_session

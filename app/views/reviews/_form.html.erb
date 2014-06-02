@@ -15,7 +15,7 @@
     <div class="control-group">
         <% if @review.persisted? %>
           <%= f.label :junior_consultant_id %>
-          <%= @review.junior_consultant.user.name %>
+          <%= @review.junior_consultant.name %>
         <%else%>
           <%= f.label :junior_consultant_id %>
           <div class="controls">

@@ -232,7 +232,7 @@ describe "User pages" do
 
       it "displays the feedback with a 'Continue' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('.feedbacks td', text: jc.user.name)
+        page.should have_selector('.feedbacks td', text: jc.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
@@ -247,7 +247,7 @@ describe "User pages" do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('.feedbacks td', text: jc.user.name)
+        page.should have_selector('.feedbacks td', text: jc.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)

@@ -1,0 +1,51 @@
+<%= nested_form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :okta_name %><br />
+    <p class="help-text">This must match the username used to log in to OKTA.</p>
+    <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
+  </div>
+
+  <% if current_user != @user %> 
+    <div class="field">
+      <%= f.check_box :admin %> <%= f.label :admin, class: "checkbox" %>
+    </div>
+    
+    <div class="field">
+      <% if @user.jc? %>
+        <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "Junior Consultant", class: "checkbox" %>
+      <% else %>
+        <%= check_box_tag 'isjc' %> <%= f.label "Junior Consultant", class: "checkbox" %>
+      <% end %>
+    </div>
+
+    <%= f.fields_for :junior_consultant %>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "#{button_title}", class: "btn btn-info" %> | 
+    <%= link_to 'Cancel', users_path %>
+  </div>
+
+<% end %>

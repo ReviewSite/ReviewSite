@@ -15,7 +15,7 @@
 //= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require_tree .
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
 //= require jquery.tokeninput
 //
 //

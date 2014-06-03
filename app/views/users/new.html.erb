@@ -1,11 +1,17 @@
-<% provide(:title, "New user") %>
+<% provide(:title, "New User") %>
 
-<h1>New user</h1>
+<% if signed_in? and current_user.admin? %>
+  <h1>Create User</h1>
+  <p>When creating a new user account for someone else, a welcome email will be sent to them.</p>
 
-<% if signed_in? %>
-  <b>When creating a new user account for someone else, a welcome e-mail will be sent to them.</b>
+  <% form = 'admin_form' %>
+  <% button_title = 'Create User' %>
+
+<% else %>
+  <h1>Create an Account</h1>
+
+  <% form = 'form' %>
+  <% button_title = 'Create Account' %>
 <% end %>
 
-<%= render :partial => 'form', :locals => {:button_title => 'Create Account'} %>
-
-<%= link_to 'Back', users_path %>
+<%= render :partial => form, :locals => {button_title: button_title} %>

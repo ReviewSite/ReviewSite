@@ -30,7 +30,7 @@ describe "Navbar" do
 
     it "should link to user settings page" do
       within(".navbar-fixed-top") do
-        click_link "Settings"
+        click_link "Update Profile"
       end
       current_path.should == edit_user_path(admin)
     end
@@ -76,7 +76,7 @@ describe "Navbar" do
 
     it "should link to user settings page" do
       within(".navbar-fixed-top") do
-        click_link "Settings"
+        click_link "Update Profile"
       end
       current_path.should == edit_user_path(user)
     end

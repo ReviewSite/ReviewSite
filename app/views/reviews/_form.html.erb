@@ -18,8 +18,7 @@
           <%= @review.junior_consultant.user.name %>
         <%else%>
           <%= f.label :junior_consultant_id %>
-          <%= f.text_field :junior_consultant_id %>
-          <%# "data-pre" => Array.wrap(@review.junior_consultant).to_json %> 
+          <%= f.text_field :junior_consultant_id %> 
         
         <%end%>
     </div>

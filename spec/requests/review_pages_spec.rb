@@ -199,7 +199,7 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        fill_in 'review_junior_consultant_id', with: jc.user.name
+        fill_in 'review_junior_consultant_id', with: jc.id
         select "24-Month", from: "Review type"
 
         fill_in "review_review_date", with: "07/01/2014"

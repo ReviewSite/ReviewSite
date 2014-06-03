@@ -28,6 +28,12 @@ jQuery (function () {
     preventDuplicates: true
   });
 
+  $("#review_junior_consultant_id").tokenInput("/junior_consultants.json", {
+    crossDomain: false,
+    prePopulate: $("#review_junior_consultant_id").data("pre"),
+    tokenLimit: 1
+  });
+
   $("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
     crossDomain: false,
     prePopulate: $("#user_junior_consultant_attributes_coach_id").data("pre"),

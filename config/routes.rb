@@ -4,6 +4,8 @@ ReviewSite::Application.routes.draw do
 
   resources :admin, only: [:index]
 
+  resources :junior_consultants, only: [:index]
+
   resources :reviews do
     member do
         get :summary

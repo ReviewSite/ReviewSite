@@ -1,5 +1,4 @@
 <h1>Editing <%= @reviewing_group %></h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', reviewing_groups_path %>
+<% button_title = 'Save Changes' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

@@ -9,6 +9,7 @@ gem 'cancan'
 gem 'exception_notification'
 gem 'nested_form'
 gem 'bootstrap-datepicker-rails'
+gem 'jquery-tokeninput-rails'
 
 gem 'pg'
 gem 'jquery-datatables-rails'

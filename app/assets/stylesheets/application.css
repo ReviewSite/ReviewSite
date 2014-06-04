@@ -12,4 +12,5 @@
  *= require dataTables/jquery.dataTables
  *= require bootstrap-datepicker3
  *= require_tree .
+ *= require token-input
  */

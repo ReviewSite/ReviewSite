@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140328013345) do
+ActiveRecord::Schema.define(:version => 20140528223918) do
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -74,8 +74,6 @@ ActiveRecord::Schema.define(:version => 20140328013345) do
   add_index "invitations", ["review_id"], :name => "index_invitations_on_review_id"
 
   create_table "junior_consultants", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.text     "notes"
@@ -86,17 +84,15 @@ ActiveRecord::Schema.define(:version => 20140328013345) do
 
   add_index "junior_consultants", ["user_id"], :name => "index_junior_consultants_on_user_id"
 
-  create_table "reviewing_group_members", :force => true do |t|
-    t.integer  "reviewing_group_id"
-    t.integer  "user_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
   create_table "reviewing_groups", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "reviewing_groups_users", :id => false, :force => true do |t|
+    t.integer "reviewing_group_id"
+    t.integer "user_id"
   end
 
   create_table "reviews", :force => true do |t|

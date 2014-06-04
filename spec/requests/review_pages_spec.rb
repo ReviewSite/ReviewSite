@@ -4,8 +4,8 @@ describe "Review pages" do
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:coach) { FactoryGirl.create(:user) }
   let(:reviewer) { FactoryGirl.create(:user) }
-  let(:jc) { FactoryGirl.create(:junior_consultant, coach: coach) }
-  let(:jc_user) { FactoryGirl.create(:user, email: jc.email) }
+  let(:jc_user) { FactoryGirl.create(:user) }
+  let(:jc) { FactoryGirl.create(:junior_consultant, coach: coach, :user => jc_user) }
   let!(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
   let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
   let(:inputs) { {
@@ -92,13 +92,12 @@ describe "Review pages" do
 
     describe "as a jc" do
       before do
-        sign_in jc_user
+        sign_in jc.user
         visit summary_review_path(review)
       end
 
       it "displays feedback and self-assessment" do
         page.should have_selector('h1', text: review.to_s)
-
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
         inputs.values do |value|
@@ -127,19 +126,26 @@ describe "Review pages" do
         click_link "Add Additional Feedback"
         current_path.should == additional_review_feedbacks_path(review)
       end
+
+      it "should derp" do
+        expect{ click_link "export_to_excel" }.not_to raise_error
+      end
+
+
     end
 
     describe "as a jc with a long name" do
-      let(:long_name_jc) { FactoryGirl.create(:junior_consultant, name: "aaaaa bbbbb ccccc ddddd eeeee ff") }
+      let(:long_name_user) { FactoryGirl.create(:user, name: "aaaaa bbbbb ccccc ddddd eeeee ff") }
+      let(:long_name_jc) { FactoryGirl.create(:junior_consultant, :user => long_name_user) }
       let!(:long_name_review) { FactoryGirl.create(:review, junior_consultant: long_name_jc) }
       let!(:long_name_feedback) { FactoryGirl.create(:feedback, review: review, submitted: true) }
 
       before do
-        sign_in FactoryGirl.create(:user, email: long_name_jc.email)
+        sign_in long_name_jc.user
+        visit summary_review_path(long_name_review)
       end
 
       it "should export to excel without raising an error" do
-        visit summary_review_path(long_name_review)
         expect{ click_link "export_to_excel" }.not_to raise_error
       end
     end
@@ -193,7 +199,7 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        fill_in 'review_junior_consultant_id', with: jc.name
+        fill_in 'review_junior_consultant_id', with: jc.user.name
         select "24-Month", from: "Review type"
 
         fill_in "review_review_date", with: "07/01/2014"

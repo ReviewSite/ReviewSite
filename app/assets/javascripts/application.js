@@ -16,3 +16,34 @@
 //= require bootstrap
 //= require_tree .
 //= require bootstrap-datepicker
+//= require jquery.tokeninput
+//
+//
+
+
+jQuery (function () {
+  $("#reviewing_group_user_tokens").tokenInput("/users.json", {
+    crossDomain: false,
+    prePopulate: $("#reviewing_group_user_tokens").data("pre"),
+    preventDuplicates: true
+  });
+
+  $("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
+    crossDomain: false,
+    prePopulate: $("#user_junior_consultant_attributes_coach_id").data("pre"),
+    tokenLimit: 1
+  });
+
+  if ($("#isjc")[0].checked) {
+    $(".fields").show();
+  } else {
+    $(".fields").hide();
+  }
+
+  $("#isjc").on('change', function() {
+    $(".fields").toggle();
+  });
+
+
+
+});

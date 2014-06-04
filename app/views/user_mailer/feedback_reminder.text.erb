@@ -1,4 +1,4 @@
-This is a reminder to submit some feedback for the <%= @review.review_type %> review of <%= @jc.name %>.
+This is a reminder to submit some feedback for the <%= @review.review_type %> review of <%= @jc.user.name %>.
 
 <% if @feedback %>
 You have saved feedback, but it has not yet been submitted. To continue working, please visit <%= edit_review_feedback_url(@review, @feedback) %>.

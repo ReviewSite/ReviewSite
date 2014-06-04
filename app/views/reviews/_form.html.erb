@@ -15,12 +15,12 @@
     <div class="control-group">
         <% if @review.persisted? %>
           <%= f.label :junior_consultant_id %>
-          <%= @review.junior_consultant.name %>
+          <%= @review.junior_consultant.user.name %>
         <%else%>
           <%= f.label :junior_consultant_id %>
           <div class="controls">
             <%= f.text_field :junior_consultant_id, value: '', class: 'jc_with_autocomplete input-xlarge',
-                             'data-autocompleteUrl' => autocomplete_jc_name_junior_consultants_path, remote: true %>
+                             'data-autocompleteUrl' => autocomplete_user_name_path, remote: true %>
           </div>
         <%end%>
     </div>
@@ -35,14 +35,14 @@
     <div class="control-group">
       <%= f.label :review_date %>
       <div class="controls">
-        <%= f.text_field :review_date, class: "datepicker input-medium", placeholder: "mm/dd/yyyy" %>
+        <%= f.text_field :review_date, class: "datepicker input-medium", placeholder: "yyyy-mm-dd" %>
       </div>
     </div>  
 
     <div class="control-group">
       <%= f.label :feedback_deadline %>
       <div class="controls">
-        <%= f.text_field :feedback_deadline, class: "datepicker input-medium", placeholder: "mm/dd/yyyy"%>
+        <%= f.text_field :feedback_deadline, class: "datepicker input-medium", placeholder: "yyyy-mm-dd"%>
       </div>
       <p class="improvement_text pull-left">The feedback deadline will be displayed on the feedback form</p>
     </div>  
@@ -50,7 +50,7 @@
     <div class="control-group">
       <%= f.label :send_link_date %>
       <div class="controls">
-        <%= f.text_field :send_link_date, class: "datepicker input-medium", placeholder: "mm/dd/yyyy" %>
+        <%= f.text_field :send_link_date, class: "datepicker input-medium", placeholder: "yyyy-mm-dd" %>
       </div>
     </div>  
 

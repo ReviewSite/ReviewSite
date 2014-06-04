@@ -1,4 +1,4 @@
-<h1>Listing users</h1>
+<h1>Manage Users</h1>
 
 <%= link_to 'New User', new_user_path, :class => 'btn btn-info' %>
 
@@ -6,6 +6,7 @@
   <thead>
   <th>Name</th>
   <th>Email</th>
+  <th>JC</th>
   <th>Admin</th>
   <th></th>
   <th></th>
@@ -13,13 +14,14 @@
   </thead>
   <tbody>
   <% @users.each do |user| %>
-      <tr>
+    <tr id="user_<%= user.id %>">
         <td><%= user.name %></td>
         <td><%= user.email %></td>
+        <td class="jc" ><%= user.jc? %></td>
         <td><%= user.admin %></td>
         <td>
           <% if can? :read, user %>
-              <%= link_to 'Show', user %>
+              <%= link_to 'View Profile', user %>
           <% end %>
         </td>
         <td>
@@ -27,9 +29,9 @@
               <%= link_to 'Edit', edit_user_path(user) %>
           <% end %>
         </td>
-        <td>
+        <td class="delete">
           <% if can? :destroy, user %>
-              <%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %>
           <% end %>
         </td>
       </tr>

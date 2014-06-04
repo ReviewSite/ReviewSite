@@ -15,6 +15,28 @@
   <%= @user.admin %>
 </p>
 
+<p id="isJC">
+  <b>Junior Consultant:</b>
+  <%= @user.jc? %>
+</p>
+
+
+<% if @user.jc? %>
+  <p id="notes">
+    <b>Notes:</b>
+    <%= @user.junior_consultant.notes %>
+  </p>
+
+  <p id="reviewing-group">
+    <b>Reviewing Group:</b>
+    <%= @user.junior_consultant.reviewing_group %>
+  </p>
+
+  <p id="coach">
+    <b>Coach:</b>
+    <%= @user.junior_consultant.coach %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

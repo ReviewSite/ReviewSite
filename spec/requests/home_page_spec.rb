@@ -105,69 +105,6 @@ describe "Home page" do
     end
   end
 
-  describe "feedbacks table" do
-    describe "as an admin" do
-      before { sign_in admin }
-
-      it { should have_selector('th', text: 'Action') }
-      it { should have_selector("table.feedback td", text: reviewer.name) }
-      it { should have_selector("table.feedback td", text: jc.name) }
-      it { should have_selector("table.feedback td", text: review.review_type) }
-      it { should have_selector("table.feedback td", text: feedback.project_worked_on) }
-      it { should have_selector("table.feedback td", text: feedback.updated_at.to_date.to_s) }
-      it { should have_selector("table.feedback td", text: "Not Submitted") }
-      it { should_not have_selector("table.feedback td a", text: "Unsubmit") }
-      it { should_not have_selector("table.feedback td a", text: "Show") }
-      it { should_not have_selector("table.feedback td a", text: "Edit") }
-
-      it "submits feedback if 'Submit' is clicked" do
-        within("table.feedback") do
-          click_link 'Submit'
-        end
-        current_path.should == root_path
-        page.should have_selector("div.alert.alert-notice", text: "Feedback was successfully updated.")
-        feedback.reload
-        feedback.submitted.should be_true
-      end
-
-      describe "with submitted feedback" do
-        before do
-          feedback.update_attribute(:submitted, true)
-          visit root_path
-        end
-
-        it { should_not have_selector("table.feedback td", text: "Not Submitted") }
-        it { should have_selector("table.feedback td", text: "Submitted") }
-        it { should_not have_selector("table.feedback td a", text: "Submit") }
-
-        it "unsubmits feedback if 'Unsubmit' is clicked" do
-          within("table.feedback") do
-            click_link 'Unsubmit'
-          end
-          current_path.should == root_path
-          page.should have_selector("div.alert.alert-notice", text: "Feedback was successfully updated.")
-          feedback.reload
-          feedback.submitted.should be_false
-        end
-
-        it "links to show feedback page" do
-          within("table.feedback") do
-            click_link 'Show'
-          end
-          current_path.should == review_feedback_path(review, feedback)
-        end
-
-        it "links to edit feedback page" do
-          within("table.feedback") do
-            click_link 'Edit'
-          end
-          current_path.should == edit_review_feedback_path(review, feedback)
-        end
-
-      end
-    end
-  end
-
   describe "feedback in-progress form" do
     let(:invited_user) { FactoryGirl.create(:user) }
     let!(:invitation) { review.invitations.create(email: invited_user.email) }

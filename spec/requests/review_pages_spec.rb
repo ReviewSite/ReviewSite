@@ -246,7 +246,7 @@ describe "Review pages" do
         fill_in "review_feedback_deadline", with: "2013-06-21"
         fill_in "review_send_link_date", with: "2013-01-04"
 
-        click_button "Update Review"
+        click_button "Save Changes"
 
         current_path.should == review_path(review)
         review.reload
@@ -331,10 +331,6 @@ describe "Review pages" do
         Review.find_by_id(review).should be_nil
       end
 
-      it "links to homepage" do
-        click_link "Back"
-        current_path.should == root_path
-      end
     end
 
     describe "as a non-admin" do

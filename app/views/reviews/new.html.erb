@@ -1,5 +1,4 @@
-<h1>New review</h1>
+<h1>Create Review</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', welcome_index_path %>
+<% button_title = 'Create Review' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

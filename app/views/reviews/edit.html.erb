@@ -1,6 +1,4 @@
-<h1>Editing review</h1>
+<h1>Editing <%= @review.review_type %> Review for <%= @review.junior_consultant %></h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @review %> |
-<%= link_to 'Back', welcome_index_path %>
+<% button_title = 'Save Changes' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

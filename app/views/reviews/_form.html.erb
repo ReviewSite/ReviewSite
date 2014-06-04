@@ -53,7 +53,8 @@
     </div>  
 
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit "#{button_title}", class: "btn btn-info" %> | 
+      <%= link_to 'Cancel', reviews_path %>
     </div>
   </div>
 <% end %>

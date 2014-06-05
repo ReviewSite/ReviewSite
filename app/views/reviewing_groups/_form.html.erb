@@ -1,7 +1,7 @@
 <%= form_for(@reviewing_group) do |f| %>
   <% if @reviewing_group.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this reviewing_group from being saved:</h2>
+      <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this Reviewing Group from being saved:</h2>
 
       <ul>
       <% @reviewing_group.errors.full_messages.each do |msg| %>
@@ -12,10 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
+
+  <div class="field">
+    <%= f.label :user_tokens, "Members" %>
+    <%= f.text_field :user_tokens, "data-pre" => @reviewing_group.users.map(&:attributes).to_json %>
+  </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Submit" %>
   </div>
 <% end %>

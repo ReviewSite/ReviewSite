@@ -24,7 +24,7 @@
 </p>
   <div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
-    <%= text_field_tag :subject, "You've been invited to give feedback for #{@jc.name}."  %></p>
+    <%= text_field_tag :subject, "You've been invited to give feedback for #{@jc.user.name}."  %></p>
 
     <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM

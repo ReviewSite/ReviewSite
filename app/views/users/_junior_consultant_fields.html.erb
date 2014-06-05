@@ -1,0 +1,14 @@
+<div class="field">
+  <%= f.label :notes %>
+  <%= f.text_area :notes %>
+</div>
+
+<div class="field">
+  <%= f.label :reviewing_group_id %>
+  <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup), :include_blank => "Select Reviewing Group" %>
+</div>
+
+<div class="field">
+  <%= f.label :coach_id, "Coach" %>
+  <%= f.text_field :coach_id, "data-pre" => Array.wrap(@user.junior_consultant.coach).to_json %>
+</div>

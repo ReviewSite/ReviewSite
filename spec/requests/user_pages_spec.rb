@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "User pages" do
+describe "User pages: " do
   subject { page }
 
-  describe "edit" do
+  describe "EDIT/UPDATE" do
     let(:user) { FactoryGirl.create(:user) }
 
     before do
@@ -12,13 +12,13 @@ describe "User pages" do
     end
 
     describe "page" do
-      it { should have_selector('h1',    text: "Update your profile") }
+      it { should have_selector('h1',    text: "Update Your Profile") }
       it { title.should == "Review Site | Edit user" }
     end
 
-    describe "with valid information" do
-      let(:new_name)  { "New Name" }
-      let(:new_email) { "new@example.com" }
+    describe "user with valid information" do
+      let(:new_name)  { "Imma NewName" }
+      let(:new_email) { "immanew@example.com" }
 
       before do
         fill_in "Name",             with: new_name
@@ -32,7 +32,7 @@ describe "User pages" do
       specify { user.reload.email.should == new_email }
     end
 
-    describe "with invalid information" do
+    describe "user with invalid information" do
       before do
         fill_in "Name", with: "a"
         fill_in "Email", with: "b"
@@ -42,7 +42,7 @@ describe "User pages" do
     end
   end
 
-  describe "new" do
+  describe "NEW/CREATE action" do
     before { ActionMailer::Base.deliveries.clear }
 
     describe "as a new user" do
@@ -50,7 +50,7 @@ describe "User pages" do
         visit root_path
         within "#okta-input" do
           fill_in "temp-okta", with: "roberto"
-          click_button "Set OKTA"
+          click_button "Set new OKTA user"
         end
         visit new_user_path
       }
@@ -67,7 +67,7 @@ describe "User pages" do
         fill_in "Email", with: "test@example.com"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should eql root_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -82,15 +82,22 @@ describe "User pages" do
     end
 
     describe "as an admin" do
-      it "creates an account and sends an email" do
+
+      let!(:coach) { FactoryGirl.create(:coach) }
+      let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
+
+      before do
         sign_in FactoryGirl.create(:admin_user)
         visit new_user_path
+      end
+
+      it "creates an account and sends an email" do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
         fill_in "Okta name", with: "roberto"
         click_button 'Create Account'
 
-        current_path.should == root_path
+        current_path.should eql users_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
@@ -102,10 +109,39 @@ describe "User pages" do
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
       end
+
+      it "creates a jc account" do
+        fill_in "Name", with: "Roberto Glob"
+        fill_in "Email", with: "test2@example.com"
+        fill_in "Okta name", with: "glob"
+        check('isjc')
+
+        fill_in "Notes", with: "Here are some notes"
+        select reviewing_group.name, from: "Reviewing group"
+        fill_in "Coach", with: coach.id
+
+        click_button 'Create Account'
+
+        current_path.should eql users_path
+        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+
+        new_user = User.last
+        page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'true')
+
+        visit user_path(new_user)
+
+        new_jc = new_user.junior_consultant
+        page.should have_selector("#isJC", text: 'true')
+        page.should have_selector("#notes", text: new_jc.notes)
+        page.should have_selector("#reviewing-group", text: new_jc.reviewing_group)
+        page.should have_selector("#coach", text: new_jc.coach)
+
+      end
     end
 
     describe "as a non-admin user" do
-      it "does not allow other logged-in users to create new users" do
+
+      it "cannot create new users" do
         sign_in FactoryGirl.create(:user)
         visit new_user_path
         current_path.should == root_path
@@ -114,7 +150,7 @@ describe "User pages" do
     end
   end
 
-  describe "show" do
+  describe "SHOW page" do
     let (:admin) { FactoryGirl.create(:admin_user) }
     let!(:user) { FactoryGirl.create(:user) }
 
@@ -152,7 +188,7 @@ describe "User pages" do
     end
   end
 
-  describe "index" do
+  describe "INDEX page" do
     let!(:user) { FactoryGirl.create(:user, name: 'Andy', email: 'andy@example.com') }
     let!(:admin) { FactoryGirl.create(:admin_user) }
 
@@ -162,7 +198,7 @@ describe "User pages" do
         visit users_path
       end
 
-      it { should have_selector('h1', text: 'Listing users') }
+      it { should have_selector('h1', text: 'Manage Users') }
       it { should have_selector('th', text: 'Name') }
       it { should have_selector('th', text: 'Email') }
       it { should have_selector('th', text: 'Admin') }
@@ -181,7 +217,7 @@ describe "User pages" do
 
       it "should link to show" do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Show"
+          click_link "View Profile"
           current_path.should == user_path(user)
         end
       end
@@ -196,13 +232,13 @@ describe "User pages" do
       it "should link to destroy", js: true do
         page.driver.browser.accept_js_confirms
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Destroy"
+          click_link "Delete"
           current_path.should == users_path
         end
-        page.should have_selector('div.alert.alert-success', text: 'User destroyed.')
+        page.should have_selector('div.alert.alert-success', text: 'User deleted.')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')
-        page.should_not have_selector('td', text: 'false')
+        page.should_not have_selector('td.delete', text: 'false')
       end
     end
 
@@ -219,7 +255,8 @@ describe "User pages" do
     end
   end
 
-  describe "feedbacks" do
+ #TODO: why are the feedback tests in user_pages_spec?
+  describe "FEEDBACKS" do
     let(:reviewer) { FactoryGirl.create(:user) }
     let(:jc) { FactoryGirl.create(:junior_consultant) }
     let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
@@ -232,7 +269,7 @@ describe "User pages" do
 
       it "displays the feedback with a 'Continue' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: jc.user.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
@@ -247,7 +284,7 @@ describe "User pages" do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('.feedbacks td', text: jc.name)
+        page.should have_selector('.feedbacks td', text: jc.user.name)
         page.should have_selector('.feedbacks td', text: review.review_type)
         page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)

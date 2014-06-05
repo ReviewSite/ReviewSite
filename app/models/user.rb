@@ -3,8 +3,12 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
-  has_many :junior_consultants
+
+  has_many :coachees, :class_name => "JuniorConsultant"
+  has_one :junior_consultant, :dependent => :destroy
   has_many :feedbacks
+
+  accepts_nested_attributes_for :junior_consultant, :reject_if => :all_blank
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,
@@ -19,6 +23,11 @@ class User < ActiveRecord::Base
   def to_s
     self.name
   end
+
+  def jc?
+    !self.junior_consultant.nil? && self.junior_consultant.persisted?
+  end
+
 
   def request_password_reset
     self.update_column(:password_reset_token, SecureRandom.urlsafe_base64)
@@ -39,7 +48,7 @@ class User < ActiveRecord::Base
     not password_digest.nil?
   end
 
-  def matches_password?(unencrypted_password) 
+  def matches_password?(unencrypted_password)
     BCrypt::Password.new(password_digest) == unencrypted_password
   end
 end

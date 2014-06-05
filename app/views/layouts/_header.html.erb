@@ -1,50 +1,56 @@
 <header class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to "Review Site", root_path, id: "logo" %>
-      <% if ENV['OKTA-TEST-MODE'] %>
+
+      <div id="dev-env-panel">
+
+        <% if ENV['OKTA-TEST-MODE'] %>
           <div id="nonLive_notification">
-            --- Non-Live Site (We developin' up in heezy)
+            --- Dev Environment 
           </div>
           <div id="okta-input">
+            <p>Currently viewing as: <b><%= current_okta_name %></b></p>
             <%= form_tag '/set_temp_okta' do %>
-              <%= text_field_tag 'temp-okta', nil, maxlength: 10 %>
-              <%= submit_tag 'Set OKTA', id: 'temp-okta-submit' %>
-              Current OKTA: <%= current_okta_name %>
+              <%= text_field_tag 'temp-okta', nil, maxlength: 10, placeholder: 'Enter OKTA name' %>
+              <%= submit_tag 'Set new OKTA user', id: 'temp-okta-submit' %>
             <% end %>
           </div>
-      <% end %>
+        <% end %>
+
+      </div>
+
+        
       <div class="nav-collapse collapse">
+        
+        <%= link_to "Review Site", root_path, id: "logo" %>
+
         <ul class="nav pull-right">
           <li><%= link_to "Home", root_path %></li>
 
           <% if signed_in? %>
-              <% if current_user.admin? %>
-                <li><%= link_to "Administration", admin_index_path %></li>
-              <%end%>
-              <% if can? :manage, JuniorConsultant %>
-                  <li><%= link_to "Junior Consultants", junior_consultants_path %></li>
-              <%end%>
-              <% if can? :manage, ReviewingGroup %>
-                  <li><%= link_to "Reviewing Group", reviewing_groups_path %></li>
-              <%end%>
-              <% if can? :manage, ReviewingGroupMember %>
-                  <li><%= link_to "Reviewing Group Members", reviewing_group_members_path %></li>
-              <%end%>
-              <% if can? :manage, User %>
-                <li><%= link_to "Users", users_path %></li>
-              <% end %>
+
               <% if can? :read, Feedback %>
                 <li><%= link_to "Feedback From Me", feedbacks_user_path(current_user) %></li>
               <% end %>
               <% if can? :index, Review %>
                 <li> <%= link_to "Reviews", reviews_path %></li>
               <% end %>
+
+              <% if current_user.admin? %>
+                <li id="admin-menu" class="dropdown">
+                  <a href="#">
+                    Admin Tasks
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "Create New Review", new_review_path %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to "Manage Users", users_path %></li>
+                    <li><%= link_to "Manage Reviewing Groups", reviewing_groups_path %></li>
+                  </ul>
+                </li>
+              <%end%>
+
+
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <%= current_user %> <b class="caret"></b>

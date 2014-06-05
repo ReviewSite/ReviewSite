@@ -1,8 +1,6 @@
 ReviewSite::Application.routes.draw do
 
-  resources :reviewing_group_members, except: [:show]
-
-  resources :reviewing_groups
+  resources :reviewing_groups, except: [:show]
 
   resources :admin, only: [:index]
 
@@ -29,12 +27,6 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  resources :junior_consultants, :except => [:show] do
-    collection do
-      get :autocomplete_jc_name
-    end
-  end
-
   root :to => 'welcome#index'
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit]
@@ -47,13 +39,18 @@ ReviewSite::Application.routes.draw do
   resources :welcome, :only => [:index] do
     collection do
       get 'help'
+      get 'contributors'
       get 'test_error'
     end
   end
 
   resources :users do
     get :feedbacks, :on => :member
-    get :autocomplete_coach_name, :on => :collection
+    # get :autocomplete_coach_name, :on => :collection
+  end
+
+  scope :users, :controller => 'users' do
+    get 'autocomplete_user_name'
   end
 
   if ENV['OKTA-TEST-MODE']

@@ -17,6 +17,11 @@ describe User do
   it { should be_valid }
   it { should_not be_admin }
 
+  describe "has associations" do
+    it { should have_one(:junior_consultant).dependent(:destroy) }
+  end
+
+
   describe "with admin attribute set to 'true'" do
     before do
       user.save!
@@ -117,5 +122,15 @@ describe User do
       end
     end
   end
+
+  describe "#jc?" do
+    it "returns true if a user is a jc" do
+      user = FactoryGirl.create(:user)
+      jc = FactoryGirl.create(:junior_consultant, :user => user)
+
+      user.jc?.should eq(true)
+    end
+  end
+
 end
-  
+

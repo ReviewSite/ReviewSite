@@ -1,6 +1,10 @@
 <% provide(:title, "Edit user") %>
 
-<h1>Update your profile</h1>
+<% if current_user == @user %>
+  <h1>Update Your Profile</h1>
+<% else %>
+  <h1>Editing <%= @user %>'s Profile</h1>
+<% end %>
 
 <%= render :partial => 'form', :locals => {:button_title => 'Save changes'} %>
 

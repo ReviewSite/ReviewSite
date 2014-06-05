@@ -11,10 +11,6 @@ describe ReviewingGroupsController do
       get("/reviewing_groups/new").should route_to("reviewing_groups#new")
     end
 
-    it "routes to #show" do
-      get("/reviewing_groups/1").should route_to("reviewing_groups#show", :id => "1")
-    end
-
     it "routes to #edit" do
       get("/reviewing_groups/1/edit").should route_to("reviewing_groups#edit", :id => "1")
     end

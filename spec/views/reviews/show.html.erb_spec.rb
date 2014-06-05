@@ -15,7 +15,7 @@ describe "reviews/show" do
 
   it "renders details of the review" do
     render
-    rendered.should match(/#{@review.junior_consultant.name}/)
+    rendered.should match(/#{@review.junior_consultant.user}/)
     rendered.should match(/#{@review.review_type.titleize}/)
   end
   it "renders feedbacks' user names" do

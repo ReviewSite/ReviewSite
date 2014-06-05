@@ -5,7 +5,7 @@ describe "reviews/new" do
 
   before(:each) do
     assign(:review, stub_model(Review,
-      :junior_consultant_id => jc.name,
+                               :junior_consultant_id => jc.user.name,
       :review_type => "6-month"
     ).as_new_record)
   end

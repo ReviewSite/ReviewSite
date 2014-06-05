@@ -38,7 +38,7 @@
 # User: doug@example.com
 # - [[This user has been invited to provide feedback, and has submitted it]]
 # - Has provided feedback for Sally TWICE
-# 
+#
 # User: elvis@example.com
 # - [[This user has been invited to provide feedback, but hasn't]]
 # - Has been invited to provide feedback
@@ -73,11 +73,9 @@ emails.each do |existing_user|
   unless u.nil?
     u.destroy
   end
-  jc = JuniorConsultant.find_by_email(existing_user)
-  unless jc.nil?
-    jc.destroy
-  end
 end
+
+chicago = ReviewingGroup.create(name: 'Chicago')
 
 john = User.create(name: 'John', okta_name: 'john', email: 'john@example.com')
 sally = User.create(name: 'sally', okta_name: 'sally', email: 'sally@example.com')
@@ -92,14 +90,12 @@ jennifer = User.new(name: 'jennifer', email: 'jennifer@example.com')
 jennifer.save(validate: false)
 jennifer.update_attribute(:password_digest, BCrypt::Password.create('password'))
 
-admin = User.create(name: 'admin', okta_name: 'admin', email: 'admin@example.com')
+admin = User.create(name: 'admin', okta_name: 'imadmin', email: 'admin@example.com')
 admin.admin = true
 admin.save!
 
-
-sallyJC = JuniorConsultant.create({name: 'sally', email: 'sally@example.com', coach_id: luke.id, user_id: sally.id})
-bobJC = JuniorConsultant.create({name: 'bob', email: 'bob@example.com', user_id: bob.id})
-
+sallyJC = JuniorConsultant.create({coach_id: luke.id, user_id: sally.id, reviewing_group_id: chicago.id})
+bobJC = JuniorConsultant.create({user_id: bob.id, reviewing_group_id: chicago.id})
 
 reviewSally = Review.create({junior_consultant_id: sallyJC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now})
 

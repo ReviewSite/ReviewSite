@@ -15,6 +15,6 @@ def sign_in(user)
   visit root_path
   within "#okta-input" do
     fill_in "temp-okta", with: user.okta_name
-    click_button "Set OKTA"
+    click_button "Set new OKTA user"
   end
 end

@@ -1,4 +1,4 @@
-<%= form_for(@user) do |f| %>
+<%= nested_form_for @user do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -15,21 +15,39 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+
   <div class="field">
     <%= f.label :email %><br />
     <%= f.text_field :email %>
   </div>
 
-  <div class="field">
-    <% if signed_in? and current_user.admin? %>
+  <% if signed_in? and current_user.admin? %>
+    <div class="field">
       <%= f.label :okta_name %><br />
       <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
-    <% else %> 
-      <%= f.hidden_field :okta_name, value: current_okta_name %>
-    <% end %>
-  </div>
+    </div>
+  <% else %> 
+    <%= f.hidden_field :okta_name, value: current_okta_name %>
+  <% end %>
+
+  <% if signed_in? and current_user.admin? and current_user != @user %> 
+    <div class="field">
+
+      <% if @user.jc? %>
+        <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "This user is a Junior Consultant" %>
+      <% else %>
+        <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
+      <% end %>
+
+    </div>
+
+    <%= f.fields_for :junior_consultant %>
+
+  <% end %>
 
   <div class="actions">
     <%= f.submit "#{button_title}" %>
   </div>
+
 <% end %>
+

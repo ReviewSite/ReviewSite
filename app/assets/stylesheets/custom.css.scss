@@ -130,7 +130,6 @@ p {
   color: #fff;
   text-transform: lowercase;
   letter-spacing: 0.8px;
-  padding-top: 9px;
   font-weight: normal;
   line-height: 1;
   word-spacing: -5px;
@@ -141,39 +140,63 @@ p {
   }
 }
 
+#dev-env-panel {
+  border-bottom: 1px solid #FFFFFF;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+
 #nonLive_notification {
-  float: left;
   font-size: 1em;
   color: lightgreen;
   text-transform: uppercase;
-  letter-spacing: -1px;
-  margin-top: 13px;
   margin-right: 10px;
   font-weight: bold;
   line-height: 1;
   border: none;
-  display: inline;
+  display: inline-block;
 }
 
 #okta-input {
-  float: left;
   margin-top: 10px;
   color: #bbb;
+  display: inline-block;
+
+  p {
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-right: 10px;
+  }
 
   form {
     margin: 0px;
+    display: inline-block;
   }
 
   #temp-okta {
     padding-left: 3px;
     padding-right: 3px;
     height: 20px;
-    width: 100px;
+    width: 140px;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    vertical-align: middle;
   }
 
   #temp-okta-submit {
     padding: 3px;
   }
+}
+
+li.dropdown {
+  border: 0px;
+}
+
+li#admin-menu:hover > ul.dropdown-menu {
+  display: block;
+  margin-top: 0px;
+  z-index: 2000;
 }
 
 /* footer */

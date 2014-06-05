@@ -15,12 +15,12 @@
     <div class="control-group">
         <% if @review.persisted? %>
           <%= f.label :junior_consultant_id %>
-          <%= @review.junior_consultant.name %>
+          <%= @review.junior_consultant.user.name %>
         <%else%>
           <%= f.label :junior_consultant_id %>
           <div class="controls">
             <%= f.text_field :junior_consultant_id, value: '', class: 'jc_with_autocomplete input-xlarge',
-                             'data-autocompleteUrl' => autocomplete_jc_name_junior_consultants_path, remote: true %>
+                             'data-autocompleteUrl' => autocomplete_user_name_path, remote: true %>
           </div>
         <%end%>
     </div>

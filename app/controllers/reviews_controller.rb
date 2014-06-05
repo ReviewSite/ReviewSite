@@ -40,9 +40,6 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-
-    params[:review][:junior_consultant_id] = find_jc_id_from_user_name(params[:review][:junior_consultant_id])
-
     @review = Review.new(params[:review])
     respond_to do |format|
       if @review.save
@@ -105,12 +102,6 @@ class ReviewsController < ApplicationController
       format.html { redirect_to root_path }
       format.js { head :ok }
     end
-  end
-
-
-  private
-  def find_jc_id_from_user_name(name)
-    JuniorConsultant.joins(:user).where(users: { name: name }).first.id
   end
 
   private

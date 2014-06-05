@@ -32,11 +32,15 @@
 
   <% if signed_in? and current_user.admin? and current_user != @user %> 
     <div class="field">
+      <%= f.check_box :admin %> <%= f.label :admin, class: "checkbox" %>
+    </div>
+    
+    <div class="field">
 
       <% if @user.jc? %>
         <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "This user is a Junior Consultant" %>
       <% else %>
-        <%= check_box_tag 'isjc' %> <%= f.label "This user is a Junior Consultant" %>
+        <%= check_box_tag 'isjc' %> <%= f.label "Junior Consultant", class: "checkbox" %>
       <% end %>
 
     </div>

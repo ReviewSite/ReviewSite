@@ -12,7 +12,11 @@ $navbarBackgroundHighlight: black;
 
 .some-class { float:left; clear:none; }
 fieldset { overflow:hidden }
-input[type=radio], input.radio { float:left; clear:none; margin: 2px 0 0 2px; }
+input[type=radio], input.radio, input[type=checkbox], input.checkbox { 
+  float: left; 
+  clear: none; 
+  margin: 3 5 0 0; 
+}
 
 /* universal */
 

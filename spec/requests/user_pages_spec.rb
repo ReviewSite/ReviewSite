@@ -5,6 +5,7 @@ describe "User pages: " do
 
   describe "EDIT/UPDATE" do
     let(:user) { FactoryGirl.create(:user) }
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
 
     before do
       sign_in user
@@ -40,6 +41,27 @@ describe "User pages: " do
       end
       it { should have_content('error') }
     end
+
+    describe "as an admin" do
+      it "can make another user an admin" do
+        nonadmin = FactoryGirl.create(:user)
+        sign_in admin_user
+
+        visit users_path
+        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'false')
+
+        visit edit_user_path(nonadmin)
+        check('user_admin')
+        click_button "Save changes"
+
+        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'true')
+
+        sign_in nonadmin
+        page.should have_selector("#admin-menu")
+      end
+    end
+
+
   end
 
   describe "NEW/CREATE action" do

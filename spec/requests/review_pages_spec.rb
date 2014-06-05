@@ -242,9 +242,9 @@ describe "Review pages" do
       it "updates the review details" do
         select "24-Month", from: "Review type"
 
-        fill_in "review_review_date", with: "07/01/2013"
-        fill_in "review_feedback_deadline", with: "21/06/2013"
-        fill_in "review_send_link_date", with: "04/01/2013"
+        fill_in "review_review_date", with: "2013-01-07"
+        fill_in "review_feedback_deadline", with: "2013-06-21"
+        fill_in "review_send_link_date", with: "2013-01-04"
 
         click_button "Update Review"
 

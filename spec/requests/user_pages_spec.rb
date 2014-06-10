@@ -14,7 +14,7 @@ describe "User pages: " do
 
     describe "page" do
       it { should have_selector('h1',    text: "Update Your Profile") }
-      it { title.should == "Review Site | Edit user" }
+      it { title.should == "Review Site | Edit User" }
     end
 
     describe "user with valid information" do
@@ -24,7 +24,7 @@ describe "User pages: " do
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
-        click_button "Save changes"
+        click_button "Save Changes"
       end
 
       it { should have_selector('div.alert.alert-success') }
@@ -37,7 +37,7 @@ describe "User pages: " do
       before do
         fill_in "Name", with: "a"
         fill_in "Email", with: "b"
-        click_button "Save changes"
+        click_button "Save Changes"
       end
       it { should have_content('error') }
     end
@@ -52,7 +52,7 @@ describe "User pages: " do
 
         visit edit_user_path(nonadmin)
         check('user_admin')
-        click_button "Save changes"
+        click_button "Save Changes"
 
         page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'true')
 
@@ -79,7 +79,7 @@ describe "User pages: " do
 
       it "re-renders page with error message if invalid information" do
         click_button "Create Account"
-        page.should have_selector('h1', text: 'New user')
+        page.should have_selector('h1', text: 'Create an Account')
         page.should have_content('error')
       end
 
@@ -117,7 +117,7 @@ describe "User pages: " do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
         fill_in "Okta name", with: "roberto"
-        click_button 'Create Account'
+        click_button 'Create User'
 
         current_path.should eql users_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
@@ -142,7 +142,7 @@ describe "User pages: " do
         select reviewing_group.name, from: "Reviewing group"
         fill_in "Coach", with: coach.id
 
-        click_button 'Create Account'
+        click_button 'Create User'
 
         current_path.should eql users_path
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')

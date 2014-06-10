@@ -35,6 +35,12 @@ label {
   padding: 0 5 0 0; 
 }
 
+.help-text {
+  margin-top: 8;
+  margin-bottom: 5;
+  color: #888888;
+}
+
 .checkbox {
   float: none;
 }
@@ -260,6 +266,10 @@ input.long {
   width: 60%;
 }
 
+select#user_junior_consultant_attributes_reviewing_group_id {
+  margin: 0;
+  width: 100%;
+}
 
 
 /* miscellaneous */

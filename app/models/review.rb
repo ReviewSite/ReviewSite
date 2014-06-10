@@ -134,7 +134,7 @@ class Review < ActiveRecord::Base
   end
 
   def to_s
-    "#{junior_consultant.user.name} - #{review_type}"
+    "#{junior_consultant.user.name}'s #{review_type} Review"
   end
 
   def has_existing_feedbacks?

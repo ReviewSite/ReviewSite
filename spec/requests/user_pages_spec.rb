@@ -277,7 +277,6 @@ describe "User pages: " do
     end
   end
 
- #TODO: why are the feedback tests in user_pages_spec?
   describe "FEEDBACKS" do
     let(:reviewer) { FactoryGirl.create(:user) }
     let(:jc) { FactoryGirl.create(:junior_consultant) }
@@ -291,12 +290,12 @@ describe "User pages: " do
 
       it "displays the feedback with a 'Continue' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('.feedbacks td', text: jc.user.name)
-        page.should have_selector('.feedbacks td', text: review.review_type)
-        page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
-        page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('.feedbacks td', text: "Not Submitted")
-        page.should have_selector('.feedbacks td a', text: "Continue")
+        page.should have_selector('#feedbacks td', text: jc.user.name)
+        page.should have_selector('#feedbacks td', text: review.review_type)
+        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
+        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('#feedbacks td', text: "Not Submitted")
+        page.should have_selector('#feedbacks td a', text: "Continue")
         click_link "Continue"
         current_path.should == edit_review_feedback_path(review, feedback)
       end
@@ -306,13 +305,13 @@ describe "User pages: " do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('.feedbacks td', text: jc.user.name)
-        page.should have_selector('.feedbacks td', text: review.review_type)
-        page.should have_selector('.feedbacks td', text: review.feedback_deadline.to_s)
-        page.should have_selector('.feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('.feedbacks td', text: "Submitted")
-        page.should_not have_selector('.feedbacks td', text: "Not")
-        page.should have_selector('.feedbacks td a', text: "View")
+        page.should have_selector('#feedbacks td', text: jc.user.name)
+        page.should have_selector('#feedbacks td', text: review.review_type)
+        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
+        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('#feedbacks td', text: "Submitted")
+        page.should_not have_selector('#feedbacks td', text: "Not")
+        page.should have_selector('#feedbacks td a', text: "View")
         click_link "View"
         current_path.should == review_feedback_path(review, feedback)
       end

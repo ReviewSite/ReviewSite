@@ -17,7 +17,7 @@
 //= require_tree .
 //= require bootstrap-datepicker/core
 //= require jquery.tokeninput
-//
+//= require scrollspy
 //
 
 

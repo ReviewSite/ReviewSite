@@ -1,10 +1,10 @@
 <div class="row">
-  <div id="navbar" class="span2 bs-docs-sidebar">
+  <div id="review-categories" class="span2 bs-docs-sidebar">
     <ul class="nav nav-list bs-docs-sidenav affix">
       <% @review.headings.each_with_index do |heading, index| %>
-        <li><a href="#<%= index %>"><%= heading %></a></li>
+        <li><a href="#heading<%= index %>"><%= heading %></a></li>
       <% end %>
-      <li><a href="#<%= @review.headings.count %>">Self-Assessment</a></li>
+      <li><a href="#heading<%= @review.headings.count %>">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
@@ -12,8 +12,9 @@
       </li>
     </ul>
   </div>
+
   <div class="span10">
-    <h1>Feedback for Review <%= @review %></h1>
+    <h1>Feedback Summary for <%= @review %></h1>
 
     <% if current_user.admin? or current_user == @review.junior_consultant.user %>
         <% if @review.self_assessments.count > 0 %>
@@ -31,9 +32,11 @@
                 additional_review_feedbacks_path(@review),
                 title: 'Add new feedback on behalf of a third party for your current review',
                 rel: 'tooltip') %>
+
     <% @review.headings.each_with_index do |heading, index| %>
       <% header_group = @review.fields_for_heading(heading) %>
-        <section class="sections" id="<%= index%>">
+        <section class="sections" id="heading<%= index%>">
+          <h2><%= heading %></h2>
           <table class="review-table">
             <thead>
             <tr>
@@ -71,7 +74,7 @@
         <br />
     <% end %>
 
-    <section class="sections" id="<%= @review.headings.count  %>">
+    <section class="sections" id="heading<%= @review.headings.count  %>">
       <h2>Self-Assessment</h2>
       <table>
         <thead>
@@ -92,9 +95,3 @@
     </section>
   </div>
 </div>
-<script>
-    $("#navbar").scrollspy();
-    $(function() {
-      $( document ).tooltip();
-    });
-</script>

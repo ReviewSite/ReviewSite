@@ -37,7 +37,7 @@ describe JuniorConsultant do
   describe "with reviews" do
     before(:each) do
       @jc = FactoryGirl.create(:junior_consultant)
-      @review = FactoryGirl.create(:review, :junior_consultant => @jc)
+      @review = FactoryGirl.create(:review, :junior_consultant => @jc, :review_type => "6-Month", :review_date => Date.today)
     end
 
     it "should delete the review when the junior consultant is deleted" do
@@ -45,5 +45,13 @@ describe JuniorConsultant do
       @jc.destroy
       Review.all.count.should == 0
     end
+
+    it "should return only the most recent review" do
+      latest_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc, :review_type => "12-Month")
+      @jc.reviews.count.should eq(2)
+
+      @jc.upcoming_review.should eq(latest_review)
+    end
+
   end
 end

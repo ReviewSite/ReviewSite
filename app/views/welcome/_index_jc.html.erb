@@ -1,0 +1,9 @@
+<% if @invitations_received.count > 0 or @feedbacks_in_progress.count > 0 %>
+  <p>You have pending invitations.</p>
+<% end %>
+
+<% if @reviews.count > 0 %>
+  <% @reviews.each do |review| %>
+    <%= render review %>
+  <% end %>
+<% end %>

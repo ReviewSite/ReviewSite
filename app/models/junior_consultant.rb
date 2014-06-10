@@ -12,4 +12,9 @@ class JuniorConsultant < ActiveRecord::Base
   def to_s
     self.user.name
   end
+
+  def upcoming_review
+    self.reviews.last
+  end
+
 end

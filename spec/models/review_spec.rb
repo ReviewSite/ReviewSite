@@ -25,7 +25,8 @@ describe Review do
       c = FactoryGirl.create(:junior_consultant)
       r.review_type = "6-Month"
       r.feedback_deadline = Date.today
-
+      r.review_date = Date.today
+      r.send_link_date = Date.today
       r.junior_consultant = c
 
       r.save.should == true

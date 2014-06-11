@@ -37,7 +37,7 @@ describe JuniorConsultant do
   describe "with reviews" do
     before(:each) do
       @jc = FactoryGirl.create(:junior_consultant)
-      @review = FactoryGirl.create(:review, :junior_consultant => @jc, :review_type => "6-Month", :review_date => Date.today)
+      @review = FactoryGirl.create(:review, :junior_consultant => @jc, :review_type => "6-Month", :review_date => Date.today - 5.days)
     end
 
     it "should delete the review when the junior consultant is deleted" do
@@ -51,6 +51,14 @@ describe JuniorConsultant do
       @jc.reviews.count.should eq(2)
 
       @jc.upcoming_review.should eq(latest_review)
+    end
+
+    it "should return only the future review closest to today" do
+      upcoming_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc, :review_type => "12-Month", :review_date => Date.today + 5.months)
+      review18 = FactoryGirl.create(:new_review_type, :junior_consultant => @jc, :review_type => "18-Month", :review_date => Date.today + 12.months)
+
+      @jc.reviews.count.should eq(3)
+      @jc.upcoming_review.should eq(upcoming_review)
     end
 
   end

@@ -62,26 +62,42 @@ describe "Home page" do
     end
 
     describe "as JC" do
-      before { sign_in jc_user }
+      before do
+        @jc_with_many_reviews = FactoryGirl.create(:junior_consultant)
+        @first_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 6.months)
+        @upcoming_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "18-Month", :review_date => Date.today)
+        @latest_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 6.months)
+        @feedback = FactoryGirl.create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
+
+        sign_in @jc_with_many_reviews.user
+      end
 
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
-        click_link 'Request Feedback'
-        current_path.should == new_review_invitation_path(review)
+        click_link 'Invite Reviewer'
+        current_path.should == new_review_invitation_path(@upcoming_review)
       end
 
       it "links to review summary page" do
         click_link 'View Summary'
-        current_path.should == summary_review_path(review)
+        current_path.should == summary_review_path(@upcoming_review)
       end
 
       it "shows the name of the reviewer of additional feedback when it is not the same as the user" do
-        feedback.update_attribute(:submitted, true)
-        feedback.update_attribute(:user_string, "Additional Feedback Reviewer")
+        @feedback.update_attribute(:submitted, true)
+        @feedback.update_attribute(:user_string, "Additional Feedback Reviewer")
         visit root_path
-        subject.should have_selector("table.feedback td", text: feedback.user_string)
+        subject.should have_selector("table.feedback td", text: @feedback.user_string)
       end
+
+      it "should only show the most recent review" do
+        @jc_with_many_reviews.reviews.count.should eq(3)
+        page.should have_selector("h2", text: @upcoming_review.review_type.titleize)
+        page.should_not have_selector("h2", text: @latest_review.review_type.titleize)
+        page.should_not have_selector("h2", text: @first_review.review_type.titleize)
+      end
+
     end
 
     describe "as a coach" do

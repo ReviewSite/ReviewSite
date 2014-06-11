@@ -1,9 +1,7 @@
-<% if @invitations_received.count > 0 or @feedbacks_in_progress.count > 0 %>
-  <p>You have pending invitations.</p>
-<% end %>
+<% upcoming_review = current_user.junior_consultant.upcoming_review %>
 
-<% if @reviews.count > 0 %>
-  <% @reviews.each do |review| %>
-    <%= render review %>
-  <% end %>
+<% if upcoming_review %>
+  <%= render upcoming_review %>
+<% else %>
+  <p class="notify">You don't have any upcoming reviews.</p>
 <% end %>

@@ -14,7 +14,8 @@ class JuniorConsultant < ActiveRecord::Base
   end
 
   def upcoming_review
-    self.reviews.last
+    date_range = Date.today..(Date.today + 6.months)
+    self.reviews.where('review_date' => date_range).first
   end
 
 end

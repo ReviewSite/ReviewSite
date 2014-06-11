@@ -1,0 +1,40 @@
+<table class="reviews">
+  <thead>
+  <tr>
+    <th>Review Type</th>
+    <th>Review Date</th>
+    <th>Upcoming?</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reviews.each do |review| %>
+
+    <tr>
+      <td><%= review.review_type %></td>
+      <td><%= review.review_date %></td>
+      <td><%= review.upcoming? ? "yes" : "" %></td>
+      <td nowrap>
+        <% if review.upcoming? %>
+          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %> |
+          <%= link_to 'Show Review Details', review %> |
+        <% end %>
+          
+        <%= link_to 'Feedback Summary', summary_review_path(review) %>
+    </tr>
+
+  <% end %>
+  </tbody>
+</table>
+
+<br class="spacer" />
+<br class="spacer" />
+
+<script>
+  $('table.reviews').dataTable({
+  "aoColumnDefs": [
+      { "asSorting": [ "asc", "desc", "asc" ], "aTargets": [ 1 ] },
+      { "bSortable": false, "aTargets": [ 0, 3 ] }
+    ]
+  });
+</script>

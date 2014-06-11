@@ -141,4 +141,9 @@ class Review < ActiveRecord::Base
   def has_existing_feedbacks?
     feedbacks.size > 0
   end
+
+  def upcoming?
+    self.review_date.between?(Date.today, Date.today + 6.months)
+  end
+
 end

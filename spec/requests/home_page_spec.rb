@@ -29,39 +29,35 @@ describe "Home page" do
     describe "as admin" do
       before { sign_in admin }
 
-      it { should have_selector("table.reviews td", text: jc.user.name) }
-      it { should have_selector("table.reviews td", text: review.review_type) }
-      it { should have_selector("table.reviews td.feedback_submitted", text: "0 / 1") }
-      it { should have_selector("table.reviews td.review_date", text: review.review_date.to_s) }
-      it { should have_selector("table.reviews td.feedback_deadline", text: review.feedback_deadline.to_s) }
-      it { should have_selector("table.reviews td.send_link_date", text: review.send_link_date.to_s) }
+      describe "supports ajax pagination", :js => true do
 
+        it {should have_selector("#reviews td", text: jc.reviewing_group.name) }
+        it {should have_selector("table#reviews td", text: jc.user.name) }
+        it {should have_selector("table#reviews td", text: review.review_type) }
+        it {should have_selector("table#reviews td", text: review.review_date.to_s) }
+        it {should have_selector("table#reviews td", text: review.feedback_deadline.to_s) }
+        it {should have_selector("table#reviews td", text: "0 / 1") }
 
-      it "links to reviewer invitation page" do
-        within("table.reviews") do
-          click_link 'Invite'
+        it "updates submitted feedback count" do
+          feedback.update_attribute(:submitted, true)
+          visit root_path
+          subject.should have_selector("table#reviews td", text: "1 / 1")
         end
-        current_path.should == new_review_invitation_path(review)
-      end
 
-      it "updates submitted feedback count" do
-        feedback.update_attribute(:submitted, true)
-        visit root_path
-        subject.should have_selector("table.reviews td.feedback_submitted", text: "1 / 1")
-      end
-
-      it "links to review summary page" do
-        within("table.reviews") do
-          click_link 'Summary'
+        it "links to review summary page" do
+          within("table#reviews") do
+            click_link 'Feedback Summary'
+          end
+          current_path.should == summary_review_path(review)
         end
-        current_path.should == summary_review_path(review)
-      end
 
-      it "links to review show page" do
-        within("table.reviews") do
-          click_link 'Show'
+        it "links to review show page" do
+          within("table#reviews") do
+            click_link 'Show Details'
+          end
+          current_path.should == review_path(review)
         end
-        current_path.should == review_path(review)
+
       end
     end
 

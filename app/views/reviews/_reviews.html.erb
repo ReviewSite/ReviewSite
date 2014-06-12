@@ -1,47 +1,18 @@
-<table class="reviews">
+<table id="reviews" class="display" data-source="<%= reviews_url(format: "json") %>">
   <thead>
   <tr>
+    <th>Reviewing Group</th>
     <th>Junior Consultant</th>
     <th>Review Type</th>
+    <th>Review Date</th>
+    <th>Feedback Deadline</th>
     <th>Submitted / Total<br/>Feedback</th>
-    <th>Invitations Sent</th>
-    <% if can? :create, Review %>
-        <th>Review Date</th>
-        <th>Feedback Deadline</th>
-        <th>Link Date</th>
-    <% end %>
-    <th>Actions</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
-  <% @reviews.each do |review| %>
-      <tr>
-        <td><%= review.junior_consultant %></td>
-        <td><%= review.review_type %></td>
-        <td class="feedback_submitted">
-          <%= review.feedbacks.where(:submitted => true).count  %> / <%= review.feedbacks.count  %>
-        </td>
-        <td class="invitations_sent"> <%= review.invitations.count %> </td>
-        <% if can? :create, Review %>
-            <td class="review_date"><%= review.review_date %></td>
-            <td class="feedback_deadline"><%= review.feedback_deadline %></td>
-            <td class="send_link_date"><%= review.send_link_date %></td>
-        <% end %>
-        <td nowrap>|
-        <% if can? :send_email, Review %>
-            <%= link_to 'Email', send_email_review_path(review), remote: true, class: "send_email_link"%> |
-        <% end%>
-        <% if can? :create, Invitation %>
-            <%= link_to 'Invite', new_review_invitation_path(review), :class => 'send_invite_link' %> |
-        <% end %>
-        <% if can? :summary, review %>
-            <%= link_to 'Summary', summary_review_path(review) %> |
-        <% end %>
-        <% if can? :read, review %>
-            <%= link_to 'Show', review %> |
-        <% end %>
-      </tr>
-  <% end %>
   </tbody>
 </table>
 
@@ -49,5 +20,15 @@
 <br class="spacer" />
 
 <script>
-    $('table.reviews').dataTable();
+    $('table#reviews').dataTable({
+        sPaginationType: "two_button",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#reviews').data('source'),
+        aoColumnDefs: [
+          { bSortable: false, aTargets: [ 5, 6, 7, 8 ] },
+          { aDataSort: [ 0, 1 ], aTargets: [ 0 ] }
+        ]
+    });
 </script>

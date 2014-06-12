@@ -13,6 +13,10 @@ td {
   text-align: center;
 }
 
+#reviews td {
+  white-space: nowrap;
+}
+
 .new_feedback_link {
   color: blue;
   &:visited {

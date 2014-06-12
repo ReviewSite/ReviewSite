@@ -3,16 +3,21 @@ class ReviewsController < ApplicationController
   before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email]
 
   def index
-    @reviews = [];
-     Review.includes({:junior_consultant => :coach},
-                    {:junior_consultant =>
-                        {:reviewing_group => :users}},
-                    :feedbacks,
-                    :invitations).all.each do |review|
-        if can? :summary, review
-          @reviews << review
+    respond_to do |format|
+      format.html {
+        @reviews = []
+
+        Review.includes({:junior_consultant => :user},
+                        {:junior_consultant => :reviewing_group},
+                         :feedbacks).all.each do |review|
+          if can? :summary, review
+            @reviews << review
+          end
         end
-      end
+      }
+
+      format.json { render json: ReviewsDatatable.new(view_context, current_user) }
+    end
   end
 
   # GET /reviews/1

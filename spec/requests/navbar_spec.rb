@@ -69,7 +69,7 @@ describe "Navbar" do
 
     it "should link to feedbacks page" do
       within(".navbar-fixed-top") do
-        click_link "Feedback From Me"
+        click_link "Feedback Requests"
       end
       current_path.should == feedbacks_user_path(user)
     end

@@ -30,7 +30,7 @@
           <% if signed_in? %>
 
               <% if can? :read, Feedback %>
-                <li><%= link_to "Feedback From Me", feedbacks_user_path(current_user) %></li>
+                <li><%= link_to "Feedback Requests", feedbacks_user_path(current_user) %></li>
               <% end %>
               <% if can? :index, Review %>
                 <li> <%= link_to "Reviews", reviews_path %></li>

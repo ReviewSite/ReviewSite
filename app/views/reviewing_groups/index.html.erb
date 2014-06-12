@@ -1,6 +1,6 @@
 <h1>Manage Reviewing Groups</h1>
 
-<%= link_to 'New Reviewing Group', new_reviewing_group_path, :class => 'btn btn-info' %>
+<div class="new-review"><%= link_to 'New Reviewing group', new_reviewing_group_path, :class => 'btn btn-info' %></div>
 
 <table class="datatable">
   <thead>
@@ -25,5 +25,12 @@
 
 
 <script>
-    $('.datatable').dataTable();
+  $('.datatable').dataTable({
+    bJQueryUI: true,
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [2, 3] }
+    ],
+    bLengthChange: false,
+    bFilter: false
+  });
 </script>

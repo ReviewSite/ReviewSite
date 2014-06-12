@@ -72,12 +72,15 @@
 <br class="spacer" />
 
 <script>
-    $('.feedback').dataTable({
-        "bPaginate": false,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bInfo": false,
-        "bRetrieve": true, 
-        "bDestroy": true,
+  $('.feedback').dataTable({
+    bJQueryUI: true,
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [5] }
+    ],
+    <%# bLengthChange: false, %>
+    <%# bFilter: false, %>
+    bInfo: false,
+    bRetrieve: true, 
+    bDestroy: true
     });
 </script>

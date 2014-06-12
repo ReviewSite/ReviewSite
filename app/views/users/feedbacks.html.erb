@@ -1,6 +1,6 @@
-<% provide(:title, "Feedbacks from #{@user}") %>
+<% provide(:title, "Feedback Requests") %>
 
-<h1>Feedback from <%= @user %></h1>
+<h1>Feedback Requests</h1>
 
 <table id="feedbacks">
   <thead>
@@ -36,5 +36,10 @@
 </table>
 
 <script>
-  $('#feedbacks').dataTable();
+  $('#feedbacks').dataTable({
+    bJQueryUI: true,
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [6] }
+    ]
+  });
 </script>

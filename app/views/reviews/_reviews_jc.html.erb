@@ -4,7 +4,9 @@
     <th>Review Type</th>
     <th>Review Date</th>
     <th>Upcoming?</th>
-    <th>Actions</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -14,13 +16,17 @@
       <td><%= review.review_type %></td>
       <td><%= review.review_date %></td>
       <td><%= review.upcoming? ? "yes" : "" %></td>
-      <td nowrap>
+      <td>
         <% if review.upcoming? %>
-          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %> |
-          <%= link_to 'Show Review Details', review %> |
+          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %>
         <% end %>
-          
-        <%= link_to 'Feedback Summary', summary_review_path(review) %>
+      </td>
+      <td>
+        <% if review.upcoming? %>
+          <%= link_to 'Show Review Details', review %>
+        <% end %>
+      </td>
+      <td><%= link_to 'Feedback Summary', summary_review_path(review) %></td>
     </tr>
 
   <% end %>
@@ -32,9 +38,12 @@
 
 <script>
   $('table.reviews').dataTable({
-  "aoColumnDefs": [
-      { "asSorting": [ "asc", "desc", "asc" ], "aTargets": [ 1 ] },
-      { "bSortable": false, "aTargets": [ 0, 3 ] }
+    bJQueryUI: true,
+    bLengthChange: false,
+    bFilter: false,
+    aoColumnDefs: [
+      { aDataSort: [ 1 ], aTargets: [ 0 ] },
+      { bSortable: false, aTargets: [ 3, 4, 5 ] }
     ]
   });
 </script>

@@ -1,17 +1,16 @@
 <% if signed_in? %>
 
-  <% if current_user.admin? %>
-    <h1>Upcoming Reviews</h1>
-    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
-    <%= render :partial => 'reviews/reviews' %>
-
-  <% elsif current_user.jc? %>
+  <% if current_user.jc? %>
     <h1>Your Upcoming Review</h1>
     <%= render :partial => 'welcome/index_jc' %>
 
+  <% elsif current_user.admin? %>
+    <h1>Upcoming Reviews</h1>
+    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+    <%= render :partial => 'reviews/reviews' %>
+  
   <% else %>
-    <h1>Review Site Homepage</h1>
-    <%= render :partial => 'welcome/index_user' %>
+    <%= render :partial => 'index_user' %>
+  
   <% end %>
-
 <% end %>

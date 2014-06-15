@@ -10,7 +10,7 @@ class ReviewsController < ApplicationController
         Review.includes({:junior_consultant => :user},
                         {:junior_consultant => :reviewing_group},
                          :feedbacks).all.each do |review|
-          if can? :summary, review
+          if can? :read, review or can? :summary, review
             @reviews << review
           end
         end

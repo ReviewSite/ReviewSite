@@ -11,7 +11,7 @@ class ReviewingGroup < ActiveRecord::Base
   end
 
   def members
-    self.users.map { |m| m.to_s}.sort.join(', ')
+    list(self.users)
   end
 
   def to_s

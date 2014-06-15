@@ -1,11 +1,29 @@
-<% if @invitations_received.count > 0 or @feedbacks_in_progress.count > 0 %>
-  <h2>Provide Feedback For</h2>
-  <br/>
-  <%= render :partial => 'feedbacks/unfinished_feedbacks' %>
-<% end %>
+<h1>Upcoming Reviews</h1>
+<%= render :partial => 'reviews/reviews' %>
 
-<% if @reviews.count > 0 %>
-  <% @reviews.each do |review| %>
-    <%= render review %>
-  <% end %>
+<% if current_user.reviewing_groups.present? or current_user.coachees.present? %>
+<div class="alert alert-info">
+  <p>
+    <a href="#" id ="por-why"><span class="label label-info">?</span> Why am I am seeing these reviews?</a>
+  </p>  
+  <div id="which-reviews">
+    <p>You are seeing these reviews because:
+      <ul>
+        <% if current_user.reviewing_groups %>
+        <li>
+          You are a member of the following reviewing groups: <%= list(current_user.reviewing_groups) %>
+        </li>
+        <% end %>
+
+        <% if current_user.coachees %>
+        <li>
+          You have the following coachees: <%= list(current_user.coachees) %> 
+        </li>
+        <% end %>
+    
+      </ul>
+    </p>
+  </div>
+
+</div>
 <% end %>

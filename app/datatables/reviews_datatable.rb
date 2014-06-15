@@ -15,7 +15,7 @@ class ReviewsDatatable
     {
         sEcho: params[:sEcho].to_i,
         iTotalRecords: Review.count,
-        iTotalDisplayRecords: reviews.total_entries,
+        iTotalDisplayRecords: reviews.count,
         aaData: data
     }
   end
@@ -43,12 +43,16 @@ class ReviewsDatatable
   end
 
   def fetch_reviews
-    reviews = Review.includes({:junior_consultant => :user},
-                              {:junior_consultant => :reviewing_group},
-                               :feedbacks)
+    reviews = []
 
-    reviews = reviews.order("#{sort_column} #{sort_direction}")
-    reviews = reviews.page(page).per_page(per_page)
+    Review.includes({:junior_consultant => :user},
+                    {:junior_consultant => :reviewing_group},
+                     :feedbacks).order("#{sort_column} #{sort_direction}").page(page).per_page(per_page).all.each do |review|
+
+      if can? :read, review or can? :summary, review
+        reviews << review
+      end
+    end
 
     if params[:sSearch].present?
       reviews = reviews.joins(junior_consultant: :user).where("users.name like :search", search: "%#{params[:sSearch]}%")

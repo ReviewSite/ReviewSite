@@ -4,7 +4,7 @@ class ReviewingGroup < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   def user_tokens=(ids)
     self.user_ids = ids.split(",")

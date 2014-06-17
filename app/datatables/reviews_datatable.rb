@@ -1,10 +1,10 @@
 class ReviewsDatatable
-  delegate :params, :h, :link_to, :number_to_currency, to: :@view
+  delegate :params, :h, :link_to, to: :@view
   delegate :can?, :cannot?, to: :@ability
 
-  def initialize(view, user)
+  def initialize(view, ability)
     @view = view
-    @ability ||= Ability.new(user)
+    @ability ||= ability
   end
 
   def url_helpers
@@ -15,7 +15,7 @@ class ReviewsDatatable
     {
         sEcho: params[:sEcho].to_i,
         iTotalRecords: Review.count,
-        iTotalDisplayRecords: reviews.count,
+        iTotalDisplayRecords: reviews.total_entries,
         aaData: data
     }
   end
@@ -43,22 +43,27 @@ class ReviewsDatatable
   end
 
   def fetch_reviews
-    reviews = []
+    reviews = Review.includes({:junior_consultant => :user},
+                              {:junior_consultant =>
+                                {:reviewing_group => :users}},
+                              :feedbacks)
 
-    Review.includes({:junior_consultant => :user},
-                    {:junior_consultant => :reviewing_group},
-                     :feedbacks).order("#{sort_column} #{sort_direction}").page(page).per_page(per_page).all.each do |review|
-
-      if can? :read, review or can? :summary, review
-        reviews << review
-      end
-    end
+    reviews = reviews.order("#{sort_column} #{sort_direction}")
 
     if params[:sSearch].present?
       reviews = reviews.joins(junior_consultant: :user).where("users.name like :search", search: "%#{params[:sSearch]}%")
     end
 
-    reviews
+    reviews_array = []
+    reviews.all.each do |review|
+      if can? :read, review or can? :summary, review
+        reviews_array << review
+      end
+    end
+
+    reviews_displayed = reviews_array.paginate(:page => page, :per_page => per_page)
+
+    reviews_displayed
   end
 
   def page
@@ -75,13 +80,7 @@ class ReviewsDatatable
   end
 
   def sort_direction
-    sort_col = params[:iSortCol_0].to_i
-
-    if sort_col == 1 # users.name for some reason returns in reverse order
-      params[:sSortDir_0] == "asc" ? "desc" : "asc"
-    else
-      params[:sSortDir_0] == "desc" ? "desc" : "asc"
-    end
-
+    params[:sSortDir_0] == "desc" ? "desc" : "asc"
   end
+
 end

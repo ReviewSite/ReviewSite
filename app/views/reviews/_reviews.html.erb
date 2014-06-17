@@ -26,9 +26,11 @@
         bProcessing: true,
         bServerSide: true,
         sAjaxSource: $('#reviews').data('source'),
+        oLanguage: {
+          sInfoFiltered: ""
+        },
         aoColumnDefs: [
-          { bSortable: false, aTargets: [ 5, 6, 7, 8 ] },
-          { aDataSort: [ 0, 1 ], aTargets: [ 0 ] }
+          { bSortable: false, aTargets: [ 5, 6, 7, 8 ] }
         ]
     });
 </script>

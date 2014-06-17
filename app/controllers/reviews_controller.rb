@@ -15,8 +15,7 @@ class ReviewsController < ApplicationController
           end
         end
       }
-
-      format.json { render json: ReviewsDatatable.new(view_context, current_user) }
+      format.json { render json: ReviewsDatatable.new(view_context, current_ability) }
     end
   end
 

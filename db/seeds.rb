@@ -56,6 +56,7 @@
 #
 require 'bcrypt'
 
+# destroy test user records if they already existing
 emails = ['john@example.com',
           'sally@example.com',
           'bob@example.com',
@@ -64,6 +65,10 @@ emails = ['john@example.com',
           'doug@example.com',
           'elvis@example.com',
           'george@example.com',
+          'johanna@example.com',
+          'gina@example.com',
+          'mandy@example.com',
+          'carrie@example.com',
           'jennifer@example.com',
           'admin@example.com'
 ]
@@ -75,8 +80,8 @@ emails.each do |existing_user|
   end
 end
 
-chicago = ReviewingGroup.create(name: 'Chicago')
 
+# create test users
 john = User.create(name: 'John', okta_name: 'john', email: 'john@example.com')
 sally = User.create(name: 'sally', okta_name: 'sally', email: 'sally@example.com')
 bob = User.create(name: 'bob', okta_name: 'bob', email: 'bob@example.com')
@@ -85,19 +90,40 @@ luke = User.create(name: 'luke', okta_name: 'luke', email: 'luke@example.com')
 doug = User.create(name: 'doug', okta_name: 'doug', email: 'doug@example.com')
 elvis = User.create(name: 'elvis', okta_name: 'elvis', email: 'elvis@example.com')
 george = User.create(name: 'george', okta_name: 'george', email: 'george@example.com')
+johanna = User.create(name: 'johanna', okta_name: 'johanna', email: 'johanna@example.com')
+gina = User.create(name: 'gina', okta_name: 'gina', email: 'gina@example.com')
+mandy = User.create(name: 'mandy', okta_name: 'mandy', email: 'mandy@example.com')
+carrie = User.create(name: 'carrie', okta_name: 'carrie', email: 'carrie@example.com')
 
 jennifer = User.new(name: 'jennifer', email: 'jennifer@example.com')
 jennifer.save(validate: false)
 jennifer.update_attribute(:password_digest, BCrypt::Password.create('password'))
 
-admin = User.create(name: 'admin', okta_name: 'imadmin', email: 'admin@example.com')
+admin = User.create(name: 'admin', okta_name: 'admin', email: 'admin@example.com')
 admin.admin = true
 admin.save!
 
+
+# create reviewing groups
+chicago = ReviewingGroup.create({name: 'Chicago', users: [admin, john]})
+dallas = ReviewingGroup.create({name: 'Dallas', users: [admin, jennifer]})
+atlanta = ReviewingGroup.create({name: 'Atlanta', users: [admin, john, jennifer]})
+newyork = ReviewingGroup.create({name: 'New York', users: [admin, doug]})
+sanfran = ReviewingGroup.create({name: 'San Francisco', users: [admin, doug, carrie]})
+
+
+# create JCs
 sallyJC = JuniorConsultant.create({coach_id: luke.id, user_id: sally.id, reviewing_group_id: chicago.id})
 bobJC = JuniorConsultant.create({user_id: bob.id, reviewing_group_id: chicago.id})
+johannaJC = JuniorConsultant.create({user_id: johanna.id, reviewing_group_id: newyork.id})
+ginaJC = JuniorConsultant.create({user_id: gina.id, reviewing_group_id: sanfran.id, coach_id: jennifer.id, notes: "hey i have notes"})
+mandyJC = JuniorConsultant.create({user_id: mandy.id, reviewing_group_id: dallas.id, coach_id: bob.id, notes: "notes notes notes"})
 
-reviewSally = Review.create({junior_consultant_id: sallyJC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now})
+
+###############
+# Sally Review #1
+##############
+reviewSally = Review.create({junior_consultant_id: sallyJC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now, review_date: 1.month.from_now})
 
 attitude_string = "You have a great attitude"
 client_string = "You sometimes interact with the client"
@@ -134,7 +160,7 @@ bob_feedback_for_sally = Feedback.create({review_id: reviewSally.id, user_id: bo
 ###############
 # Sally Review #2
 ##############
-reviewSally2 = Review.create({junior_consultant_id: sallyJC.id, review_type: "12-Month", feedback_deadline: 5.months.from_now})
+reviewSally2 = Review.create({junior_consultant_id: sallyJC.id, review_type: "12-Month", feedback_deadline: 5.months.from_now, review_date: 5.months.from_now})
 doug_invitation_from_sally2 =  reviewSally2.invitations.create({email: doug.email})
 doug_feedback_for_sally2 = Feedback.create({review_id: reviewSally2.id, user_id: doug.id,
                                            attitude_met: "Yes. Good Attitude", comments: comment})
@@ -145,7 +171,7 @@ doug_feedback_for_sally2.save!
 ###############
 #
 ##############
-reviewBob = Review.create({junior_consultant_id: bobJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now})
+reviewBob = Review.create({junior_consultant_id: bobJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
 john_feedback_for_bob = Feedback.create({review_id: reviewBob.id, user_id: john.id, user_string: "John",
                                         comments: comment})
 john_feedback_for_bob.submitted = true
@@ -153,3 +179,17 @@ john_feedback_for_bob.save!
 
 bob_self_assessment = SelfAssessment.create!({review_id: reviewBob.id, junior_consultant_id: bobJC.id,
                                             response: "I think that I am a swell JC."})
+
+# create more reviews
+reviewJohanna = Review.create({junior_consultant_id: johannaJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({junior_consultant_id: johannaJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
+Review.create({junior_consultant_id: johannaJC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
+Review.create({junior_consultant_id: johannaJC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
+
+reviewMandy = Review.create({junior_consultant_id: mandyJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({junior_consultant_id: mandyJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
+Review.create({junior_consultant_id: mandyJC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
+Review.create({junior_consultant_id: mandyJC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
+
+reviewGina = Review.create({junior_consultant_id: ginaJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({junior_consultant_id: ginaJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})

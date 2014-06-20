@@ -1,11 +1,13 @@
-Hey <%= @jc_name %>,
+Hi <%= @jc_name %>,
 
 We would like to inform you that your <%= @review_type %> review has been set up, and you can start working on it now.
 
-You can invite peers to provide feedbacks and work on your self-assessment by clicking on the link:
+You can invite peers to provide feedback and work on your self-assessment by clicking on the link:
 <%= review_url(@review) %>
 
-Please write and submit your self-assessment by <%= @review_date %>, feedback deadline is <%= @feedback_deadline %>
+Your review is currently scheduled for <%= @review_date %>, and the deadline to submit feedback is <%= @feedback_deadline %>. Please make sure to collect feedback on time!
 
-Kindly regards,
-Administration of the ReviewSite
+If you have any questions, feel free to post them in our myThoughtWorks group at <%= @my_tw_url %> or talk to your People Coach.
+
+Thanks,
+The ReviewSite Team

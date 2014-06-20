@@ -1,4 +1,6 @@
-This is a reminder to submit some feedback for the <%= @review.review_type %> review of <%= @jc.user.name %>.
+Hi there!
+
+This is a reminder to submit your feedback for <%= @review %>.
 
 <% if @feedback %>
 You have saved feedback, but it has not yet been submitted. To continue working, please visit <%= edit_review_feedback_url(@review, @feedback) %>.
@@ -12,6 +14,7 @@ The deadline for leaving feedback is <%= @review.feedback_deadline %>.
 Even though the feedback deadline has passed, we would love to hear your thoughts.
 <% end %>
 
-Thanks,
+If you have any questions, please feel free to post them in our myThoughtWorks group at <%= @my_tw_url %>.
 
-The ReviewSite Team
+Thanks,
+<%= @review.junior_consultant.user.name %> and the ReviewSite Team

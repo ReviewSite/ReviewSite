@@ -22,7 +22,8 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %> |
-    <%= link_to 'Cancel', reviewing_groups_path %>
+    <%= f.submit "#{button_title}", class: "btn btn-info" %>
+    <span class="separator">|</span>
+    <%= link_to 'Cancel', reviewing_groups_path, class: "btn btn-link" %>
   </div>
 <% end %>

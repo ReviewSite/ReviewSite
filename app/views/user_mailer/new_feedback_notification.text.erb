@@ -1,11 +1,10 @@
-Dear <%= @reviewee.user.name %>,
+Hi <%= @reviewee.user.name %>,
 
 You have received new feedback from <%= @reviewer.name %>. To view your feedback, you can visit the link below:
 
 <%= review_feedback_url(@review, @feedback) %>
 
-Questions? Email Aleksandar Serafimoski, Svetlana Ivanova, or Patrick Sarnacke
+If you have any questions, please talk to your People Coach or post your concerns in our myThoughtWorks group at <%= @my_tw_url %>.
 
 Thanks,
-
-Administration of the ReviewSite
+The ReviewSite Team

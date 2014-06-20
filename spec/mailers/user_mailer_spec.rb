@@ -7,7 +7,7 @@ describe UserMailer do
     let(:mail) { UserMailer.registration_confirmation(user) }
 
     it 'renders the subject' do
-      mail.subject.should == 'You were registered on the ReviewSite'
+      mail.subject.should == '[ReviewSite] You were registered!'
     end
 
     it 'renders the receiver email' do
@@ -33,7 +33,7 @@ describe UserMailer do
     let(:mail) {UserMailer.review_creation(review) }
 
     it 'renders the subject' do
-      mail.subject.should ==  "#{jc.user.name}, #{review.review_type} review is created"
+      mail.subject.should ==  "[ReviewSite] Your #{review.review_type} review has been created"
     end
 
     it 'renders the receiver email' do
@@ -45,12 +45,12 @@ describe UserMailer do
     end
 
     it 'contains link to review' do
-      mail.body.encoded.should match("You can invite peers to provide feedbacks and work on your self-assessment by clicking on the link:\r\n#{review_url(review)}")
+      mail.body.encoded.should match("You can invite peers to provide feedback and work on your self-assessment by clicking on the link:\r\n#{review_url(review)}")
     end
 
     it 'contains the feedback deadline and review date' do
-      mail.body.encoded.should match("Please write and submit your self-assessment by #{review.review_date}")
-      mail.body.encoded.should match("feedback deadline is #{review.feedback_deadline}")
+      mail.body.encoded.should match("Your review is currently scheduled for #{review.review_date}")
+      mail.body.encoded.should match("the deadline to submit feedback is #{review.feedback_deadline}")
     end
   end
 
@@ -59,7 +59,7 @@ describe UserMailer do
     let(:mail) { UserMailer.password_reset(user) }
     subject { mail }
 
-    its(:subject) { should == "Recover account for the ReviewSite" }
+    its(:subject) { should == "[ReviewSite] Recover your account" }
     its(:to) { should == [user.email] }
     its(:from) { should == ['do-not-reply@thoughtworks.org'] }
 
@@ -76,7 +76,7 @@ describe UserMailer do
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 
     it 'renders the subject' do
-      mail.subject.should == 'You have new feedback'
+      mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
 
     it 'renders the receiver email' do
@@ -88,7 +88,7 @@ describe UserMailer do
     end
 
     it 'addresses the receiver' do
-      mail.body.encoded.should match("Dear " + jc.user.name)
+      mail.body.encoded.should match("Hi " + jc.user.name)
     end
 
     it 'contains the name of the reviewer' do
@@ -108,7 +108,7 @@ describe UserMailer do
     let (:mail) { UserMailer.review_invitation(review, email, message) }
 
     it 'renders the subject' do
-      mail.subject.should == "You've been invited to give feedback for #{jc.user.name}."
+      mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{jc.user.name}"
     end
 
     it 'renders the receiver email' do
@@ -135,12 +135,12 @@ describe UserMailer do
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
-      its (:subject) { should == "Please leave feedback for #{jc.user.name}." }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
-        mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the #{review.review_type} review of #{jc.user.name}."
+        CGI.unescapeHTML(mail.body.encoded).should match(
+           "This is a reminder to submit your feedback for #{review}."
         )
       end
 
@@ -175,12 +175,12 @@ describe UserMailer do
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
-      its (:subject) { should == "Please leave feedback for #{jc.user.name}." }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
-        mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the #{review.review_type} review of #{jc.user.name}."
+        CGI.unescapeHTML(mail.body.encoded).should match(
+          "This is a reminder to submit your feedback for #{review}."
         )
       end
 
@@ -214,12 +214,12 @@ describe UserMailer do
       subject { mail }
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
-      its (:subject) { should == "Please leave feedback for #{jc.user.name}." }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
-        mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the #{review.review_type} review of #{jc.user.name}."
+        CGI.unescapeHTML(mail.body.encoded).should match(
+          "This is a reminder to submit your feedback for #{review}."
         )
       end
 
@@ -256,12 +256,12 @@ describe UserMailer do
 
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
-      its (:subject) { should == "Please leave feedback for #{jc.user.name}." }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
-        mail.body.encoded.should match(
-          "This is a reminder to submit some feedback for the #{review.review_type} review of #{jc.user.name}."
+        CGI.unescapeHTML(mail.body.encoded).should match(
+          "This is a reminder to submit your feedback for #{review}."
         )
       end
 

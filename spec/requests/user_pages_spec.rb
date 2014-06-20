@@ -95,7 +95,7 @@ describe "User pages: " do
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == ["test@example.com"]
-        mail.subject.should == "You were registered on the ReviewSite"
+        mail.subject.should == "[ReviewSite] You were registered!"
 
         new_user = User.last
         new_user.name.should == "Bob Smith"
@@ -125,7 +125,7 @@ describe "User pages: " do
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == ["test@example.com"]
-        mail.subject.should == "You were registered on the ReviewSite"
+        mail.subject.should == "[ReviewSite] You were registered!"
 
         new_user = User.last
         new_user.name.should == "Bob Smith"

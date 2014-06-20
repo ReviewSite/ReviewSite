@@ -87,7 +87,7 @@ describe "Feedback pages", :type => :feature do
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
         mail.to.should == [jc.user.email]
-        mail.subject.should == "You have new feedback"
+        mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
       end
     end
   end
@@ -158,7 +158,7 @@ describe "Feedback pages", :type => :feature do
           ActionMailer::Base.deliveries.length.should == 1
           mail = ActionMailer::Base.deliveries.last
           mail.to.should == [jc.user.email]
-          mail.subject.should == "You have new feedback"
+          mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
         end
       end
 
@@ -230,7 +230,7 @@ describe "Feedback pages", :type => :feature do
       ActionMailer::Base.deliveries.length.should == 1
       mail = ActionMailer::Base.deliveries.last
       mail.to.should == [jc.user.email]
-      mail.subject.should == "You have new feedback"
+      mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
   end
 

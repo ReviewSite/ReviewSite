@@ -7,37 +7,37 @@ describe "Feedback pages", :type => :feature do
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
   let(:inputs) { {
-    'feedback_project_worked_on' => 'My Project',
-    'feedback_role_description' => 'My Role',
-    'feedback_tech_exceeded' => 'Input 1',
-    'feedback_tech_met' => 'Input 2',
-    'feedback_tech_improve' => 'Input 3',
+    # 'feedback_project_worked_on' => 'My Project',
+    # 'feedback_role_description' => 'My Role',
+    # 'feedback_tech_exceeded' => 'Input 1',
+    # 'feedback_tech_met' => 'Input 2',
+    # 'feedback_tech_improve' => 'Input 3',
     # The rest of these are not visible (hidden in the accordion)
-    #'feedback_client_exceeded' => 'Input 4',
-    #'feedback_client_met' => 'Input 5',
-    #'feedback_client_improve' => 'Input 6',
-    #'feedback_ownership_exceeded' => 'Input 7',
-    #'feedback_ownership_met' => 'Input 8',
-    #'feedback_ownership_improve' => 'Input 9',
-    #'feedback_leadership_exceeded' => 'Input 10',
-    #'feedback_leadership_met' => 'Input 11',
-    #'feedback_leadership_improve' => 'Input 12',
-    #'feedback_teamwork_exceeded' => 'Input 13',
-    #'feedback_teamwork_met' => 'Input 14',
-    #'feedback_teamwork_improve' => 'Input 15',
-    #'feedback_attitude_exceeded' => 'Input 16',
-    #'feedback_attitude_met' => 'Input 17',
-    #'feedback_attitude_improve' => 'Input 18',
-    #'feedback_professionalism_exceeded' => 'Input 19',
-    #'feedback_professionalism_met' => 'Input 20',
-    #'feedback_professionalism_improve' => 'Input 21',
-    #'feedback_organizational_exceeded' => 'Input 22',
-    #'feedback_organizational_met' => 'Input 23',
-    #'feedback_organizational_improve' => 'Input 24',
-    #'feedback_innovative_exceeded' => 'Input 25',
-    #'feedback_innovative_met' => 'Input 26',
-    #'feedback_innovative_improve' => 'Input 27',
-    #'feedback_comments' => 'My Comments'
+    # 'feedback_client_exceeded' => 'Input 4',
+    # 'feedback_client_met' => 'Input 5',
+    # 'feedback_client_improve' => 'Input 6',
+    # 'feedback_ownership_exceeded' => 'Input 7',
+    # 'feedback_ownership_met' => 'Input 8',
+    # 'feedback_ownership_improve' => 'Input 9',
+    # 'feedback_leadership_exceeded' => 'Input 10',
+    # 'feedback_leadership_met' => 'Input 11',
+    # 'feedback_leadership_improve' => 'Input 12',
+    # 'feedback_teamwork_exceeded' => 'Input 13',
+    # 'feedback_teamwork_met' => 'Input 14',
+    # 'feedback_teamwork_improve' => 'Input 15',
+    # 'feedback_attitude_exceeded' => 'Input 16',
+    # 'feedback_attitude_met' => 'Input 17',
+    # 'feedback_attitude_improve' => 'Input 18',
+    # 'feedback_professionalism_exceeded' => 'Input 19',
+    # 'feedback_professionalism_met' => 'Input 20',
+    # 'feedback_professionalism_improve' => 'Input 21',
+    # 'feedback_organizational_exceeded' => 'Input 22',
+    # 'feedback_organizational_met' => 'Input 23',
+    # 'feedback_organizational_improve' => 'Input 24',
+    # 'feedback_innovative_exceeded' => 'Input 25',
+    # 'feedback_innovative_met' => 'Input 26',
+    # 'feedback_innovative_improve' => 'Input 27',
+    'feedback_comments' => 'My Comments'
   } }
 
   subject { page }
@@ -47,17 +47,21 @@ describe "Feedback pages", :type => :feature do
       sign_in user
     end
 
-    describe "if no existing feedback", :type => :feature do
+    describe "if no existing feedback", js: true, :type => :feature do
       before do
         visit new_review_feedback_path(review)
+
+        page.find('h3', :text => 'Comments').click
+
         inputs.each do |field, value|
           fill_in field, with: value
         end
       end
 
       it "saves as draft if 'Save Feedback' is clicked" do
-        #click_button "Save Feedback"
         first(:button, "Save Feedback").click
+        find(".alert") #wait for the resulting page to load
+
         feedback = Feedback.last
         current_path.should == edit_review_feedback_path(review, feedback)
         feedback.submitted.should be_false
@@ -138,6 +142,8 @@ describe "Feedback pages", :type => :feature do
         it "saves as final if 'Submit Final' is clicked", js: true do
           ActionMailer::Base.deliveries.clear
 
+          page.find('h3', :text => 'Comments').click
+
           inputs.each do |field, value|
             fill_in field, with: ""
           end
@@ -193,6 +199,9 @@ describe "Feedback pages", :type => :feature do
       sign_in FactoryGirl.create(:user)
       visit additional_review_feedbacks_path(review)
       fill_in "feedback_user_string", with: "A non-user"
+
+      page.find('h3', :text => 'Comments').click
+
       inputs.each do |field, value|
         fill_in field, with: value
       end

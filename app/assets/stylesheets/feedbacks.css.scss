@@ -2,27 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#instructions-label {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#instructions-label:hover {
-  background-color: black;
-  color: white;
-}
-
-#instructions {
-  display: none;  
-}
-
 textarea {
   height: 80px;
 }
 
 .feedback_scale {
   float: left;
-  width: auto;
+  width: 100%;
 }
 
 select {

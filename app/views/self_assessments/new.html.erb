@@ -1,5 +1,4 @@
-<h1>New Self Assessment</h1>
+<h1>Create Self Assessment</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', summary_review_path(@review) %>
+<% button_title = 'Create Self Assessment' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

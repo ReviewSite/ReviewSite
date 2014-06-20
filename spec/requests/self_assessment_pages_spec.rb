@@ -18,7 +18,7 @@ describe "Self assessment page" do
 
       it "lets JC create a self assessment" do
         fill_in 'Response', with: 'This is a self-assessment.'
-        click_button 'Create Self assessment'
+        click_button 'Create Self Assessment'
         current_path.should == summary_review_path(review)
 
         self_assessment = SelfAssessment.last
@@ -36,7 +36,7 @@ describe "Self assessment page" do
 
       it "lets admin create a self assessment if one hasn't been created" do
         fill_in 'Response', with: 'This is a self-assessment.'
-        click_button 'Create Self assessment'
+        click_button 'Create Self Assessment'
         current_path.should == summary_review_path(review)
 
         self_assessment = SelfAssessment.last
@@ -72,7 +72,7 @@ describe "Self assessment page" do
         page.should have_selector('textarea#self_assessment_response',
                                     text: 'These are some notes that I have written')
         fill_in 'Response', with: 'Now I have edited my self-assessment.'
-        click_button 'Update Self assessment'
+        click_button 'Save Changes'
         current_path.should == summary_review_path(review)
 
         self_assessment.reload
@@ -90,7 +90,7 @@ describe "Self assessment page" do
         page.should have_selector('textarea#self_assessment_response',
                                     text: 'These are some notes that I have written')
         fill_in 'Response', with: 'Now I have edited my self-assessment.'
-        click_button 'Update Self assessment'
+        click_button 'Save Changes'
         current_path.should == summary_review_path(review)
 
         self_assessment.reload

@@ -1,5 +1,4 @@
 <h1>Editing Self Assessment</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', review_self_assessments_path(@review) %>
+<% button_title = 'Save Changes' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

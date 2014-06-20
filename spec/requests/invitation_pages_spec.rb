@@ -19,20 +19,20 @@ describe "Invitations" do
       end
 
       it "redirects to home page after submission" do
-        click_button "Create Invitation"
+        click_button "Send Invitation"
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice', text: "An invitation has been sent!")
       end
 
       it "sends an invitation email" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Create Invitation"
+        click_button "Send Invitation"
       end
 
       it "does not send an email if the 'No email' option is selected" do
         UserMailer.should_not_receive(:review_invitation)
         check "no_email"
-        click_button "Create Invitation"
+        click_button "Send Invitation"
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice', text: "An invitation has been created!")
       end
@@ -47,14 +47,14 @@ describe "Invitations" do
       end
 
       it "redirects to home page after submission" do
-        click_button "Create Invitation"
+        click_button "Send Invitation"
         current_path.should == root_path
         page.should have_selector('div.alert.alert-notice')
       end
 
       it "sends an invitation email" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Create Invitation"
+        click_button "Send Invitation"
       end
     end
 

@@ -40,7 +40,7 @@ jQuery (function () {
     tokenLimit: 1
   });
 
-  if ($("#isjc")[0].checked) {
+  if ($("#isjc").length && $("#isjc")[0].checked) {
     $(".fields").show();
   } else {
     $(".fields").hide();

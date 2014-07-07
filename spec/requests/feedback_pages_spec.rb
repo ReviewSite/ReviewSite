@@ -71,7 +71,7 @@ describe "Feedback pages", :type => :feature do
       it "saves as final and sends email if 'Submit Final' is clicked", js: true do
         ActionMailer::Base.deliveries.clear
 
-        page.driver.browser.accept_js_confirms
+        page.evaluate_script('window.confirm = function() { return true; }')
         click_button "Submit Final"
         find(".alert-notice") # wait for the resulting page to load
 
@@ -142,7 +142,7 @@ describe "Feedback pages", :type => :feature do
             fill_in field, with: ""
           end
 
-          page.driver.browser.accept_js_confirms
+          page.evaluate_script('window.confirm = function() { return true; }')
           click_button "Submit Final"
           find(".alert-notice") # wait for the resulting page to load
 
@@ -214,7 +214,7 @@ describe "Feedback pages", :type => :feature do
     it "saves as final and sends email if 'Submit Final' is clicked", js: true do
       ActionMailer::Base.deliveries.clear
 
-      page.driver.browser.accept_js_confirms
+      page.evaluate_script('window.confirm = function() { return true; }')
       click_button "Submit Final"
       find(".alert-notice") # wait for the resulting page to load
 

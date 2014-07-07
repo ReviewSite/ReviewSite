@@ -8,3 +8,6 @@ package 'libxml2-dev'
 # for capybara-webkit
 package 'qt4-dev-tools'
 package 'xvfb'
+
+# for phantomjs
+package 'fontconfig'

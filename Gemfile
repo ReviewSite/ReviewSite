@@ -33,7 +33,7 @@ group :development do
   gem 'bullet'
 end
 group :development, :test do
-  gem 'rspec-rails', '2.9.0'
+  gem 'rspec-rails'
   gem 'guard-rspec', '0.5.5'
   gem 'travis-lint'
   gem 'pry'
@@ -43,8 +43,9 @@ end
 group :test do
   gem 'rack_session_access'
   gem 'shoulda-matchers', '1.3.0'
+  gem 'poltergeist'
+  gem 'phantomjs'
   gem 'capybara'
-  gem 'capybara-webkit'
   gem 'factory_girl_rails', '1.4.0'
   gem 'cucumber-rails', '1.2.1', require: false
   gem 'database_cleaner', '0.7.0'

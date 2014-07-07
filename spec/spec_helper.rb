@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 
 OmniAuth.config.test_mode = true
 OmniAuth.config.add_mock(:saml, {:uid => 'person2@example.com'})
@@ -35,9 +36,14 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
 
-  Capybara.javascript_driver = :webkit
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false)
+  end
+
+  Capybara.javascript_driver = :poltergeist
+
   config.include Capybara::DSL
- 
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end
@@ -51,7 +57,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
 
   end
- 
+
   config.after(:each) do
     DatabaseCleaner.clean
   end

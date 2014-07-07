@@ -252,7 +252,7 @@ describe "User pages: " do
       end
 
       it "should link to destroy", js: true do
-        page.driver.browser.accept_js_confirms
+        page.evaluate_script('window.confirm = function() { return true; }')
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
           click_link "Delete"
           current_path.should == users_path

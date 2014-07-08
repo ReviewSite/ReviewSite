@@ -90,7 +90,7 @@ class Review < ActiveRecord::Base
 
     # BOTH
     questions["Comments"] = Question.new("Comments", "General Comments", ["comments"],
-                                         "<p>Anything not covered above</p>")
+                                         "<p>Anything not covered above. What else do you want to share about #{junior_consultant}?</p>")
     questions
   end
 

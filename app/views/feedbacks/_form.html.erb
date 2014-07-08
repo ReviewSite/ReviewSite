@@ -11,20 +11,12 @@
     </div>
   <% end %>
 
-  <label id="instructions-label">Click to view instructions.</label><br/><br/>
-
   <div id="instructions">
-    <p><a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">See example feedback here</a></p>
+    <p>Thanks for providing feedback for <%= @review.junior_consultant %>!</p>
 
-    <p>For each section, please read the detailed description in the section header. 
-    This will give you more detail for the specific aspects of the individuals performance to consider for evaluation in the section.</p>
-
-    <p>At the bottom of the form, you will find a 'Save Feedback' button that can be used to save the feedback. You can come back later to continue updating it until you click 'Submit Final'</p>
-
-    <p>There are three categories to organize your detailed feedback for each of the overall
-    Sections. If you find the individual you are reviewing falls under two categories (perhaps both Meeting
-    &amp; Exceeding expectations) for a given section, please include both responses. There is no need to include
-    responses in all categories, if it does not apply.</p>
+    <p>Need a little inspiration? Take a look at some <a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">example feedback</a>. <b>There is no need to include responses in all categories in the form below if it does not apply.</b></p>
+  
+    <p>Make sure to save what you have so far by clicking the 'Save Feedback' button. When you are ready to share your feedback with others, you can submit your feedback as final. Once you click 'Submit Final', you will no longer be able to come back and make changes to your feedback.</p>
   </div>
 
   <br />
@@ -70,20 +62,19 @@
             <% end %>
             <% if @review.has_scale(heading) %>
               <div class="scale">
-                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
                 <%= f.label @review.scale_field(heading), "Please use a scale to prioritize areas you feel the reviewee should focus." %>
+                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
               </div>
             <% end %>
-            <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
+            <%= f.submit 'Save Feedback', :class => "btn btn-primary" %>
           </div>
         <% end %>
       </div>
       <br /><br />
-      <p>Clicking on the 'Save Feedback' button will save the feedback, but allow you to continue editing the feedback.<br />
-      Clicking on the 'Submit Final' will indicate that you are done writing the feedback, and that it can be shared</p>
-      <div class="actions">
-        <%= f.submit 'Save Feedback', :class => "save_feedback_button" %>
-        <%= f.submit 'Submit Final', {:class => "submit_feedback_button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+      <div class="actions">   
+        <%= f.submit 'Save Feedback', :class => "btn btn-primary" %>
+        <%= f.submit 'Submit Final', {:class => "btn btn-success", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+        <%= link_to 'Cancel', review_path(@review), :class => "btn btn-link" %>
       </div>
     </div>
   </div>

@@ -1,5 +1,4 @@
-<h1>Add New Reviewing Group</h1>
+<h1>Create Reviewing Group</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', reviewing_groups_path %>
+<% button_title = 'Create Reviewing Group' %>
+<%= render :partial => 'form', :locals => {button_title: button_title} %>

@@ -19,7 +19,7 @@
   <%= link_to 'Additional Feedback', additional_review_feedbacks_path(review) %> |
 <% end %>
 <% if can? :create, Invitation %>
-  <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %> |
+  <%= link_to 'Request Feedback', new_review_invitation_path(review), :class => 'send_invite_link' %> |
 <% end %>
 <% if can? :create, SelfAssessment %>
   <% if review.self_assessments.count > 0 %>

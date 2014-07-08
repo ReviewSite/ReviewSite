@@ -12,13 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= @review %>
+    <h2><%= @review %></h2>
   </div>
   <div class="field">
     <%= f.label :response %><br />
     <%= f.text_area :response %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "#{button_title}", :class => "btn btn-info" %>
+    <span class="separator">|</span>
+    <%= link_to 'Cancel', summary_review_path(@review), class: "btn btn-link" %>
   </div>
 <% end %>

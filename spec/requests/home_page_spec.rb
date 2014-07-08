@@ -71,7 +71,7 @@ describe "Home page" do
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
-        click_link 'Invite Reviewer'
+        click_link 'Request Feedback'
         current_path.should == new_review_invitation_path(review)
       end
 
@@ -94,7 +94,7 @@ describe "Home page" do
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
-        click_link 'Invite Reviewer'
+        click_link 'Request Feedback'
         current_path.should == new_review_invitation_path(review)
       end
 

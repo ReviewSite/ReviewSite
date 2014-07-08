@@ -1,5 +1,5 @@
-<% provide :title, 'Invite reviewer' %>
-<h1>Invite Reviewer</h1>
+<% provide :title, 'Request Feedback' %>
+<h1>Request Feedback</h1>
 
 <% if @invitation.errors.any? %>
   <div id="error_explanation">
@@ -39,7 +39,9 @@ Deadline: #{@review.feedback_deadline}
     <%= text_area_tag :message, @default_body %>
   </div>
 <br>
-  <%= submit_tag "Create Invitation", class: 'btn btn-large btn-primary' %>
+  <%= submit_tag "Send Invitation", class: 'btn btn-info' %>
+  <span class="separator">|</span>
+  <%= link_to 'Cancel', root_path, class: "btn btn-link" %>
 <% end %>
 
 <script>

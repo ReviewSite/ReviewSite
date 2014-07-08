@@ -1,9 +1,10 @@
-<h1>Review Site Homepage</h1>
-
 <% if signed_in? %>
   <% if current_user.admin? %>
-    <%= render :partial => 'welcome/index_admin' %>
+    <h1>Upcoming Reviews</h1>
+    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+    <%= render :partial => 'reviews/reviews' %>
   <% else %>
+    <h1>Review Site Homepage</h1>
     <%= render :partial => 'welcome/index_user' %>
   <% end %>
 <% end %>

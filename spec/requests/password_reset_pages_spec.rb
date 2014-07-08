@@ -12,10 +12,10 @@ describe "Password reset pages" do
         click_link "Forgot password?"
       end
 
-      it { title.should == 'Review Site | Request password reset' }
+      it { title.should == 'Review Site | Request Password Reset' }
 
       describe "with invalid information" do
-        before { click_button "Request password reset" }
+        before { click_button "Request Password Reset" }
 
         it { should have_selector('h1', text:'Sign in') }
         it { should have_selector('div.alert.alert-notice') }
@@ -26,17 +26,17 @@ describe "Password reset pages" do
 
         it "should send email when form is submitted" do
           UserMailer.should_receive(:password_reset).with(user).and_return(double("mailer", :deliver => true))
-          click_button "Request password reset"
+          click_button "Request Password Reset"
         end
 
         describe "directed to signin page" do
-          before { click_button "Request password reset" }
+          before { click_button "Request Password Reset" }
           it { should have_selector('h1', text:'Sign in') }
           it { should have_selector('div.alert.alert-notice') }
         end
 
         specify "user should still have original password" do
-          click_button "Request password reset"
+          click_button "Request Password Reset"
           visit signin_path
           fill_in "Password", with: "password"
           fill_in "Email", with: user.email
@@ -51,7 +51,7 @@ describe "Password reset pages" do
       before do
         visit new_password_reset_path
         fill_in "Email", with: user.email
-        click_button "Request password reset"
+        click_button "Request Password Reset"
         user.reload
       end
 

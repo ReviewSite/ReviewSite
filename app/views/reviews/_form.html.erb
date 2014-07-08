@@ -11,49 +11,40 @@
     </div>
   <% end %>
 
-  <div class="form-horizontal">
-    <div class="control-group">
-        <% if @review.persisted? %>
-          <%= f.label :junior_consultant_id %>
-          <%= @review.junior_consultant.user.name %>
-        <%else%>
-          <%= f.label :junior_consultant_id %>
-          <%= f.text_field :junior_consultant_id %> 
-        
-        <%end%>
-    </div>
+  <div class="field">
+    <% if @review.persisted? %>
+      <%= f.label :junior_consultant_id %><br />
+      <p class="help-text"><%= @review.junior_consultant.user.name %></p>
+    <%else%>
+      <%= f.label :junior_consultant_id %>
+      <%= f.text_field :junior_consultant_id %> 
+    <%end%>
+  </div>
 
-    <div class="control-group">
-      <%= f.label :review_type %>
-      <div class="controls">
-        <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']], class: "span4" %>
-      </div>
-    </div>
+  <div class="field">
+    <%= f.label :review_type %>
+    <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']], :include_blank => "Select Review Type" %>
+  </div>
 
-    <div class="control-group">
-      <%= f.label :review_date %>
-      <div class="controls">
-        <%= f.text_field :review_date, class: "datepicker input-medium", placeholder: "yyyy-mm-dd" %>
-      </div>
-    </div>  
+  <div class="field">
+    <%= f.label :review_date %>
+    <%= f.text_field :review_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
+  </div>
 
-    <div class="control-group">
-      <%= f.label :feedback_deadline %>
-      <div class="controls">
-        <%= f.text_field :feedback_deadline, class: "datepicker input-medium", placeholder: "yyyy-mm-dd"%>
-      </div>
-      <p class="improvement_text pull-left">The feedback deadline will be displayed on the feedback form</p>
-    </div>  
+  <div class="field">
+    <%= f.label :feedback_deadline %><br />
+    <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
+    <%= f.text_field :feedback_deadline, class: "datepicker", placeholder: "yyyy-mm-dd"%>
+  </div>
 
-    <div class="control-group">
-      <%= f.label :send_link_date %>
-      <div class="controls">
-        <%= f.text_field :send_link_date, class: "datepicker input-medium", placeholder: "yyyy-mm-dd" %>
-      </div>
-    </div>  
+  <div class="field">
+    <%= f.label :send_link_date %>
+    <%= f.text_field :send_link_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
+  </div>
 
-    <div class="actions">
-      <%= f.submit %>
-    </div>
+  <div class="actions">
+    <%= f.submit "#{button_title}", class: "btn btn-info" %> 
+    <span class="separator">|</span> 
+    <%= link_to 'Cancel', reviews_path, class: "btn btn-link" %>
   </div>
 <% end %>

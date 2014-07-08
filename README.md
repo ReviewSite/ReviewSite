@@ -1,79 +1,54 @@
-ReviewSite
+TravisCI: 
+[![Build Status](https://travis-ci.org/ReviewSite/ReviewSite.png?branch=master)](https://travis-ci.org/ReviewSite/ReviewSite)
 
-Build Status on TravisCI: [![Build
-Status](https://travis-ci.org/ReviewSite/ReviewSite.png?branch=master)](https://travis-ci.org/ReviewSite/ReviewSite)
-
-How to contribute time/effort to the ReviewSite
------------------------------------------------
-
-* Check out this project, and use the provided vagrantbox to do development/testing
-* For any changes, include updated/added unit tests, and ensure that the whole suite runs
-* Push changes to github
-* [optional] Push changes to the 'dev' site (ask Aleks/Casey/Robin for access to it)
-* Every week or so, change will be pushed to the 'dev' site for testing, and
-  then, if no problems occur, promoted to "production" soon-thereafter
- * Ask Alex/Robin if you would like code promoted earlier.
+SnapCI:
+[![Build Status](https://snap-ci.com/ReviewSite/ReviewSite/branch/master/build_image)](https://snap-ci.com/ReviewSite/ReviewSite/branch/master)
 
 
-Development Setup instructions:
--------------------------------
-The ReviewSite codebase includes a vagrantbox for local development and testing.
-Make sure you have VM VirtualBox installed before doing the next steps.
+Project Setup
+=============
 
-To use this, you must checkout and build the vagrantbox.
+* Fork the repo
+* Install VirtualBox
+* Install Vagrant
+* Request access to Okta Preview from TechOps
 
-* If Vagrant doesn't install properly, install Vagrant directly from the website at http://downloads.vagrantup.com/tags/v1.0.6, or install the vagrant gem
 
-Set your local git credentials
-------------------------------
-
-* `$ git config --local user.name "Robin Dunlop" (Enter YOUR name instead)`
-* `$ git config --local user.email rdunlop@thoughtworks.com (Enter YOUR email instead)`
-
-Start the Development Environment
-=================================
+Spin up the Vagrant box
+-----------------------
 
 * `cd vagrant_postgres91_utf8_rails`
-* `vagrant up (this will also create the databases, and run the bundler)`
+* `vagrant up`  
+  * vagrant up will provision the Vagrant box, create the databases, and run the bundler
 * `vagrant ssh`
-
-Migrate the database
---------------------
-This step is necessary if you make changes to the db schema in development, or if you plan on running the server locally
-
-(inside the VM)
-
 * `cd workspace`
-* `rake db:migrate`
 
-Create/Migrate the TEST db environment
---------------------------------------
 
-(inside the VM)
+Set up the local environment
+----------------------------
 
-* `cd workspace`
-* `RAILS_ENV=test rake db:migrate`
-
+* `$ echo "PORT=9292" > .env`
+* `$ echo "RACK_ENV=development" >> .env`
+* `rake db:schema:load`
+  * loads the latest schema without going through each migration individually (faster than rake db:migrate)
+* `rake db:seed`
+  * add dummy data to local environment
+* `RAILS_ENV=test rake db:schema:load`
+  * set up test environment
+ 
 
 Run the test suite
 ------------------
 
-(inside the VM)
-* `cd workspace`
-* `xvfb-run rspec spec`
+* Using capybara-webkit
+  * `xvfb-run rspec`
+  * If you repeatedly receive the error "Xvfb failed to start," try `xvfb-run --server-num=1 rspec spec`.
+* Using poltergeist
+  * `rspec`
 
-If you repeatedly receive the error "Xvfb failed to start," try `xvfb-run --server-num=1 rspec spec`.
 
 Start the local server
 ----------------------
-
-Create a local .env file:
-(inside the VM)
-
-* `$ echo "PORT=9292" > .env`
-* `$ echo "RACK_ENV=development" >> .env`
-
-Start the server:
 
 * `$ foreman start` (this will not return)
 
@@ -85,21 +60,6 @@ If your foreman is very slow, try getting a new network setup:
 View the dev site locally:
 
 * http://localhost:9292/
-
-Creating sample account on dev site
-===================================
-
-In order to test logging in as a JC, you will need to add both a new JC, as well as a new user with the *same email*.
-
-Adding Test Data to the Database
-================================
-
-In order to add the test data to the database, the following commands can be run on the virtual machine:
-
-* `$ rake db:drop`
-* `$ rake db:create`
-* `$ rake db:schema:load`
-* `$ rake db:seed`
 
 
 Deploying the ReviewSite to heroku
@@ -131,3 +91,8 @@ it is possible to redirect all e-mail to an address that you control.
 
 * `EMAIL_OVERRIDE=someone@somewhere.com`
 
+
+Questions?
+==========
+
+Email Valerie (varoske@thoughtworks)

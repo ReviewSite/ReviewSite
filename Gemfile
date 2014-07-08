@@ -12,11 +12,11 @@ gem 'bootstrap-datepicker-rails'
 gem 'jquery-tokeninput-rails'
 
 gem 'pg'
-gem 'jquery-datatables-rails'
 gem 'axlsx_rails'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  gem 'jquery-datatables-rails'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
@@ -25,6 +25,9 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+  gem 'will_paginate'
+
 group :development do
   gem 'brakeman'
   gem 'debugger'

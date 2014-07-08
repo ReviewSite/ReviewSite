@@ -1,6 +1,6 @@
 <h1>Manage Users</h1>
 
-<%= link_to 'New User', new_user_path, :class => 'btn btn-info' %>
+<div class="new-review"><%= link_to 'New User', new_user_path, :class => 'btn btn-info' %></div>
 
 <table class="datatable">
   <thead>
@@ -17,8 +17,8 @@
     <tr id="user_<%= user.id %>">
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td class="jc" ><%= user.jc? %></td>
-        <td class="admin"><%= user.admin %></td>
+        <td class="jc" ><%= user.jc? ? 'yes' : '' %></td>
+        <td class="admin"><%= user.admin ? 'yes' : '' %></td>
         <td>
           <% if can? :read, user %>
               <%= link_to 'View Profile', user %>
@@ -43,5 +43,10 @@
 
 
 <script>
-    $('.datatable').dataTable();
+  $('.datatable').dataTable({
+    bJQueryUI: true,
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [ 4, 5, 6 ] }
+    ]
+  });
 </script>

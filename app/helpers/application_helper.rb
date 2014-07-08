@@ -11,4 +11,9 @@ module ApplicationHelper
   def format_all_for_select(model)
     model.all.map { |model_object| [model_object.name, model_object.id] }.sort
   end
+
+  def list(collection)
+    collection.map { |item| item.to_s }.sort.join(', ')
+  end
+
 end

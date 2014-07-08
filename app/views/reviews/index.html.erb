@@ -1,8 +1,10 @@
-<% if current_user.admin? %>
-  <h1>Viewing All Reviews </h1>
-  <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+<% if current_user.jc? %>
+  <h1>My Reviews</h1>
+  <%= render partial: 'reviews_jc' %>
 <% else %>
-
+  <h1>Viewing All Reviews</h1>
+    <% if current_user.admin? %>
+      <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+    <% end %>
+  <%= render partial: 'reviews' %>
 <% end %>
-
-<%= render partial: 'reviews' %>

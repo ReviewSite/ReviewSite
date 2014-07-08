@@ -50,6 +50,9 @@ jQuery (function () {
     $(".fields").toggle();
   });
 
+  $("#por-why").on('click', function() {
+    $("#which-reviews").toggle();
+  });
 
 
 });

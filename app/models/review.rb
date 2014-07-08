@@ -6,7 +6,8 @@ class Review < ActiveRecord::Base
   validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
   validates :junior_consultant_id, :presence => true
   validates :junior_consultant_id, :uniqueness => {:scope => [:review_type]}
-  # validates :feedback_deadline, :presence => true
+  validates :feedback_deadline, :presence => true
+  validates :review_date, :presence => true
 
   has_many :feedbacks, :dependent => :destroy
   has_many :self_assessments, :dependent => :destroy
@@ -140,4 +141,9 @@ class Review < ActiveRecord::Base
   def has_existing_feedbacks?
     feedbacks.size > 0
   end
+
+  def upcoming?
+    self.review_date.between?(Date.today, Date.today + 6.months)
+  end
+
 end

@@ -48,13 +48,13 @@ describe "User pages: " do
         sign_in admin_user
 
         visit users_path
-        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'false')
+        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: '')
 
         visit edit_user_path(nonadmin)
         check('user_admin')
         click_button "Save Changes"
 
-        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'true')
+        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'yes')
 
         sign_in nonadmin
         page.should have_selector("#admin-menu")
@@ -148,7 +148,7 @@ describe "User pages: " do
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         new_user = User.last
-        page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'true')
+        page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'yes')
 
         visit user_path(new_user)
 
@@ -227,10 +227,10 @@ describe "User pages: " do
 
       it { should have_selector('td', text: 'Andy') }
       it { should have_selector('td', text: 'andy@example.com') }
-      it { should have_selector('td', text: 'false') }
+      it { should have_selector('td.admin', text: '') }
       it { should have_selector('td', text: admin.name) }
       it { should have_selector('td', text: admin.email) }
-      it { should have_selector('td', text: 'true') }
+      it { should have_selector('td.admin', text: 'yes') }
 
       it "should link to new" do
         click_link "New User"

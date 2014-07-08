@@ -4,9 +4,10 @@ class User < ActiveRecord::Base
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
-  has_many :coachees, :class_name => "JuniorConsultant"
+  has_many :coachees, :class_name => "JuniorConsultant", :foreign_key => "coach_id"
   has_one :junior_consultant, :dependent => :destroy
   has_many :feedbacks
+  has_and_belongs_to_many :reviewing_groups
 
   accepts_nested_attributes_for :junior_consultant, :reject_if => :all_blank
 
@@ -27,7 +28,6 @@ class User < ActiveRecord::Base
   def jc?
     !self.junior_consultant.nil? && self.junior_consultant.persisted?
   end
-
 
   def request_password_reset
     self.update_column(:password_reset_token, SecureRandom.urlsafe_base64)

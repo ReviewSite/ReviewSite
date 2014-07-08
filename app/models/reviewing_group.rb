@@ -1,5 +1,5 @@
 class ReviewingGroup < ActiveRecord::Base
-  attr_accessible :name, :user_tokens
+  attr_accessible :name, :user_tokens, :users
   attr_reader :user_tokens
 
   has_and_belongs_to_many :users
@@ -11,7 +11,7 @@ class ReviewingGroup < ActiveRecord::Base
   end
 
   def members
-    self.users.map { |m| m.to_s}.sort.join(', ')
+    list(self.users)
   end
 
   def to_s

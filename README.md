@@ -1,4 +1,4 @@
-TravisCI: 
+TravisCI:
 [![Build Status](https://travis-ci.org/ReviewSite/ReviewSite.png?branch=master)](https://travis-ci.org/ReviewSite/ReviewSite)
 
 SnapCI:
@@ -17,11 +17,11 @@ Project Setup
 Spin up the Vagrant box
 -----------------------
 
-* `cd vagrant_postgres91_utf8_rails`
-* `vagrant up`  
+* `$ cd vagrant_postgres91_utf8_rails`
+* `$ vagrant up`  
   * vagrant up will provision the Vagrant box, create the databases, and run the bundler
-* `vagrant ssh`
-* `cd workspace`
+* `$ vagrant ssh`
+* `$ cd workspace`
 
 
 Set up the local environment
@@ -29,11 +29,11 @@ Set up the local environment
 
 * `$ echo "PORT=9292" > .env`
 * `$ echo "RACK_ENV=development" >> .env`
-* `rake db:schema:load`
+* `$ rake db:schema:load`
   * loads the latest schema without going through each migration individually (faster than rake db:migrate)
-* `rake db:seed`
+* `$ rake db:seed`
   * add dummy data to local environment
-* `RAILS_ENV=test rake db:schema:load`
+* `$ RAILS_ENV=test rake db:schema:load`
   * set up test environment
  
 
@@ -41,10 +41,11 @@ Run the test suite
 ------------------
 
 * Using capybara-webkit
-  * `xvfb-run rspec`
-  * If you repeatedly receive the error "Xvfb failed to start," try `xvfb-run --server-num=1 rspec spec`.
+  * `$ xvfb-run rspec`
+  * If you repeatedly receive the error "Xvfb failed to start," try `$ xvfb-run --server-num=1 rspec`.
 * Using poltergeist
-  * `rspec`
+  * `$ bundle exec rspec`
+* For manual testing, see the db/seeds.rb file for user log-on information
 
 
 Start the local server
@@ -65,7 +66,7 @@ View the dev site locally:
 Deploying the ReviewSite to heroku
 ==================================
 
-When deploying heroku to a new heroku instance (developers will NOT need to do
+When deploying to a new heroku instance (developers will NOT need to do
 this), please specify e-mail account settings in the following configuration
 variables.
 
@@ -95,4 +96,4 @@ it is possible to redirect all e-mail to an address that you control.
 Questions?
 ==========
 
-Email Valerie (varoske@thoughtworks)
+Email Valerie Roske (varoske@thoughtworks)

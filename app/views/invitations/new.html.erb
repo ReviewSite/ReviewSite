@@ -28,7 +28,8 @@
 
     <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM
-You have been invited to provide feedback. Please visit #{new_review_feedback_url(@review)}
+You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard. 
+Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
 Name: #{@review.junior_consultant}
 Review Type: #{@review.review_type}

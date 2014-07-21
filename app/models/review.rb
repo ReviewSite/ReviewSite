@@ -143,7 +143,7 @@ class Review < ActiveRecord::Base
   end
 
   def upcoming?
-    self.review_date.between?(Date.today, Date.today + 6.months)
+    self.review_date.present? && self.review_date.between?(Date.today, Date.today + 6.months)
   end
 
 end

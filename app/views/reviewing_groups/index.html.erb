@@ -13,7 +13,7 @@
   <% @reviewing_groups.each do |reviewing_group| %>
       <tr>
         <td><%= reviewing_group.name %></td>
-        <td><%= reviewing_group.members %></td>
+        <td><%= list(reviewing_group.users) %></td>
         <td><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group) %></td>
         <td><%= link_to 'Delete', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

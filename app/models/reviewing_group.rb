@@ -10,10 +10,6 @@ class ReviewingGroup < ActiveRecord::Base
     self.user_ids = ids.split(",")
   end
 
-  def members
-    list(self.users)
-  end
-
   def to_s
     self.name
   end

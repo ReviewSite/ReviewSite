@@ -59,7 +59,7 @@ describe InvitationsController do
       it "renders new" do
         post :create, {username: "!!!invalid!!!", review_id: review.id}, valid_sessions
         response.should render_template("new")
-        assigns(:jc).should == review.junior_consultant
+        assigns(:ac).should == review.associate_consultant
       end
     end
 
@@ -82,7 +82,7 @@ describe InvitationsController do
         post :create, {username: "test", review_id: review.id}, valid_sessions
         flash[:notice].should == "This person has already created feedback for this review."
         response.should render_template("new")
-        assigns(:jc).should == review.junior_consultant
+        assigns(:ac).should == review.associate_consultant
       end
     end
   end

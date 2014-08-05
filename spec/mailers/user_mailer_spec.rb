@@ -28,8 +28,8 @@ describe UserMailer do
   end
 
   describe 'Review creation' do
-    let(:jc) {FactoryGirl.create(:junior_consultant)}
-    let(:review)  {FactoryGirl.create(:new_review_type, junior_consultant: jc)}
+    let(:ac) {FactoryGirl.create(:associate_consultant)}
+    let(:review)  {FactoryGirl.create(:new_review_type, associate_consultant: ac)}
     let(:mail) {UserMailer.review_creation(review) }
 
     it 'renders the subject' do
@@ -37,7 +37,7 @@ describe UserMailer do
     end
 
     it 'renders the receiver email' do
-      mail.to.should == ["#{jc.user.email}"]
+      mail.to.should == ["#{ac.user.email}"]
     end
 
     it 'renders the sender email' do
@@ -70,8 +70,8 @@ describe UserMailer do
 
   describe "Feedback submitted notification" do
     let (:user) { FactoryGirl.create(:user) }
-    let (:jc) { FactoryGirl.create(:junior_consultant) }
-    let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+    let (:ac) { FactoryGirl.create(:associate_consultant) }
+    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
     let (:feedback) { FactoryGirl.create(:submitted_feedback, user: user, review: review) }
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 
@@ -80,7 +80,7 @@ describe UserMailer do
     end
 
     it 'renders the receiver email' do
-      mail.to.should == [jc.user.email]
+      mail.to.should == [ac.user.email]
     end
 
     it 'renders the sender email' do
@@ -88,7 +88,7 @@ describe UserMailer do
     end
 
     it 'addresses the receiver' do
-      mail.body.encoded.should match("Hi " + jc.user.name)
+      mail.body.encoded.should match("Hi " + ac.user.name)
     end
 
     it 'contains the name of the reviewer' do
@@ -101,14 +101,14 @@ describe UserMailer do
   end
 
   describe "Feedback invitation" do
-    let (:jc) { FactoryGirl.create(:junior_consultant) }
-    let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.today) }
+    let (:ac) { FactoryGirl.create(:associate_consultant) }
+    let (:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.today) }
     let (:email) { "recipient@example.com" }
     let (:message) { "Hello. Please leave feedback." }
     let (:mail) { UserMailer.review_invitation(review, email, message) }
 
     it 'renders the subject' do
-      mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{jc.user.name}"
+      mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{ac.user.name}"
     end
 
     it 'renders the receiver email' do
@@ -126,8 +126,8 @@ describe UserMailer do
 
 
   describe "Feedback reminder" do
-    let (:jc) { FactoryGirl.create(:junior_consultant) }
-    let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.new(2020, 1, 1)) }
+    let (:ac) { FactoryGirl.create(:associate_consultant) }
+    let (:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.new(2020, 1, 1)) }
     let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
@@ -135,7 +135,7 @@ describe UserMailer do
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
-      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
@@ -175,7 +175,7 @@ describe UserMailer do
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
-      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
@@ -214,7 +214,7 @@ describe UserMailer do
       subject { mail }
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
-      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do
@@ -256,7 +256,7 @@ describe UserMailer do
 
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
-      its (:subject) { should == "[ReviewSite] Please leave feedback for #{jc.user.name}" }
+      its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
       it "contains reminder message" do

@@ -4,9 +4,9 @@ describe "Review pages" do
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:coach) { FactoryGirl.create(:user) }
   let(:reviewer) { FactoryGirl.create(:user) }
-  let(:jc_user) { FactoryGirl.create(:user) }
-  let(:jc) { FactoryGirl.create(:junior_consultant, coach: coach, :user => jc_user) }
-  let!(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+  let(:ac_user) { FactoryGirl.create(:user) }
+  let(:ac) { FactoryGirl.create(:associate_consultant, coach: coach, :user => ac_user) }
+  let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
   let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
   let(:inputs) { {
     'project_worked_on' => 'My Project',
@@ -43,7 +43,7 @@ describe "Review pages" do
   subject { page }
 
   describe "summary" do
-    let!(:self_assessment) { FactoryGirl.create(:self_assessment, junior_consultant: jc, review: review,
+    let!(:self_assessment) { FactoryGirl.create(:self_assessment, associate_consultant: ac, review: review,
                                               updated_at: DateTime.now-2.days) }
     before do
       inputs.each do |field, value|
@@ -90,9 +90,9 @@ describe "Review pages" do
       end
     end
 
-    describe "as a jc" do
+    describe "as a ac" do
       before do
-        sign_in jc.user
+        sign_in ac.user
         visit summary_review_path(review)
       end
 
@@ -134,14 +134,14 @@ describe "Review pages" do
 
     end
 
-    describe "as a jc with a long name" do
+    describe "as a ac with a long name" do
       let(:long_name_user) { FactoryGirl.create(:user, name: "aaaaa bbbbb ccccc ddddd eeeee ff") }
-      let(:long_name_jc) { FactoryGirl.create(:junior_consultant, :user => long_name_user) }
-      let!(:long_name_review) { FactoryGirl.create(:review, junior_consultant: long_name_jc) }
+      let(:long_name_ac) { FactoryGirl.create(:associate_consultant, :user => long_name_user) }
+      let!(:long_name_review) { FactoryGirl.create(:review, associate_consultant: long_name_ac) }
       let!(:long_name_feedback) { FactoryGirl.create(:feedback, review: review, submitted: true) }
 
       before do
-        sign_in long_name_jc.user
+        sign_in long_name_ac.user
         visit summary_review_path(long_name_review)
       end
 
@@ -199,7 +199,7 @@ describe "Review pages" do
       end
 
       it "creates a new review" do
-        fill_in 'review_junior_consultant_id', with: jc.id
+        fill_in 'review_associate_consultant_id', with: ac.id
         select "24-Month", from: "Review type"
 
         fill_in "review_review_date", with: "07/01/2014"
@@ -211,7 +211,7 @@ describe "Review pages" do
         new_review = Review.last
         new_review.reload
         current_path.should == review_path(new_review)
-        new_review.junior_consultant.should == jc
+        new_review.associate_consultant.should == ac
         new_review.review_type.should == "24-Month"
         new_review.review_date.should == Date.new(2014, 1, 7)
         new_review.feedback_deadline.should == Date.new(2014, 06, 21)

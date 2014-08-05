@@ -1,11 +1,11 @@
 class Review < ActiveRecord::Base
-  attr_accessible :junior_consultant_id, :review_type, :review_date, :feedback_deadline, :send_link_date
+  attr_accessible :associate_consultant_id, :review_type, :review_date, :feedback_deadline, :send_link_date
 
-  belongs_to :junior_consultant
+  belongs_to :associate_consultant
 
   validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
-  validates :junior_consultant_id, :presence => true
-  validates :junior_consultant_id, :uniqueness => {:scope => [:review_type]}
+  validates :associate_consultant_id, :presence => true
+  validates :associate_consultant_id, :uniqueness => {:scope => [:review_type]}
   validates :feedback_deadline, :presence => true
   validates :review_date, :presence => true
 
@@ -56,7 +56,7 @@ class Review < ActiveRecord::Base
     questions["Professionalism"] = Question.new("Professionalism", "Professionalism", ["professionalism_exceeded", "professionalism_met", "professionalism_improve"],
                                                "<p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>")
     questions["Organizational"] = Question.new("Organizational", "Organizational Involvement", ["organizational_exceeded", "organizational_met", "organizational_improve"],
-                                               "<p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
+                                               "<p>P1/P2: User groups, mailing lists, AC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
                                                "<p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>" +
                                                "<p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>")
     questions["Innovative"] = Question.new("Innovative", "Innovation/Out of the box thinking", ["innovative_exceeded", "innovative_met", "innovative_improve"],
@@ -84,14 +84,14 @@ class Review < ActiveRecord::Base
                                          "teamwork_scale")
 
     questions["Contributions"] = Question.new("Contributions", "Contributions", ["contributions_went_well", "contributions_to_be_improved"],
-                                              "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, JC Continuing Learning Sessions, hallway chats<br />" +
+                                              "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, AC Continuing Learning Sessions, hallway chats<br />" +
                                               "<b>Social Resposibility:</b> Awareness, involvement, contribution<br />" +
                                               "<b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>",
                                               "contributions_scale")
 
     # BOTH
     questions["Comments"] = Question.new("Comments", "General Comments", ["comments"],
-                                         "<p>Anything not covered above. What else do you want to share about #{junior_consultant}?</p>")
+                                         "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
     questions
   end
 
@@ -135,7 +135,7 @@ class Review < ActiveRecord::Base
   end
 
   def to_s
-    "#{junior_consultant.user.name}'s #{review_type} Review"
+    "#{associate_consultant.user.name}'s #{review_type} Review"
   end
 
   def has_existing_feedbacks?

@@ -24,14 +24,14 @@
 </p>
   <div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
-  <%= text_field_tag :subject, "[ReviewSite] You've been invited to give feedback for #{@jc.user.name}"  %></p>
+  <%= text_field_tag :subject, "[ReviewSite] You've been invited to give feedback for #{@ac.user.name}"  %></p>
 
     <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM
 You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard. 
 Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
-Name: #{@review.junior_consultant}
+Name: #{@review.associate_consultant}
 Review Type: #{@review.review_type}
 Deadline: #{@review.feedback_deadline}
   EOM

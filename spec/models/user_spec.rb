@@ -18,7 +18,7 @@ describe User do
   it { should_not be_admin }
 
   describe "has associations" do
-    it { should have_one(:junior_consultant).dependent(:destroy) }
+    it { should have_one(:associate_consultant).dependent(:destroy) }
   end
 
 
@@ -123,12 +123,12 @@ describe User do
     end
   end
 
-  describe "#jc?" do
-    it "returns true if a user is a jc" do
+  describe "#ac?" do
+    it "returns true if a user is a ac" do
       user = FactoryGirl.create(:user)
-      jc = FactoryGirl.create(:junior_consultant, :user => user)
+      ac = FactoryGirl.create(:associate_consultant, :user => user)
 
-      user.jc?.should eq(true)
+      user.ac?.should eq(true)
     end
   end
 

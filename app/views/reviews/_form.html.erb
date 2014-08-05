@@ -13,11 +13,11 @@
 
   <div class="field">
     <% if @review.persisted? %>
-      <%= f.label :junior_consultant_id %><br />
-      <p class="help-text"><%= @review.junior_consultant.user.name %></p>
+      <%= f.label :associate_consultant_id %><br />
+      <p class="help-text"><%= @review.associate_consultant.user.name %></p>
     <%else%>
-      <%= f.label :junior_consultant_id %>
-      <%= f.text_field :junior_consultant_id %> 
+      <%= f.label :associate_consultant_id %>
+      <%= f.text_field :associate_consultant_id %>
     <%end%>
   </div>
 

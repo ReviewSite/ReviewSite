@@ -28,25 +28,25 @@ jQuery (function () {
     preventDuplicates: true
   });
 
-  $("#review_junior_consultant_id").tokenInput("/junior_consultants.json", {
+  $("#review_associate_consultant_id").tokenInput("/associate_consultants.json", {
     crossDomain: false,
-    prePopulate: $("#review_junior_consultant_id").data("pre"),
+    prePopulate: $("#review_associate_consultant_id").data("pre"),
     tokenLimit: 1
   });
 
-  $("#user_junior_consultant_attributes_coach_id").tokenInput("/users.json", {
+  $("#user_associate_consultant_attributes_coach_id").tokenInput("/users.json", {
     crossDomain: false,
-    prePopulate: $("#user_junior_consultant_attributes_coach_id").data("pre"),
+    prePopulate: $("#user_associate_consultant_attributes_coach_id").data("pre"),
     tokenLimit: 1
   });
 
-  if ($("#isjc").length && $("#isjc")[0].checked) {
+  if ($("#isac").length && $("#isac")[0].checked) {
     $(".fields").show();
   } else {
     $(".fields").hide();
   }
 
-  $("#isjc").on('change', function() {
+  $("#isac").on('change', function() {
     $(".fields").toggle();
   });
 

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140604193251) do
+ActiveRecord::Schema.define(:version => 20140805002739) do
+
+  create_table "associate_consultants", :force => true do |t|
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.text     "notes"
+    t.integer  "reviewing_group_id"
+    t.integer  "coach_id"
+    t.integer  "user_id"
+  end
+
+  add_index "associate_consultants", ["user_id"], :name => "index_associate_consultants_on_user_id"
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
@@ -73,17 +84,6 @@ ActiveRecord::Schema.define(:version => 20140604193251) do
 
   add_index "invitations", ["review_id"], :name => "index_invitations_on_review_id"
 
-  create_table "junior_consultants", :force => true do |t|
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-    t.text     "notes"
-    t.integer  "reviewing_group_id"
-    t.integer  "coach_id"
-    t.integer  "user_id"
-  end
-
-  add_index "junior_consultants", ["user_id"], :name => "index_junior_consultants_on_user_id"
-
   create_table "reviewing_groups", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -96,25 +96,25 @@ ActiveRecord::Schema.define(:version => 20140604193251) do
   end
 
   create_table "reviews", :force => true do |t|
-    t.integer  "junior_consultant_id"
+    t.integer  "associate_consultant_id"
     t.string   "review_type"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.date     "review_date"
     t.date     "feedback_deadline"
     t.date     "send_link_date"
-    t.boolean  "new_review_format",    :default => false
+    t.boolean  "new_review_format",       :default => false
   end
 
   create_table "self_assessments", :force => true do |t|
     t.integer  "review_id"
-    t.integer  "junior_consultant_id"
+    t.integer  "associate_consultant_id"
     t.text     "response"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
-  add_index "self_assessments", ["junior_consultant_id"], :name => "index_self_assessments_on_junior_consultant_id"
+  add_index "self_assessments", ["associate_consultant_id"], :name => "index_self_assessments_on_associate_consultant_id"
   add_index "self_assessments", ["review_id"], :name => "index_self_assessments_on_review_id"
 
   create_table "users", :force => true do |t|

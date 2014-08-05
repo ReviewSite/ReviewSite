@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Invitations" do
   let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:jc_user) { FactoryGirl.create(:user) }
-  let(:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
-  let (:review) { FactoryGirl.create(:review, junior_consultant: jc, feedback_deadline: Date.tomorrow) }
+  let(:ac_user) { FactoryGirl.create(:user) }
+  let(:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
+  let (:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.tomorrow) }
 
   subject { page }
 
@@ -38,9 +38,9 @@ describe "Invitations" do
       end
     end
 
-    context "as jc" do
+    context "as ac" do
       before do
-        sign_in jc_user
+        sign_in ac_user
         visit new_review_invitation_path(review)
         fill_in "username", with: "reviewer"
         fill_in "message", with: "Why, hello!"

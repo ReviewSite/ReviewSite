@@ -12,7 +12,7 @@ describe "feedbacks/new" do
     it "renders new feedback form" do
       render
 
-      rendered.should match(/#{@review.junior_consultant}/)
+      rendered.should match(/#{@review.associate_consultant}/)
         rendered.should match(/#{@review.review_type}/)
 
         # Run the generator again with the --webrat flag if you want to use webrat matchers
@@ -65,7 +65,7 @@ describe "feedbacks/new" do
     it "renders new feedback form" do
       render
 
-      rendered.should match(/#{@review.junior_consultant}/)
+      rendered.should match(/#{@review.associate_consultant}/)
         rendered.should match(/#{@review.review_type}/)
 
         # Run the generator again with the --webrat flag if you want to use webrat matchers

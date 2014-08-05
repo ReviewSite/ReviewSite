@@ -5,7 +5,7 @@ class InvitationsController < ApplicationController
   before_filter :load_invitation, :only => [:destroy, :send_reminder]
 
   def new
-    @jc = @review.junior_consultant
+    @ac = @review.associate_consultant
   end
 
   def create
@@ -23,7 +23,7 @@ class InvitationsController < ApplicationController
       if @invitation.feedback
         flash[:notice] = "This person has already created feedback for this review."
       end
-      @jc = @review.junior_consultant
+      @ac = @review.associate_consultant
       render "new"
     end
   end

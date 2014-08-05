@@ -33,14 +33,14 @@
     </div>
     
     <div class="field">
-      <% if @user.jc? %>
-        <%= check_box_tag 'isjc', 'yes', true, disabled: true %> <%= f.label "Junior Consultant", class: "checkbox" %>
+      <% if @user.ac? %>
+        <%= check_box_tag 'isac', 'yes', true, disabled: true %> <%= f.label "Associate Consultant", class: "checkbox" %>
       <% else %>
-        <%= check_box_tag 'isjc' %> <%= f.label "Junior Consultant", class: "checkbox" %>
+        <%= check_box_tag 'isac' %> <%= f.label "Associate Consultant", class: "checkbox" %>
       <% end %>
     </div>
 
-    <%= f.fields_for :junior_consultant %>
+    <%= f.fields_for :associate_consultant %>
   <% end %>
 
   <div class="actions">

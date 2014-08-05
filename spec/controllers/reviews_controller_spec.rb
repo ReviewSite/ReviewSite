@@ -6,12 +6,12 @@ describe ReviewsController do
   # Review. As you add validations to Review, be sure to
   # update the return value of this method accordingly.
 
-  let(:jc) {FactoryGirl.create(:junior_consultant)}
+  let(:ac) {FactoryGirl.create(:associate_consultant)}
 
   def valid_attributes
     {
         review_type: '6-Month',
-        junior_consultant_id: jc.user.name,
+        associate_consultant_id: ac.user.name,
         review_date: Date.today,
         feedback_deadline: Date.today,
         send_link_date: Date.today
@@ -85,20 +85,20 @@ describe ReviewsController do
     end
 
     it "can be seen by the feedback target" do
-      @jc_user = @review.junior_consultant.user
-      set_current_user @jc_user
+      @ac_user = @review.associate_consultant.user
+      set_current_user @ac_user
 
       get :summary, {:id => @review.to_param}, valid_session
       response.should be_success
       assigns(:feedbacks).should eq([@feedback_sub])
     end
 
-    describe "JC coach" do
+    describe "AC coach" do
       it "can see the summary for their coachee" do
-        junior_consultant = @review.junior_consultant
+        associate_consultant = @review.associate_consultant
         coach = FactoryGirl.create(:user)
-        junior_consultant.coach = coach
-        junior_consultant.save!
+        associate_consultant.coach = coach
+        associate_consultant.save!
         set_current_user coach
         get :summary, {:id => @review.to_param}, valid_session
         response.should be_success
@@ -106,9 +106,9 @@ describe ReviewsController do
       end
 
       it "can't see the summary for other coachees" do
-        junior_consultant = @review.junior_consultant
+        associate_consultant = @review.associate_consultant
         coach = FactoryGirl.create(:user)
-        junior_consultant.save!
+        associate_consultant.save!
 
         set_current_user coach
         get :summary, {:id => @review.to_param}, valid_session
@@ -119,12 +119,12 @@ describe ReviewsController do
 
     describe "with a reviewing group member" do
       it "the reviewing member can see the summary" do
-        junior_consultant = @review.junior_consultant
+        associate_consultant = @review.associate_consultant
         other_user = FactoryGirl.create(:user)
         reviewing_group = FactoryGirl.create(:reviewing_group, :users => [other_user])
 
-        junior_consultant.reviewing_group = reviewing_group
-        junior_consultant.save!
+        associate_consultant.reviewing_group = reviewing_group
+        associate_consultant.save!
 
         set_current_user other_user
         get :summary, {:id => @review.to_param}, valid_session
@@ -208,14 +208,14 @@ describe ReviewsController do
       it "assigns a newly created but unsaved review as @review" do
         # Trigger the behavior that occurs when invalid params are submitted
         Review.any_instance.stub(:save).and_return(false)
-        post :create, {:review => { junior_consultant_id: jc.user.name}}, valid_session
+        post :create, {:review => { associate_consultant_id: ac.user.name}}, valid_session
         assigns(:review).should be_a_new(Review)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Review.any_instance.stub(:save).and_return(false)
-        post :create, {:review => {junior_consultant_id: jc.user.name}}, valid_session
+        post :create, {:review => {associate_consultant_id: ac.user.name}}, valid_session
         response.should render_template("new")
       end
     end

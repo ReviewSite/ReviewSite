@@ -32,7 +32,7 @@
   end
 
   def reviewee
-    review.junior_consultant
+    review.associate_consultant
   end
 
   def expired?

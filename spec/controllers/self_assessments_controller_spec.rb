@@ -4,8 +4,8 @@ describe SelfAssessmentsController do
   before(:each) do
     @user = FactoryGirl.create(:user)
     set_current_user (@user)
-    @jc = FactoryGirl.create(:junior_consultant, :user => @user)
-    @review = FactoryGirl.create(:review, :junior_consultant => @jc)
+    @ac = FactoryGirl.create(:associate_consultant, :user => @user)
+    @review = FactoryGirl.create(:review, :associate_consultant => @ac)
   end
 
   def valid_attributes

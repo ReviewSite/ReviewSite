@@ -25,13 +25,13 @@ class ReviewsDatatable
   def data
     reviews.map do |review|
       [
-          h(review.junior_consultant.reviewing_group),
-          h(review.junior_consultant.user.name),
+          h(review.associate_consultant.reviewing_group),
+          h(review.associate_consultant.user.name),
           h(review.review_type),
           h(review.review_date),
           h(review.feedback_deadline),
           h("#{review.feedbacks.where(:submitted => true).count} / #{review.feedbacks.count}"),
-          (link_to('Email JC', url_helpers.send_email_review_path(review), remote: true, class: "send_email_link") unless cannot? :send_email, Review),
+          (link_to('Email AC', url_helpers.send_email_review_path(review), remote: true, class: "send_email_link") unless cannot? :send_email, Review),
           (link_to('Show Details', review) unless cannot? :read, review),
           (link_to('Feedback Summary', url_helpers.summary_review_path(review)) unless cannot? :summary, review)
       ]
@@ -43,15 +43,15 @@ class ReviewsDatatable
   end
 
   def fetch_reviews
-    reviews = Review.includes({:junior_consultant => :user},
-                              {:junior_consultant =>
+    reviews = Review.includes({:associate_consultant => :user},
+                              {:associate_consultant =>
                                 {:reviewing_group => :users}},
                               :feedbacks)
 
     reviews = reviews.order("#{sort_column} #{sort_direction}")
 
     if params[:sSearch].present?
-      reviews = reviews.joins(junior_consultant: :user).where("users.name like :search", search: "%#{params[:sSearch]}%")
+      reviews = reviews.joins(associate_consultant: :user).where("users.name like :search", search: "%#{params[:sSearch]}%")
     end
 
     reviews_array = []

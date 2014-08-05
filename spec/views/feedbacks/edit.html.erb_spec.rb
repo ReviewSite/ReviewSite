@@ -12,7 +12,7 @@ describe "feedbacks/edit" do
     it "renders the edit feedback form" do
       render
 
-      rendered.should match(/#{@review.junior_consultant}/)
+      rendered.should match(/#{@review.associate_consultant}/)
 
         # Run the generator again with the --webrat flag if you want to use webrat matchers
         assert_select "form", :action => review_feedbacks_path(@review, @feedback), :method => "post" do
@@ -64,7 +64,7 @@ describe "feedbacks/edit" do
     it "renders the edit feedback form" do
       render
 
-      rendered.should match(/#{@review.junior_consultant}/)
+      rendered.should match(/#{@review.associate_consultant}/)
 
         # Run the generator again with the --webrat flag if you want to use webrat matchers
         assert_select "form", :action => review_feedbacks_path(@review, @feedback), :method => "post" do

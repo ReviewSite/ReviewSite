@@ -7,8 +7,8 @@ class ReviewsController < ApplicationController
       format.html {
         @reviews = []
 
-        Review.includes({:junior_consultant => :user},
-                        {:junior_consultant => :reviewing_group},
+        Review.includes({:associate_consultant => :user},
+                        {:associate_consultant => :reviewing_group},
                          :feedbacks).all.each do |review|
           if can? :read, review or can? :summary, review
             @reviews << review

@@ -62,9 +62,7 @@ describe "Navbar" do
     it { should have_selector(".navbar-fixed-top a", text: user.name) }
     it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Junior Consultants") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group Members") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
 
     it "should link to feedbacks page" do
@@ -101,9 +99,7 @@ describe "Navbar" do
   describe "not signed in" do
     it { should_not have_selector(".navbar-fixed-top a", text: "Sign out") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Settings") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Junior Consultants") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group Members") }
     it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
 
     it "should link to signin page" do

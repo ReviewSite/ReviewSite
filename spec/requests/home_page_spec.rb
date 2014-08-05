@@ -4,9 +4,9 @@ describe "Home page" do
   let (:admin) { FactoryGirl.create :admin_user }
   let (:coach) { FactoryGirl.create :user }
   let (:reviewer) { FactoryGirl.create :user }
-  let (:jc_user) { FactoryGirl.create :user}
-  let! (:jc) { FactoryGirl.create :junior_consultant, coach: coach, :user => jc_user }
-  let! (:review) { FactoryGirl.create :review, junior_consultant: jc, feedback_deadline: Date.tomorrow }
+  let (:ac_user) { FactoryGirl.create :user}
+  let! (:ac) { FactoryGirl.create :associate_consultant, coach: coach, :user => ac_user }
+  let! (:review) { FactoryGirl.create :review, associate_consultant: ac, feedback_deadline: Date.tomorrow }
   let! (:feedback) { FactoryGirl.create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 
   subject { page }
@@ -31,8 +31,8 @@ describe "Home page" do
 
       describe "supports ajax pagination", :js => true do
 
-        it {should have_selector("#reviews td", text: jc.reviewing_group.name) }
-        it {should have_selector("table#reviews td", text: jc.user.name) }
+        it {should have_selector("#reviews td", text: ac.reviewing_group.name) }
+        it {should have_selector("table#reviews td", text: ac.user.name) }
         it {should have_selector("table#reviews td", text: review.review_type) }
         it {should have_selector("table#reviews td", text: review.review_date.to_s) }
         it {should have_selector("table#reviews td", text: review.feedback_deadline.to_s) }
@@ -61,15 +61,15 @@ describe "Home page" do
       end
     end
 
-    describe "as JC" do
+    describe "as AC" do
       before do
-        @jc_with_many_reviews = FactoryGirl.create(:junior_consultant)
-        @first_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 6.months)
-        @upcoming_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "18-Month", :review_date => Date.today)
-        @latest_review = FactoryGirl.create(:new_review_type, :junior_consultant => @jc_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 6.months)
+        @ac_with_many_reviews = FactoryGirl.create(:associate_consultant)
+        @first_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 6.months)
+        @upcoming_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today)
+        @latest_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 6.months)
         @feedback = FactoryGirl.create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
 
-        sign_in @jc_with_many_reviews.user
+        sign_in @ac_with_many_reviews.user
       end
 
       it { should_not have_selector("a", text: "Show") }
@@ -92,7 +92,7 @@ describe "Home page" do
       end
 
       it "should only show the most recent review" do
-        @jc_with_many_reviews.reviews.count.should eq(3)
+        @ac_with_many_reviews.reviews.count.should eq(3)
         page.should have_selector("h2", text: @upcoming_review.review_type.titleize)
         page.should_not have_selector("h2", text: @latest_review.review_type.titleize)
         page.should_not have_selector("h2", text: @first_review.review_type.titleize)

@@ -3,7 +3,7 @@ class SelfAssessmentsController < ApplicationController
   load_and_authorize_resource :through => :review
 
   def new
-    @self_assessment.junior_consultant = @review.junior_consultant
+    @self_assessment.associate_consultant = @review.associate_consultant
 
     respond_to do |format|
       format.html # new.html.erb
@@ -15,7 +15,7 @@ class SelfAssessmentsController < ApplicationController
   end
 
   def create
-    @self_assessment.junior_consultant = @review.junior_consultant
+    @self_assessment.associate_consultant = @review.associate_consultant
 
     respond_to do |format|
       if @self_assessment.save

@@ -1,6 +1,6 @@
-<% if current_user.jc? %>
+<% if current_user.ac? %>
   <h1>My Reviews</h1>
-  <%= render partial: 'reviews_jc' %>
+  <%= render partial: 'reviews_ac' %>
 <% else %>
   <h1>Viewing All Reviews</h1>
     <% if current_user.admin? %>

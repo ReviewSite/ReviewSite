@@ -15,26 +15,26 @@
   <%= @user.admin %>
 </p>
 
-<p id="isJC">
-  <b>Junior Consultant:</b>
-  <%= @user.jc? %>
+<p id="isAC">
+  <b>Associate Consultant:</b>
+  <%= @user.ac? %>
 </p>
 
 
-<% if @user.jc? %>
+<% if @user.ac? %>
   <p id="notes">
     <b>Notes:</b>
-    <%= @user.junior_consultant.notes %>
+    <%= @user.associate_consultant.notes %>
   </p>
 
   <p id="reviewing-group">
     <b>Reviewing Group:</b>
-    <%= @user.junior_consultant.reviewing_group %>
+    <%= @user.associate_consultant.reviewing_group %>
   </p>
 
   <p id="coach">
     <b>Coach:</b>
-    <%= @user.junior_consultant.coach %>
+    <%= @user.associate_consultant.coach %>
   </p>
 <% end %>
 

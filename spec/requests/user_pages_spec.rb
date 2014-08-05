@@ -132,11 +132,11 @@ describe "User pages: " do
         new_user.email.should == "test@example.com"
       end
 
-      it "creates a jc account" do
+      it "creates a ac account" do
         fill_in "Name", with: "Roberto Glob"
         fill_in "Email", with: "test2@example.com"
         fill_in "Okta name", with: "glob"
-        check('isjc')
+        check('isac')
 
         fill_in "Notes", with: "Here are some notes"
         select reviewing_group.name, from: "Reviewing group"
@@ -148,15 +148,15 @@ describe "User pages: " do
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         new_user = User.last
-        page.should have_selector("tr#user_#{new_user.id} td.jc", text: 'yes')
+        page.should have_selector("tr#user_#{new_user.id} td.ac", text: 'yes')
 
         visit user_path(new_user)
 
-        new_jc = new_user.junior_consultant
-        page.should have_selector("#isJC", text: 'true')
-        page.should have_selector("#notes", text: new_jc.notes)
-        page.should have_selector("#reviewing-group", text: new_jc.reviewing_group)
-        page.should have_selector("#coach", text: new_jc.coach)
+        new_ac = new_user.associate_consultant
+        page.should have_selector("#isAC", text: 'true')
+        page.should have_selector("#notes", text: new_ac.notes)
+        page.should have_selector("#reviewing-group", text: new_ac.reviewing_group)
+        page.should have_selector("#coach", text: new_ac.coach)
 
       end
     end
@@ -279,8 +279,8 @@ describe "User pages: " do
 
   describe "FEEDBACKS" do
     let(:reviewer) { FactoryGirl.create(:user) }
-    let(:jc) { FactoryGirl.create(:junior_consultant) }
-    let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+    let(:ac) { FactoryGirl.create(:associate_consultant) }
+    let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
     let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
 
     describe "as the reviewer" do
@@ -290,7 +290,7 @@ describe "User pages: " do
 
       it "displays the feedback with a 'Continue' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('#feedbacks td', text: jc.user.name)
+        page.should have_selector('#feedbacks td', text: ac.user.name)
         page.should have_selector('#feedbacks td', text: review.review_type)
         page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
@@ -305,7 +305,7 @@ describe "User pages: " do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('#feedbacks td', text: jc.user.name)
+        page.should have_selector('#feedbacks td', text: ac.user.name)
         page.should have_selector('#feedbacks td', text: review.review_type)
         page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)

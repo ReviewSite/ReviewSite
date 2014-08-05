@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user.build_junior_consultant
+    @user.build_associate_consultant
   end
 
   def index
@@ -20,8 +20,8 @@ class UsersController < ApplicationController
   def show; end
 
   def edit
-    if @user.junior_consultant.nil?
-      @user.build_junior_consultant
+    if @user.associate_consultant.nil?
+      @user.build_associate_consultant
     end
   end
 

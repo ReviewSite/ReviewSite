@@ -2,21 +2,21 @@ require 'spec_helper'
 
 describe "Self assessment page" do
   let (:admin) { FactoryGirl.create(:admin_user) }
-  let (:jc_user) { FactoryGirl.create(:user) }
-  let (:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
-  let (:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+  let (:ac_user) { FactoryGirl.create(:user) }
+  let (:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
+  let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
   let (:feedback) { FactoryGirl.create(:feedback) }
 
   subject { page }
 
   describe "create" do
-    describe "as a JC" do
+    describe "as an AC" do
       before do
-        sign_in jc_user
+        sign_in ac_user
         visit new_review_self_assessment_path(review)
       end
 
-      it "lets JC create a self assessment" do
+      it "lets AC create a self assessment" do
         fill_in 'Response', with: 'This is a self-assessment.'
         click_button 'Create Self Assessment'
         current_path.should == summary_review_path(review)
@@ -24,7 +24,7 @@ describe "Self assessment page" do
         self_assessment = SelfAssessment.last
         self_assessment.response.should == 'This is a self-assessment.'
         self_assessment.review.should == review
-        self_assessment.junior_consultant.should == jc
+        self_assessment.associate_consultant.should == ac
       end
     end
 
@@ -42,7 +42,7 @@ describe "Self assessment page" do
         self_assessment = SelfAssessment.last
         self_assessment.response.should == 'This is a self-assessment.'
         self_assessment.review.should == review
-        self_assessment.junior_consultant.should == jc
+        self_assessment.associate_consultant.should == ac
       end
     end
 
@@ -60,15 +60,15 @@ describe "Self assessment page" do
   end
 
   describe "edit" do
-    let! (:self_assessment) { FactoryGirl.create(:self_assessment, review: review, junior_consultant: jc) }
+    let! (:self_assessment) { FactoryGirl.create(:self_assessment, review: review, associate_consultant: ac) }
 
-    describe "as a JC" do
+    describe "as an AC" do
       before do
-        sign_in jc_user
+        sign_in ac_user
         visit edit_review_self_assessment_path(review, self_assessment)
       end
 
-      it "lets JC edit their self assessment" do
+      it "lets AC edit their self assessment" do
         page.should have_selector('textarea#self_assessment_response',
                                     text: 'These are some notes that I have written')
         fill_in 'Response', with: 'Now I have edited my self-assessment.'
@@ -86,7 +86,7 @@ describe "Self assessment page" do
         visit edit_review_self_assessment_path(review, self_assessment)
       end
 
-      it "lets admin edit a JC's self assessment" do
+      it "lets admin edit an AC's self assessment" do
         page.should have_selector('textarea#self_assessment_response',
                                     text: 'These are some notes that I have written')
         fill_in 'Response', with: 'Now I have edited my self-assessment.'

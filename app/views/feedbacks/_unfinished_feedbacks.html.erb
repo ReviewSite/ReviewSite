@@ -10,7 +10,7 @@
   <tbody>
     <% @invitations_received.each do |invitation| %>
       <tr>
-        <td><%= invitation.review.junior_consultant %></td>
+        <td><%= invitation.review.associate_consultant %></td>
         <td><%= invitation.review.review_type %></td>
         <td class="invitation_date"><%= invitation.sent_date %></td>
         <td class="feedback_deadline"><%= invitation.review.feedback_deadline %></td>
@@ -22,7 +22,7 @@
     <% @feedbacks_in_progress.each do |feedback| %>
       <tr>
         <td>
-          <%= feedback.review.junior_consultant %>
+          <%= feedback.review.associate_consultant %>
           <% if feedback.is_additional %>
             (on behalf of <%= feedback.reviewer %>)
           <% end %>

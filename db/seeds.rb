@@ -3,7 +3,7 @@
 
 # For the ReviewSite The following structures are created, or destroyed and recreated (if they already exist):
 #
-# JuniorConsultant User: sally@example.com
+# AssociateConsultant User: sally@example.com
 # -[[This user is designed to be your average JC user]]
 # - Review: 6-Month
 #  - Feeback:
@@ -19,7 +19,7 @@
 #  - Invited:
 #   - Doug (has replied, submitted)
 #
-# JuniorConsultant User: bob@example.com
+# AssociateConsultant User: bob@example.com
 # - [[This user is a JC who has submitted feedback to another JC]]
 # - Review: 6-Month
 #  - Feedback:
@@ -112,18 +112,18 @@ newyork = ReviewingGroup.create({name: 'New York', users: [admin, doug]})
 sanfran = ReviewingGroup.create({name: 'San Francisco', users: [admin, doug, carrie]})
 
 
-# create JCs
-sallyJC = JuniorConsultant.create({coach_id: luke.id, user_id: sally.id, reviewing_group_id: chicago.id})
-bobJC = JuniorConsultant.create({user_id: bob.id, reviewing_group_id: chicago.id})
-johannaJC = JuniorConsultant.create({user_id: johanna.id, reviewing_group_id: newyork.id})
-ginaJC = JuniorConsultant.create({user_id: gina.id, reviewing_group_id: sanfran.id, coach_id: jennifer.id, notes: "hey i have notes"})
-mandyJC = JuniorConsultant.create({user_id: mandy.id, reviewing_group_id: dallas.id, coach_id: bob.id, notes: "notes notes notes"})
+# create ACs
+sallyAC = AssociateConsultant.create({coach_id: luke.id, user_id: sally.id, reviewing_group_id: chicago.id})
+bobAC = AssociateConsultant.create({user_id: bob.id, reviewing_group_id: chicago.id})
+johannaAC = AssociateConsultant.create({user_id: johanna.id, reviewing_group_id: newyork.id})
+ginaAC = AssociateConsultant.create({user_id: gina.id, reviewing_group_id: sanfran.id, coach_id: jennifer.id, notes: "hey i have notes"})
+mandyAC = AssociateConsultant.create({user_id: mandy.id, reviewing_group_id: dallas.id, coach_id: bob.id, notes: "notes notes notes"})
 
 
 ###############
 # Sally Review #1
 ##############
-reviewSally = Review.create({junior_consultant_id: sallyJC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now, review_date: 1.month.from_now})
+reviewSally = Review.create({associate_consultant_id: sallyAC.id, review_type: "6-Month", feedback_deadline: 1.month.from_now, review_date: 1.month.from_now})
 
 attitude_string = "You have a great attitude"
 client_string = "You sometimes interact with the client"
@@ -160,7 +160,7 @@ bob_feedback_for_sally = Feedback.create({review_id: reviewSally.id, user_id: bo
 ###############
 # Sally Review #2
 ##############
-reviewSally2 = Review.create({junior_consultant_id: sallyJC.id, review_type: "12-Month", feedback_deadline: 5.months.from_now, review_date: 5.months.from_now})
+reviewSally2 = Review.create({associate_consultant_id: sallyAC.id, review_type: "12-Month", feedback_deadline: 5.months.from_now, review_date: 5.months.from_now})
 doug_invitation_from_sally2 =  reviewSally2.invitations.create({email: doug.email})
 doug_feedback_for_sally2 = Feedback.create({review_id: reviewSally2.id, user_id: doug.id,
                                            attitude_met: "Yes. Good Attitude", comments: comment})
@@ -171,25 +171,25 @@ doug_feedback_for_sally2.save!
 ###############
 #
 ##############
-reviewBob = Review.create({junior_consultant_id: bobJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+reviewBob = Review.create({associate_consultant_id: bobAC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
 john_feedback_for_bob = Feedback.create({review_id: reviewBob.id, user_id: john.id, user_string: "John",
                                         comments: comment})
 john_feedback_for_bob.submitted = true
 john_feedback_for_bob.save!
 
-bob_self_assessment = SelfAssessment.create!({review_id: reviewBob.id, junior_consultant_id: bobJC.id,
+bob_self_assessment = SelfAssessment.create!({review_id: reviewBob.id, associate_consultant_id: bobAC.id,
                                             response: "I think that I am a swell JC."})
 
 # create more reviews
-reviewJohanna = Review.create({junior_consultant_id: johannaJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
-Review.create({junior_consultant_id: johannaJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
-Review.create({junior_consultant_id: johannaJC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
-Review.create({junior_consultant_id: johannaJC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
+reviewJohanna = Review.create({associate_consultant_id: johannaAC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({associate_consultant_id: johannaAC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
+Review.create({associate_consultant_id: johannaAC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
+Review.create({associate_consultant_id: johannaAC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
 
-reviewMandy = Review.create({junior_consultant_id: mandyJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
-Review.create({junior_consultant_id: mandyJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
-Review.create({junior_consultant_id: mandyJC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
-Review.create({junior_consultant_id: mandyJC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
+reviewMandy = Review.create({associate_consultant_id: mandyAC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({associate_consultant_id: mandyAC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
+Review.create({associate_consultant_id: mandyAC.id, review_type: "18-Month", feedback_deadline: 12.months.from_now, review_date: 12.months.from_now})
+Review.create({associate_consultant_id: mandyAC.id, review_type: "24-Month", feedback_deadline: 18.months.from_now, review_date: 18.months.from_now})
 
-reviewGina = Review.create({junior_consultant_id: ginaJC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
-Review.create({junior_consultant_id: ginaJC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})
+reviewGina = Review.create({associate_consultant_id: ginaAC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})
+Review.create({associate_consultant_id: ginaAC.id, review_type: "12-Month", feedback_deadline: 6.months.from_now, review_date: 6.months.from_now})

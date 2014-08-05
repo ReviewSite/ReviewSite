@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe "Feedback pages", :type => :feature do
-  let(:jc_user) { FactoryGirl.create(:user) }
-  let(:jc) { FactoryGirl.create(:junior_consultant, :user => jc_user) }
+  let(:ac_user) { FactoryGirl.create(:user) }
+  let(:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:review) { FactoryGirl.create(:review, junior_consultant: jc) }
+  let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
   let(:inputs) { {
     # 'feedback_project_worked_on' => 'My Project',
     # 'feedback_role_description' => 'My Role',
@@ -90,7 +90,7 @@ describe "Feedback pages", :type => :feature do
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
-        mail.to.should == [jc.user.email]
+        mail.to.should == [ac.user.email]
         mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
       end
     end
@@ -163,7 +163,7 @@ describe "Feedback pages", :type => :feature do
 
           ActionMailer::Base.deliveries.length.should == 1
           mail = ActionMailer::Base.deliveries.last
-          mail.to.should == [jc.user.email]
+          mail.to.should == [ac.user.email]
           mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
         end
       end
@@ -238,7 +238,7 @@ describe "Feedback pages", :type => :feature do
 
       ActionMailer::Base.deliveries.length.should == 1
       mail = ActionMailer::Base.deliveries.last
-      mail.to.should == [jc.user.email]
+      mail.to.should == [ac.user.email]
       mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
   end
@@ -261,7 +261,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "displays feedback information" do
-          page.should have_selector("h2", text: jc.user.name)
+          page.should have_selector("h2", text: ac.user.name)
           page.should have_selector("h2", text: review.review_type)
           page.should have_content(user.name)
           inputs.values.each do |value|
@@ -300,7 +300,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "displays feedback information with no 'Edit' link" do
-          page.should have_selector("h2", text: jc.user.name)
+          page.should have_selector("h2", text: ac.user.name)
           page.should have_selector("h2", text: review.review_type)
           page.should have_content(user.name)
           inputs.values.each do |value|
@@ -318,7 +318,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "displays feedback information" do
-          page.should have_selector("h2", text: jc.user.name)
+          page.should have_selector("h2", text: ac.user.name)
           page.should have_selector("h2", text: review.review_type)
           page.should have_content(user.name)
           inputs.values.each do |value|
@@ -332,14 +332,14 @@ describe "Feedback pages", :type => :feature do
         end
       end
 
-      describe "as the junior consultant" do
+      describe "as the associate consultant" do
         before do
-          sign_in jc_user
+          sign_in ac_user
           visit review_feedback_path(review, feedback)
         end
 
         it "displays feedback information with no 'Edit' link" do
-          page.should have_selector("h2", text: jc.user.name)
+          page.should have_selector("h2", text: ac.user.name)
           page.should have_selector("h2", text: review.review_type)
           page.should have_content(user.name)
           inputs.values.each do |value|

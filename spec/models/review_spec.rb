@@ -10,8 +10,8 @@ describe Review do
       @review.valid?.should be_true
     end
 
-    it "must have a jc" do
-      @review.junior_consultant = nil
+    it "must have a ac" do
+      @review.associate_consultant = nil
       @review.valid?.should be_false
     end
 
@@ -22,12 +22,12 @@ describe Review do
 
     it "can find its consultant" do
       r = Review.new
-      c = FactoryGirl.create(:junior_consultant)
+      c = FactoryGirl.create(:associate_consultant)
       r.review_type = "6-Month"
       r.feedback_deadline = Date.today
       r.review_date = Date.today
       r.send_link_date = Date.today
-      r.junior_consultant = c
+      r.associate_consultant = c
 
       r.save.should be_true
     end
@@ -63,9 +63,9 @@ describe Review do
     r.feedbacks.should == [f]
   end
 
-  it "cannot have the same review_type for the same JC" do
+  it "cannot have the same review_type for the same AC" do
     r1 = FactoryGirl.create(:review)
-    r2 = FactoryGirl.build(:review, :review_type => r1.review_type, :junior_consultant => r1.junior_consultant)
+    r2 = FactoryGirl.build(:review, :review_type => r1.review_type, :associate_consultant => r1.associate_consultant)
 
     r2.valid?.should be_false
   end

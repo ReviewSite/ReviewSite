@@ -1,8 +1,8 @@
 <% if signed_in? %>
 
-  <% if current_user.jc? %>
+  <% if current_user.ac? %>
     <h1>Your Upcoming Review</h1>
-    <%= render :partial => 'welcome/index_jc' %>
+    <%= render :partial => 'welcome/index_ac' %>
 
   <% elsif current_user.admin? %>
     <h1>Upcoming Reviews</h1>

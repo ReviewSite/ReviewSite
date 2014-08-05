@@ -2,7 +2,7 @@ ReviewSite::Application.routes.draw do
 
   resources :reviewing_groups, except: [:show]
 
-  resources :junior_consultants, only: [:index]
+  resources :associate_consultants, only: [:index]
 
   resources :reviews do
     member do

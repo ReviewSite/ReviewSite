@@ -4,12 +4,12 @@ class User < ActiveRecord::Base
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
-  has_many :coachees, :class_name => "JuniorConsultant", :foreign_key => "coach_id"
-  has_one :junior_consultant, :dependent => :destroy
+  has_many :coachees, :class_name => "AssociateConsultant", :foreign_key => "coach_id"
+  has_one :associate_consultant, :dependent => :destroy
   has_many :feedbacks
   has_and_belongs_to_many :reviewing_groups
 
-  accepts_nested_attributes_for :junior_consultant, :reject_if => :all_blank
+  accepts_nested_attributes_for :associate_consultant, :reject_if => :all_blank
 
   validates :name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :okta_name, presence:   true,
@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
     self.name
   end
 
-  def jc?
-    !self.junior_consultant.nil? && self.junior_consultant.persisted?
+  def ac?
+    !self.associate_consultant.nil? && self.associate_consultant.persisted?
   end
 
   def request_password_reset

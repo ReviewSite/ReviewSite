@@ -1,11 +1,11 @@
 class Review < ActiveRecord::Base
-  attr_accessible :junior_consultant_id, :review_type, :review_date, :feedback_deadline, :send_link_date
+  attr_accessible :associate_consultant_id, :review_type, :review_date, :feedback_deadline, :send_link_date
 
-  belongs_to :junior_consultant
+  belongs_to :associate_consultant
 
   validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
-  validates :junior_consultant_id, :presence => true
-  validates :junior_consultant_id, :uniqueness => {:scope => [:review_type]}
+  validates :associate_consultant_id, :presence => true
+  validates :associate_consultant_id, :uniqueness => {:scope => [:review_type]}
   validates :feedback_deadline, :presence => true
   validates :review_date, :presence => true
 
@@ -91,7 +91,7 @@ class Review < ActiveRecord::Base
 
     # BOTH
     questions["Comments"] = Question.new("Comments", "General Comments", ["comments"],
-                                         "<p>Anything not covered above. What else do you want to share about #{junior_consultant}?</p>")
+                                         "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
     questions
   end
 
@@ -135,7 +135,7 @@ class Review < ActiveRecord::Base
   end
 
   def to_s
-    "#{junior_consultant.user.name}'s #{review_type} Review"
+    "#{associate_consultant.user.name}'s #{review_type} Review"
   end
 
   def has_existing_feedbacks?

@@ -6,7 +6,7 @@
   <thead>
   <th>Name</th>
   <th>Email</th>
-  <th>JC</th>
+  <th>AC</th>
   <th>Admin</th>
   <th></th>
   <th></th>
@@ -17,7 +17,7 @@
     <tr id="user_<%= user.id %>">
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td class="jc" ><%= user.jc? ? 'yes' : '' %></td>
+        <td class="ac" ><%= user.ac? ? 'yes' : '' %></td>
         <td class="admin"><%= user.admin ? 'yes' : '' %></td>
         <td>
           <% if can? :read, user %>

@@ -56,7 +56,7 @@ class Review < ActiveRecord::Base
     questions["Professionalism"] = Question.new("Professionalism", "Professionalism", ["professionalism_exceeded", "professionalism_met", "professionalism_improve"],
                                                "<p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>")
     questions["Organizational"] = Question.new("Organizational", "Organizational Involvement", ["organizational_exceeded", "organizational_met", "organizational_improve"],
-                                               "<p>P1/P2: User groups, mailing lists, JC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
+                                               "<p>P1/P2: User groups, mailing lists, AC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
                                                "<p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>" +
                                                "<p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>")
     questions["Innovative"] = Question.new("Innovative", "Innovation/Out of the box thinking", ["innovative_exceeded", "innovative_met", "innovative_improve"],
@@ -84,7 +84,7 @@ class Review < ActiveRecord::Base
                                          "teamwork_scale")
 
     questions["Contributions"] = Question.new("Contributions", "Contributions", ["contributions_went_well", "contributions_to_be_improved"],
-                                              "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, JC Continuing Learning Sessions, hallway chats<br />" +
+                                              "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, AC Continuing Learning Sessions, hallway chats<br />" +
                                               "<b>Social Resposibility:</b> Awareness, involvement, contribution<br />" +
                                               "<b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>",
                                               "contributions_scale")

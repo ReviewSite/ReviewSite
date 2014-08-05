@@ -4,7 +4,7 @@
 # For the ReviewSite The following structures are created, or destroyed and recreated (if they already exist):
 #
 # AssociateConsultant User: sally@example.com
-# -[[This user is designed to be your average JC user]]
+# -[[This user is designed to be your average AC user]]
 # - Review: 6-Month
 #  - Feeback:
 #   - By: John, Submitted: true
@@ -20,7 +20,7 @@
 #   - Doug (has replied, submitted)
 #
 # AssociateConsultant User: bob@example.com
-# - [[This user is a JC who has submitted feedback to another JC]]
+# - [[This user is an AC who has submitted feedback to another AC]]
 # - Review: 6-Month
 #  - Feedback:
 #   - By: Bob, Submitted: true
@@ -29,7 +29,7 @@
 #
 #
 # User: john@example.com
-# - [[This user is a non-JC who has provided feedback, without being invited]]
+# - [[This user is a non-AC who has provided feedback, without being invited]]
 #  - Has provided feedback for Sally, and Submitted it
 #
 # User: nikki@example.com
@@ -178,7 +178,7 @@ john_feedback_for_bob.submitted = true
 john_feedback_for_bob.save!
 
 bob_self_assessment = SelfAssessment.create!({review_id: reviewBob.id, associate_consultant_id: bobAC.id,
-                                            response: "I think that I am a swell JC."})
+                                            response: "I think that I am a swell AC."})
 
 # create more reviews
 reviewJohanna = Review.create({associate_consultant_id: johannaAC.id, review_type: "6-Month", feedback_deadline: 1.week.from_now, review_date: 1.week.from_now})

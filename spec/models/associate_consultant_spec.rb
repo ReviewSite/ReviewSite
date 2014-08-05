@@ -40,7 +40,7 @@ describe AssociateConsultant do
       @review = FactoryGirl.create(:review, :associate_consultant => @ac, :review_type => "6-Month", :review_date => Date.today - 5.days)
     end
 
-    it "should delete the review when the junior consultant is deleted" do
+    it "should delete the review when the associate consultant is deleted" do
       Review.all.count.should == 1
       @ac.destroy
       Review.all.count.should == 0

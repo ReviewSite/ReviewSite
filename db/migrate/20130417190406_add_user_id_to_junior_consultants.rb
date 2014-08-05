@@ -1,14 +1,15 @@
 class AddUserIdToJuniorConsultants < ActiveRecord::Migration
-  def change
+  def up
     add_column :junior_consultants, :user_id, :integer
     add_index :junior_consultants, :user_id
-    JuniorConsultant.reset_column_information
-    JuniorConsultant.all.each do |jc|
-      user = User.find_by_email(jc.email)
-      if user
-        jc.assign_attributes({:user_id => user.id}, :without_protection => true)
-        jc.save(:validate => false)
-      end
-    end
+  end
+
+  def down
+    execute <<-SQL
+      UPDATE junior_consultants SET user_id = NULL;
+    SQL
+
+    remove_column :junior_consultants, :user_id
+    remove_index :junior_consultants, :user_id
   end
 end

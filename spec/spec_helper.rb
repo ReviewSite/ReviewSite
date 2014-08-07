@@ -42,7 +42,7 @@ RSpec.configure do |config|
 
   Capybara.javascript_driver = :poltergeist
 
-  Capybara.default_wait_time = 30
+  Capybara.default_wait_time = 10
 
   config.include Capybara::DSL
 

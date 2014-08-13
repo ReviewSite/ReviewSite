@@ -1,64 +1,6 @@
   require 'bcrypt'
   require 'faker'
 
-  # This file should contain all the record creation needed to seed the database with its
-  # default values. The data can then be loaded with the rake db:seed (or created alongside
-  # the db with db:setup).
-
-  # For the ReviewSite The following structures are created, or destroyed and recreated
-  # (if they already exist):
-
-  # AssociateConsultant User: sally@example.com
-  # -[[This user is designed to be your average AC user]]
-  # - Review: 6-Month
-  #  - Feeback:
-  #   - By: John, Submitted: true
-  #   - By: Nikki, Submitted: true
-  #   - By: Doug, Submitted: true
-  #   - By: George, Submitted: false
-  #  - Invited:
-  #   - Doug (has replied, submitted)
-  #   - Elvis (has not replied)
-  #   - George  (has replied, but not submitted)
-  # - Review: 12-Month
-  #  - Invited:
-  #   - Doug (has replied, submitted)
-  #
-  # AssociateConsultant User: bob@example.com
-  # - [[This user is an AC who has submitted feedback to another AC]]
-  # - Review: 6-Month
-  #  - Feedback:
-  #   - By: Bob, Submitted: true
-  #  - Self Assessment: By Bob, for Bob
-  # - Has provided feedback for Sally (not submitted)
-  #
-  #
-  # User: john@example.com
-  # - [[This user is a non-AC who has provided feedback, without being invited]]
-  #  - Has provided feedback for Sally, and Submitted it
-  #
-  # User: nikki@example.com
-  #  - Has provided feedback for Sally, and Submitted it
-  #
-  # User: doug@example.com
-  # - [[This user has been invited to provide feedback, and has submitted it]]
-  # - Has provided feedback for Sally TWICE
-  #
-  # User: elvis@example.com
-  # - [[This user has been invited to provide feedback, but hasn't]]
-  # - Has been invited to provide feedback
-  #
-  # User: george@example.com
-  # - [[This user has been invited to provide feedback, but hasn't submitted final yet]]
-  # - Has been invited to provide feedback
-  # - Has written feedback, but not finalized
-  #
-  #
-  # Coach Users: ACs are randomly assigned a coach from one of the first 14 users
-  #
-  # Admin User: admin@example.com
-  #
-
   #############################
   # create test users
   #############################

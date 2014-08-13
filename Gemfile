@@ -10,7 +10,6 @@ gem 'exception_notification'
 gem 'nested_form'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-tokeninput-rails'
-
 gem 'pg'
 gem 'axlsx_rails'
 # Gems used only for assets and not required
@@ -36,6 +35,7 @@ group :development do
   gem 'bullet'
 end
 group :development, :test do
+  gem 'faker'
   gem 'rspec-rails'
   gem 'guard-rspec', '0.5.5'
   gem 'travis-lint'

@@ -48,7 +48,7 @@ class ReviewsDatatable
                                 {:reviewing_group => :users}},
                               :feedbacks)
 
-    reviews = reviews.order("#{sort_column} #{sort_direction}")
+    reviews = reviews.order("#{sort_column} #{sort_direction}, users.name asc, review_date asc")
 
     if params[:sSearch].present?
       reviews = reviews.joins(associate_consultant: :user).where("users.name ilike :search", search: "%#{params[:sSearch]}%")

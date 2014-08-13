@@ -51,7 +51,7 @@ class ReviewsDatatable
     reviews = reviews.order("#{sort_column} #{sort_direction}")
 
     if params[:sSearch].present?
-      reviews = reviews.joins(associate_consultant: :user).where("users.name like :search", search: "%#{params[:sSearch]}%")
+      reviews = reviews.joins(associate_consultant: :user).where("users.name ilike :search", search: "%#{params[:sSearch]}%")
     end
 
     reviews_array = []

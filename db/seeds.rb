@@ -5,7 +5,11 @@
   # create test users
   #############################
 
-  100.times do
+  admin = User.create(name: "admin admin", okta_name: "admin", email: "admin@example.com" )
+  admin.admin = true
+  admin.save!
+
+  99.times do
     first_name = Faker::Name.first_name
     User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: first_name, email: "#{first_name.downcase}@example.com" )
   end
@@ -27,9 +31,7 @@
 
   users = [sally, bob, nikki, luke, doug, elvis, george, johanna, gina, mandy, carrie, john, jennifer, al]
 
-  admin = User.find(1)
-  admin.admin = true
-  admin.save!
+
 
   #############################
   # create reviewing groups
@@ -94,7 +96,7 @@
                                 teamwork_to_be_improved: Faker::Lorem.sentences,
                                 comments: Faker::Lorem.sentence, submitted: true})
 
-  reviewSally2.feedbacks.create({user_id: doug.id, innovative_went_well: Faker::Lorem.sentences,
+  reviewSally2.feedbacks.create({user_id: doug.id, innovative_exceeded: Faker::Lorem.sentences,
                                  comments: Faker::Lorem.sentence, submitted: true})
   reviewSally2.feedbacks.create({user_id: george.id, attitude_improve: Faker::Lorem.sentences,
                                 comments: Faker::Lorem.sentence})
@@ -143,7 +145,7 @@
                                 teamwork_to_be_improved: Faker::Lorem.sentences,
                                 comments: Faker::Lorem.sentence, submitted: true})
 
-  reviewSally4.feedbacks.create({user_id: doug.id, innovative_went_well: Faker::Lorem.sentences,
+  reviewSally4.feedbacks.create({user_id: doug.id, innovative_exceeded: Faker::Lorem.sentences,
                                  comments: Faker::Lorem.sentence, submitted: true})
   reviewSally4.feedbacks.create({user_id: george.id, attitude_improve: Faker::Lorem.sentences,
                                 comments: Faker::Lorem.sentence})

@@ -12,6 +12,8 @@ gem 'bootstrap-datepicker-rails'
 gem 'jquery-tokeninput-rails'
 gem 'pg'
 gem 'axlsx_rails'
+gem 'faker'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -35,7 +37,6 @@ group :development do
   gem 'bullet'
 end
 group :development, :test do
-  gem 'faker'
   gem 'rspec-rails'
   gem 'guard-rspec', '0.5.5'
   gem 'travis-lint'

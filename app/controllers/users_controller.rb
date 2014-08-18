@@ -8,13 +8,10 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where("name ILIKE ?", "%#{params[:q]}%")
-
     respond_to do |format|
       format.html
-      format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }
+      format.json { render json: UsersDatatable.new(view_context, current_ability) }
     end
-
   end
 
   def show; end
@@ -69,10 +66,13 @@ class UsersController < ApplicationController
     @feedbacks = @user.feedbacks
   end
 
-  def autocomplete_user_name
-    user_names = User.select([:name]).where("name ILIKE ?", "%#{params[:name]}%")
-    @result = user_names.collect { |user| {value: user.name} }
-    render json: @result
+  def get_users
+    @users = User.where("name ILIKE ?", "%#{params[:q]}%")
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }
+    end
   end
 
   private

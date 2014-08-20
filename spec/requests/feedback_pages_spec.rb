@@ -53,8 +53,6 @@ describe "Feedback pages", :type => :feature do
         feedback_show_page = FeedbackShowPO.new
         feedback_show_page.load(review_id: review.id, feedback_id: feedback.id)
         feedback_show_page.review_values.each do |element|
-          p feedback.send(element[:id])
-          p element.value
         end
       end
 

@@ -46,8 +46,8 @@ class EditFeedbackPO < SitePrism::Page
 		    # 'feedback_innovative_exceeded' => 'Input 25',
 		    # 'feedback_innovative_met' => 'Input 26',
 		    # 'feedback_innovative_improve' => 'Input 27',
-    		'feedback_comments' => 'My Comments'
-  		}
+			'feedback_comments' => 'My Comments'
+		}
 	end
 
 end

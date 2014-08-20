@@ -65,26 +65,26 @@ class NewFeedbackPO < SitePrism::Page
 		    # # 'feedback_innovative_improve' => 'Input 27',
     		# 'feedback_comments' => 'My Comments'
 
-    		role_competence_header => {
-    			"feedback_role_competence_went_well" => "Input1",
-    			"feedback_role_competence_to_be_improved" => "Input2"
-    		},
-    		consulting_skills_header => {
-    			"feedback_consulting_skills_went_well" => "Input3",
-    			"feedback_consulting_skills_to_be_improved" => "Input4"
-    		},
-    		teamwork_header => {
-    			"feedback_teamwork_went_well" => "Input5",
-    			"feedback_teamwork_to_be_improved" => "Input6"
+			role_competence_header => {
+				"feedback_role_competence_went_well" => "Input1",
+				"feedback_role_competence_to_be_improved" => "Input2"
 			},
-    		contributions_header => {
-    			"feedback_contributions_went_well" => "Input7",
-    			"feedback_contributions_to_be_improved" => "Input8"
+			consulting_skills_header => {
+				"feedback_consulting_skills_went_well" => "Input3",
+				"feedback_consulting_skills_to_be_improved" => "Input4"
+			},
+			teamwork_header => {
+				"feedback_teamwork_went_well" => "Input5",
+				"feedback_teamwork_to_be_improved" => "Input6"
+			},
+			contributions_header => {
+				"feedback_contributions_went_well" => "Input7",
+				"feedback_contributions_to_be_improved" => "Input8"
 			},
 			comments_header => {
 				"feedback_comments" => "Input9"
-  			}
-  		}
+			}
+		}
 	end
 
 end

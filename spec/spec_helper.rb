@@ -44,6 +44,8 @@ RSpec.configure do |config|
 
   Capybara.default_wait_time = 10
 
+  Capybara.app_host = ENV['URL']
+
   config.include Capybara::DSL
 
   config.before(:suite) do

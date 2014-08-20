@@ -17,7 +17,7 @@ describe "feedbacks/new" do
 
         # Run the generator again with the --webrat flag if you want to use webrat matchers
         assert_select "form", :action => review_feedbacks_path(@review), :method => "post" do
-          assert_select "input#feedback_project_worked_on", :name => "feedback[project_worked_on]"
+          p assert_select "input#feedback_project_worked_on", :name => "feedback[project_worked_on]"
           assert_select "input#feedback_role_description", :name => "feedback[role_description]"
 
           assert_select "textarea#feedback_tech_exceeded", :name => "feedback[tech_exceeded]"

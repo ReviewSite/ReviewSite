@@ -288,31 +288,28 @@ describe "User pages: " do
         sign_in reviewer
       end
 
-      it "displays the feedback with a 'Continue' action if not submitted" do
+      it "displays the feedback in the 'Resume Feedback' action if not submitted" do
         visit feedbacks_user_path(reviewer)
         page.should have_selector('#feedbacks td', text: ac.user.name)
         page.should have_selector('#feedbacks td', text: review.review_type)
         page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#feedbacks td', text: "Not Submitted")
-        page.should have_selector('#feedbacks td a', text: "Continue")
-        click_link "Continue"
+        page.should have_selector('#feedbacks td a', text: "Resume Feedback")
+        click_link "Resume Feedback"
         current_path.should == edit_review_feedback_path(review, feedback)
       end
 
 
-      it "displays the feedback with a 'View' action if submitted" do
+      it "displays the feedback with a 'View Feedback' action if submitted" do
         feedback.update_attribute(:submitted, true)
         visit feedbacks_user_path(reviewer)
 
-        page.should have_selector('#feedbacks td', text: ac.user.name)
-        page.should have_selector('#feedbacks td', text: review.review_type)
-        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
-        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#feedbacks td', text: "Submitted")
-        page.should_not have_selector('#feedbacks td', text: "Not")
-        page.should have_selector('#feedbacks td a', text: "View")
-        click_link "View"
+        page.should have_selector('#completeds td', text: ac.user.name)
+        page.should have_selector('#completeds td', text: review.review_type)
+        page.should have_selector('#completeds td', text: feedback.project_worked_on)
+        page.should have_selector('#completeds td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('#completeds td a', text: "View")
+        click_link "View Feedback"
         current_path.should == review_feedback_path(review, feedback)
       end
     end

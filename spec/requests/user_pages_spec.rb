@@ -288,7 +288,7 @@ describe "User pages: " do
         sign_in reviewer
       end
 
-      it "displays the feedback in the 'Resume Feedback' action if not submitted" do
+      it "displays the feedback with a 'Resume Feedback' action if not submitted" do
         visit feedbacks_user_path(reviewer)
         page.should have_selector('#feedbacks td', text: ac.user.name)
         page.should have_selector('#feedbacks td', text: review.review_type)

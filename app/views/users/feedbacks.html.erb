@@ -1,6 +1,32 @@
 <% provide(:title, "Feedback Requests") %>
 
-<h1>Feedback Requests</h1>
+<h1>New Invitations</h1>
+
+<table id="invitations">
+  <thead>
+    <tr>
+      <th>Reviewee</th>
+      <th>Review Type</th>
+      <th>Invitation Sent</th>
+      <th>Feedback Deadline</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invitations.each do |invitation| %>
+      <% review = invitation.review %>
+      <tr>
+        <td><%= review.associate_consultant %></td>
+        <td><%= review.review_type %></td>
+        <td><%= invitation.sent_date %></td>
+        <td><%= review.feedback_deadline %></td>
+        <td><%= link_to "Start Feedback", new_review_feedback_path(review) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<h1>Unfinished Feedback</h1>
 
 <table id="feedbacks">
   <thead>
@@ -9,37 +35,73 @@
       <th>Review Type</th>
       <th>Project worked on</th>
       <th>Date Updated</th>
-      <th>Invitation Sent</th>
-      <th>Status</th>
+      <th>Deadline</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <% @feedbacks.each do |feedback| %>
       <% review = feedback.review %>
+
       <tr>
         <td><%= review.associate_consultant %></td>
         <td><%= review.review_type %></td>
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
         <td><%= review.feedback_deadline %></td>
-        <% if feedback.submitted? %>
-          <td>Submitted</td>
-          <td><%= link_to "View", review_feedback_path(review, feedback) %></td>
-        <% else %>
-          <td>Not Submitted</td>
-          <td><%= link_to "Continue", edit_review_feedback_path(review, feedback) %></td>
-        <% end %>
+        <td><%= link_to "Resume Feedback", edit_review_feedback_path(review, feedback) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<h1>Completed Feedback</h1>
+
+<table id="completeds">
+  <thead>
+    <tr>
+      <th>Reviewee</th>
+      <th>Review Type</th>
+      <th>Project worked on</th>
+      <th>Date Finished</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @completeds.each do |completed| %>
+      <% review = completed.review %>
+
+      <tr>
+        <td><%= review.associate_consultant %></td>
+        <td><%= review.review_type %></td>
+        <td><%= completed.project_worked_on %></td>
+        <td><%= completed.updated_at.to_date %></td>
+        <td>
+          <%= link_to "View Feedback", review_feedback_path(review, completed) %><br>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+
 <script>
   $('#feedbacks').dataTable({
     bJQueryUI: true,
     aoColumnDefs: [
-      { bSortable: false, aTargets: [6] }
+      { bSortable: false, aTargets: [5] }
     ]
+  });
+</script>
+
+<script>
+  $('#invitations').dataTable({
+    bJQueryUI: true
+  });
+</script>
+
+<script>
+  $('#completeds').dataTable({
+    bJQueryUI: true
   });
 </script>

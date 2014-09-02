@@ -66,7 +66,9 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @feedbacks = @user.feedbacks
+    @invitations = Invitation.select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
+    @feedbacks = current_user.feedbacks.where(submitted: false)
+    @completeds = current_user.feedbacks.where(submitted: true)
   end
 
   def autocomplete_user_name

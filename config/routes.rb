@@ -51,6 +51,7 @@ ReviewSite::Application.routes.draw do
   end
 
   resources :users do
+    get :get_users, :on => :collection
     get :feedbacks, :on => :member
   end
 

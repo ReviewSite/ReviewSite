@@ -60,6 +60,19 @@
   mandyAC = AssociateConsultant.find(5)
 
   #############################
+  # create empty reviews
+  #############################
+
+  (6..85).to_a.each do |i|
+    first_review_date = 1.month.ago
+    Review.create({associate_consultant_id: i, review_type: "6-Month", feedback_deadline: first_review_date, review_date: first_review_date})
+    Review.create({associate_consultant_id: i, review_type: "12-Month", feedback_deadline: first_review_date + 6.months, review_date: first_review_date + 6.months})
+    Review.create({associate_consultant_id: i, review_type: "18-Month", feedback_deadline: first_review_date + 12.months, review_date: first_review_date + 12.months})
+    Review.create({associate_consultant_id: i, review_type: "24-Month", feedback_deadline: first_review_date + 18.months, review_date: first_review_date + 18.months})
+  end
+
+
+  #############################
   # Sally Review #1
   #############################
 

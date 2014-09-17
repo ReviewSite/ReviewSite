@@ -65,8 +65,6 @@ class Ability
     end
   end
 
-
-
   private
   def is_user_the_feedback_giver(user, feedback)
     feedback.user == user

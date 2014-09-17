@@ -22,16 +22,21 @@
   </div>
 
   <div class="field">
+    <%= f.label :start_date, "Start Date" %><br />
+    <%= f.text_field :start_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
+  </div>
+
+  <div class="field">
     <%= f.label :okta_name %><br />
     <p class="help-text">This must match the username used to log in to OKTA.</p>
     <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
   </div>
 
-  <% if current_user != @user %> 
+  <% if current_user != @user %>
     <div class="field">
       <%= f.check_box :admin %> <%= f.label :admin, class: "checkbox" %>
     </div>
-    
+
     <div class="field">
       <% if @user.ac? %>
         <%= check_box_tag 'isac', 'yes', true, disabled: true %> <%= f.label "Associate Consultant", class: "checkbox" %>

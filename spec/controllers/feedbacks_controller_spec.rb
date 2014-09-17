@@ -75,6 +75,7 @@ describe FeedbacksController do
     end
     it "loads the existing feedback if one exists for this user" do
       feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user)
+      @review.invitations.create(:email => @user.email)
       get :new, {:review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
@@ -90,6 +91,7 @@ describe FeedbacksController do
       end
       it "loads the existing feedback if one exists for this user" do
         feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user)
+        @review.invitations.create(:email => @user.email)
         get :new, {:review_id => @review.id}, valid_session
         assigns(:feedback).should eq(feedback)
         assigns(:user_name).should eq(@user.name)

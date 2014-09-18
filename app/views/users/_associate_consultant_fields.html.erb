@@ -1,4 +1,9 @@
 <div class="field">
+  <%= f.check_box :graduated, disabled: "disabled" %>
+  <%= f.label :graduated, class: "checkbox" %>
+</div>
+
+<div class="field">
   <%= f.label :notes %>
   <%= f.text_area :notes %>
 </div>

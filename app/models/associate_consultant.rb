@@ -1,5 +1,5 @@
 class AssociateConsultant < ActiveRecord::Base
-  attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id
+  attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id, :graduated
 
   belongs_to :reviewing_group
   belongs_to :coach, :class_name => "User", :foreign_key => :coach_id
@@ -18,4 +18,7 @@ class AssociateConsultant < ActiveRecord::Base
     self.reviews.where('review_date' => date_range).first
   end
 
+  def hasGraduated?
+    !self.graduated.nil? && self.graduated
+  end
 end

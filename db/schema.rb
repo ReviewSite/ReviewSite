@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20140917154751) do
     t.integer  "reviewing_group_id"
     t.integer  "coach_id"
     t.integer  "user_id"
+    t.boolean  "graduated"
   end
 
   add_index "associate_consultants", ["user_id"], :name => "index_associate_consultants_on_user_id"

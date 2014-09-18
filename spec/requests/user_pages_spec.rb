@@ -6,6 +6,7 @@ describe "User pages: " do
   describe "EDIT/UPDATE" do
     let(:user) { FactoryGirl.create(:user) }
     let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
 
     before do
       sign_in user
@@ -54,13 +55,37 @@ describe "User pages: " do
         page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: '')
 
         visit edit_user_path(nonadmin)
+        page.find("#user_associate_consultant_attributes_graduated").should be_disabled
+        page.find('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]').should be_disabled
         check('user_admin')
+
         click_button "Save Changes"
 
         page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'yes')
 
         sign_in nonadmin
         page.should have_selector("#admin-menu")
+      end
+
+      it "can graduate an AC", js: true do
+        nonadmin = FactoryGirl.create(:user)
+        sign_in admin_user
+
+        visit users_path
+        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: '')
+
+        visit edit_user_path(nonadmin)
+        check("isac")
+        page.find("#user_associate_consultant_attributes_graduated", visible: true).set(true)
+        select reviewing_group.name, from: "Reviewing group"
+
+        click_button "Save Changes"
+
+        current_path.should eql users_path
+
+        visit user_path(nonadmin)
+        page.should have_selector("#isAC", text: 'true')
+        page.should have_selector("#hasGraduated", text: 'true')
       end
     end
 
@@ -144,7 +169,9 @@ describe "User pages: " do
         fill_in "Email", with: "test2@example.com"
         fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "glob"
+        page.should have_selector("#user_associate_consultant_attributes_graduated", visible: false)
         check('isac')
+        page.should have_selector("#user_associate_consultant_attributes_graduated", visible: true)
 
         fill_in "Notes", with: "Here are some notes"
         select reviewing_group.name, from: "Reviewing group"
@@ -162,6 +189,7 @@ describe "User pages: " do
 
         new_ac = new_user.associate_consultant
         page.should have_selector("#isAC", text: 'true')
+        page.should have_selector("#hasGraduated", text: 'false')
         page.should have_selector("#notes", text: new_ac.notes)
         page.should have_selector("#reviewing-group", text: new_ac.reviewing_group)
         page.should have_selector("#coach", text: new_ac.coach)

@@ -27,6 +27,11 @@
 
 
 <% if @user.ac? %>
+  <p id="hasGraduated">
+    <b>Graduated:</b>
+    <%= @user.associate_consultant.hasGraduated? %>
+  </p>
+
   <p id="notes">
     <b>Notes:</b>
     <%= @user.associate_consultant.notes %>

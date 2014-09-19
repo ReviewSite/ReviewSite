@@ -1,7 +1,7 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-  attr_accessible :name, :okta_name, :email
+  attr_accessible :name, :okta_name, :email, :start_date
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
   has_many :coachees, :class_name => "AssociateConsultant", :foreign_key => "coach_id"

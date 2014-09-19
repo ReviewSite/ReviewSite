@@ -21,10 +21,12 @@ describe "User pages: " do
     describe "user with valid information" do
       let(:new_name)  { "Imma NewName" }
       let(:new_email) { "immanew@example.com" }
+      let(:new_start_date) { "2014-06-20" }
 
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
+        fill_in "Start Date",       with: new_start_date
         click_button "Save Changes"
       end
 
@@ -32,6 +34,7 @@ describe "User pages: " do
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
+      specify { user.reload.start_date.should == Date.parse(new_start_date) }
     end
 
     describe "user with invalid information" do
@@ -112,6 +115,7 @@ describe "User pages: " do
 
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
+        fill_in "Start Date", with: "2014-06-20"
         click_button 'Create Account'
 
         current_path.should eql root_path
@@ -125,6 +129,7 @@ describe "User pages: " do
         new_user = User.last
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
+        new_user.start_date.should == Date.parse("2014-06-20")
       end
     end
 
@@ -141,6 +146,7 @@ describe "User pages: " do
       it "creates an account and sends an email" do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
+        fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "roberto"
         click_button 'Create User'
 
@@ -155,11 +161,13 @@ describe "User pages: " do
         new_user = User.last
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
+        new_user.start_date.should == Date.parse("2014-06-20")
       end
 
       it "creates a ac account" do
         fill_in "Name", with: "Roberto Glob"
         fill_in "Email", with: "test2@example.com"
+        fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "glob"
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: false)
         check('isac')
@@ -212,6 +220,7 @@ describe "User pages: " do
 
       it { should have_content(user.name) }
       it { should have_content(user.email) }
+      it { should have_content(user.start_date) }
       it { should have_content("Admin: false") }
 
       it "links to edit page" do

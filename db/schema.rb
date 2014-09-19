@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140805002739) do
+ActiveRecord::Schema.define(:version => 20140917154751) do
 
   create_table "associate_consultants", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20140805002739) do
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.string   "okta_name"
+    t.date     "start_date"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

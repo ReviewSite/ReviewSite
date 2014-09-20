@@ -5,7 +5,7 @@ class ReviewingGroupsController < ApplicationController
   # GET /reviewing_groups
   # GET /reviewing_groups.json
   def index
-    @reviewing_groups = ReviewingGroup.all
+    @reviewing_groups = ReviewingGroup.includes(:users).all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @reviewing_groups }

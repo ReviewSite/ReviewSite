@@ -43,10 +43,7 @@ class ReviewsDatatable
   end
 
   def fetch_reviews
-    reviews = Review.includes({:associate_consultant => :user},
-                              {:associate_consultant =>
-                                {:reviewing_group => :users}},
-                              :feedbacks)
+    reviews = Review.default_load
 
     reviews = reviews.order("#{sort_column} #{sort_direction}, users.name asc, review_date asc")
 

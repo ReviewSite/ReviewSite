@@ -17,7 +17,7 @@
 
         <% if current_user.coachees %>
         <li>
-          You have the following coachees: <%= list(current_user.coachees) %> 
+          You have the following coachees: <%= list(current_user.coachees.includes(:user)) %> 
         </li>
         <% end %>
     

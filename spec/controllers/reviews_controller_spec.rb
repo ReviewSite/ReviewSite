@@ -23,8 +23,8 @@ describe ReviewsController do
   end
 
   describe "GET index" do
-    let(:review) { FactoryGirl.build(:review) }
-    let(:user) { FactoryGirl.build(:user) }
+    let(:review) { FactoryGirl.create(:review) }
+    let(:user) { FactoryGirl.create(:user) }
 
     before do
         User.stub(:find_by_okta_name).and_return(user)
@@ -35,6 +35,7 @@ describe ReviewsController do
 
     context 'user has permission to view review summary' do
       before do
+       Review.stub(:accessible_by).and_return([review])
        controller.stub(:can?).and_return(true)
       end
 

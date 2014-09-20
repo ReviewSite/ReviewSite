@@ -5,15 +5,7 @@ class ReviewsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @reviews = []
-
-        Review.includes({:associate_consultant => :user},
-                        {:associate_consultant => :reviewing_group},
-                         :feedbacks).all.each do |review|
-          if can? :read, review or can? :summary, review
-            @reviews << review
-          end
-        end
+        @reviews = Review.default_load.accessible_by(current_ability)
       }
       format.json { render json: ReviewsDatatable.new(view_context, current_ability) }
     end
@@ -86,12 +78,7 @@ class ReviewsController < ApplicationController
   # GET /feedbacks
   # GET /feedbacks.json
   def summary
-    @feedbacks = []
-    @review.feedbacks.each do |f|
-      if can? :read, f
-        @feedbacks << f
-      end
-    end
+    @feedbacks = @review.feedbacks.accessible_by(current_ability).includes(:user)
 
     respond_to do |format|
       format.html # summary.html.erb

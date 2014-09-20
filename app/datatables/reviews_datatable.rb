@@ -44,23 +44,13 @@ class ReviewsDatatable
 
   def fetch_reviews
     reviews = Review.default_load
-
     reviews = reviews.order("#{sort_column} #{sort_direction}, users.name asc, review_date asc")
 
     if params[:sSearch].present?
       reviews = reviews.joins(associate_consultant: :user).where("users.name ilike :search", search: "%#{params[:sSearch]}%")
     end
 
-    reviews_array = []
-    reviews.all.each do |review|
-      if can? :read, review or can? :summary, review
-        reviews_array << review
-      end
-    end
-
-    reviews_displayed = reviews_array.paginate(:page => page, :per_page => per_page)
-
-    reviews_displayed
+    reviews = reviews.accessible_by(@ability).paginate(:page => page, :per_page => per_page)
   end
 
   def page

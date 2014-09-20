@@ -15,7 +15,7 @@ class Review < ActiveRecord::Base
 
 
   def self.default_load
-    self.eager_load({ :associate_consultant => :user },
+    self.includes({ :associate_consultant => :user },
                     { :associate_consultant => { :reviewing_group => :users } },
                     :feedbacks)
   end

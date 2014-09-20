@@ -9,9 +9,9 @@
   admin.admin = true
   admin.save!
 
-  99.times do
+  99.times do |n|
     first_name = Faker::Name.first_name
-    User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: first_name, email: "#{first_name.downcase}@example.com" )
+    User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: "user#{n}", email: "user#{n}@example.com" )
   end
 
         sally = User.find(2)

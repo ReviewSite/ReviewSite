@@ -2,6 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+
+    alias_action :create, :read, :update, :destroy, :to => :crud
+
     if user.nil?
       can :create, User
     else
@@ -13,35 +16,24 @@ class Ability
         can :manage, User
         can :manage, SelfAssessment
         can :manage, Invitation
+        can :manage, Feedback, :submitted => true
       end
 
-      can :manage, SelfAssessment do |self_assessment|
-        is_user_the_ac_associated_with_review(user, self_assessment.review)
-      end
+      can :manage, SelfAssessment, :review => { :associate_consultant => { :user_id => user.id } }
 
-      can :manage, Invitation do |invitation|
-        is_user_the_ac_associated_with_review(user, invitation.review) or
-        is_coach(user, invitation.review)
-      end
-
-      can :read, Invitation do |invitation|
-        invitation.email == user.email
-      end
+      can :manage, Invitation, :review => { :associate_consultant => { :user_id => user.id } }
+      can :manage, Invitation, :review => { :associate_consultant => { :coach_id => user.id } }
+      can :read, Invitation, :email => user.email
 
       can :create, Feedback
-
-      can :manage, Feedback do |feedback|
-        # normal user can ONLY manage self if it's not submitted
-        if (not feedback.submitted) and feedback.user == user
-          true
-        elsif user.admin
-          # admin can manage submitted feedback
-          feedback.submitted
-        end
-      end
-
+      can :manage, Feedback, { :submitted => false, :user_id => user.id }
       cannot :submit, Feedback
       cannot :unsubmit, Feedback
+      can :read, Feedback, :user_id => user.id
+      can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :user_id => user.id } } }
+      can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :coach_id => user.id } } }
+      can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids } } }
+
       if user.admin
         can :submit, Feedback do |feedback|
           not feedback.submitted
@@ -51,39 +43,13 @@ class Ability
         end
       end
 
-      can [:summary, :index, :read], Review do |review|
-        is_user_the_ac_associated_with_review(user, review) or is_review_member(user, review) or is_coach(user, review)
-      end
 
-      can :read, Feedback do |feedback|
-        is_user_the_feedback_giver(user, feedback) or (feedback.submitted and (is_user_the_ac_associated_with_review(user, feedback.review) or is_review_member(user, feedback.review) or is_coach(user,feedback.review)))
-      end
+      can [:summary, :index, :read], Review, :associate_consultant => { :user_id => user.id }
+      can [:summary, :index, :read], Review, :associate_consultant => { :coach_id => user.id }
+      can [:summary, :index, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
 
-      can [:update, :feedbacks], User do |the_user|
-        the_user == user
-      end
+      can [:update, :feedbacks], User, :id => user.id
+
     end
-  end
-
-  private
-  def is_user_the_feedback_giver(user, feedback)
-    feedback.user == user
-  end
-
-  def is_coach(user, review)
-    user == review.associate_consultant.coach
-  end
-
-  def is_user_the_ac_associated_with_review(user, review)
-    user == review.associate_consultant.user
-  end
-
-  def is_review_member(user, review)
-    reviewing_group_members = review.associate_consultant.try(:reviewing_group).try(:users)
-    return false if reviewing_group_members.nil?
-    reviewing_group_members.each do |reviewing_group_member|
-      return true if reviewing_group_member == user
-    end
-    return false
   end
 end

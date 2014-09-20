@@ -9,6 +9,7 @@ ReviewSite::Application.configure do
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
+    Bullet.alert = true
   end
 
   # Settings specified here will take precedence over those in config/application.rb

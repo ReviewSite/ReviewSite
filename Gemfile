@@ -35,7 +35,9 @@ group :development do
   gem 'foreman'
   gem 'watchr'
   gem 'bullet'
+  gem 'hirb'
 end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', '0.5.5'

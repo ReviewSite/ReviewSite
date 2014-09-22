@@ -4,5 +4,10 @@ FactoryGirl.define do
     coach
     user
     reviewing_group
+    graduated false
+
+    factory :graduated_ac do
+      graduated true
+    end
   end
 end

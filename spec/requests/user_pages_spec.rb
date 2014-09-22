@@ -181,12 +181,13 @@ describe "User pages: " do
         click_button 'Create User'
 
         current_path.should eql users_path
-        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
 
         new_user = User.last
+        new_user.associate_consultant.reviews.size.should == 4
         id_selector = new_user.email.slice(0..(new_user.email.index('@'))-1)
         page.should have_selector("tr##{id_selector} td.ac", text: 'yes')
-
+        
         visit user_path(new_user)
 
         new_ac = new_user.associate_consultant
@@ -195,7 +196,6 @@ describe "User pages: " do
         page.should have_selector("#notes", text: new_ac.notes)
         page.should have_selector("#reviewing-group", text: new_ac.reviewing_group)
         page.should have_selector("#coach", text: new_ac.coach)
-
       end
     end
 

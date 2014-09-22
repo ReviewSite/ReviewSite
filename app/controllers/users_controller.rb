@@ -26,8 +26,15 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
+      if @user.ac? && !@user.start_date.nil?
+        self.create_reviews
+      end
       UserMailer.registration_confirmation(@user).deliver
-      flash[:success] = "User has been successfully created."
+      flash[:success] = "User has been successfully created"
+      if @user.ac?
+        flash[:success] += " with 6-Month, 12-Month, 18-Month, and 24-Month reviews"
+      end
+      flash[:success] += "."
 
       if current_user && current_user.admin?
         redirect_to users_path
@@ -74,6 +81,15 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }
+    end
+  end
+
+  def create_reviews
+    (6..24).step(6) do |n|
+      Review.create({associate_consultant_id: @user.associate_consultant.id,
+      review_type: n.to_s + "-Month",
+      review_date: @user.start_date + n.months,
+      feedback_deadline: @user.start_date + n.months})
     end
   end
 

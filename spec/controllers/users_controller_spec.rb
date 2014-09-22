@@ -10,6 +10,19 @@ describe UsersController do
     }
   end
 
+  def valid_ac_params
+    {
+        name: 'Joe',
+        email: 'joe@example.com',
+        okta_name: 'JoeCAS',
+        admin: false,
+        start_date: '2014-01-01',
+        associate_consultant_attributes: {
+          reviewing_group_id: FactoryGirl.create(:reviewing_group).id
+        }
+    }
+  end
+
   def valid_session
     {
         userinfo: "test@test.com"
@@ -38,6 +51,36 @@ describe UsersController do
       it 'should not sign in the newly created user' do
         controller.should_not_receive(:set_current_user)
         post :create, {user: valid_params}, valid_session
+      end
+
+      it 'should create reviews for ac' do
+        arguments = Array.new
+
+        Review.stub!(:create).and_return do |args|
+          arguments << args.clone
+          args
+        end
+
+        post :create, {user: valid_ac_params, isac: 1}, valid_session
+        user = assigns(:user)
+
+        desired_arguments = Array.new
+        (6..24).step(6) do |i|
+          desired_arguments << {
+            associate_consultant_id: user.associate_consultant.id,
+            review_type: i.to_s + "-Month",
+            review_date: user.start_date + i.months,
+            feedback_deadline: user.start_date + i.months
+          }
+        end
+        arguments.should == desired_arguments
+      end
+
+      it 'should not create reviews when ac lacks start date' do
+        post :create, {user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        user = assigns(:user)
+
+        user.associate_consultant.reviews.size.should == 0
       end
 
       it 'should set the flash message' do
@@ -77,7 +120,7 @@ describe UsersController do
   describe "PUT update/:id" do
 
     before do
-      @admin = FactoryGirl.create(:admin_user) 
+      @admin = FactoryGirl.create(:admin_user)
       @user = FactoryGirl.create(:user)
       set_current_user @admin
     end

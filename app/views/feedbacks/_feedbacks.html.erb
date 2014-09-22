@@ -10,7 +10,7 @@
   </tr>
   </thead>
   <tbody>
-  <% feedbacks.each do |feedback| %>
+  <% feedbacks.includes(:user, :review).each do |feedback| %>
     <tr>
       <td><%= feedback.reviewer %></td>
       <td><%= feedback.project_worked_on %></td>
@@ -48,7 +48,7 @@
     </tr>
   <% end %>
 
-  <% invitations.each do |invitation| %>
+  <% invitations.includes(:review).each do |invitation| %>
     <% if invitation.feedback.nil? %>
     <tr>
       <td><%= invitation.email %></td>

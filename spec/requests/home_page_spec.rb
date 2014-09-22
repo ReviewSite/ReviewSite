@@ -64,9 +64,9 @@ describe "Home page" do
     describe "as AC" do
       before do
         @ac_with_many_reviews = FactoryGirl.create(:associate_consultant)
-        @first_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 6.months)
-        @upcoming_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today)
-        @latest_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 6.months)
+        @first_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
+        @upcoming_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today + 1.month)
+        @latest_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 7.months)
         @feedback = FactoryGirl.create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
 
         sign_in @ac_with_many_reviews.user

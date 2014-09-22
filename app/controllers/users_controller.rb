@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.where("name ILIKE ?", "%#{params[:q]}%")
+    @users = User.includes(:associate_consultant).where("name ILIKE ?", "%#{params[:q]}%")
 
     respond_to do |format|
       format.html

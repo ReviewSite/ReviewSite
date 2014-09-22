@@ -13,6 +13,14 @@ class Review < ActiveRecord::Base
   has_many :self_assessments, :dependent => :destroy
   has_many :invitations, :dependent => :destroy
 
+
+  def self.default_load
+    self.includes({ :associate_consultant => :user },
+                    { :associate_consultant => { :reviewing_group => :users } },
+                    :feedbacks)
+  end
+
+
   after_initialize :init
 
   def init

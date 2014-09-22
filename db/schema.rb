@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140918143921) do
+ActiveRecord::Schema.define(:version => 20140920214220) do
 
   create_table "associate_consultants", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(:version => 20140918143921) do
     t.boolean  "graduated"
   end
 
+  add_index "associate_consultants", ["coach_id"], :name => "index_associate_consultants_on_coach_id"
+  add_index "associate_consultants", ["reviewing_group_id"], :name => "index_associate_consultants_on_reviewing_group_id"
   add_index "associate_consultants", ["user_id"], :name => "index_associate_consultants_on_user_id"
 
   create_table "feedbacks", :force => true do |t|
@@ -76,6 +78,8 @@ ActiveRecord::Schema.define(:version => 20140918143921) do
     t.integer  "contributions_scale"
   end
 
+  add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
+
   create_table "invitations", :force => true do |t|
     t.string   "email"
     t.integer  "review_id"
@@ -96,6 +100,9 @@ ActiveRecord::Schema.define(:version => 20140918143921) do
     t.integer "user_id"
   end
 
+  add_index "reviewing_groups_users", ["user_id", "reviewing_group_id"], :name => "index_reviewing_groups_users_on_user_id_and_reviewing_group_id"
+  add_index "reviewing_groups_users", ["user_id"], :name => "index_reviewing_groups_users_on_user_id"
+
   create_table "reviews", :force => true do |t|
     t.integer  "associate_consultant_id"
     t.string   "review_type"
@@ -106,6 +113,8 @@ ActiveRecord::Schema.define(:version => 20140918143921) do
     t.date     "send_link_date"
     t.boolean  "new_review_format",       :default => false
   end
+
+  add_index "reviews", ["associate_consultant_id"], :name => "index_reviews_on_associate_consultant_id"
 
   create_table "self_assessments", :force => true do |t|
     t.integer  "review_id"

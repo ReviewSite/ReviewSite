@@ -2,7 +2,7 @@
 
 <div class="new-review"><%= link_to 'New User', new_user_path, :class => 'btn btn-info' %></div>
 
-<table class="datatable">
+<table id="users" class="datatable" data-source="<%= users_url(format: "json") %>">
   <thead>
   <th>Name</th>
   <th>Email</th>
@@ -13,29 +13,7 @@
   <th></th>
   </thead>
   <tbody>
-  <% @users.each do |user| %>
-    <tr id="user_<%= user.id %>">
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td class="ac" ><%= user.ac? ? 'yes' : '' %></td>
-        <td class="admin"><%= user.admin ? 'yes' : '' %></td>
-        <td>
-          <% if can? :read, user %>
-              <%= link_to 'View Profile', user %>
-          <% end %>
-        </td>
-        <td>
-          <% if can? :edit, user %>
-              <%= link_to 'Edit', edit_user_path(user) %>
-          <% end %>
-        </td>
-        <td class="delete">
-          <% if can? :destroy, user %>
-              <%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
-        </td>
-      </tr>
-  <% end %>
+
   </tbody>
 </table>
 
@@ -43,10 +21,23 @@
 
 
 <script>
-  $('.datatable').dataTable({
+  $('table#users').dataTable({
+    sPaginationType: "two_button",
     bJQueryUI: true,
+    bProcessing: true,
+    bServerSide: true,
+    sAjaxSource: $('#users').data('source'),
+    oLanguage: {
+        sInfoFiltered: ""
+    },
     aoColumnDefs: [
-      { bSortable: false, aTargets: [ 4, 5, 6 ] }
-    ]
+      { bSortable: false, aTargets: [ 4, 5, 6 ] },
+      { sClass: "admin", aTargets: [3] },
+      { sClass: "ac", aTargets: [2] }
+    ],
+    fnCreatedRow: function(nRow, aData, iDataIndex){
+      var email = aData[1];
+      $(nRow).attr('id', email.substr(0, email.indexOf('@')));
+    } 
   });
 </script>

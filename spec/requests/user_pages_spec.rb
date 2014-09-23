@@ -46,22 +46,23 @@ describe "User pages: " do
       it { should have_content('error') }
     end
 
-    describe "as an admin" do
+    describe "as an admin", js: true do
       it "can make another user an admin" do
         nonadmin = FactoryGirl.create(:user)
         sign_in admin_user
 
         visit users_path
-        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: '')
+        id_selector = nonadmin.email.slice(0..(nonadmin.email.index('@'))-1)
+        page.should have_selector("tr##{id_selector} td.admin", text: '')
 
         visit edit_user_path(nonadmin)
-        page.find("#user_associate_consultant_attributes_graduated").should be_disabled
-        page.find('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]').should be_disabled
+        page.find("#user_associate_consultant_attributes_graduated", visible: false).should be_disabled
+        page.find('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]', visible: false).should be_disabled
         check('user_admin')
 
         click_button "Save Changes"
 
-        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: 'yes')
+        page.should have_selector("tr##{id_selector} td.admin", text: 'yes')
 
         sign_in nonadmin
         page.should have_selector("#admin-menu")
@@ -72,7 +73,6 @@ describe "User pages: " do
         sign_in admin_user
 
         visit users_path
-        page.should have_selector("tr#user_#{nonadmin.id} td.admin", text: '')
 
         visit edit_user_path(nonadmin)
         check("isac")
@@ -164,18 +164,19 @@ describe "User pages: " do
         new_user.start_date.should == Date.parse("2014-06-20")
       end
 
-      it "creates a ac account" do
+      it "creates a ac account", js: true do
         fill_in "Name", with: "Roberto Glob"
         fill_in "Email", with: "test2@example.com"
         fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "glob"
+
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: false)
-        check('isac')
+        page.find('#isac').trigger('click')
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: true)
 
         fill_in "Notes", with: "Here are some notes"
         select reviewing_group.name, from: "Reviewing group"
-        fill_in "Coach", with: coach.id
+        find("#token-input-user_associate_consultant_attributes_coach_id").set(coach.id)
 
         click_button 'Create User'
 
@@ -183,7 +184,8 @@ describe "User pages: " do
         page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
 
         new_user = User.last
-        page.should have_selector("tr#user_#{new_user.id} td.ac", text: 'yes')
+        id_selector = new_user.email.slice(0..(new_user.email.index('@'))-1)
+        page.should have_selector("tr##{id_selector} td.ac", text: 'yes')
 
         visit user_path(new_user)
 
@@ -262,26 +264,28 @@ describe "User pages: " do
       it { should have_selector('th', text: 'Email') }
       it { should have_selector('th', text: 'Admin') }
 
-      it { should have_selector('td', text: 'Andy') }
-      it { should have_selector('td', text: 'andy@example.com') }
-      it { should have_selector('td.admin', text: '') }
-      it { should have_selector('td', text: admin.name) }
-      it { should have_selector('td', text: admin.email) }
-      it { should have_selector('td.admin', text: 'yes') }
+      it "has user fields displayed in table", js:true do
+        should have_selector('td', text: 'Andy')
+        should have_selector('td', text: 'andy@example.com')
+        should have_selector('td.admin', text: '')
+        should have_selector('td', text: admin.name)
+        should have_selector('td', text: admin.email)
+        should have_selector('td.admin', text: 'yes')
+      end
 
       it "should link to new" do
         click_link "New User"
         current_path.should == new_user_path
       end
 
-      it "should link to show" do
+      it "should link to show", js: true do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
           click_link "View Profile"
           current_path.should == user_path(user)
         end
       end
 
-      it "should link to edit" do
+      it "should link to edit", js: true do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
           click_link "Edit"
           current_path.should == edit_user_path(user)

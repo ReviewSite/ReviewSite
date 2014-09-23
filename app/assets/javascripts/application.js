@@ -22,6 +22,16 @@
 
 
 jQuery (function () {
+  $('.datepicker').datepicker({
+    todayBtn: "linked",
+    daysOfWeekDisabled: "0,6",
+    autoclose: true,
+    todayHighlight: true,
+    format: "yyyy-mm-dd"
+  });
+
+  $('.datepicker.future').datepicker("setStartDate", "today");
+
   $("#reviewing_group_user_tokens").tokenInput("/users/get_users.json", {
     crossDomain: false,
     prePopulate: $("#reviewing_group_user_tokens").data("pre"),

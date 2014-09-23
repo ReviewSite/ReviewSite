@@ -17,6 +17,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/additional
   def additional
     @feedback = Feedback.new
+    @feedback.review = @review
     respond_to do |format|
       format.html # additional.html.erb
       format.json { render json: @feedback }
@@ -31,6 +32,7 @@ class FeedbacksController < ApplicationController
       return
     end
     @feedback = Feedback.new
+    @feedback.review = @review
     find_feedback_for(current_user) if @review.has_existing_feedbacks?
 
     respond_to do |format|
@@ -56,7 +58,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        if params[:submit_final_button] 
+        if params[:submit_final_button]
           @feedback.submit_final
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
         else
@@ -83,7 +85,7 @@ class FeedbacksController < ApplicationController
   def update
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
-        if params[:submit_final_button] 
+        if params[:submit_final_button]
           @feedback.submit_final
           format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
          else
@@ -157,7 +159,7 @@ class FeedbacksController < ApplicationController
     redirect_to root_path
   end
 
-  private 
+  private
   def load_feedback
     @feedback = Feedback.find_by_id(params[:id])
   end

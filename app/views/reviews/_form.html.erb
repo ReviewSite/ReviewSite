@@ -28,18 +28,18 @@
 
   <div class="field">
     <%= f.label :review_date %>
-    <%= f.text_field :review_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
+    <%= f.text_field :review_date, class: "datepicker future", placeholder: "yyyy-mm-dd" %>
   </div>
 
   <div class="field">
     <%= f.label :feedback_deadline %><br />
     <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
-    <%= f.text_field :feedback_deadline, class: "datepicker", placeholder: "yyyy-mm-dd"%>
+    <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
   <div class="field">
     <%= f.label :send_link_date %>
-    <%= f.text_field :send_link_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
+    <%= f.text_field :send_link_date, class: "datepicker future", placeholder: "yyyy-mm-dd" %>
   </div>
 
   <div class="actions">

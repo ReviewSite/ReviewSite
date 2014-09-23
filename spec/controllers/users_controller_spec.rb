@@ -70,7 +70,7 @@ describe UsersController do
             associate_consultant_id: user.associate_consultant.id,
             review_type: i.to_s + "-Month",
             review_date: user.start_date + i.months,
-            feedback_deadline: user.start_date + i.months
+            feedback_deadline: user.start_date + i.months - 2.days
           }
         end
         arguments.should == desired_arguments
@@ -119,10 +119,34 @@ describe UsersController do
 
   describe "PUT update/:id" do
 
-    before do
+    before(:each) do
       @admin = FactoryGirl.create(:admin_user)
       @user = FactoryGirl.create(:user)
       set_current_user @admin
+    end
+
+    describe "admin makes user an AC" do
+      it "should now have user as AC" do
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+
+        user = assigns(:user)
+        user.associate_consultant.should_not be_nil
+      end
+
+      it "should have AC have four reviews" do
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+
+        user = assigns(:user)
+        user.associate_consultant.reviews.size.should == 4
+      end
+
+      it "should not have reviews if there is no start date" do
+        @user.start_date = nil
+        @user.save!
+        put :update, {id: @user, user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        user = assigns(:user)
+        user.associate_consultant.reviews.size.should == 0
+      end
     end
 
     describe "admin updates other user with valid params" do

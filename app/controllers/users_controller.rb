@@ -50,6 +50,10 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
+      if params[:isac].to_s=="1" && !@user.start_date.nil?
+        self.create_reviews
+        flash[:success] += " and reviews created"
+      end
 
       if current_user.admin?
         redirect_to users_path
@@ -89,7 +93,7 @@ class UsersController < ApplicationController
       Review.create({associate_consultant_id: @user.associate_consultant.id,
       review_type: n.to_s + "-Month",
       review_date: @user.start_date + n.months,
-      feedback_deadline: @user.start_date + n.months})
+      feedback_deadline: @user.start_date + n.months - 2.days})
     end
   end
 

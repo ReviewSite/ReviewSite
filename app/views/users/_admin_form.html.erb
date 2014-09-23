@@ -42,6 +42,7 @@
         <%= check_box_tag 'isac', 'yes', true, disabled: true %> <%= f.label "Associate Consultant", class: "checkbox" %>
       <% else %>
         <%= check_box_tag 'isac' %> <%= f.label "Associate Consultant", class: "checkbox" %>
+        <p class="help-text">Reviews will be created for new ACs if start date is not blank.</p>
       <% end %>
     </div>
     <%=f.fields_for :associate_consultant %>

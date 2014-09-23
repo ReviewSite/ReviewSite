@@ -240,11 +240,6 @@ describe "Feedback pages", :type => :feature do
             page.should have_content(value)
           end
         end
-
-        it "links to edit page" do
-          click_link "Edit"
-          current_path.should == edit_review_feedback_path(review, feedback)
-        end
       end
 
       describe "as the associate consultant" do

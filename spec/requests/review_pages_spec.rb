@@ -274,10 +274,10 @@ describe "Review pages" do
         current_path.should == review_feedback_path(review, feedback)
       end
 
-      it "links to edit feedback" do
-        click_link "feedback_#{feedback.id}_edit"
-        current_path.should == edit_review_feedback_path(review, feedback)
-      end
+      # it "links to edit feedback" do
+      #   click_link "feedback_#{feedback.id}_edit"
+      #   current_path.should == edit_review_feedback_path(review, feedback)
+      # end
 
       it "links to invite reviewer" do
         click_link "Request Feedback"

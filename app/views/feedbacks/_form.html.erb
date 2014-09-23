@@ -12,10 +12,10 @@
   <% end %>
 
   <div id="instructions">
-    <p>Thanks for providing feedback for <%= @review.associate_consultant %>!</p>
+    <p>Thanks for providing feedback for <%= @feedback.review.associate_consultant %>!</p>
 
     <p>Need a little inspiration? Take a look at some <a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">example feedback</a>. <b>There is no need to include responses in all categories in the form below if it does not apply.</b></p>
-  
+
     <p>Make sure to save what you have so far by clicking the 'Save Feedback' button. When you are ready to share your feedback with others, you can submit your feedback as final. Once you click 'Submit Final', you will no longer be able to come back and make changes to your feedback.</p>
   </div>
 
@@ -38,7 +38,7 @@
 
       <div class="field">
         <%= f.label :feedback_deadline %><br />
-        <%= f.text_field :feedback_deadline, :value => @review.feedback_deadline, :disabled => true%>
+        <%= f.text_field :feedback_deadline, :value => @feedback.review.feedback_deadline, :disabled => true%>
       </div>
 
       <div class="field">
@@ -71,7 +71,7 @@
         <% end %>
       </div>
       <br /><br />
-      <div class="actions">   
+      <div class="actions">
         <%= f.submit 'Save Feedback', :class => "btn btn-primary" %>
         <%= f.submit 'Submit Final', {:class => "btn btn-success", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
         <%= link_to 'Cancel', review_path(@review), :class => "btn btn-link" %>

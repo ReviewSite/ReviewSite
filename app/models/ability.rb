@@ -8,7 +8,7 @@ class Ability
     if user.nil?
       can :create, User
     else
-      
+
     # baseline
     can :manage, SelfAssessment, :review => { :associate_consultant => { :user_id => user.id } }
 
@@ -18,6 +18,8 @@ class Ability
 
     can :create, Feedback
     can :manage, Feedback, { :submitted => false, :user_id => user.id }
+    can :send_reminder, Feedback, { :review=> { :associate_consultant =>
+      { :user_id => user.id } } }
     cannot :submit, Feedback
     cannot :unsubmit, Feedback
     can :read, Feedback, :user_id => user.id

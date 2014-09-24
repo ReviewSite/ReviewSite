@@ -54,9 +54,6 @@ describe UsersController do
       end
 
       it 'should create reviews for ac' do
-        arguments = Array.new
-        desired_arguments = Array.new
-
         reviews = [double(Review).as_null_object]
         Review.stub!(:create_default_reviews).and_return(reviews)
         Review.should_receive(:create_default_reviews)
@@ -77,6 +74,7 @@ describe UsersController do
       end
 
       it 'should not create reviews when ac lacks start date' do
+        Review.should_not_receive(:create_default_reviews)
         post :create, {user: valid_ac_params.except(:start_date), isac: 1}, valid_session
         user = assigns(:user)
 
@@ -133,16 +131,31 @@ describe UsersController do
         user.associate_consultant.should_not be_nil
       end
 
-      it "should have AC have four reviews" do
-        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+      it "should create four reviews for the AC" do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.should_receive(:create_default_reviews)
 
-        user = assigns(:user)
-        user.associate_consultant.reviews.size.should == 4
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+      end
+
+      it 'should email the AC after reviews are created' do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+
+        message = double(Mail::Message)
+        message.should_receive(:deliver)
+        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.should_receive(:reviews_creation).with(reviews[0])
+
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
       end
 
       it "should not have reviews if there is no start date" do
         @user.start_date = nil
         @user.save!
+        Review.should_not_receive(:create_default_reviews)
+
         put :update, {id: @user, user: valid_ac_params.except(:start_date), isac: 1}, valid_session
         user = assigns(:user)
         user.associate_consultant.reviews.size.should == 0

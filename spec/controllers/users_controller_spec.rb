@@ -55,25 +55,25 @@ describe UsersController do
 
       it 'should create reviews for ac' do
         arguments = Array.new
+        desired_arguments = Array.new
 
-        Review.stub!(:create).and_return do |args|
-          arguments << args.clone
-          args
-        end
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.should_receive(:create_default_reviews)
 
         post :create, {user: valid_ac_params, isac: 1}, valid_session
-        user = assigns(:user)
+      end
 
-        desired_arguments = Array.new
-        (6..24).step(6) do |i|
-          desired_arguments << {
-            associate_consultant_id: user.associate_consultant.id,
-            review_type: i.to_s + "-Month",
-            review_date: user.start_date + i.months,
-            feedback_deadline: user.start_date + i.months - 2.days
-          }
-        end
-        arguments.should == desired_arguments
+      it 'should email the AC after reviews are created' do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+
+        message = double(Mail::Message)
+        message.should_receive(:deliver)
+        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.should_receive(:reviews_creation).with(reviews[0])
+
+        post :create, {user: valid_ac_params, isac: 1}, valid_session
       end
 
       it 'should not create reviews when ac lacks start date' do

@@ -89,12 +89,8 @@ class UsersController < ApplicationController
   end
 
   def create_reviews
-    (6..24).step(6) do |n|
-      Review.create({associate_consultant_id: @user.associate_consultant.id,
-      review_type: n.to_s + "-Month",
-      review_date: @user.start_date + n.months,
-      feedback_deadline: @user.start_date + n.months - 2.days})
-    end
+    reviews = Review.create_default_reviews(@user)
+    UserMailer.reviews_creation(reviews[0]).deliver
   end
 
   private

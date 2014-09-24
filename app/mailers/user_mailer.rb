@@ -23,6 +23,14 @@ class UserMailer < ActionMailer::Base
     mail(:to => "<#{@ac_email}>", :subject => "[ReviewSite] Your #{@review_type} review has been created")
   end
 
+  def reviews_creation(next_review)
+    @next_review = next_review
+    @ac_name = next_review.associate_consultant.user.name
+    @ac_email = next_review.associate_consultant.user.email
+    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
+    mail(:to => "<#{@ac_email}>", :subject => "[ReviewSite] Reviews have been created for you")
+  end
+
   def new_feedback_notification(feedback)
     @feedback = feedback
     @review = feedback.review

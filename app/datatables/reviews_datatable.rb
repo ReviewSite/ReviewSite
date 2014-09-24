@@ -31,7 +31,7 @@ class ReviewsDatatable
           h(review.review_date),
           h(review.feedback_deadline),
           h("#{review.feedbacks.where(:submitted => true).count} / #{review.feedbacks.count}"),
-          (link_to('Email AC', url_helpers.send_email_review_path(review), remote: true, class: "send_email_link") unless cannot? :send_email, Review),
+          (link_to('Email Review Info', url_helpers.send_email_review_path(review), remote: true, class: "send_email_link") unless cannot? :send_email, Review),
           (link_to('Show Details', review) unless cannot? :read, review),
           (link_to('Feedback Summary', url_helpers.summary_review_path(review)) unless cannot? :summary, review)
       ]

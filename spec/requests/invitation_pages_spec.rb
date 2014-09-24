@@ -21,7 +21,7 @@ describe "Invitations" do
       it "redirects to home page after submission" do
         click_button "Send Invitation"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-notice', text: "An invitation has been sent!")
+        page.should have_selector('div.alert.alert-success', text: "An invitation has been sent!")
       end
 
       it "sends an invitation email" do
@@ -34,7 +34,7 @@ describe "Invitations" do
         check "no_email"
         click_button "Send Invitation"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-notice', text: "An invitation has been created!")
+        page.should have_selector('div.alert.alert-success', text: "An invitation has been created!")
       end
     end
 
@@ -49,7 +49,7 @@ describe "Invitations" do
       it "redirects to home page after submission" do
         click_button "Send Invitation"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-notice')
+        page.should have_selector('div.alert.alert-success')
       end
 
       it "sends an invitation email" do

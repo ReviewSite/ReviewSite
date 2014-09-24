@@ -145,7 +145,7 @@ class FeedbacksController < ApplicationController
 
   def send_reminder
     if @feedback.submitted?
-      flash[:notice] = "Feedback already submitted. Reminder not sent."
+      flash[:alert] = "Feedback already submitted. Reminder not sent."
     else
       if @feedback.invitation
         invitation = @feedback.invitation
@@ -154,7 +154,7 @@ class FeedbacksController < ApplicationController
         invitation = review.invitations.build(:email => @feedback.user.email)
       end
       UserMailer.feedback_reminder(invitation).deliver
-      flash[:notice] = "Reminder email was sent!"
+      flash[:success] = "Reminder email was sent!"
     end
     redirect_to root_path
   end

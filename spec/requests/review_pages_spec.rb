@@ -326,4 +326,18 @@ describe "Review pages" do
        end
     end
   end
+
+  describe "send email" do
+    it "when 'send email' link is clicked", js: true do
+      sign_in admin
+      visit root_path
+
+      UserMailer.should_receive(:review_creation).with(review).and_return(double(deliver: true))
+      click_link "Email Review Info"
+      current_path.should == root_path
+      page.should have_selector('div.alert.alert-success', text: 'An email with the details of the review was sent!')
+    end
+
+  end
+
 end

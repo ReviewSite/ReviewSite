@@ -35,10 +35,6 @@ ReviewSite::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  ReviewSite::Application.configure do
-    config.action_mailer.delivery_method = :test
-  end
-
   # Speed up testing
   require 'bcrypt'
   silence_warnings do

@@ -289,4 +289,19 @@ describe ReviewsController do
     end
   end
 
+  describe "SEND EMAIL" do
+    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:ac) { FactoryGirl.create(:associate_consultant, :user => user) }
+    let(:review) { FactoryGirl.create(:review, :associate_consultant => ac) }
+    before(:each) do
+      set_current_user admin_user
+    end
+
+    it "should show send email on review creation" do
+      get :send_email, {:id => review.to_param}, valid_session
+      response.should be_success
+    end
+  end
+
 end

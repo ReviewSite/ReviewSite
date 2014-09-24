@@ -39,7 +39,9 @@ class ReviewsController < ApplicationController
     @review = Review.new(params[:review])
     respond_to do |format|
       if @review.save
-        format.html { redirect_to @review, notice: 'Review was successfully created.' }
+        UserMailer.review_creation(@review).deliver
+
+        format.html { redirect_to @review, success: 'Review was successfully created.' }
         format.json { render json: @review, status: :created, location: @review }
       else
         format.html { render action: "new" }

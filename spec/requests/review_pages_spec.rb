@@ -196,6 +196,30 @@ describe "Review pages" do
       before do
         sign_in admin
         visit new_review_path
+
+        unique_user = FactoryGirl.create(:user)
+        @unique_ac = FactoryGirl.create(:associate_consultant, :user => unique_user)
+      end
+
+      it "creates a new review" do
+        review = FactoryGirl.create(:review)
+
+        fill_in 'review_associate_consultant_id', with: @unique_ac.id
+        select "24-Month", from: "Review type"
+
+        fill_in "review_review_date", with: "07/01/2014"
+        fill_in "review_feedback_deadline", with: "21/06/2014"
+        fill_in "review_send_link_date", with: "04/01/2014"
+
+        UserMailer.should_receive(:review_creation).and_return(double(deliver: true))
+        click_button "Create Review"
+
+        new_review = Review.last
+        current_path.should == review_path(new_review)
+
+        page.should have_selector('h2', text: new_review.review_type.titleize)
+        page.should have_selector('h3', text: new_review.feedback_deadline)
+        page.should have_selector('h3', text: new_review.review_date)
       end
     end
 

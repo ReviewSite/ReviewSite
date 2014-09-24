@@ -13,10 +13,10 @@ class InvitationsController < ApplicationController
 
     if not @invitation.feedback and @invitation.save
       if params[:no_email]
-        flash[:notice] = "An invitation has been created!"
+        flash[:success] = "An invitation has been created!"
       else
         UserMailer.review_invitation(@review, "#{params[:username]}@thoughtworks.com", params[:message]).deliver
-        flash[:notice] = "An invitation has been sent!"
+        flash[:success] = "An invitation has been sent!"
       end
       redirect_to root_path
     else
@@ -35,10 +35,10 @@ class InvitationsController < ApplicationController
 
   def send_reminder
     if @invitation.feedback and @invitation.feedback.submitted?
-      flash[:notice] = "Feedback already submitted. Reminder not sent."
+      flash[:alert] = "Feedback already submitted. Reminder not sent."
     else
       UserMailer.feedback_reminder(@invitation).deliver
-      flash[:notice] = "Reminder email was sent!"
+      flash[:success] = "Reminder email was sent!"
     end
     redirect_to root_path
   end

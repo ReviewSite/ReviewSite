@@ -40,7 +40,7 @@ describe InvitationsController do
 
       it "flashes a notification" do
         post :create, {username: "test", review_id: review.id}, valid_sessions
-        flash[:notice].should == "An invitation has been sent!"
+        flash[:success].should == "An invitation has been sent!"
       end
     end
 
@@ -120,7 +120,7 @@ describe InvitationsController do
 
       it "notifies that email has not been sent" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        flash[:notice].should == "Feedback already submitted. Reminder not sent."
+        flash[:alert].should == "Feedback already submitted. Reminder not sent."
       end
 
       it "does not send an email" do
@@ -141,7 +141,7 @@ describe InvitationsController do
 
       it "notifies that email has been sent" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        flash[:notice].should == "Reminder email was sent!"
+        flash[:success].should == "Reminder email was sent!"
       end
 
       it "delivers an email with the correct content" do
@@ -155,6 +155,6 @@ describe InvitationsController do
           "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
         )
       end
-    end      
+    end
   end
 end

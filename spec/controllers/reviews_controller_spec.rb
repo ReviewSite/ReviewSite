@@ -11,7 +11,7 @@ describe ReviewsController do
   def valid_attributes
     {
         review_type: '6-Month',
-        associate_consultant_id: ac.user.name,
+        associate_consultant_id: ac.id,
         review_date: Date.today,
         feedback_deadline: Date.today,
         send_link_date: Date.today

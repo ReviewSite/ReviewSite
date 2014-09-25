@@ -6,7 +6,7 @@
 #
 # Last updated: August 6, 2014
 
-# require 'spec_helper'
+require 'spec_helper'
 
 
 #
@@ -156,51 +156,6 @@
       # mail = ActionMailer::Base.deliveries.last
       # mail.to.should == [ac.user.email]
       # mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
-    # end
-  # end
-
-# end
-
-
-#
-# REVIEW_PAGES_SPEC
-#
-# describe "Review pages" do
-#   let(:admin) { FactoryGirl.create(:admin_user) }
-#   let(:coach) { FactoryGirl.create(:user) }
-#   let(:reviewer) { FactoryGirl.create(:user) }
-#   let(:ac_user) { FactoryGirl.create(:user) }
-#   let(:ac) { FactoryGirl.create(:associate_consultant, coach: coach, :user => ac_user) }
-#   let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-
-#   subject { page }
-
-#   describe "new" do
-#     describe "as an admin" do
-#       before do
-#         sign_in admin
-#         visit new_review_path
-#       end
-
-#       it "creates a new review" do
-#           fill_in 'review_associate_consultant_id', with: ac.id
-#           select "24-Month", from: "Review type"
-
-#           fill_in "review_review_date", with: "07/01/2014"
-#           fill_in "review_feedback_deadline", with: "21/06/2014"
-#           fill_in "review_send_link_date", with: "04/01/2014"
-
-#           click_button "Create Review"
-
-#           new_review = Review.last
-#           new_review.reload
-#           current_path.should == review_path(new_review)
-          # new_review.associate_consultant.should == ac
-          # new_review.review_type.should == "24-Month"
-          # new_review.review_date.should == Date.new(2014, 1, 7)
-          # new_review.feedback_deadline.should == Date.new(2014, 06, 21)
-          # new_review.send_link_date.should == Date.new(2014, 1, 4)
-        # end
     # end
   # end
 

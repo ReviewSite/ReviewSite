@@ -181,6 +181,33 @@ describe "Feedback pages", :type => :feature do
         feedback.send(model_attr).should == value
       end
     end
+
+
+    it "saves as final and sends email if 'Submit Final' is clicked", js: true do
+      ActionMailer::Base.deliveries.clear
+
+      page.evaluate_script('window.confirm = function() { return true; }')
+      click_button "Submit Final"
+      find(".alert-notice") # wait for the resulting page to load
+
+      feedback = Feedback.last
+      current_path.should == review_feedback_path(review, feedback)
+      feedback.submitted.should be_true
+      feedback.user_string.should == "A non-user"
+      inputs.each do |field, value|
+        model_attr = field[9..-1]
+        feedback.send(model_attr).should == value
+      end
+
+      ActionMailer::Base.deliveries.length.should == 1
+      mail = ActionMailer::Base.deliveries.last
+      mail.to.should == [ac.user.email]
+      mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
+    end
+
+
+
+
   end
 
   describe "show" do

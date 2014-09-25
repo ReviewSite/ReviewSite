@@ -30,7 +30,7 @@ describe "User pages: " do
         click_button "Save Changes"
       end
 
-      it { should have_selector('div.alert.alert-success') }
+      it { should have_selector('div.alert.alert-success', text: 'Profile updated') }
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
@@ -87,7 +87,31 @@ describe "User pages: " do
         page.should have_selector("#isAC", text: 'true')
         page.should have_selector("#hasGraduated", text: 'true')
       end
+
+      it "can make an ac" do
+        nonadmin = FactoryGirl.create(:user)
+        sign_in admin_user
+
+        visit users_path
+
+        visit edit_user_path(nonadmin)
+        check("isac")
+        select reviewing_group.name, from: "Reviewing group"
+
+        click_button "Save Changes"
+
+
+        page.should have_selector('div.alert.alert-success', text: 'Profile updated and reviews created') 
+
+
+        current_path.should eql users_path
+
+        visit user_path(nonadmin)
+        page.should have_selector("#isAC", text: 'true')
+      end
     end
+
+
 
 
   end
@@ -181,9 +205,10 @@ describe "User pages: " do
         click_button 'Create User'
 
         current_path.should eql users_path
-        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
 
         new_user = User.last
+        new_user.associate_consultant.reviews.size.should == 4
         id_selector = new_user.email.slice(0..(new_user.email.index('@'))-1)
         page.should have_selector("tr##{id_selector} td.ac", text: 'yes')
 
@@ -195,7 +220,6 @@ describe "User pages: " do
         page.should have_selector("#notes", text: new_ac.notes)
         page.should have_selector("#reviewing-group", text: new_ac.reviewing_group)
         page.should have_selector("#coach", text: new_ac.coach)
-
       end
     end
 

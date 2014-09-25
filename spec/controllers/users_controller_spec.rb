@@ -10,6 +10,19 @@ describe UsersController do
     }
   end
 
+  def valid_ac_params
+    {
+        name: 'Joe',
+        email: 'joe@example.com',
+        okta_name: 'JoeCAS',
+        admin: false,
+        start_date: '2014-01-01',
+        associate_consultant_attributes: {
+          reviewing_group_id: FactoryGirl.create(:reviewing_group).id
+        }
+    }
+  end
+
   def valid_session
     {
         userinfo: "test@test.com"
@@ -38,6 +51,34 @@ describe UsersController do
       it 'should not sign in the newly created user' do
         controller.should_not_receive(:set_current_user)
         post :create, {user: valid_params}, valid_session
+      end
+
+      it 'should create reviews for ac' do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.should_receive(:create_default_reviews)
+
+        post :create, {user: valid_ac_params, isac: 1}, valid_session
+      end
+
+      it 'should email the AC after reviews are created' do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+
+        message = double(Mail::Message)
+        message.should_receive(:deliver)
+        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.should_receive(:reviews_creation).with(reviews[0])
+
+        post :create, {user: valid_ac_params, isac: 1}, valid_session
+      end
+
+      it 'should not create reviews when ac lacks start date' do
+        Review.should_not_receive(:create_default_reviews)
+        post :create, {user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        user = assigns(:user)
+
+        user.associate_consultant.reviews.size.should == 0
       end
 
       it 'should set the flash message' do
@@ -76,10 +117,49 @@ describe UsersController do
 
   describe "PUT update/:id" do
 
-    before do
-      @admin = FactoryGirl.create(:admin_user) 
+    before(:each) do
+      @admin = FactoryGirl.create(:admin_user)
       @user = FactoryGirl.create(:user)
       set_current_user @admin
+    end
+
+    describe "admin makes user an AC" do
+      it "should now have user as AC" do
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+
+        user = assigns(:user)
+        user.associate_consultant.should_not be_nil
+      end
+
+      it "should create four reviews for the AC" do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.should_receive(:create_default_reviews)
+
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+      end
+
+      it 'should email the AC after reviews are created' do
+        reviews = [double(Review).as_null_object]
+        Review.stub!(:create_default_reviews).and_return(reviews)
+
+        message = double(Mail::Message)
+        message.should_receive(:deliver)
+        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.should_receive(:reviews_creation).with(reviews[0])
+
+        put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
+      end
+
+      it "should not have reviews if there is no start date" do
+        @user.start_date = nil
+        @user.save!
+        Review.should_not_receive(:create_default_reviews)
+
+        put :update, {id: @user, user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        user = assigns(:user)
+        user.associate_consultant.reviews.size.should == 0
+      end
     end
 
     describe "admin updates other user with valid params" do

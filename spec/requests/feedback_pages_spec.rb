@@ -42,20 +42,45 @@ describe "Feedback pages", :type => :feature do
 
   subject { page }
 
-  describe "new", :type => :feature do
+  describe "new" do
     before do
-      sign_in user
+      @current_ac = FactoryGirl.create(:associate_consultant)
+      @current_review = FactoryGirl.create(:review, :associate_consultant => @current_ac)
+      @new_user = FactoryGirl.create(:user)
+      @invitation = FactoryGirl.create(:invitation, :email => @new_user.email, :review => @current_review)
     end
 
-    describe "if no existing feedback", js: true, :type => :feature do
+    describe "if no existing feedback", js: true do
       before do
-        visit new_review_feedback_path(review)
-
+        sign_in @new_user
+        visit new_review_feedback_path(@current_review)
         page.find('h3', :text => 'Comments').click
 
         inputs.each do |field, value|
           fill_in field, with: value
         end
+      end
+
+      it "saves as final and sends email if 'Submit Final' is clicked", js: true do
+        ActionMailer::Base.deliveries.clear
+
+        page.evaluate_script('window.confirm = function() { return true; }')
+        page.execute_script('$(".btn.btn-success").click()')
+        page.should have_selector(".alert-notice")
+
+        feedback = Feedback.last
+        current_path.should == review_feedback_path(@current_review, feedback)
+        feedback.submitted.should be_true
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == value
+        end
+
+        ActionMailer::Base.deliveries.length.should == 1
+        mail = ActionMailer::Base.deliveries.last
+        mail.to.should == [@current_ac.user.email]
+        mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
       end
     end
   end

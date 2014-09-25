@@ -128,6 +128,33 @@ describe "Feedback pages", :type => :feature do
           end
         end
 
+        it "saves as final if 'Submit Final' is clicked", js: true do
+          ActionMailer::Base.deliveries.clear
+
+          page.find('h3', :text => 'Comments').click
+
+          inputs.each do |field, value|
+            fill_in field, with: ""
+          end
+
+          page.evaluate_script('window.confirm = function() { return true; }')
+          click_button "Submit Final"
+          find(".alert-notice") # wait for the resulting page to load
+
+          feedback = Feedback.last
+          current_path.should == review_feedback_path(review, feedback)
+          feedback.submitted.should be_true
+
+          inputs.each do |field, value|
+            model_attr = field[9..-1]
+            feedback.send(model_attr).should == ""
+          end
+
+          ActionMailer::Base.deliveries.length.should == 1
+          mail = ActionMailer::Base.deliveries.last
+          mail.to.should == [ac.user.email]
+          mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
+        end
       end
 
       describe "if feedback has been submitted" do
@@ -182,7 +209,6 @@ describe "Feedback pages", :type => :feature do
       end
     end
 
-
     it "saves as final and sends email if 'Submit Final' is clicked", js: true do
       ActionMailer::Base.deliveries.clear
 
@@ -204,10 +230,6 @@ describe "Feedback pages", :type => :feature do
       mail.to.should == [ac.user.email]
       mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
-
-
-
-
   end
 
   describe "show" do

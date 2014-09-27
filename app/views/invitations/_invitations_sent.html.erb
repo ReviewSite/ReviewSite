@@ -11,7 +11,7 @@
     <th>Action</th>
   </thead>
   <tbody>
-    <% @invitations_sent.each do |invitation| %>
+    <% @invitations_sent.includes(:review, :feedback).each do |invitation| %>
       <tr>
         <% if current_user.admin? %>
           <td><%= invitation.reviewee %></td>

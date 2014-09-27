@@ -73,7 +73,7 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @invitations = Invitation.select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
+    @invitations = Invitation.includes(:review, {:review => :associate_consultant}).select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
     @feedbacks = current_user.feedbacks.where(submitted: false)
     @completeds = current_user.feedbacks.where(submitted: true)
   end

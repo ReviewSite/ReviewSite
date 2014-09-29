@@ -1,10 +1,10 @@
 Hi <%= @ac_name %>,
 
-We would like to inform you that, as part of your registration as an associate consultant, four reviews have been set up for you.
+As part of your registration as an Associate Consultant, four reviews have been set up for you on the Review Site.
 
-You can start working on your upcoming <%= @next_review.review_type %> review now. You can invite peers to provide feedback and work on your self-assessment by clicking on the link:
-<%= review_url(@next_review) %> . The review is currently scheduled for <%= @next_review.review_date %>, and the deadline to submit feedback is <%= @next_review.feedback_deadline %>.
-Please make sure to collect feedback on time!
+You can start working on your upcoming <%= @next_review.review_type %> review now. You can invite peers to provide feedback and work on your self-assessment by clicking on the link: <%= review_url(@next_review) %> 
+
+The review is currently scheduled for <%= @next_review.review_date %>, and the deadline to submit feedback is <%= @next_review.feedback_deadline %>. Please make sure to collect feedback on time!
 
 If you have any questions, feel free to post them in our myThoughtWorks group at <%= @my_tw_url %> or talk to your People Coach.
 

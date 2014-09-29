@@ -1,0 +1,15 @@
+# HOUND CI
+# Code Reviews on GitHub pull requests 
+# -- checks only for style guide violations
+#
+# The style guide: https://github.com/thoughtbot/guides/tree/master/style
+# For info on how to configure Hound CI, visit: https://houndci.com/configuration
+
+ruby:
+  enabled: true
+
+coffee_script:
+  enabled: false
+
+java_script:
+  enabled: true

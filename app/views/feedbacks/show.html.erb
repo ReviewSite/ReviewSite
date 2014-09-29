@@ -25,10 +25,9 @@
 
 <p>
   <b>Comments:</b>
-  <%= @feedback.comments %>
+  <%= simple_format(@feedback.comments) %>
 </p>
 
 <% if can? :edit, @feedback %>
   <%= link_to 'Edit', edit_review_feedback_path(@review, @feedback) %> |
 <% end %>
-<%= link_to 'Home', welcome_index_path %>

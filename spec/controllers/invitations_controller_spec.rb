@@ -78,7 +78,7 @@ describe InvitationsController do
       it "with one valid email displays error messages" do
         post :create, {emails: "test@thoughtworks.com, !!!invalid!!!", review_id: review.id}, valid_sessions
         flash[:success].should == "An invitation has been sent to: test@thoughtworks.com"
-        flash[:alert].should == "!!!invalid!!! could not be invited -- Invalid Email."
+        flash[:alert].should include("!!!invalid!!! could not be invited -- Invalid Email.")
       end
 
       it "with multiple emails with errors displays multiple error messages" do
@@ -123,7 +123,7 @@ describe InvitationsController do
 
       it "renders new" do
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
-        flash[:alert].should == "test@thoughtworks.com has already created feedback for this review."
+        flash[:alert].should include("test@thoughtworks.com has already created feedback for this review.")
         response.should render_template("new")
         assigns(:ac).should == review.associate_consultant
       end

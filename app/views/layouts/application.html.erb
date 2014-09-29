@@ -13,7 +13,7 @@
       <div class="container">
         <div class="row">
           <% flash.each do |key, value| %>
-              <div class="span8 offset2 alert alert-<%= key %>"><%= value %></div>
+              <div class="span8 offset2 alert alert-<%= key %>"><%= simple_format(value) %></div>
           <% end %>
         </div>
         <%= yield %>

@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
   def create
     errors = []
     successes = []
-    for email in params[:emails].split(",").map{ |email| email.strip } do
+    for email in params[:emails].split(",").map{ |email| email.strip.downcase } do
       @invitation = @review.invitations.build(email: email)
       if not @invitation.feedback and @invitation.save and email.include? "thoughtworks.com"
         if params[:no_email]
@@ -47,7 +47,7 @@ class InvitationsController < ApplicationController
     else
       flash[:alert] = ""
       for error in errors do
-        flash[:alert] += error
+        flash[:alert] += error + "\n"
       end
       @ac = @review.associate_consultant
       render 'new'

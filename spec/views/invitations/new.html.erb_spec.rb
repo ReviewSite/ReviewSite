@@ -14,7 +14,7 @@ describe "invitations/new" do
     end
 
     it { should =~ /To:/ }
-    it { should =~ /Body \(Please add a personal note\):/ }
+    it { should =~ /Body:/ }
     it { should =~ /#{@ac.user.name}/ }
     it { should =~ /#{@review.review_type}/ }
     it { should =~ /#{@review.feedback_deadline}/ }

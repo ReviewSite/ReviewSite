@@ -41,7 +41,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', '0.5.5'
-  gem 'travis-lint'
   gem 'pry'
   gem 'pry-nav'
 end

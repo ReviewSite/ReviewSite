@@ -1,6 +1,3 @@
-TravisCI:
-[![Build Status](https://travis-ci.org/ReviewSite/ReviewSite.png?branch=master)](https://travis-ci.org/ReviewSite/ReviewSite)
-
 SnapCI:
 [![Build Status](https://snap-ci.com/ReviewSite/ReviewSite/branch/master/build_image)](https://snap-ci.com/ReviewSite/ReviewSite/branch/master)
 

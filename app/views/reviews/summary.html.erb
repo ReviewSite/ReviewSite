@@ -1,5 +1,5 @@
-<div class="row">
-  <div id="review-categories" class="span2 bs-docs-sidebar">
+<div class="content-container">
+  <div id="review-categories" class="bs-docs-sidebar">
     <ul class="nav nav-list bs-docs-sidenav affix">
       <% @review.headings.each_with_index do |heading, index| %>
         <li><a href="#heading<%= index %>"><%= heading %></a></li>
@@ -13,25 +13,8 @@
     </ul>
   </div>
 
-  <div class="span10">
+  <div class="summary">
     <h1>Feedback Summary for <%= @review %></h1>
-
-    <% if current_user.admin? or current_user == @review.associate_consultant.user %>
-        <% if @review.self_assessments.count > 0 %>
-            <%= link_to("Update Self Assessment",
-                        edit_review_self_assessment_path(@review, @review.self_assessments.first),
-                        title: 'Update your own thoughts and goals pertaining to your current review') %>
-        <% else %>
-            <%= link_to("Submit Self Assessment",
-                        new_review_self_assessment_path(@review),
-                        title: 'Add your own thoughts and goals pertaining to your current review') %>
-        <% end %>
-    <% end %>
-<br>
-    <%= link_to("Add Additional Feedback",
-                additional_review_feedbacks_path(@review),
-                title: 'Add new feedback on behalf of a third party for your current review',
-                rel: 'tooltip') %>
 
     <% @review.headings.each_with_index do |heading, index| %>
       <% header_group = @review.fields_for_heading(heading) %>

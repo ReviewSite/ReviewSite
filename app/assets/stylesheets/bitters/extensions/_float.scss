@@ -1,0 +1,11 @@
+@mixin float($direction) {
+  float: $direction;
+}
+
+.pull-left {
+  @include float(left);
+}
+
+.pull-right {
+  @include float(right);
+}

@@ -1,0 +1,45 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ */
+
+// BASE
+@import "bourbon";
+@import "bitters/base";
+@import "neat";
+
+// MIXINS
+
+// COMPONENTS
+@import "containers";
+@import "navigation";
+@import "footer";
+@import "dev-panel";
+@import "debug-dump";
+
+// VENDOR COMPONENTS
+@import "bootstrap-datepicker3";
+@import "token-input";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// VENDOR OVERRIDES
+@import "datatable";
+@import "token-input-override";
+@import "datepicker-override";
+
+// PAGE LAYOUTS
+// if possible, these should be broken up into component partials
+@import "feedback-form";
+
+@import "welcome";
+@import "reviews";
+@import "scaffolds";
+@import "custom";

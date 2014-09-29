@@ -2,7 +2,7 @@ include ApplicationHelper
 
 RSpec::Matchers.define :have_error_message do |message|
   match do |page|
-    page.should have_selector('div.alert.alert-error', text: 'Invalid')
+    page.should have_selector('.flash-error', text: 'Invalid')
   end
 end
 
@@ -15,6 +15,6 @@ def sign_in(user)
   visit root_path
   within "#okta-input" do
     fill_in "temp-okta", with: user.okta_name
-    click_button "Set new OKTA user"
+    click_button "Change User"
   end
 end

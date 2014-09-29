@@ -1,3 +1,4 @@
+<section class="form-container">
 <%= form_for(@review) do |f| %>
   <% if @review.errors.any? %>
     <div id="error_explanation">
@@ -32,14 +33,13 @@
   </div>
 
   <div class="field">
-    <%= f.label :feedback_deadline %><br />
+    <%= f.label :feedback_deadline %>
     <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
     <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %>
-    <span class="separator">|</span>
-    <%= link_to 'Cancel', reviews_path, class: "btn btn-link" %>
+    <%= f.submit "#{button_title}" %> 
   </div>
 <% end %>
+</section>

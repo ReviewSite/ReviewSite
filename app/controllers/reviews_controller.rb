@@ -98,6 +98,6 @@ class ReviewsController < ApplicationController
 
   private
   def load_review
-    @review = Review.find(params[:id], :include => { :feedbacks => :review, :invitations => :review })
+    @review = Review.find(params[:id], :include => { :feedbacks => :review , :invitations => :review })
   end
 end

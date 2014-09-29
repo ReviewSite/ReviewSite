@@ -1,42 +1,40 @@
 <h2><%= review.review_type.titleize %> Review for <%= review.associate_consultant %></h2>
-<h3>Feedback Deadline: <%= review.feedback_deadline %></h3>
-<h3>Review Date: <%= review.review_date %></h3>
-<h3>
-|
+<p>Feedback Deadline: <%= review.feedback_deadline %></p>
+<p>Review Date: <%= review.review_date %></p>
+<p>
+
 <% if can? :edit, @review %>
-  <%= link_to 'Edit Review', edit_review_path(@review), id: "review_edit" %> |
+  <%= link_to 'Edit Review', edit_review_path(@review), id: "review_edit", class: "button" %> 
 <% end %>
 <% if can? :destroy, @review %>
-  <%= link_to 'Delete Review', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy" %> |
+  <%= link_to 'Delete Review', @review, method: :delete, data: { confirm: 'Are you sure? This will also delete all associated feedback.' }, id: "review_destroy", class: "button" %>
 <% end %>
 <% if can? :summary, review %>
-  <%= link_to 'View Summary', summary_review_path(review) %> |
+  <%= link_to 'View Summary', summary_review_path(review), class: "button" %>
 <% end %>
 <% if can? :manage, review %>
 	<!--<%= link_to 'New Feedback', new_review_feedback_path(review), :class => 'new_feedback_link' %> | -->
 <% end %>
 <% if can? :create_additional, Feedback %>
-  <%= link_to 'Additional Feedback', additional_review_feedbacks_path(review) %> |
+  <%= link_to 'Additional Feedback', additional_review_feedbacks_path(review), class: "button" %> 
 <% end %>
 <% if can? :create, Invitation %>
-  <%= link_to 'Request Feedback', new_review_invitation_path(review), :class => 'send_invite_link' %> |
+  <%= link_to 'Request Feedback', new_review_invitation_path(review), :class => 'send_invite_link button' %>
 <% end %>
 <% if can? :create, SelfAssessment %>
   <% if review.self_assessments.count > 0 %>
     <%= link_to("Update Self Assessment", 
-      edit_review_self_assessment_path(review, review.self_assessments.first)) %> |
+      edit_review_self_assessment_path(review, review.self_assessments.first), class: "button") %>
   <% else %>
     <%= link_to("Submit Self Assessment", 
-      new_review_self_assessment_path(review)) %> |
+      new_review_self_assessment_path(review), class: "button") %>
   <% end %>
 <% end %>
-</h3>
+</p>
 
 <%= render :partial => 'feedbacks/feedbacks', :locals => {
   :feedbacks => review.feedbacks, :invitations => review.invitations
 } %>
 
-<br class="spacer" />
-<br class="spacer" />
 <br class="spacer" />
 <br class="spacer" />

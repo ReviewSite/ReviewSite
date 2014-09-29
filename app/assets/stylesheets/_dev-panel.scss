@@ -1,0 +1,48 @@
+.dev-env-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: $footer-height;
+  padding-top: 10px; 
+  background-color: black;
+  opacity: 0.85;
+  text-align: center;
+}
+
+#dev-env-notification {
+  font-size: 1em;
+  color: lightgreen;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+#okta-input {
+  color: #bbb;
+  display: inline-block;
+
+  p {
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-right: 10px;
+  }
+
+  form {
+    margin: 0px;
+    display: inline-block;
+  }
+
+  #temp-okta {
+    display: inherit;
+    width: 155px;
+    margin-bottom: 0px;
+    border: 0;
+  }
+
+  #temp-okta-submit {
+    vertical-align: top;
+    max-height: 38px;
+  }
+}

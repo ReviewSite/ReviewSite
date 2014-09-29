@@ -1,3 +1,4 @@
+<section class="form-container">
 <%= form_for(@reviewing_group) do |f| %>
   <% if @reviewing_group.errors.any? %>
     <div id="error_explanation">
@@ -22,8 +23,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %>
-    <span class="separator">|</span>
-    <%= link_to 'Cancel', reviewing_groups_path, class: "btn btn-link" %>
+    <%= f.submit "#{button_title}" %>
   </div>
 <% end %>
+</section>

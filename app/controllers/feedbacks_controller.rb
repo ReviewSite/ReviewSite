@@ -60,7 +60,10 @@ class FeedbacksController < ApplicationController
       if @feedback.save
         if params[:submit_final_button]
           @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
+          format.html {
+            flash[:success] = 'Feedback was submitted.'
+            redirect_to [@review, @feedback]
+          }
         else
           format.html do
             redirect_to edit_review_feedback_path(@review, @feedback)
@@ -87,7 +90,10 @@ class FeedbacksController < ApplicationController
       if @feedback.update_attributes(params[:feedback])
         if params[:submit_final_button]
           @feedback.submit_final
-          format.html { redirect_to [@review, @feedback], notice: 'Feedback was submitted.' }
+          format.html {
+            flash[:success] =  'Feedback was submitted.'
+            redirect_to [@review, @feedback]
+          }
          else
           format.html do
             redirect_to edit_review_feedback_path(@review.id, @feedback.id)
@@ -109,7 +115,10 @@ class FeedbacksController < ApplicationController
     respond_to do |format|
       if @feedback.save
         @feedback.submit_final
-        format.html { redirect_to root_path, notice: 'Feedback was successfully updated.' }
+        format.html {
+          flash[:success] = 'Feedback was successfully updated.'
+          redirect_to root_path
+        }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -124,7 +133,10 @@ class FeedbacksController < ApplicationController
     @feedback.submitted = false
     respond_to do |format|
       if @feedback.save
-        format.html { redirect_to root_path, notice: 'Feedback was successfully updated.' }
+        format.html {
+          flash[:success] = 'Feedback was successfully updated.'
+          redirect_to root_path
+        }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

@@ -35,7 +35,6 @@ describe "Home page" do
         it {should have_selector("table#reviews td", text: ac.user.name) }
         it {should have_selector("table#reviews td", text: review.review_type) }
         it {should have_selector("table#reviews td", text: review.review_date.to_s) }
-        it {should have_selector("table#reviews td", text: review.feedback_deadline.to_s) }
         it {should have_selector("table#reviews td", text: "0 / 1") }
 
         it "updates submitted feedback count" do
@@ -53,7 +52,7 @@ describe "Home page" do
 
         it "links to review show page" do
           within("table#reviews") do
-            click_link 'Show Details'
+            click_link "Show Review"
           end
           current_path.should == review_path(review)
         end

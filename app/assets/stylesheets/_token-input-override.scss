@@ -1,0 +1,42 @@
+ul.token-input-list {
+  width: 100%;
+  border: 0;
+  background-color: $brand-input-gray;
+  border-bottom: $base-border;
+  font-size: $form-font-size;
+  font-weight: $form-font-weight;
+
+  li {
+    background-color: $brand-secondary;
+
+    p, span {
+      font-weight: $form-font-weight;
+      color: white;  
+    }
+
+    input {
+      width: 100% !important;
+      background-color: $brand-input-gray;
+    }
+  }
+
+}
+
+
+div.token-input-dropdown {
+  font-family: $form-font-family;
+  font-size: $form-font-size;
+  border-color: $brand-input-border;
+
+  ul li.token-input-dropdown-item {
+      background-color: #eee;
+  }
+
+  ul li.token-input-dropdown-item2 {
+      background-color: #fff;
+  }
+
+  ul li:hover, ul li.token-input-selected-dropdown-item {
+    background-color: $brand-secondary;
+  }
+}

@@ -1,0 +1,40 @@
+table {
+  border-collapse: collapse;
+  margin: ($base-spacing / 2) 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+thead {
+  background: $dark-gray;
+}
+
+th {
+  padding: ($base-spacing / 2) 0;
+  text-align: left;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: $brand-container-gray;
+  text-align: center;
+}
+
+tbody {
+  font-size: 12px;
+  background: $brand-container-gray;
+}
+
+td {
+  border-bottom: $base-border;
+  padding: ($base-spacing / 2) 0;
+  text-align: center;
+
+  a {
+    font-weight: bold;  
+  }
+}
+
+tr,
+td,
+th {
+  vertical-align: middle;
+}

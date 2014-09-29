@@ -1,3 +1,6 @@
+<h2><%= @review %></h2>
+
+<section class="form-container">
 <%= form_for([@review, @self_assessment]) do |f| %>
   <% if @self_assessment.errors.any? %>
     <div id="error_explanation">
@@ -12,15 +15,11 @@
   <% end %>
 
   <div class="field">
-    <h2><%= @review %></h2>
-  </div>
-  <div class="field">
-    <%= f.label :response %><br />
+    <%= f.label :response %>
     <%= f.text_area :response %>
   </div>
   <div class="actions">
-    <%= f.submit "#{button_title}", :class => "btn btn-info" %>
-    <span class="separator">|</span>
-    <%= link_to 'Cancel', summary_review_path(@review), class: "btn btn-link" %>
+    <%= f.submit "#{button_title}" %>
   </div>
 <% end %>
+</section>

@@ -12,16 +12,13 @@
   <% end %>
 
   <div id="instructions">
-    <p>Thanks for providing feedback for <%= @feedback.review.associate_consultant %>!</p>
-
-    <p>Need a little inspiration? Take a look at some <a href="https://docs.google.com/a/thoughtworks.com/spreadsheet/ccc?key=0AjfbOrpXgxXYdC0yWldQdjVFTEJlcldLc2JpZVBNVWc&hl=en_US#gid=0">example feedback</a>. <b>There is no need to include responses in all categories in the form below if it does not apply.</b></p>
+    <p>There is no need to include responses in all categories in the form below if it does not apply.</p>
 
     <p>Make sure to save what you have so far by clicking the 'Save Feedback' button. When you are ready to share your feedback with others, you can submit your feedback as final. Once you click 'Submit Final', you will no longer be able to come back and make changes to your feedback.</p>
   </div>
 
-  <br />
-  <div class="row-fluid">
-    <div class="span3">
+  <div class="feedback-form-container">
+    <div class="reviewer-info">
       <div class="field">
         <%= f.label "Feedback by" %>
         <% if not additional %>
@@ -32,31 +29,32 @@
       </div>
 
       <div class="field">
-        <%= f.label :project_worked_on %><br />
+        <%= f.label :project_worked_on %>
         <%= f.text_field :project_worked_on %>
       </div>
 
       <div class="field">
-        <%= f.label :feedback_deadline %><br />
+        <%= f.label :feedback_deadline %>
         <%= f.text_field :feedback_deadline, :value => @feedback.review.feedback_deadline, :disabled => true%>
       </div>
 
       <div class="field">
-        <%= f.label :role_description %><br />
+        <%= f.label :role_description %>
         <%= f.text_field :role_description %>
       </div>
     </div>
 
-    <div class="span9">
+    <div class="feedback-form">
       <div id="accordion">
         <% @review.headings.each do |heading| %>
-          <h3><%= @review.heading_title(heading) %></h3>
+          <h3><%= @review.heading_title(heading) %> 
+          <span class="fa fa-caret-down"></span></h3>
           <div>
             <%= raw @review.description(heading) %>
 
             <% @review.fields_for_heading(heading).each do |field| %>
               <div class="field">
-                <%= f.label field %><br />
+                <%= f.label field %>
                 <%= f.text_area field %>
               </div>
             <% end %>
@@ -66,21 +64,14 @@
                 <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
               </div>
             <% end %>
-            <%= f.submit 'Save Feedback', :class => "btn btn-primary" %>
           </div>
         <% end %>
       </div>
       <br /><br />
       <div class="actions">
-        <%= f.submit 'Save Feedback', :class => "btn btn-primary" %>
-        <%= f.submit 'Submit Final', {:class => "btn btn-success", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
-        <%= link_to 'Cancel', review_path(@review), :class => "btn btn-link" %>
+        <%= f.submit 'Save Feedback', { :id => "save-feedback-button" } %>
+        <%= f.submit 'Submit Final', {:class => "success", :id => "submit-final-button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
       </div>
     </div>
   </div>
 <% end %>
-<script>
-  $('#instructions-label').click(function() {
-    $('#instructions').slideToggle();
-  });
-</script>

@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
-//= require bootstrap
 //= require_tree .
 //= require bootstrap-datepicker/core
 //= require jquery.tokeninput
@@ -61,14 +60,14 @@ jQuery (function () {
   }
 
   if ($("#isac").length && $("#isac")[0].checked) {
-    $(".fields").show();
+    $(".nested-form-container").show();
     enableGraduatedCheckbox();
   } else {
-    $(".fields").hide();
+    $(".nested-form-container").hide();
   }
 
   $("#isac").on('change', function() {
-    $(".fields").toggle();
+    $(".nested-form-container").toggle();
     if ($("#isac").length && $("#isac")[0].checked) {
       enableGraduatedCheckbox();
     } else {

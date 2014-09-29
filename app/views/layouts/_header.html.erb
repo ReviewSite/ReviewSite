@@ -1,80 +1,63 @@
-<header class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
+<header class="navigation">
+  <section class="navigation-wrapper">    
+    <section class="nav">
+      <%= link_to "TW Review Site", root_path, class: "logo" %>
 
-      <div id="dev-env-panel">
+      <ul class="navigation-menu">
+        <li><%= link_to "Home", root_path %></li>
 
-        <% if ENV['OKTA-TEST-MODE'] %>
-          <div id="nonLive_notification">
-            --- Dev Environment 
-          </div>
-          <div id="okta-input">
-            <p>Currently viewing as: <b><%= current_okta_name %></b></p>
-            <%= form_tag '/set_temp_okta' do %>
-              <%= text_field_tag 'temp-okta', nil, maxlength: 10, placeholder: 'Enter OKTA name' %>
-              <%= submit_tag 'Set new OKTA user', id: 'temp-okta-submit' %>
+        <% if signed_in? %>
+
+            <% if can? :read, Feedback %>
+              <li><%= link_to(feedbacks_user_path(current_user)) do %>
+              Feedback Requests
+              <span class="badge"> <%= open_requests(current_user) %></span>
+                <% end %>
+              </li>
             <% end %>
-          </div>
-        <% end %>
 
-      </div>
+            <% if can? :index, Review %>
+              <li> <%= link_to "Reviews", reviews_path %></li>
+            <% end %>
 
-        
-      <div class="nav-collapse collapse">
-        
-        <%= link_to "Review Site", root_path, id: "logo" %>
-
-        <ul class="nav pull-right">
-          <li><%= link_to "Home", root_path %></li>
-
-          <% if signed_in? %>
-
-              <% if can? :read, Feedback %>
-                <li><%= link_to(feedbacks_user_path(current_user)) do %>
-                Feedback Requests
-                <span class="badge"> <%= open_requests(current_user) %></span>
-                  <% end %>
-                </li>
-              <% end %>
-              <% if can? :index, Review %>
-                <li> <%= link_to "Reviews", reviews_path %></li>
-              <% end %>
-
-              <% if current_user.admin? %>
-                <li id="admin-menu" class="dropdown">
-                  <a href="#">
-                    Admin Tasks
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to "Create Review", new_review_path %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to "Manage Users", users_path %></li>
-                    <li><%= link_to "Manage Reviewing Groups", reviewing_groups_path %></li>
-                  </ul>
-                </li>
-              <%end%>
-
-
-              <li id="fat-menu" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <%= current_user %> <b class="caret"></b>
+            <% if current_user.admin? %>
+              <li id="admin-menu" class="dropdown">
+                <a href="#">
+                  Admin Tasks
                 </a>
                 <ul class="dropdown-menu">
-                  <% if can? :read, current_user %>
-                    <li><%= link_to "Profile", current_user %></li>
-                  <% end %>
-                  <li><%= link_to "Update Profile", edit_user_path(current_user) %></li>
-                  <li class="divider"></li>
-                  <li>
-                    <%= link_to "Sign out", signout_path, method: "delete" %>
-                  </li>
+                  <li><%= link_to "Create Review", new_review_path %></li>
+                  <%# <li class="divider"></li> %>
+                  <li><%= link_to "Manage Users", users_path %></li>
+                  <li><%= link_to "Manage Reviewing Groups", reviewing_groups_path %></li>
                 </ul>
               </li>
-          <% else %>
-              <li><%= link_to "Sign in", signin_path %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  </div>
+            <%end%>
+          </ul>
+
+          <ul class="navigation-menu pull-right">
+            <li id="user-menu" class="dropdown">
+              <a href="#">
+                <%= current_user %>
+              </a>
+              <ul class="dropdown-menu pull-right">
+                <% if can? :read, current_user %>
+                  <li><%= link_to "Profile", current_user %></li>
+                <% end %>
+                <li><%= link_to "Update Profile", edit_user_path(current_user) %></li>
+                <%# <li class="divider"></li> %>
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+            
+        <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+        <% end %>
+
+      </ul>
+    </section>
+
+  </section>
 </header>

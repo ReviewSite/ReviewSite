@@ -1,17 +1,18 @@
 <% provide :title, 'Request Feedback' %>
 <h1>Request Feedback</h1>
 
+<section class="form-container">
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
   <p><%= label_tag :no_email, class:"checkbox" do %>
     <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see the invitation when they log into the site.) &nbsp; &nbsp;<% end %></p>
 
   <br/>
-<p>
+<div class="field">
   <%= label_tag :emails, "To:", class: "nofloat" %>
   <p class="help-text">Must have an '@thoughtworks.com' email address; separate multiple emails with ','</p>
   <%= text_field_tag :emails, nil, class: "long" %>
-</p>
-  <div id="email_contents">
+</div>
+<div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
   <%= text_field_tag :subject, "[ReviewSite] You've been invited to give feedback for #{@ac.user.name}"  %></p>
 
@@ -27,12 +28,12 @@ Deadline: #{@review.feedback_deadline}
     %>
 
     <%= text_area_tag :message, @default_body %>
-  </div>
-<br>
-  <%= submit_tag "Send Invitation", class: 'btn btn-info' %>
-  <span class="separator">|</span>
-  <%= link_to 'Cancel', root_path, class: "btn btn-link" %>
+  
+</div>
+  <%= submit_tag "Send Request" %>
 <% end %>
+</section>
+
 
 <script>
 $(document).ready(function($) {

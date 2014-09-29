@@ -1,34 +1,38 @@
 <h1>Manage Reviewing Groups</h1>
 
-<div class="new-review"><%= link_to 'New Reviewing group', new_reviewing_group_path, :class => 'btn btn-info' %></div>
+<div class="new-review"><%= link_to 'New Reviewing Group', new_reviewing_group_path, :class => 'button' %></div>
 
 <table class="datatable">
   <thead>
-  <th>Name</th>
-  <th>Members</th>
-  <th></th>
-  <th></th>
+  <th class="reviewing-group-col">Name</th>
+  <th class="members-col">Members</th>
+  <th class="action-small-col"></th>
   </thead>
   <tbody>
   <% @reviewing_groups.each do |reviewing_group| %>
       <tr>
         <td><%= reviewing_group.name %></td>
         <td><%= list(reviewing_group.users) %></td>
-        <td><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group) %></td>
-        <td><%= link_to 'Delete', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <ul>
+            <li><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group), class: "button link" %></li>
+            <li><%= link_to 'Delete', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' }, class: "button link" %></li>
+          </ul>
+        </td>
       </tr>
   <% end %>
   </tbody>
 </table>
 
-<br />
-
+<br class="spacer" />
+<br class="spacer" />
 
 <script>
   $('.datatable').dataTable({
-    bJQueryUI: true,
+    bInfo: false,
+    bPaginate: false,
     aoColumnDefs: [
-      { bSortable: false, aTargets: [2, 3] }
+      { bSortable: false, aTargets: [2] }
     ],
     bLengthChange: false,
     bFilter: false

@@ -24,38 +24,6 @@ require 'spec_helper'
 
 #   subject { page }
 
-#   describe "new", :type => :feature do
-#     before do
-#       sign_in user
-#     end
-
-#     describe "if no existing feedback", js: true, :type => :feature do
-#       before do
-#         visit new_review_feedback_path(review)
-
-#         page.find('h3', :text => 'Comments').click
-
-#         inputs.each do |field, value|
-#           fill_in field, with: value
-#         end
-#       end
-
-#       it "saves as draft if 'Save Feedback' is clicked" do
-#         first(:button, "Save Feedback").click
-        # find(".alert") #wait for the resulting page to load
-
-        # feedback = Feedback.last
-        # current_path.should == edit_review_feedback_path(review, feedback)
-        # feedback.submitted.should be_false
-
-        # inputs.each do |field, value|
-        #   model_attr = field[9..-1]
-        #   feedback.send(model_attr).should == value
-        # end
-      # end
-    # end
-  # end
-
   # describe "edit" do
     # let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
 

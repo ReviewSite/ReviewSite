@@ -61,11 +61,25 @@ describe "Feedback pages", :type => :feature do
         end
       end
 
+      it "saves as draft if 'Save Feedback' is clicked" do
+        page.execute_script(' $(".btn.btn-primary").click(); ')
+        page.should have_selector(".alert")
+
+        feedback = Feedback.last
+        current_path.should == edit_review_feedback_path(@current_review, feedback)
+        feedback.submitted.should be_false
+
+        inputs.each do |field, value|
+          model_attr = field[9..-1]
+          feedback.send(model_attr).should == value
+        end
+      end
+
       it "saves as final and sends email if 'Submit Final' is clicked", js: true do
         ActionMailer::Base.deliveries.clear
 
         page.evaluate_script('window.confirm = function() { return true; }')
-        page.execute_script('$(".btn.btn-success").click()')
+        page.execute_script(' $(".btn.btn-success").click(); ')
         page.should have_selector(".alert-notice")
 
         feedback = Feedback.last

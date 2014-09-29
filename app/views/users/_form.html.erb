@@ -21,11 +21,6 @@
     <%= f.text_field :email %>
   </div>
 
-  <div class="field">
-    <%= f.label :start_date, "Start Date" %><br />
-    <%= f.text_field :start_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
-  </div>
-
   <%= f.hidden_field :okta_name, value: current_okta_name %>
 
   <div class="actions">

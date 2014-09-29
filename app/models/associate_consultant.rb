@@ -1,5 +1,5 @@
 class AssociateConsultant < ActiveRecord::Base
-  attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id, :graduated
+  attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id, :graduated, :program_start_date
 
   belongs_to :reviewing_group
   belongs_to :coach, :class_name => "User", :foreign_key => :coach_id

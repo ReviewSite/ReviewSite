@@ -21,12 +21,10 @@ describe "User pages: " do
     describe "user with valid information" do
       let(:new_name)  { "Imma NewName" }
       let(:new_email) { "immanew@example.com" }
-      let(:new_start_date) { "2014-06-20" }
 
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
-        fill_in "Start Date",       with: new_start_date
         click_button "Save Changes"
       end
 
@@ -34,7 +32,6 @@ describe "User pages: " do
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
-      specify { user.reload.start_date.should == Date.parse(new_start_date) }
     end
 
     describe "user with invalid information" do
@@ -96,18 +93,16 @@ describe "User pages: " do
 
         visit edit_user_path(nonadmin)
         check("isac")
+        fill_in "Program start date", with: "2014-07-08"
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
-
-
-        page.should have_selector('div.alert.alert-success', text: 'Profile updated and reviews created') 
-
-
+        page.should have_selector('div.alert.alert-success', text: 'Profile updated and reviews created')
         current_path.should eql users_path
 
         visit user_path(nonadmin)
         page.should have_selector("#isAC", text: 'true')
+        page.should have_selector("#program-start-date", text: "2014-07-08")
       end
     end
 
@@ -139,7 +134,6 @@ describe "User pages: " do
 
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
-        fill_in "Start Date", with: "2014-06-20"
         click_button 'Create Account'
 
         current_path.should eql root_path
@@ -153,7 +147,6 @@ describe "User pages: " do
         new_user = User.last
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
-        new_user.start_date.should == Date.parse("2014-06-20")
       end
     end
 
@@ -170,7 +163,6 @@ describe "User pages: " do
       it "creates an account and sends an email" do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
-        fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "roberto"
         click_button 'Create User'
 
@@ -185,19 +177,18 @@ describe "User pages: " do
         new_user = User.last
         new_user.name.should == "Bob Smith"
         new_user.email.should == "test@example.com"
-        new_user.start_date.should == Date.parse("2014-06-20")
       end
 
-      it "creates a ac account", js: true do
+      it "creates an ac account", js: true do
         fill_in "Name", with: "Roberto Glob"
         fill_in "Email", with: "test2@example.com"
-        fill_in "Start Date", with: "2014-06-20"
         fill_in "Okta name", with: "glob"
 
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: false)
         page.find('#isac').trigger('click')
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: true)
 
+        fill_in "Program start date", with: "2014-07-08"
         fill_in "Notes", with: "Here are some notes"
         select reviewing_group.name, from: "Reviewing group"
         find("#token-input-user_associate_consultant_attributes_coach_id").set(coach.id)
@@ -246,7 +237,6 @@ describe "User pages: " do
 
       it { should have_content(user.name) }
       it { should have_content(user.email) }
-      it { should have_content(user.start_date) }
       it { should have_content("Admin: false") }
 
       it "links to edit page" do

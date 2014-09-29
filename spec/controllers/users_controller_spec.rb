@@ -16,10 +16,23 @@ describe UsersController do
         email: 'joe@example.com',
         okta_name: 'JoeCAS',
         admin: false,
-        start_date: '2014-01-01',
         associate_consultant_attributes: {
+          program_start_date: '2014-07-08',
           reviewing_group_id: FactoryGirl.create(:reviewing_group).id
         }
+    }
+  end
+
+  def invalid_ac_params
+    {
+      name: 'Joe',
+      email: 'joe@example.com',
+      okta_name: 'JoeCAS',
+      admin: false,
+      associate_consultant_attributes: {
+        program_start_date: nil,
+        reviewing_group_id: FactoryGirl.create(:reviewing_group).id
+      }
     }
   end
 
@@ -75,7 +88,7 @@ describe UsersController do
 
       it 'should not create reviews when ac lacks start date' do
         Review.should_not_receive(:create_default_reviews)
-        post :create, {user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        post :create, {user: invalid_ac_params, isac: 1}, valid_session
         user = assigns(:user)
 
         user.associate_consultant.reviews.size.should == 0
@@ -152,11 +165,11 @@ describe UsersController do
       end
 
       it "should not have reviews if there is no start date" do
-        @user.start_date = nil
+        @user.associate_consultant = FactoryGirl.create(:associate_consultant, :program_start_date => nil)
         @user.save!
         Review.should_not_receive(:create_default_reviews)
 
-        put :update, {id: @user, user: valid_ac_params.except(:start_date), isac: 1}, valid_session
+        put :update, {id: @user, user: invalid_ac_params, isac: 1}, valid_session
         user = assigns(:user)
         user.associate_consultant.reviews.size.should == 0
       end

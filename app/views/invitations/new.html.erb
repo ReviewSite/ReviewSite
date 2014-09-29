@@ -19,8 +19,8 @@
 
   <br/>
 <p>
-  <%= label_tag :username, "To:", class: "nofloat" %>
-  <%= text_field_tag :username, nil, class: "short" %> @ thoughtworks.com
+  <%= label_tag :emails, "To:", class: "nofloat" %>
+  <%= text_field_tag :emails, nil, class: "short" %> 
 </p>
   <div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
@@ -28,7 +28,7 @@
 
     <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
     <% @default_body = <<-EOM
-You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard. 
+You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
 Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
 Name: #{@review.associate_consultant}

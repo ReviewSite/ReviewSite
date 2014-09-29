@@ -9,22 +9,48 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    @invitation = @review.invitations.build(username: params[:username])
-
-    if not @invitation.feedback and @invitation.save
-      if params[:no_email]
-        flash[:success] = "An invitation has been created!"
+    errors = []
+    successes = []
+    for email in params[:emails].split(",").map{ |email| email.strip } do
+      @invitation = @review.invitations.build(email: email)
+      if not @invitation.feedback and @invitation.save and email.include? "thoughtworks.com"
+        if params[:no_email]
+          flash[:success] = "An invitation has been created!"
+        else
+          UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
+          flash[:success] = "An invitation has been sent!"
+        end
+        successes << email
       else
-        UserMailer.review_invitation(@review, "#{params[:username]}@thoughtworks.com", params[:message]).deliver
-        flash[:success] = "An invitation has been sent!"
+        if @invitation.feedback
+          errors << "#{email} has already created feedback for this review."
+        elsif !@invitation.errors.messages[:email].nil? and @invitation.errors.messages[:email].include? "is invalid"
+          errors << "#{email} could not be invited -- Invalid Email."
+        elsif !email.include? "thoughtworks.com"
+          errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
+        end
       end
+    end
+
+    unless successes.empty?
+      flash[:success] = "An invitation has been "
+      if(params[:no_email])
+        flash[:success] += "created for: "
+      else
+        flash[:success] += "sent to: "
+      end
+      flash[:success] += successes.join(", ")
+    end
+
+    if errors.empty?
       redirect_to root_path
     else
-      if @invitation.feedback
-        flash[:notice] = "This person has already created feedback for this review."
+      flash[:alert] = ""
+      for error in errors do
+        flash[:alert] += error
       end
       @ac = @review.associate_consultant
-      render "new"
+      render 'new'
     end
   end
 

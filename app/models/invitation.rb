@@ -15,10 +15,6 @@
     User.find_by_email(email)
   end
 
-  def username=(username)
-    self.email = "#{username}@thoughtworks.com"
-  end
-
   def feedback
     review.feedbacks.includes(:user).each do |f|
       return f if f.user == user

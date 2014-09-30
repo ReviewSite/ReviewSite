@@ -23,13 +23,13 @@ class InvitationsController < ApplicationController
         end
         successes << email
       else
-        if !@invitation.errors.messages.empty?
+        if @invitation.errors.messages.any?
           for error in @invitation.errors.messages.values.flatten
             errors << error
           end
-        elsif !email.include? "thoughtworks.com"
-          errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
-        end
+        # elsif !email.include? "thoughtworks.com"
+           # errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
+         end
       end
     end
 

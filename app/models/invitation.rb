@@ -12,6 +12,14 @@
                       scope: [:review_id],
                       message: "%{value} could not be invited -- Email already invited." }
   validate :has_feedback
+  validate :tw_email?
+
+  def tw_email?
+    if email && !email.include?("thoughtworks.com")
+      errors.clear
+      errors.add(:email,"#{email} could not be invited -- Not a ThoughtWorks Email.")
+    end
+  end
 
   def has_feedback
     review.feedbacks.each do |f|

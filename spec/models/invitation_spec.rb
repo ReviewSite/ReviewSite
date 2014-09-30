@@ -3,10 +3,10 @@ require 'spec_helper'
 describe "Invitation" do
   let (:ac) { FactoryGirl.create(:associate_consultant) }
   let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-  let (:invitation) { review.invitations.build(email: "review@example.com") }
+  let (:invitation) { review.invitations.build(email: "review@thoughtworks.com") }
   subject { invitation }
 
-  its(:email) { should == "review@example.com"}
+  its(:email) { should == "review@thoughtworks.com"}
   its(:review) { should == review }
   its(:reviewee) { should == ac }
   it { should be_valid }
@@ -22,13 +22,13 @@ describe "Invitation" do
 
     it "should be unique (ignoring case) for a review" do
       subject.save!
-      review.invitations.build(email: "REVIEW@EXAMPLE.COM").should_not be_valid
+      review.invitations.build(email: "REVIEW@THOUGTWORKS.COM").should_not be_valid
     end
 
     it "doesn't need to be unique across reviews" do
       subject.save!
       other_review = FactoryGirl.create(:review)
-      other_review.invitations.build(email: "review@example.com").should be_valid
+      other_review.invitations.build(email: "review@thoughtworks.com").should be_valid
     end
   end
 

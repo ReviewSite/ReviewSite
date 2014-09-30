@@ -79,13 +79,13 @@ describe InvitationsController do
       it "with one valid email displays error messages" do
         post :create, {emails: "test@thoughtworks.com, !!!invalid!!!", review_id: review.id}, valid_sessions
         flash[:success].should == "An invitation has been sent to: test@thoughtworks.com"
-        flash[:alert].should include("!!!invalid!!! could not be invited -- Invalid Email.")
+        flash[:alert].should include("!!!invalid!!! could not be invited -- Not a ThoughtWorks Email.")
       end
 
       it "with multiple emails with errors displays multiple error messages" do
         post :create, {emails: "!!!invalid1!!!, !!!invalid2!!!", review_id: review.id}, valid_sessions
-        flash[:alert].should include("!!!invalid1!!! could not be invited -- Invalid Email.")
-        flash[:alert].should include("!!!invalid2!!! could not be invited -- Invalid Email.")
+        flash[:alert].should include("!!!invalid1!!! could not be invited -- Not a ThoughtWorks Email.")
+        flash[:alert].should include("!!!invalid2!!! could not be invited -- Not a ThoughtWorks Email.")
       end
 
       it "with one valid email saves the valid one" do
@@ -106,6 +106,10 @@ describe InvitationsController do
         flash[:alert].should include("nontw@gmail.com could not be invited -- Not a ThoughtWorks Email.")
       end
 
+      it "rejects improper email format" do
+        post :create, {emails: "testthoughtworks.com", review_id: review.id}, valid_sessions
+        flash[:alert].should include("testthoughtworks.com could not be invited -- Invalid Email.")
+      end
 
       it "rejects already invited user" do
         FactoryGirl.create(:invitation, email: "test@thoughtworks.com", review: review)
@@ -139,7 +143,7 @@ describe InvitationsController do
   end
 
   describe "DELETE destroy" do
-    let! (:invitation) { review.invitations.create!(email: "test@example.com") }
+    let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
     it "destroys the requested invitation" do
       expect do
         delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
@@ -158,10 +162,10 @@ describe InvitationsController do
   end
 
   describe "POST send_reminder" do
-    let! (:invitation) { review.invitations.create!(email: "test@example.com") }
+    let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
 
     describe "with submitted feedback" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "test@example.com") }
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
       let! (:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer) }
 
       it "redirects to the homepage" do
@@ -182,7 +186,7 @@ describe InvitationsController do
     end
 
     describe "without submitted feedback" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "test@example.com") }
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
       let! (:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
 
       it "redirects to the homepage" do
@@ -201,7 +205,7 @@ describe InvitationsController do
         num_deliveries = ActionMailer::Base.deliveries.size
         num_deliveries.should == 1
         message = ActionMailer::Base.deliveries.first
-        message.to.should == ["test@example.com"]
+        message.to.should == ["test@thoughtworks.com"]
         message.body.encoded.should match(
           "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
         )

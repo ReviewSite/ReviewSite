@@ -5,13 +5,13 @@
   # create test users
   #############################
 
-  admin = User.create(name: "admin admin", okta_name: "admin", email: "admin@example.com" )
+  admin = User.create(name: "admin admin", okta_name: "admin", email: "admin@thoughtworks.com" )
   admin.admin = true
   admin.save!
 
   99.times do |n|
     first_name = Faker::Name.first_name
-    User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: "user#{n}", email: "user#{n}@example.com" )
+    User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: "user#{n}", email: "user#{n}@thoughtworks.com" )
   end
 
         sally = User.find(2)

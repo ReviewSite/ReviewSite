@@ -40,7 +40,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @feedbacks.each do |feedback| %>
+    <% @feedbacks.includes(:review, {:review => :associate_consultant}).each do |feedback| %>
       <% review = feedback.review %>
 
       <tr>
@@ -68,7 +68,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @completeds.each do |completed| %>
+    <% @completeds.includes(:review, {:review => :associate_consultant}).each do |completed| %>
       <% review = completed.review %>
 
       <tr>

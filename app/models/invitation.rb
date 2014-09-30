@@ -20,7 +20,7 @@
   end
 
   def feedback
-    review.feedbacks.each do |f|
+    review.feedbacks.includes(:user).each do |f|
       return f if f.user == user
     end
     nil

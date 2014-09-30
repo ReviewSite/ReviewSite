@@ -173,7 +173,7 @@ class FeedbacksController < ApplicationController
   end
 
   def find_feedback_for(user)
-    @review.feedbacks.each do |f|
+    @review.feedbacks.includes(:user).each do |f|
       if f.user == current_user and f.user_string.nil?
         @feedback = f
         break

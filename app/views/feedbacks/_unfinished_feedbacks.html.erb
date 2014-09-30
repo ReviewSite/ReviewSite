@@ -8,7 +8,7 @@
     <th>Action</th>
   </thead>
   <tbody>
-    <% @invitations_received.each do |invitation| %>
+    <% @invitations_received :invitation.includes(:review, {:review => :associate_consultant}).each do |invitation| %>
       <tr>
         <td><%= invitation.review.associate_consultant %></td>
         <td><%= invitation.review.review_type %></td>
@@ -19,7 +19,7 @@
       </tr>
     <% end %>
 
-    <% @feedbacks_in_progress.each do |feedback| %>
+    <% @feedbacks_in_progress.includes(:review, :invitation, {:review => :associate_consultant}).each do |feedback| %>
       <tr>
         <td>
           <%= feedback.review.associate_consultant %>

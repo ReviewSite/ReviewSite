@@ -33,6 +33,7 @@ describe InvitationsController do
         message.body.encoded.should match("This is the custom message")
       end
 
+
       it "doesn't send an email if params[:no_email] is passed" do
         ActionMailer::Base.deliveries.clear
         post :create, {emails: "test@thoughtworks.com", review_id: review.id, no_email: '1'}, valid_sessions
@@ -103,6 +104,13 @@ describe InvitationsController do
       it "rejects non-thoughtworks email" do
         post :create, {emails: "test@thoughtworks.com, nontw@gmail.com", review_id: review.id}, valid_sessions
         flash[:alert].should include("nontw@gmail.com could not be invited -- Not a ThoughtWorks Email.")
+      end
+
+
+      it "rejects already invited user" do
+        FactoryGirl.create(:invitation, email: "test@thoughtworks.com", review: review)
+        post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
+        flash[:alert].should include("test@thoughtworks.com could not be invited -- Email already invited.")
       end
     end
 

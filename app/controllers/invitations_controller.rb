@@ -24,13 +24,18 @@ class InvitationsController < ApplicationController
       else
         if @invitation.feedback
           errors << "#{email} has already created feedback for this review."
-        elsif !@invitation.errors.messages[:email].nil? and @invitation.errors.messages[:email].include? "is invalid"
+        elsif !@invitation.errors.messages[:email].nil? \
+          and @invitation.errors.messages[:email].include? "is invalid"
           errors << "#{email} could not be invited -- Invalid Email."
+        elsif !@invitation.errors.messages[:email].nil? \
+          and @invitation.errors.messages[:email].include? "has already been taken"
+          errors << "#{email} could not be invited -- Email already invited."
         elsif !email.include? "thoughtworks.com"
           errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
         end
       end
     end
+
 
     unless successes.empty?
       flash[:success] = "An invitation has been "
@@ -53,6 +58,8 @@ class InvitationsController < ApplicationController
       render 'new'
     end
   end
+
+
 
   def destroy
     @invitation.destroy

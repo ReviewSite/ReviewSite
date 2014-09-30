@@ -27,13 +27,13 @@ class Review < ActiveRecord::Base
     self.new_review_format = true if new_record?
   end
 
-  def self.create_default_reviews(user)
+  def self.create_default_reviews(ac)
     reviews = []
     (6..24).step(6) do |n|
-      review = Review.create({associate_consultant_id: user.associate_consultant.id,
+      review = Review.create({associate_consultant_id: ac.id,
       review_type: n.to_s + "-Month",
-      review_date: user.start_date + n.months,
-      feedback_deadline: user.start_date + n.months - 2.days})
+      review_date: ac.program_start_date + n.months,
+      feedback_deadline: ac.program_start_date + n.months - 2.days})
       reviews << review
     end
     return reviews

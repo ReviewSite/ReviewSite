@@ -5,6 +5,7 @@ FactoryGirl.define do
     user
     reviewing_group
     graduated false
+    program_start_date Date.today - 2
 
     factory :graduated_ac do
       graduated true

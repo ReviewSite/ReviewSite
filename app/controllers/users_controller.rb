@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = "User has been successfully created"
-      if @user.ac? && !@user.start_date.nil?
+      if @user.ac? && !@user.associate_consultant.program_start_date.nil?
         self.create_reviews
         flash[:success] += " with 6-Month, 12-Month, 18-Month, and 24-Month reviews"
       end
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
       selected = "1"
-      if params[:isac] == selected && !@user.start_date.nil?
+      if params[:isac] == selected && !@user.associate_consultant.program_start_date.nil?
         self.create_reviews
         flash[:success] += " and reviews created"
       end
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   end
 
   def create_reviews
-    reviews = Review.create_default_reviews(@user)
+    reviews = Review.create_default_reviews(@user.associate_consultant)
     UserMailer.reviews_creation(reviews[0]).deliver
   end
 

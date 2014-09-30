@@ -4,7 +4,6 @@ FactoryGirl.define do
     sequence(:okta_name) { |n| "person#{n}" }
     sequence(:email) {|n| "person#{n}@example.com" }
     admin false
-    start_date Date.today - 2
 
     factory :admin_user do
       admin true

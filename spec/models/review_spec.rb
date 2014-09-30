@@ -93,19 +93,19 @@ describe Review do
   it "can generate reviews" do
     arguments = Array.new
     desired_arguments = Array.new
-    user = double(User,
-      associate_consultant: double(AssociateConsultant, id: 1),
-      start_date: Date.today )
+    ac = double(AssociateConsultant,
+      id: 1,
+      program_start_date: Date.today - 2 )
 
-    reviews = Review.create_default_reviews(user)
+    reviews = Review.create_default_reviews(ac)
 
     (0..3).each do |i|
       month = (i + 1) * 6
       review = reviews[i]
-      review.associate_consultant_id.should == user.associate_consultant.id
+      review.associate_consultant_id.should == ac.id
       review.review_type.should == month.to_s + "-Month"
-      review.review_date.should == user.start_date + month.months
-      review.feedback_deadline.should == user.start_date + month.months - 2.days
+      review.review_date.should == ac.program_start_date + month.months
+      review.feedback_deadline.should == ac.program_start_date + month.months - 2.days
     end
   end
 end

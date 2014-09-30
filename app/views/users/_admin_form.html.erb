@@ -22,11 +22,6 @@
   </div>
 
   <div class="field">
-    <%= f.label :start_date, "Start Date" %><br />
-    <%= f.text_field :start_date, class: "datepicker", placeholder: "yyyy-mm-dd" %>
-  </div>
-
-  <div class="field">
     <%= f.label :okta_name %><br />
     <p class="help-text">This must match the username used to log in to OKTA.</p>
     <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>

@@ -44,7 +44,7 @@ class Feedback < ActiveRecord::Base
   end
 
   def invitation
-    review.invitations.includes(:user).each do |i|
+    review.invitations.each do |i|
       return i if i.user == user
     end
     nil

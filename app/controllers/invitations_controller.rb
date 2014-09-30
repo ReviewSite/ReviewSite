@@ -9,6 +9,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
+    flash.clear
     errors = []
     successes = []
     for email in params[:emails].split(",").map{ |email| email.strip.downcase } do
@@ -36,23 +37,29 @@ class InvitationsController < ApplicationController
       end
     end
 
-
+    success_message = nil
     unless successes.empty?
-      flash[:success] = "An invitation has been "
+      success_message = "An invitation has been "
       if(params[:no_email])
-        flash[:success] += "created for: "
+        success_message += "created for: "
       else
-        flash[:success] += "sent to: "
+        success_message += "sent to: "
       end
-      flash[:success] += successes.join(", ")
+      success_message += successes.join(", ")
     end
 
     if errors.empty?
+      if success_message
+        flash[:success] = success_message
+      end
       redirect_to root_path
     else
-      flash[:alert] = ""
+      if success_message
+        flash.now[:success] = success_message
+      end
+      flash.now[:alert] = ""
       for error in errors do
-        flash[:alert] += error + "\n"
+        flash.now[:alert] += error + "\n"
       end
       @ac = @review.associate_consultant
       render 'new'

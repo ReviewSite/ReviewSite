@@ -131,7 +131,7 @@ describe InvitationsController do
 
       it "renders new" do
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
-        flash[:alert].should include("test@thoughtworks.com has already created feedback for this review.")
+        flash[:alert].should include("test@thoughtworks.com has already given feedback for this review.")
         response.should render_template("new")
         assigns(:ac).should == review.associate_consultant
       end

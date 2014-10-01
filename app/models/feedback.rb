@@ -41,6 +41,7 @@ class Feedback < ActiveRecord::Base
   def submit_final
     update_attribute(:submitted, true)
     UserMailer.new_feedback_notification(self).deliver
+    UserMailer.new_feedback_notification_coach(self).deliver
   end
 
   def invitation

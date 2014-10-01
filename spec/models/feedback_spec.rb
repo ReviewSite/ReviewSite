@@ -63,6 +63,7 @@ describe Feedback do
 
     it "sends notification email" do
       UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+      UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
       subject.submit_final
     end
 

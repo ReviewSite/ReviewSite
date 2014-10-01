@@ -40,6 +40,16 @@ class UserMailer < ActionMailer::Base
     mail(:to => "<#{@reviewee.user.email}>", :subject => "[ReviewSite] You have new feedback from #{@reviewer}")
   end
 
+  def new_feedback_notification_coach(feedback)
+    @feedback = feedback
+    @review = feedback.review
+    @reviewer = feedback.user
+    @reviewee = @review.associate_consultant
+    @coach = @reviewee.coach unless @reviewee.coach.nil?
+    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
+    mail(:to => "<#{@coach.email}>", :subject => "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
+  end
+
   def review_invitation(review, email, message)
     ac = review.associate_consultant
     @custom_message = message

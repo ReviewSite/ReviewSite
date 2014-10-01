@@ -14,14 +14,14 @@ describe "Invitations" do
       before do
         sign_in admin
         visit new_review_invitation_path(review)
-        fill_in "username", with: "reviewer"
+        fill_in "emails", with: "reviewer@thoughtworks.com"
         fill_in "message", with: "Why, hello!"
       end
 
       it "redirects to home page after submission" do
         click_button "Send Invitation"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-success', text: "An invitation has been sent!")
+        page.should have_selector('div.alert.alert-success', text: "An invitation has been sent to: reviewer@thoughtworks.com")
       end
 
       it "sends an invitation email" do
@@ -34,7 +34,7 @@ describe "Invitations" do
         check "no_email"
         click_button "Send Invitation"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-success', text: "An invitation has been created!")
+        page.should have_selector('div.alert.alert-success', text: "An invitation has been created for: reviewer@thoughtworks.com")
       end
     end
 
@@ -42,7 +42,7 @@ describe "Invitations" do
       before do
         sign_in ac_user
         visit new_review_invitation_path(review)
-        fill_in "username", with: "reviewer"
+        fill_in "emails", with: "reviewer@thoughtworks.com"
         fill_in "message", with: "Why, hello!"
       end
 

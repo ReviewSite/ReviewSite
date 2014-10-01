@@ -9,24 +9,60 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    @invitation = @review.invitations.build(username: params[:username])
-
-    if not @invitation.feedback and @invitation.save
-      if params[:no_email]
-        flash[:success] = "An invitation has been created!"
+    flash.clear
+    errors = []
+    successes = []
+    for email in params[:emails].split(",").map{ |email| email.strip.downcase } do
+      @invitation = @review.invitations.build(email: email)
+      if @invitation.save and email.include? "thoughtworks.com"
+        if params[:no_email]
+          flash[:success] = "An invitation has been created!"
+        else
+          UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
+          flash[:success] = "An invitation has been sent!"
+        end
+        successes << email
       else
-        UserMailer.review_invitation(@review, "#{params[:username]}@thoughtworks.com", params[:message]).deliver
-        flash[:success] = "An invitation has been sent!"
+        if @invitation.errors.messages.any?
+          for error in @invitation.errors.messages.values.flatten
+            errors << error
+          end
+        # elsif !email.include? "thoughtworks.com"
+           # errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
+         end
+      end
+    end
+
+    success_message = nil
+    unless successes.empty?
+      success_message = "An invitation has been "
+      if(params[:no_email])
+        success_message += "created for: "
+      else
+        success_message += "sent to: "
+      end
+      success_message += successes.join(", ")
+    end
+
+    if errors.empty?
+      if success_message
+        flash[:success] = success_message
       end
       redirect_to root_path
     else
-      if @invitation.feedback
-        flash[:notice] = "This person has already created feedback for this review."
+      if success_message
+        flash.now[:success] = success_message
+      end
+      flash.now[:alert] = ""
+      for error in errors do
+        flash.now[:alert] += error + "\n"
       end
       @ac = @review.associate_consultant
-      render "new"
+      render 'new'
     end
   end
+
+
 
   def destroy
     @invitation.destroy

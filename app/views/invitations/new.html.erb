@@ -1,34 +1,23 @@
 <% provide :title, 'Request Feedback' %>
 <h1>Request Feedback</h1>
 
-<% if @invitation.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
-
-    <ul>
-      <% @invitation.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
   <p><%= label_tag :no_email, class:"checkbox" do %>
     <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see the invitation when they log into the site.) &nbsp; &nbsp;<% end %></p>
 
   <br/>
 <p>
-  <%= label_tag :username, "To:", class: "nofloat" %>
-  <%= text_field_tag :username, nil, class: "short" %> @ thoughtworks.com
+  <%= label_tag :emails, "To:", class: "nofloat" %>
+  <p class="help-text">Must have an '@thoughtworks.com' email address; separate multiple emails with ','</p>
+  <%= text_field_tag :emails, nil, class: "long" %>
 </p>
   <div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
   <%= text_field_tag :subject, "[ReviewSite] You've been invited to give feedback for #{@ac.user.name}"  %></p>
 
-    <p><%= label_tag :message, "Body (Please add a personal note):" %></p>
+    <p><%= label_tag :message, "Body:" %></p>
     <% @default_body = <<-EOM
-You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard. 
+You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
 Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
 Name: #{@review.associate_consultant}

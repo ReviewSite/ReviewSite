@@ -18,17 +18,17 @@
 
     <% if current_user.admin? or current_user == @review.associate_consultant.user %>
         <% if @review.self_assessments.count > 0 %>
-            <%= link_to("Update Self Assessment", 
-                        edit_review_self_assessment_path(@review, @review.self_assessments.first), 
+            <%= link_to("Update Self Assessment",
+                        edit_review_self_assessment_path(@review, @review.self_assessments.first),
                         title: 'Update your own thoughts and goals pertaining to your current review') %>
         <% else %>
-            <%= link_to("Submit Self Assessment", 
+            <%= link_to("Submit Self Assessment",
                         new_review_self_assessment_path(@review),
                         title: 'Add your own thoughts and goals pertaining to your current review') %>
         <% end %>
     <% end %>
 <br>
-    <%= link_to("Add Additional Feedback", 
+    <%= link_to("Add Additional Feedback",
                 additional_review_feedbacks_path(@review),
                 title: 'Add new feedback on behalf of a third party for your current review',
                 rel: 'tooltip') %>
@@ -52,21 +52,28 @@
             </thead>
             <tbody>
             <% @feedbacks.each do |feedback| %>
-                <tr >
-                  <td class="caption-font">
-                    <p><b>Date:</b> <%= feedback.updated_at.to_date %></p>
-                    <p><b>By:</b> <%= feedback.reviewer %></p>
-                    <p><b>Project worked on:</b> <%= feedback.project_worked_on %></p>
-                    <p><b>Role:</b> <%= feedback.role_description %></p>
-                  </td>
-                  <% header_group.each do |header| %>
-                      <% if header.present? %>
-                          <td class="feedback-text <%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
-                            <%= simple_format(feedback.public_send(header)) %>
-                          </td>
-                      <% end %>
-                  <% end %>
-                </tr>
+                <% content = false %>
+                <% header_group.each do |header| %>
+                    <% field_value = feedback.public_send(header) %>
+                    <% content = content || (header.present? && !field_value.nil? && field_value != "") %>
+                <% end %>
+                <% if content %>
+                  <tr >
+                    <td class="caption-font">
+                      <p><b>Date:</b> <%= feedback.updated_at.to_date %></p>
+                      <p><b>By:</b> <%= feedback.reviewer %></p>
+                      <p><b>Project worked on:</b> <%= feedback.project_worked_on %></p>
+                      <p><b>Role:</b> <%= feedback.role_description %></p>
+                    </td>
+                    <% header_group.each do |header| %>
+                        <% if header.present? %>
+                            <td class="feedback-text <%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
+                              <%= simple_format(feedback.public_send(header)) %>
+                            </td>
+                        <% end %>
+                    <% end %>
+                  </tr>
+                <% end %>
             <% end %>
             </tbody>
           </table>

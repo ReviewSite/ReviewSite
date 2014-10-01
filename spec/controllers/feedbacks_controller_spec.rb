@@ -156,6 +156,7 @@ describe FeedbacksController do
 
       it "sends a notification email if clicked on the 'Submit Final' button" do
         UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+        UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
         post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
       end
 
@@ -213,7 +214,9 @@ describe FeedbacksController do
     end
 
     it "sends a notification email" do
-      UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+      UserMailer.should_receive(:new_feedback_notification
+      ).and_return(double(deliver: true))
+      UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
       put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
     end
   end
@@ -257,6 +260,7 @@ describe FeedbacksController do
       it "sends a notification email if clicked on the 'Submit Final' button" do
         feedback = Feedback.create! valid_attributes
         UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
+        UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
       end
 

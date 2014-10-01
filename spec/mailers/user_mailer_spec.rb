@@ -68,7 +68,7 @@ describe UserMailer do
     end
   end
 
-  describe "Feedback submitted notification" do
+  describe "Feedback submitted notification for AC" do
     let (:user) { FactoryGirl.create(:user) }
     let (:ac) { FactoryGirl.create(:associate_consultant) }
     let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
@@ -89,6 +89,39 @@ describe UserMailer do
 
     it 'addresses the receiver' do
       mail.body.encoded.should match("Hi " + ac.user.name)
+    end
+
+    it 'contains the name of the reviewer' do
+      mail.body.encoded.should match(user.name)
+    end
+
+    it 'includes feedback path' do
+      mail.body.encoded.should match(review_feedback_url(review, feedback))
+    end
+  end
+
+  describe "Feedback submitted notification for coach" do
+    let (:user) { FactoryGirl.create(:user) }
+    let (:coach) { FactoryGirl.create(:coach) }
+    let (:ac) { FactoryGirl.create(:associate_consultant, coach: coach) }
+    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+    let (:feedback) { FactoryGirl.create(:submitted_feedback, user: user, review: review) }
+    let (:mail) { UserMailer.new_feedback_notification_coach(feedback) }
+
+    it 'renders the subject' do
+      mail.subject.should == "[ReviewSite] Your coachee, #{ac.to_s}, has new feedback from #{feedback.user}"
+    end
+
+    it 'renders the receiver email' do
+      mail.to.should == [coach.email]
+    end
+
+    it 'renders the sender email' do
+      mail.from.should == ['do-not-reply@thoughtworks.org']
+    end
+
+    it 'addresses the receiver' do
+      mail.body.encoded.should match("Hi " + coach.name)
     end
 
     it 'contains the name of the reviewer' do

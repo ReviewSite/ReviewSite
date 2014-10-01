@@ -91,8 +91,8 @@ describe "Feedback pages", :type => :feature do
           feedback.send(model_attr).should == value
         end
 
-        ActionMailer::Base.deliveries.length.should == 1
-        mail = ActionMailer::Base.deliveries.last
+        ActionMailer::Base.deliveries.length.should == 2
+        mail = ActionMailer::Base.deliveries.first
         mail.to.should == [@current_ac.user.email]
         mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
       end
@@ -217,8 +217,8 @@ describe "Feedback pages", :type => :feature do
         feedback.send(model_attr).should == ""
       end
 
-      ActionMailer::Base.deliveries.length.should == 1
-      mail = ActionMailer::Base.deliveries.last
+      ActionMailer::Base.deliveries.length.should == 2
+      mail = ActionMailer::Base.deliveries.first
       mail.to.should == [ac.user.email]
       mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
@@ -240,8 +240,8 @@ describe "Feedback pages", :type => :feature do
         feedback.send(model_attr).should == value
       end
 
-      ActionMailer::Base.deliveries.length.should == 1
-      mail = ActionMailer::Base.deliveries.last
+      ActionMailer::Base.deliveries.length.should == 2
+      mail = ActionMailer::Base.deliveries.first
       mail.to.should == [ac.user.email]
       mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end

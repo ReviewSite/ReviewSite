@@ -15,7 +15,7 @@ describe 'URL Access:' do
     it "displays an error message" do
       sign_in user
       visit root_url + "users.json"
-      subject.should have_selector('div.alert.alert-alert',
+      subject.should have_selector('.flash-alert',
       text:"You are not authorized to access this page.")
     end
   end
@@ -30,7 +30,7 @@ describe 'URL Access:' do
     it "displays an error message" do
       sign_in user
       visit root_url + "associate_consultants.json"
-      subject.should have_selector('div.alert.alert-alert',
+      subject.should have_selector('.flash-alert',
       text:"You are not authorized to access this page.")
     end
   end

@@ -1,20 +1,20 @@
 Hi there!
 
-This is a reminder to submit your feedback for <%= @review %>.
+This is a reminder to submit your feedback for <%== @review %>.
 
 <% if @feedback %>
-You have saved feedback, but it has not yet been submitted. To continue working, please visit <%= edit_review_feedback_url(@review, @feedback) %>.
+You have saved feedback, but it has not yet been submitted. To continue working, please visit <%== edit_review_feedback_url(@review, @feedback) %>.
 <% else %>
-To get started, please visit <%= new_review_feedback_url(@review) %>.
+To get started, please visit <%== new_review_feedback_url(@review) %>.
 <% end %>
 
 <% if @review.feedback_deadline >= Date.today %>
-The deadline for leaving feedback is <%= @review.feedback_deadline %>.
+The deadline for leaving feedback is <%== @review.feedback_deadline %>.
 <% else %>
 Even though the feedback deadline has passed, we would love to hear your thoughts.
 <% end %>
 
-If you have any questions, please feel free to post them in our myThoughtWorks group at <%= @my_tw_url %>.
+If you have any questions, please feel free to post them in our myThoughtWorks group at <%== @my_tw_url %>.
 
 Thanks,
-<%= @review.associate_consultant.user.name %> and the ReviewSite Team
+<%== @review.associate_consultant.user.name %> and the ReviewSite Team

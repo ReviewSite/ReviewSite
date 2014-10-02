@@ -1,10 +1,10 @@
-Hi <%= @reviewee.coach.name %>,
+Hi <%== @reviewee.coach.name %>,
 
-Your coachee, <%= @reviewee.user.name %> has received new feedback from <%= @reviewer.name %>. To view the feedback, you can visit the link below:
+Your coachee, <%== @reviewee.user.name %> has received new feedback from <%== @reviewer.name %>. To view the feedback, you can visit the link below:
 
-<%= review_feedback_url(@review, @feedback) %>
+<%== review_feedback_url(@review, @feedback) %>
 
-If you have any questions, please post your concerns in our myThoughtWorks group at <%= @my_tw_url %>.
+If you have any questions, please post your concerns in our myThoughtWorks group at <%== @my_tw_url %>.
 
 Thanks,
 The ReviewSite Team

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140929232121) do
+ActiveRecord::Schema.define(:version => 20141002153312) do
 
   create_table "associate_consultants", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(:version => 20140929232121) do
     t.datetime "updated_at",                                 :null => false
     t.date     "review_date"
     t.date     "feedback_deadline"
-    t.date     "send_link_date"
     t.boolean  "new_review_format",       :default => false
   end
 

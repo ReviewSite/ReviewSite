@@ -37,14 +37,9 @@
     <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
-  <div class="field">
-    <%= f.label :send_link_date %>
-    <%= f.text_field :send_link_date, class: "datepicker future", placeholder: "yyyy-mm-dd" %>
-  </div>
-
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %> 
-    <span class="separator">|</span> 
+    <%= f.submit "#{button_title}", class: "btn btn-info" %>
+    <span class="separator">|</span>
     <%= link_to 'Cancel', reviews_path, class: "btn btn-link" %>
   </div>
 <% end %>

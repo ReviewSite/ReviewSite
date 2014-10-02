@@ -1,5 +1,9 @@
 class Review < ActiveRecord::Base
-  attr_accessible :associate_consultant_id, :review_type, :review_date, :feedback_deadline, :send_link_date
+  attr_accessible \
+      :associate_consultant_id,
+      :feedback_deadline,
+      :review_date,
+      :review_type
 
   belongs_to :associate_consultant
 

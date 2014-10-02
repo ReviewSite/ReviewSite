@@ -209,7 +209,6 @@ describe "Review pages" do
 
         fill_in "review_review_date", with: "07/01/2014"
         fill_in "review_feedback_deadline", with: "21/06/2014"
-        fill_in "review_send_link_date", with: "04/01/2014"
 
         UserMailer.should_receive(:review_creation).and_return(double(deliver: true))
         click_button "Create Review"
@@ -248,7 +247,6 @@ describe "Review pages" do
 
         fill_in "review_review_date", with: "2013-01-07"
         fill_in "review_feedback_deadline", with: "2013-06-21"
-        fill_in "review_send_link_date", with: "2013-01-04"
 
         click_button "Save Changes"
 
@@ -257,7 +255,6 @@ describe "Review pages" do
         review.review_type.should == "24-Month"
         review.review_date.should == Date.new(2013, 1, 7)
         review.feedback_deadline.should == Date.new(2013, 06, 21)
-        review.send_link_date.should == Date.new(2013, 1, 4)
       end
     end
 

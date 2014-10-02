@@ -104,7 +104,7 @@ describe Review do
       review.associate_consultant_id.should == ac.id
       review.review_type.should == month.to_s + "-Month"
       review.review_date.should == ac.program_start_date + month.months
-      review.feedback_deadline.should == ac.program_start_date + month.months - 2.days
+      review.feedback_deadline.should == ac.program_start_date + month.months - 7.days
     end
   end
 end

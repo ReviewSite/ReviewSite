@@ -37,7 +37,7 @@ class Review < ActiveRecord::Base
       review = Review.create({associate_consultant_id: ac.id,
       review_type: n.to_s + "-Month",
       review_date: ac.program_start_date + n.months,
-      feedback_deadline: ac.program_start_date + n.months - 2.days})
+      feedback_deadline: ac.program_start_date + n.months - 7.days})
       reviews << review
     end
     return reviews

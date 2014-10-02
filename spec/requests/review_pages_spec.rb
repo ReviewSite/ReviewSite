@@ -158,13 +158,15 @@ describe "Review pages" do
         @unique_ac = FactoryGirl.create(:associate_consultant, :user => unique_user)
       end
 
-      it "creates a new review" do
+      it "creates a new review", js: true do
         review = FactoryGirl.create(:review)
-
-        fill_in 'review_associate_consultant_id', with: @unique_ac.id
+        page.execute_script( " $('.datepicker').datepicker('remove'); " )
+        page.find_by_id('review_associate_consultant_id', visible: false).
+          set(@unique_ac.id)
         select "24-Month", from: "Review type"
 
-        fill_in "review_review_date", with: "07/01/2014"
+        fill_in "review_review_date", with: "07/08/2014"
+        page.find_by_id("review_feedback_deadline").value.should == "2014-7-1"
         fill_in "review_feedback_deadline", with: "21/06/2014"
 
         UserMailer.should_receive(:review_creation).and_return(double(deliver: true))

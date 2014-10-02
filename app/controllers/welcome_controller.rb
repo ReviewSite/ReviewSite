@@ -9,9 +9,6 @@ class WelcomeController < ApplicationController
     redirect_to signup_path unless signed_in?
   end
 
-  def help
-  end
-
   def test_error
     raise NotImplementedError, "This controller action breaks on purpose."
   end

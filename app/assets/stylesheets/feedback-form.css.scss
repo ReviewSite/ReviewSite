@@ -1,0 +1,24 @@
+// Place all the styles related to the Feedbacks controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.reviewer-info {
+  @include span-columns(3);
+}
+
+.feedback-form {
+  @include span-columns(9);
+}
+
+.ui-accordion-content, .ui-accordion-header {
+  background-color: white;
+  padding: 1em;
+}
+
+.ui-accordion-content {
+  border: 1px solid #eee;
+}
+
+.ui-accordion-header {
+  border: 2px solid #eee;
+}

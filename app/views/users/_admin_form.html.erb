@@ -1,3 +1,4 @@
+<section class="form-container">
 <%= nested_form_for @user do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -11,18 +12,20 @@
     </div>
   <% end %>
 
+  <p>When creating a new user account for someone else, a welcome email will be sent to them.</p>
+
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
 
   <div class="field">
-    <%= f.label :okta_name %><br />
+    <%= f.label :okta_name %>
     <p class="help-text">This must match the username used to log in to OKTA.</p>
     <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
   </div>
@@ -40,13 +43,16 @@
         <p class="help-text">Reviews will be created for new ACs if start date is not blank.</p>
       <% end %>
     </div>
+    
+    <section class="nested-form-container">
     <%=f.fields_for :associate_consultant %>
+    </section>
+
   <% end %>
 
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %>
-    <span class="separator">|</span>
-    <%= link_to 'Cancel', users_path, class: "btn btn-link" %>
+    <%= f.submit "#{button_title}", :id => "user-form-submit" %>
   </div>
 
 <% end %>
+</section>

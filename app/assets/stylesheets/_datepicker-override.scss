@@ -1,0 +1,60 @@
+div.datepicker {
+  border-radius: 0;
+  border-color: $base-border-color; 
+}
+
+div.datepicker table {
+  max-width: 270px;
+
+  thead th:hover {
+    background-color: lighten($dark-gray, 20%) !important;
+  }
+
+  td, th, td > span {
+    border-radius: 0;
+  }
+
+   tbody td {
+    border-bottom: $base-border;
+
+    > span:hover {
+      background-color: darken($brand-container-gray, 20%);
+    }
+  }
+
+  td.today {
+    background-color: lighten($brand-primary, 20%);
+    border-color: $brand-primary;
+  }
+
+  td.today:hover {
+    background-color: $brand-primary !important;
+    border-color: darken($brand-primary, 20%) !important;
+  }
+
+  .active {
+    background-color: lighten($brand-secondary, 20%) !important;
+    border-color: $brand-secondary !important;
+    color: $base-font-color !important;
+    text-shadow: none !important;
+  }
+
+  .active:hover, td.today.active:hover {
+    background-color: $brand-secondary !important;
+    border-color: darken($brand-secondary, 20%) !important;
+    text-shadow: none !important;
+  }
+
+  td.disabled {
+    color: $brand-gray;
+  }
+
+  tfoot th {
+    background-color: $brand-primary;
+  
+    &:hover {
+      background-color: lighten($brand-primary, 20%);
+    }
+  }
+
+}

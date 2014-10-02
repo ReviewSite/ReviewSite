@@ -1,16 +1,13 @@
+.summary {
+  @include span-columns(9);
+  margin-left: 14em;
+}
+
+
+// I want to delete this stuff
 #reviews-summary {
   height: 100%;
   overflow: auto;
-}
-
-table {
-  border: 1px solid black;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-td {
-  text-align: center;
 }
 
 #reviews td {

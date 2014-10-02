@@ -18,7 +18,7 @@ describe "Password reset pages" do
         before { click_button "Request Password Reset" }
 
         it { should have_selector('h1', text:'Sign in') }
-        it { should have_selector('div.alert.alert-notice') }
+        it { should have_selector('.flash-notice') }
       end
 
       describe "with valid information" do
@@ -32,7 +32,7 @@ describe "Password reset pages" do
         describe "directed to signin page" do
           before { click_button "Request Password Reset" }
           it { should have_selector('h1', text:'Sign in') }
-          it { should have_selector('div.alert.alert-notice') }
+          it { should have_selector('.flash-notice') }
         end
 
         specify "user should still have original password" do
@@ -42,7 +42,7 @@ describe "Password reset pages" do
           fill_in "Email", with: user.email
           click_button "Sign in"
 
-          page.should_not have_selector('.alert-error')
+          page.should_not have_selector('.flash-error')
         end
       end
     end
@@ -68,7 +68,7 @@ describe "Password reset pages" do
         end
 
         it "should redirect to the new password reset form" do
-          page.should have_selector('.alert')
+          page.should have_selector('.flash')
           current_path.should == new_password_reset_path
         end
       end

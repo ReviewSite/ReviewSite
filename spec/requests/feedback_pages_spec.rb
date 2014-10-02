@@ -7,36 +7,6 @@ describe "Feedback pages", :type => :feature do
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
   let(:inputs) { {
-    # 'feedback_project_worked_on' => 'My Project',
-    # 'feedback_role_description' => 'My Role',
-    # 'feedback_tech_exceeded' => 'Input 1',
-    # 'feedback_tech_met' => 'Input 2',
-    # 'feedback_tech_improve' => 'Input 3',
-    # The rest of these are not visible (hidden in the accordion)
-    # 'feedback_client_exceeded' => 'Input 4',
-    # 'feedback_client_met' => 'Input 5',
-    # 'feedback_client_improve' => 'Input 6',
-    # 'feedback_ownership_exceeded' => 'Input 7',
-    # 'feedback_ownership_met' => 'Input 8',
-    # 'feedback_ownership_improve' => 'Input 9',
-    # 'feedback_leadership_exceeded' => 'Input 10',
-    # 'feedback_leadership_met' => 'Input 11',
-    # 'feedback_leadership_improve' => 'Input 12',
-    # 'feedback_teamwork_exceeded' => 'Input 13',
-    # 'feedback_teamwork_met' => 'Input 14',
-    # 'feedback_teamwork_improve' => 'Input 15',
-    # 'feedback_attitude_exceeded' => 'Input 16',
-    # 'feedback_attitude_met' => 'Input 17',
-    # 'feedback_attitude_improve' => 'Input 18',
-    # 'feedback_professionalism_exceeded' => 'Input 19',
-    # 'feedback_professionalism_met' => 'Input 20',
-    # 'feedback_professionalism_improve' => 'Input 21',
-    # 'feedback_organizational_exceeded' => 'Input 22',
-    # 'feedback_organizational_met' => 'Input 23',
-    # 'feedback_organizational_improve' => 'Input 24',
-    # 'feedback_innovative_exceeded' => 'Input 25',
-    # 'feedback_innovative_met' => 'Input 26',
-    # 'feedback_innovative_improve' => 'Input 27',
     'feedback_comments' => 'My Comments'
   } }
 
@@ -54,7 +24,7 @@ describe "Feedback pages", :type => :feature do
       before do
         sign_in @new_user
         visit new_review_feedback_path(@current_review)
-        page.find('h3', :text => 'Comments').click
+        page.find("#ui-accordion-accordion-header-9").click
 
         inputs.each do |field, value|
           fill_in field, with: value
@@ -62,8 +32,8 @@ describe "Feedback pages", :type => :feature do
       end
 
       it "saves as draft if 'Save Feedback' is clicked" do
-        page.execute_script(' $(".btn.btn-primary").click(); ')
-        page.should have_selector(".alert")
+        page.execute_script(' $("#save-feedback-button").click(); ')
+        page.should have_selector(".flash")
 
         feedback = Feedback.last
         current_path.should == edit_review_feedback_path(@current_review, feedback)
@@ -79,8 +49,8 @@ describe "Feedback pages", :type => :feature do
         ActionMailer::Base.deliveries.clear
 
         page.evaluate_script('window.confirm = function() { return true; }')
-        page.execute_script(' $(".btn.btn-success").click(); ')
-        page.should have_selector(".alert-notice")
+        page.execute_script(' $("#submit-final-button").click(); ')
+        page.should have_selector(".flash")
 
         feedback = Feedback.last
         current_path.should == review_feedback_path(@current_review, feedback)
@@ -151,7 +121,7 @@ describe "Feedback pages", :type => :feature do
 
         it "should redirect to homepage" do
           current_path.should == root_path
-          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
         end
       end
     end
@@ -164,7 +134,7 @@ describe "Feedback pages", :type => :feature do
 
       it "should redirect to homepage" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+        page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
       end
     end
   end
@@ -174,16 +144,15 @@ describe "Feedback pages", :type => :feature do
       sign_in FactoryGirl.create(:user)
       visit additional_review_feedbacks_path(review)
       fill_in "feedback_user_string", with: "A non-user"
+    end
 
-      page.find('h3', :text => 'Comments').click
+    it "saves as draft if 'Save Feedback' is clicked" do
+      page.find('h3', text: "Comments").click
 
       inputs.each do |field, value|
         fill_in field, with: value
       end
-    end
 
-    it "saves as draft if 'Save Feedback' is clicked" do
-      #click_button "Save Feedback"
       first(:button, "Save Feedback").click
       feedback = Feedback.last
       current_path.should == edit_review_feedback_path(review, feedback)
@@ -198,7 +167,7 @@ describe "Feedback pages", :type => :feature do
     it "saves as final if 'Submit Final' is clicked", js: true do
       ActionMailer::Base.deliveries.clear
 
-      page.find('h3', :text => 'Comments').click
+      page.find("#ui-accordion-accordion-header-9").click
 
       inputs.each do |field, value|
         fill_in field, with: ""
@@ -206,7 +175,7 @@ describe "Feedback pages", :type => :feature do
 
       page.evaluate_script('window.confirm = function() { return true; }')
       click_button "Submit Final"
-      find(".alert-notice") # wait for the resulting page to load
+      find(".flash") # wait for the resulting page to load
 
       feedback = Feedback.last
       current_path.should == review_feedback_path(review, feedback)
@@ -224,12 +193,17 @@ describe "Feedback pages", :type => :feature do
     end
 
     it "saves as final and sends email if 'Submit Final' is clicked", js: true do
+      page.find("#ui-accordion-accordion-header-9").click
+
+      inputs.each do |field, value|
+        fill_in field, with: value
+      end
+
       ActionMailer::Base.deliveries.clear
 
       page.evaluate_script('window.confirm = function() { return true; }')
       click_button "Submit Final"
-      page.find(".alert-notice") # wait for the resulting page to load
-      #expect(page.find(".alert-notice").to have_content("Feedback was submitted."))
+      page.find(".flash") # wait for the resulting page to load
 
       feedback = Feedback.last
       current_path.should == review_feedback_path(review, feedback)
@@ -287,7 +261,7 @@ describe "Feedback pages", :type => :feature do
 
         it "redirects to homepage" do
           current_path.should == root_path
-          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
         end
       end
     end
@@ -357,7 +331,7 @@ describe "Feedback pages", :type => :feature do
 
         it "redirects to homepage" do
           current_path.should == root_path
-          page.should have_selector('div.alert.alert-alert', text:"You are not authorized to access this page.")
+          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
         end
       end
     end

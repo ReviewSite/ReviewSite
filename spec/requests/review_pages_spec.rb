@@ -69,25 +69,6 @@ describe "Review pages" do
         page.should have_content(Date.today-2.days)
         page.should have_content(self_assessment.response)
       end
-
-      it "links to additional feedback" do
-        click_link "Add Additional Feedback"
-        current_path.should == additional_review_feedbacks_path(review)
-      end
-
-      it "links to update self-assessment if one has been created" do
-        page.should_not have_selector('a', text: 'Submit Self Assessment')
-        click_link "Update Self Assessment"
-        current_path.should == edit_review_self_assessment_path(review, self_assessment)
-      end
-
-      it "links to create self-assessment if none has been created" do
-        self_assessment.destroy
-        visit summary_review_path(review)
-        page.should_not have_selector('a', text: 'Update Self Assessment')
-        click_link "Submit Self Assessment"
-        current_path.should == new_review_self_assessment_path(review)
-      end
     end
 
     describe "as a ac" do
@@ -108,26 +89,7 @@ describe "Review pages" do
         page.should have_content(self_assessment.response)
       end
 
-      it "links to update self-assessment if one has been created" do
-        page.should_not have_selector('a', text: 'Submit Self Assessment')
-        click_link "Update Self Assessment"
-        current_path.should == edit_review_self_assessment_path(review, self_assessment)
-      end
-
-      it "links to create self-assessment if none has been created" do
-        self_assessment.destroy
-        visit summary_review_path(review)
-        page.should_not have_selector('a', text: 'Update Self Assessment')
-        click_link "Submit Self Assessment"
-        current_path.should == new_review_self_assessment_path(review)
-      end
-
-      it "links to additional feedback" do
-        click_link "Add Additional Feedback"
-        current_path.should == additional_review_feedbacks_path(review)
-      end
-
-      it "should derp" do
+      it "exports to excel file" do
         expect{ click_link "export_to_excel" }.not_to raise_error
       end
 
@@ -171,11 +133,6 @@ describe "Review pages" do
         page.should_not have_selector('a', text: 'Update Self Assessment')
         page.should_not have_selector('a', text: 'Submit Self Assessment')
       end
-
-      it "links to additional feedback" do
-        click_link "Add Additional Feedback"
-        current_path.should == additional_review_feedbacks_path(review)
-      end
     end
 
     describe "as another user" do
@@ -186,7 +143,7 @@ describe "Review pages" do
 
       it "redirects to homepage" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
       end
     end
   end
@@ -217,8 +174,8 @@ describe "Review pages" do
         current_path.should == review_path(new_review)
 
         page.should have_selector('h2', text: new_review.review_type.titleize)
-        page.should have_selector('h3', text: new_review.feedback_deadline)
-        page.should have_selector('h3', text: new_review.review_date)
+        page.should have_selector('p', text: new_review.feedback_deadline)
+        page.should have_selector('p', text: new_review.review_date)
       end
     end
 
@@ -230,7 +187,7 @@ describe "Review pages" do
 
        it "redirects to homepage" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
        end
     end
   end
@@ -266,7 +223,7 @@ describe "Review pages" do
 
        it "redirects to homepage" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
        end
     end
   end
@@ -343,7 +300,7 @@ describe "Review pages" do
 
        it "redirects to homepage" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
        end
     end
   end
@@ -356,7 +313,7 @@ describe "Review pages" do
       UserMailer.should_receive(:review_creation).with(review).and_return(double(deliver: true))
       click_link "Email Review Info"
       current_path.should == root_path
-      page.should have_selector('div.alert.alert-success', text: 'An email with the details of the review was sent!')
+      page.should have_selector('.flash-success', text: 'An email with the details of the review was sent!')
     end
 
   end

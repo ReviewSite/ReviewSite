@@ -1,16 +1,14 @@
 <h1>Manage Users</h1>
 
-<div class="new-review"><%= link_to 'New User', new_user_path, :class => 'btn btn-info' %></div>
+<div class="new-review"><%= link_to 'New User', new_user_path, :class => 'button' %></div>
 
 <table id="users" class="datatable" data-source="<%= users_url(format: "json") %>">
   <thead>
-  <th>Name</th>
-  <th>Email</th>
-  <th>AC</th>
-  <th>Admin</th>
-  <th></th>
-  <th></th>
-  <th></th>
+  <th class="name-col">Name</th>
+  <th class="name-col">Email</th>
+  <th class="boolean-col">AC</th>
+  <th class="boolean-col">Admin</th>
+  <th class="action-col"></th>
   </thead>
   <tbody>
 
@@ -22,16 +20,14 @@
 
 <script>
   $('table#users').dataTable({
-    sPaginationType: "two_button",
-    bJQueryUI: true,
-    bProcessing: true,
+    sPaginationType: "full_numbers",
     bServerSide: true,
     sAjaxSource: $('#users').data('source'),
     oLanguage: {
         sInfoFiltered: ""
     },
     aoColumnDefs: [
-      { bSortable: false, aTargets: [ 4, 5, 6 ] },
+      { bSortable: false, aTargets: [ 4 ] },
       { sClass: "admin", aTargets: [3] },
       { sClass: "ac", aTargets: [2] }
     ],

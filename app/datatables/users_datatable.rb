@@ -29,9 +29,12 @@ class UsersDatatable
           h(user.email),
           user.ac? ? 'yes' : '' ,
           user.admin ? 'yes' : '',
-          (link_to('View Profile', user) unless cannot? :read, user),
-          (link_to('Edit', url_helpers.edit_user_path(user)) unless cannot? :edit, user),
-          (link_to('Delete', user, method: :delete, data: { confirm: 'Are you sure?' }) unless cannot? :destroy, user)
+
+          h("<ul>
+              <li>#{(link_to('View Profile', user, class: "button link") unless cannot? :read, user)}</li>
+              <li>#{(link_to('Edit', url_helpers.edit_user_path(user), class: "button link") unless cannot? :edit, user)}</li>
+              <li>#{(link_to('Delete', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "button link") unless cannot? :destroy, user)}</li>
+          </ul>".html_safe)
       ]
     end
   end

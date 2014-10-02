@@ -19,22 +19,22 @@ describe "Invitations" do
       end
 
       it "redirects to home page after submission" do
-        click_button "Send Invitation"
+        click_button "Send Request"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-success', text: "An invitation has been sent to: reviewer@thoughtworks.com")
+        page.should have_selector('.flash-success', text: "An invitation has been sent to: reviewer@thoughtworks.com")
       end
 
       it "sends an invitation email" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Send Invitation"
+        click_button "Send Request"
       end
 
       it "does not send an email if the 'No email' option is selected" do
         UserMailer.should_not_receive(:review_invitation)
         check "no_email"
-        click_button "Send Invitation"
+        click_button "Send Request"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-success', text: "An invitation has been created for: reviewer@thoughtworks.com")
+        page.should have_selector('.flash-success', text: "An invitation has been created for: reviewer@thoughtworks.com")
       end
     end
 
@@ -47,14 +47,14 @@ describe "Invitations" do
       end
 
       it "redirects to home page after submission" do
-        click_button "Send Invitation"
+        click_button "Send Request"
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-success')
+        page.should have_selector('.flash-success')
       end
 
       it "sends an invitation email" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Send Invitation"
+        click_button "Send Request"
       end
     end
 

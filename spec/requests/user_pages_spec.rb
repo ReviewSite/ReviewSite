@@ -28,7 +28,7 @@ describe "User pages: " do
         click_button "Save Changes"
       end
 
-      it { should have_selector('div.alert.alert-success', text: 'Profile updated') }
+      it { should have_selector('.flash-success', text: 'Profile updated') }
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
@@ -55,9 +55,9 @@ describe "User pages: " do
         visit edit_user_path(nonadmin)
         page.find("#user_associate_consultant_attributes_graduated", visible: false).should be_disabled
         page.find('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]', visible: false).should be_disabled
-        check('user_admin')
+        page.find("#user_admin").trigger("click")
 
-        click_button "Save Changes"
+        page.find("#user-form-submit").trigger("click")
 
         page.should have_selector("tr##{id_selector} td.admin", text: 'yes')
 
@@ -72,8 +72,8 @@ describe "User pages: " do
         visit users_path
 
         visit edit_user_path(nonadmin)
-        check("isac")
-        page.find("#user_associate_consultant_attributes_graduated", visible: true).set(true)
+        page.find("#isac").trigger("click")
+        page.find("#user_associate_consultant_attributes_graduated", visible: true).trigger("click")
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
@@ -92,12 +92,12 @@ describe "User pages: " do
         visit users_path
 
         visit edit_user_path(nonadmin)
-        check("isac")
+        page.find("#isac").trigger('click')
         fill_in "Program start date", with: "2014-07-08"
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
-        page.should have_selector('div.alert.alert-success', text: 'Profile updated and reviews created')
+        page.should have_selector('.flash-success', text: 'Profile updated and reviews created')
         current_path.should eql users_path
 
         visit user_path(nonadmin)
@@ -105,10 +105,6 @@ describe "User pages: " do
         page.should have_selector("#program-start-date", text: "2014-07-08")
       end
     end
-
-
-
-
   end
 
   describe "NEW/CREATE action" do
@@ -119,7 +115,7 @@ describe "User pages: " do
         visit root_path
         within "#okta-input" do
           fill_in "temp-okta", with: "roberto"
-          click_button "Set new OKTA user"
+          click_button "Change User"
         end
         visit new_user_path
       }
@@ -137,7 +133,7 @@ describe "User pages: " do
         click_button 'Create Account'
 
         current_path.should eql root_path
-        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+        page.should have_selector('.flash-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
@@ -167,7 +163,7 @@ describe "User pages: " do
         click_button 'Create User'
 
         current_path.should eql users_path
-        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created.')
+        page.should have_selector('.flash-success', text: 'User has been successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
@@ -196,7 +192,7 @@ describe "User pages: " do
         click_button 'Create User'
 
         current_path.should eql users_path
-        page.should have_selector('div.alert.alert-success', text: 'User has been successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
+        page.should have_selector('.flash-success', text: 'User has been successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
 
         new_user = User.last
         new_user.associate_consultant.reviews.size.should == 4
@@ -220,7 +216,7 @@ describe "User pages: " do
         sign_in FactoryGirl.create(:user)
         visit new_user_path
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: "You are not authorized to access this page.")
+        page.should have_selector('.flash-alert', text: "You are not authorized to access this page.")
       end
     end
   end
@@ -258,7 +254,7 @@ describe "User pages: " do
 
       it "is inaccessible" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
       end
     end
   end
@@ -312,7 +308,7 @@ describe "User pages: " do
           click_link "Delete"
           current_path.should == users_path
         end
-        page.should have_selector('div.alert.alert-success', text: 'User deleted.')
+        page.should have_selector('.flash-success', text: 'User deleted.')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')
         page.should_not have_selector('td.delete', text: 'false')
@@ -327,7 +323,7 @@ describe "User pages: " do
 
       it "is inaccessible" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
       end
     end
   end
@@ -377,7 +373,7 @@ describe "User pages: " do
 
       it "is inaccessible" do
         current_path.should == root_path
-        page.should have_selector('div.alert.alert-alert', text: 'You are not authorized to access this page.')
+        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
       end
     end
   end

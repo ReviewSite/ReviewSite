@@ -9,7 +9,7 @@
 
   <% elsif current_user.admin? %>
     <h1>Upcoming Reviews</h1>
-    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'btn btn-info' %></div>
+    <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'button' %></div>
     <%= render :partial => 'reviews/reviews' %>
 
   <% else %>

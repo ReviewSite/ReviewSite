@@ -1,3 +1,4 @@
+<section class="form-container">
 <%= nested_form_for @user do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -12,19 +13,20 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
 
   <%= f.hidden_field :okta_name, value: current_okta_name %>
 
   <div class="actions">
-    <%= f.submit "#{button_title}", class: "btn btn-info" %>
+    <%= f.submit "#{button_title}", :id => "user-form-submit" %>
   </div>
 
 <% end %>
+</section>

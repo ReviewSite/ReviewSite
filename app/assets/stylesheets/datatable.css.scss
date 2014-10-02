@@ -1,94 +1,88 @@
-div.dataTables_filter {
-  padding-top: 10px;
+.dataTables_filter {
+  display: inline-block;
+  @include float(right);
+  max-height: 31px;
+
+  input{
+    display: inline-block;
+    width: 367px;
+    padding: 5px;
+    margin: 0;
+  }
 }
-div.dataTables_length {
-  padding-top: 15px;
+
+.dataTables_length {
+  display: inline-block;
+  margin-top: 10px;
+
+  select {
+    height: initial;
+    width: 75px;
+    display: inline-block;
+    margin: 0;
+    background-color: $brand-input-gray;
+    color: $brand-gray;
+  }
 }
-div.dataTables_length label {
-  width: 200px;
-  float: left;
-  text-align: left;
+
+.dataTables_info {
   display: inline-block;
 }
 
-div.dataTables_length select {
-  width: 75px;
+.dataTables_paginate {
   display: inline-block;
-}
-
-div.dataTables_filter label {
-  float: right;
-  width: 430px;
-  display: inline-block;
-  padding-right: 0px;
-}
-
-div.dataTables_filter input{
-  display: inline-block;
-  width: 200px;
-  padding: 5px;
-}
-
-div.dataTables_paginate {
-  float: right;
+  @include float(right);
   margin: 0;
+
+  a {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  > a:last-child {
+    margin-right: 0;
+  }
 }
 
-table {
-  margin: 1em 0;
-  clear: both;
-}
-
-thead {
-  background: #454647;
-}
-
-th {
-  font-size: 0.9em;
-  font-weight: normal;
-  color: #eaF6Fa;
-}
-
-
-tbody {
-  font-size: 12px;
-  background: #E8F3F8;
-}
-
-tr.odd td { 
-  background:#E8F3F8;
+.sorting, .sorting_asc, .sorting_desc {
+  cursor: pointer;
 }
 
 
-
-tr.odd td.sorting_1 {
-  background-color: #C7EDE8 !important;
-}
-
-tr.odd td.sorting_2 {
-  background-color: #C7EDE8 !important;
-}
-
-tr.odd td.sorting_3 {
-  background-color: #C7EDE8 !important;
-}
-
-tr.even td.sorting_1 {
-  background-color: #DCF7F3 !important;
-}
-
-tr.even td.sorting_2 {
-  background-color: #DCF7F3 !important;
-}
-
+tr.odd td.sorting_1, 
+tr.odd td.sorting_2, 
+tr.odd td.sorting_3, 
+tr.even td.sorting_1, 
+tr.even td.sorting_2, 
 tr.even td.sorting_3 {
-  background-color: #DCF7F3 !important;
+  background-color: $brand-input-gray;
 }
 
-
-
-
+td ul li {
+  display: inline;
+}
 
 .spacer {
   clear: both;
 }
+
+.members-col {
+  width: 50% !important;
+}
+
+.name-col, .action-col {
+  width: 25% !important;
+}
+
+.reviewing-group-col, .reviewer-name-col {
+  width: 20% !important;
+}
+
+.associate-consultant-col, .action-small-col {
+  width: 15% !important;
+}
+
+.review-type-col, .review-date-col, .submitted-feedback-col, .boolean-col {
+  width: 10% !important;
+}
+

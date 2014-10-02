@@ -1,0 +1,117 @@
+// Typography
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700,800);
+$open-sans: 'Open Sans', sans-serif;
+
+$sans-serif: $open-sans;
+$serif: $georgia;
+$base-font-family: $sans-serif;
+$header-font-family: $base-font-family;
+
+// Font Sizes
+$base-font-size: 1em;
+$h1-font-size: $base-font-size * 2.5;
+$h2-font-size: $base-font-size * 1.75;
+$h3-font-size: $base-font-size * 1.25;
+$h4-font-size: $base-font-size * 1.25;
+$h5-font-size: $base-font-size * 1.25;
+$h6-font-size: $base-font-size;
+
+// Font Weights
+$extra-bold: 800;
+$bold: 700;
+$normal: 400;
+$light: 300;
+$base-font-weight: $normal;
+
+// Line height
+$base-line-height: 1.5;
+$header-line-height: 1.25;
+
+// Other Sizes
+$base-border-radius: 0px;
+$base-spacing: $base-line-height * 1em;
+$base-z-index: 0;
+$navigation-height: 3em;
+$footer-height: 4em;
+
+// Colors
+$blue: #477DCA;
+$dark-gray: #333;
+$medium-gray: #999;
+$light-gray: #DDD;
+$light-red: #FBE3E4;
+$light-yellow: #FFF6BF;
+$light-green: #E6EFC2;
+
+// Brand Colors
+// Earth/Skin Tones
+$brand-gray: rgb(128, 130, 133);
+$brand-earth: rgb(94, 62, 42);
+$brand-warmth: rgb(158, 120, 95);
+$brand-light: rgb(240, 186, 149);
+$brand-fair: rgb(254, 224, 201);
+
+// Brights
+$brand-pink: rgb(239, 91, 161);
+$brand-plum: rgb(106, 37, 105);
+$brand-magenta: rgb(177, 28, 84);
+$brand-red: rgb(238, 49, 45);
+$brand-orange: rgb(247, 143, 49);
+$brand-sunshine: rgb(255, 244, 80);
+
+// Cools
+$brand-ocean: rgb(26, 115, 186);
+$brand-blue: rgb(38, 189, 207);
+$brand-ice-blue: rgb(128, 201, 210);
+$brand-green: rgb(17, 170, 88);
+$brand-mint: rgb(137, 183, 127);
+$brand-lime: rgb(181, 185, 53);
+
+// Grays
+$brand-input-gray: #ebebeb;
+$brand-input-border: rgba(0,0,0,0.1);
+$brand-container-gray: #f9f9f9;
+$brand-container-border: #eee;
+
+// Site Primary Colors
+$brand-primary: $brand-blue;
+$brand-secondary: $brand-orange;
+$brand-success: $brand-mint;
+$brand-warning: $brand-light;
+$brand-danger: $brand-red;
+
+// Background Color
+$base-background-color: white;
+
+// Font Colors
+$base-font-color: $dark-gray;
+$base-accent-color: $brand-primary;
+
+// Link Colors
+$base-link-color: $base-accent-color;
+$hover-link-color: darken($base-accent-color, 15);
+$base-button-color: $base-link-color;
+$hover-button-color: $hover-link-color;
+
+// Flash Colors
+$alert-color: $brand-warning;
+$error-color: $brand-danger;
+$notice-color: $brand-light;
+$success-color: $brand-success;
+
+// Border color
+$base-border-color: $brand-input-border;
+$base-border: 2px solid $base-border-color;
+
+// Forms
+$form-border-color: $base-border-color;
+$form-border-color-hover: darken($base-border-color, 10);
+$form-border-color-focus: $base-accent-color;
+$form-border-radius: $base-border-radius;
+$form-box-shadow: none;
+$form-box-shadow-focus: none;
+// $form-box-shadow: inset 0 1px 3px rgba(black,0.06);
+// $form-box-shadow-focus: $form-box-shadow, 0 0 5px rgba(darken($form-border-color-focus, 5), 0.7);
+$form-font-size: $base-font-size;
+$form-font-family: $base-font-family;
+$form-font-weight: $light;

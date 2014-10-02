@@ -10,26 +10,26 @@ describe "Navbar" do
       visit root_path
     end
 
-    it { should have_selector(".navbar-fixed-top a", text: admin.name) }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
-    it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
+    it { should have_selector(".navigation", text: admin.name) }
+    it { should_not have_selector(".navigation", text: "Sign in") }
+    it { should have_selector(".navigation", text: "Sign out") }
 
     it "should link to reviewing group index page" do
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Reviewing Group"
       end
       current_path.should == reviewing_groups_path
     end
 
     it "should link to users index page" do
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Users"
       end
       current_path.should == users_path
     end
 
     it "should link to user settings page" do
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Update Profile"
       end
       current_path.should == edit_user_path(admin)
@@ -37,7 +37,7 @@ describe "Navbar" do
 
     it "should link to homepage" do
       visit signin_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Home"
       end
       current_path.should == root_path
@@ -45,7 +45,7 @@ describe "Navbar" do
 
     it "should link to homepage via site name" do
       visit signin_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Review Site"
       end
       current_path.should == root_path
@@ -59,21 +59,21 @@ describe "Navbar" do
       visit root_path
     end
 
-    it { should have_selector(".navbar-fixed-top a", text: user.name) }
-    it { should have_selector(".navbar-fixed-top a", text: "Sign out") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Sign in") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
+    it { should have_selector(".navigation", text: user.name) }
+    it { should have_selector(".navigation", text: "Sign out") }
+    it { should_not have_selector(".navigation", text: "Sign in") }
+    it { should_not have_selector(".navigation", text: "Reviewing Group") }
+    it { should_not have_selector(".navigation", text: "Users") }
 
     it "should link to feedbacks page" do
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Feedback Requests"
       end
       current_path.should == feedbacks_user_path(user)
     end
 
     it "should link to user settings page" do
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Update Profile"
       end
       current_path.should == edit_user_path(user)
@@ -81,7 +81,7 @@ describe "Navbar" do
 
     it "should link to homepage" do
       visit signin_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Home"
       end
       current_path.should == root_path
@@ -89,7 +89,7 @@ describe "Navbar" do
 
     it "should link to homepage via site name" do
       visit signin_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Review Site"
       end
       current_path.should == root_path
@@ -97,14 +97,14 @@ describe "Navbar" do
   end
 
   describe "not signed in" do
-    it { should_not have_selector(".navbar-fixed-top a", text: "Sign out") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Settings") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Reviewing Group") }
-    it { should_not have_selector(".navbar-fixed-top a", text: "Users") }
+    it { should_not have_selector(".navigation", text: "Sign out") }
+    it { should_not have_selector(".navigation", text: "Settings") }
+    it { should_not have_selector(".navigation", text: "Reviewing Group") }
+    it { should_not have_selector(".navigation", text: "Users") }
 
     it "should link to signin page" do
       visit new_password_reset_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Sign in"
       end
       current_path.should == signin_path
@@ -112,7 +112,7 @@ describe "Navbar" do
 
     it "should redirect to signup page via 'Home' link" do
       visit new_password_reset_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Home"
       end
       current_path.should == signup_path
@@ -120,7 +120,7 @@ describe "Navbar" do
 
     it "should redirect to signup page via site name" do
       visit new_password_reset_path
-      within(".navbar-fixed-top") do
+      within(".navigation") do
         click_link "Review Site"
       end
       current_path.should == signup_path

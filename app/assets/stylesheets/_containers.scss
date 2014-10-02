@@ -1,0 +1,29 @@
+.content-container {
+  @include outer-container;
+  margin-top: $navigation-height + 1em;
+  margin-bottom: $footer-height + 1em;
+}
+
+.form-container {
+  @include outer-container;
+  background-color: $brand-container-gray;
+  margin-top: 1em;
+  padding: 1.5em;
+  max-width: 40em;
+  border-top: 1px solid $form-border-color;
+  border-bottom: 1px solid $form-border-color; 
+}
+
+.nested-form-container {
+  @extend .form-container;
+  border: 0;
+  background-color: white;
+  margin-bottom: 0.75em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.feedback-form-container {
+  @extend .form-container;
+  max-width: 100%;
+}

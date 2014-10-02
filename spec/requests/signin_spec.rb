@@ -18,7 +18,7 @@ describe "Signing in" do
   end
 
   describe "returning user without saved OKTA name" do
-    let!(:user) { FactoryGirl.create(:user, 
+    let!(:user) { FactoryGirl.create(:user,
                                       name: "Jennifer Doe",
                                       email: "jdoe@thoughtworks.com",
                                       password_digest: BCrypt::Password.create('password') ) }
@@ -43,7 +43,7 @@ describe "Signing in" do
       page.should have_content("Jennifer Doe")
       page.should have_content('Sign out')
       page.should_not have_content('Sign in')
-      page.should have_selector("div.alert", text: "From now on, we will sign you in automatically via OKTA.")
+      page.should have_selector(".flash", text: "From now on, we will sign you in automatically via OKTA.")
 
       user.reload
       user.okta_name.should == 'jdoe'

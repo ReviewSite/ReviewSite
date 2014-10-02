@@ -26,7 +26,6 @@ describe Review do
       r.review_type = "6-Month"
       r.feedback_deadline = Date.today
       r.review_date = Date.today
-      r.send_link_date = Date.today
       r.associate_consultant = c
 
       r.save.should be_true

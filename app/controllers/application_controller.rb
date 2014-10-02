@@ -13,8 +13,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def deny_json_access
-    unless request.referer.match(root_url + "/users.json")
+  def deny_users_json_access
+    unless request.referer.match(root_url + "/users/get_users.json")
+      redirect_to root_url, alert: "You are not authorized to access this page."
+    end
+  end
+
+  def deny_acs_json_access
+    unless request.referer.match(root_url + "/associate_consultants.json")
       redirect_to root_url, alert: "You are not authorized to access this page."
     end
   end

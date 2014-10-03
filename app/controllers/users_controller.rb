@@ -81,6 +81,12 @@ class UsersController < ApplicationController
   def get_users
     @users = User.where("name ILIKE ?", "%#{params[:q]}%")
 
+    unless request.xhr?
+      redirect_to root_path
+      flash[:alert] = "You are not authorized to view this page."
+      return
+    end
+    
     respond_to do |format|
       format.html
       format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }

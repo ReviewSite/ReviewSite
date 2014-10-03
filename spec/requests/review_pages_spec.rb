@@ -68,6 +68,9 @@ describe "Review pages" do
 
         page.should have_content(Date.today-2.days)
         page.should have_content(self_assessment.response)
+        page.click_link("export_to_excel")
+        page.response_headers['Content-Type'].should eq 'application/vnd.'\
+          'openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
       end
     end
 

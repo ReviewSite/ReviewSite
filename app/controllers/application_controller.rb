@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :require_login
+  before_filter :deny_json_access
 
   check_authorization
   protect_from_forgery
@@ -13,16 +14,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def deny_users_json_access
-    unless request.referer.match(root_url + "/users/get_users.json")
+  def deny_json_access
+    users1_path = "users/get_users.json"
+    users2_path = "users.json"
+    ac_path = "associate_consultants.json"
+    # puts request.headers
+    if (request.original_url.match(root_url + users1_path) ||
+      request.original_url.match(root_url + ac_path) ||
+      request.original_url.match(root_url + users2_path) ) && request.headers["QUERY_STRING"].empty?
       redirect_to root_url, alert: "You are not authorized to access this page."
     end
   end
 
-  def deny_acs_json_access
-    unless request.referer.match(root_url + "/associate_consultants.json")
-      redirect_to root_url, alert: "You are not authorized to access this page."
-    end
+  def path_valid?
+    current_path == ("/reviews/new" || "/users/new")
   end
 
   rescue_from CanCan::AccessDenied do |exception|

@@ -7,7 +7,7 @@ jQuery(function () {
     target: '#review-categories'
   });
 
-  $('#review-categories li a').click(function(event) {
+  $('#review-categories li a.jump').click(function(event) {
     window.location.hash = $(this).attr('href');
 
     event.preventDefault();

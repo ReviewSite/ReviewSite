@@ -4,7 +4,7 @@
       <% @review.headings.each_with_index do |heading, index| %>
         <li><a href="#heading<%= index %>"><%= heading %></a></li>
       <% end %>
-      <li><a href="#heading<%= @review.headings.count %>">Self-Assessment</a></li>
+      <li><a href="#heading<%= @review.headings.count %>" class="jump">Self-Assessment</a></li>
       <li>
         <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
             <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>

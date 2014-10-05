@@ -8,13 +8,13 @@ describe 'URL Access:' do
   describe "users.json file" do
     it "redirects to root_url" do
       sign_in user
-      visit root_url + "users.json"
+      visit root_url + "users/get_users.json"
       current_path.should == root_path
     end
 
     it "displays an error message" do
       sign_in user
-      visit root_url + "users.json"
+      visit root_url + "users/get_users.json"
       subject.should have_selector('.flash-alert',
       text:"You are not authorized to access this page.")
     end

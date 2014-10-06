@@ -97,4 +97,10 @@ describe "Invitation" do
       subject.expired?.should be_true
     end
   end
+
+  describe "delete" do
+    it "should remove reference in review before deletion" do
+      review.delete
+    end
+  end
 end

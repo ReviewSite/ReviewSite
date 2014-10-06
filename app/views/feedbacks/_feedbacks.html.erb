@@ -44,8 +44,8 @@
               <li><%= link_to 'Show', [feedback.review, feedback], class: "button link" %></li>
             <% end %>
           </ul>
-          </td> 
-      
+          </td>
+
     </tr>
   <% end %>
 
@@ -62,8 +62,14 @@
           <li><%= link_to 'Send Reminder',
                   send_reminder_review_invitation_path(invitation.review, invitation),
                   data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
-                  method: :post, class: "button link" %></li>
-                </ul>
+                  method: :post, class: "button link" %>
+          </li>
+          <li><%= link_to 'Delete Invitation',
+                  review_invitation_path(invitation.review, invitation),
+                  data: {confirm: "Are you sure you want to delete your invitation to #{invitation.email}?"},
+                  method: :delete, class: "button link" %>
+          </li>
+        </ul>
                 </td>
     </tr>
     <% end %>
@@ -84,7 +90,7 @@
     bLengthChange: false,
     bFilter: false,
     bInfo: false,
-    bRetrieve: true, 
+    bRetrieve: true,
     bDestroy: true
     });
 </script>

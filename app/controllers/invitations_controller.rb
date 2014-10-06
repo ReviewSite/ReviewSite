@@ -62,10 +62,8 @@ class InvitationsController < ApplicationController
     end
   end
 
-
-
   def destroy
-    @invitation.destroy
+    @invitation.delete_invite
     redirect_to root_path, notice: 'Invitation has been deleted'
   end
 

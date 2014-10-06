@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def path_valid?
-    current_path == ("/reviews/new" || "/users/new")
-  end
-
   rescue_from CanCan::AccessDenied do |exception|
     if signed_in?
       redirect_to root_url, :alert => exception.message

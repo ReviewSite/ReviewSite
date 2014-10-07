@@ -42,7 +42,7 @@
                 <% end %>
                 <% if content %>
                   <tr >
-                    <td class="caption-font">
+                    <td>
                       <p><b>Date:</b> <%= feedback.updated_at.to_date %></p>
                       <p><b>By:</b> <%= feedback.reviewer %></p>
                       <p><b>Project worked on:</b> <%= feedback.project_worked_on %></p>
@@ -50,7 +50,7 @@
                     </td>
                     <% header_group.each do |header| %>
                         <% if header.present? %>
-                            <td class="feedback-text <%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
+                            <td class="<%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
                               <%= simple_format(feedback.public_send(header)) %>
                             </td>
                         <% end %>
@@ -66,7 +66,7 @@
 
     <section class="sections" id="heading<%= @review.headings.count  %>">
       <h2>Self-Assessment</h2>
-      <table>
+      <table class="review-table">
         <thead>
         <tr>
           <th>Date/Time</th>

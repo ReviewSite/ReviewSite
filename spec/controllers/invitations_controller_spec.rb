@@ -157,7 +157,7 @@ describe InvitationsController do
 
     it "flashes a notification" do
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
-      flash[:notice].should == "Invitation has been deleted"
+      flash[:notice].should == "#{invitation.email}\'s invitation has been deleted."
     end
   end
 

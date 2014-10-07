@@ -326,10 +326,6 @@ describe "Review pages" do
 
   describe "delete invitation" do
     let!(:invite) { FactoryGirl.create(:invitation, review: review) }
-    # before do
-    #   new_review = FactoryGirl.create(:review)
-    #   new_review.invitations.create(email: "example@thoughtworks.com")
-    # end
 
     describe "as an admin" do
       before do
@@ -341,6 +337,7 @@ describe "Review pages" do
         page.should have_selector('.button.link', text: 'Delete Invitation')
         click_link "Delete Invitation"
         current_path.should == root_path
+        page.should have_selector('.flash-notice', text: 'bob@thoughtworks.com\'s invitation has been deleted.')
       end
     end
   end

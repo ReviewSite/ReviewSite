@@ -20,7 +20,16 @@
         <td><%= review.review_type %></td>
         <td><%= invitation.sent_date %></td>
         <td><%= review.feedback_deadline %></td>
-        <td><%= link_to "Start Feedback", new_review_feedback_path(review), class: "button link" %></td>
+        <td class="button-col">
+          <ul>
+            <li>
+              <%= link_to "Start Feedback", new_review_feedback_path(review), class: "button link" %>
+            </li>
+            <li>
+              <%= link_to "Decline invitation", review_invitation_path(review, invitation), class: "button link", :method => :delete %>
+            </li>
+          </ul>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,7 +1,7 @@
 table {
   border-collapse: collapse;
   margin: ($base-spacing / 2) 0;
-  table-layout: fixed;
+  table-layout: auto;
   width: 100%;
 }
 
@@ -29,7 +29,7 @@ td {
   text-align: center;
 
   a {
-    font-weight: bold;  
+    font-weight: bold;
   }
 }
 
@@ -37,4 +37,9 @@ tr,
 td,
 th {
   vertical-align: middle;
+}
+
+td.button-col {
+  width: 15%;
+  background-color: $brand-input-gray;
 }

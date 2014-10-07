@@ -28,7 +28,12 @@ body.reviews.summary tbody td {
   text-align: left;
 }
 
-
 #which-reviews {
   display: none;
+  margin-top: 20px;
+}
+
+#por-why {
+  font-weight: $bold;
+  cursor: pointer;
 }

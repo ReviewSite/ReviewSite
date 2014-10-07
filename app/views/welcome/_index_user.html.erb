@@ -2,32 +2,30 @@
 <%= render :partial => 'reviews/reviews' %>
 
 <% if current_user.reviewing_groups.present? or current_user.coachees.present? %>
-<div class="alert alert-info">
-  <p>
-    <a href="#" id ="por-why"><span class="label label-info">?</span> Why am I am seeing these reviews?</a>
+<div class="flash-primary">
+  <p id="por-why" class="link">
+    <i class="fa fa-question fa-border"></i> Why am I seeing these reviews?
   </p>
   <div id="which-reviews">
-    <p>You are seeing these reviews because:
-      <ul>
-        <% unless current_user.reviewing_groups.empty? %>
-        <li>
-          You are a member of the following reviewing groups: <%= list(current_user.reviewing_groups) %>
-        </li>
-        <% end %>
+    <ul>
+      <% unless current_user.reviewing_groups.empty? %>
+      <li>
+        You are a member of the following reviewing groups: <%= list(current_user.reviewing_groups) %>
+      </li>
+      <% end %>
 
-        <% unless current_user.coachees.empty? %>
-        <li>
-          You have the following coachees: <%= list(current_user.coachees.includes(:user)) %>
-        </li>
-        <% end %>
+      <% unless current_user.coachees.empty? %>
+      <li>
+        You have the following coachees: <%= list(current_user.coachees.includes(:user)) %>
+      </li>
+      <% end %>
 
-        <% unless current_user.associate_consultant.nil? || current_user.associate_consultant.reviews.empty? %>
-        <li>
-          You have reviews
-        </li>
-        <% end %>
-      </ul>
-    </p>
+      <% unless current_user.associate_consultant.nil? || current_user.associate_consultant.reviews.empty? %>
+      <li>
+        You have reviews
+      </li>
+      <% end %>
+    </ul>
   </div>
 
 </div>

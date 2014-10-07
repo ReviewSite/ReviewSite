@@ -40,3 +40,8 @@
   @extend %flash-base;
   @include flash($success-color);
 }
+
+.flash-primary {
+  @extend %flash-base;
+  @include flash($brand-primary);
+}

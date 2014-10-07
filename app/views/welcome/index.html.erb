@@ -1,6 +1,6 @@
 <% if signed_in? %>
 
-  <% if current_user.ac? %>
+  <% if current_user.ac? && !current_user.associate_consultant.graduated %>
     <h1>Your Upcoming Review</h1>
     <%= render :partial => 'welcome/index_ac' %>
     <% unless current_user.coachees.empty? %>

@@ -7,6 +7,8 @@ describe "Review pages" do
   let(:ac_user) { FactoryGirl.create(:user) }
   let(:ac) { FactoryGirl.create(:associate_consultant, coach: coach, :user => ac_user) }
   let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+  let(:review_with_invite) { FactoryGirl.create(:review, associate_consultant: ac, review_type: "6-Month") }
+  let(:invite) { FactoryGirl.create(:invitation, review: review_with_invite, email: "example@thoughtworks.com") }
   let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
   let(:inputs) { {
     'project_worked_on' => 'My Project',
@@ -320,7 +322,23 @@ describe "Review pages" do
       current_path.should == root_path
       page.should have_selector('.flash-success', text: 'An email with the details of the review was sent!')
     end
-
   end
 
+  describe "delete invitation" do
+    let!(:invite) { FactoryGirl.create(:invitation, review: review) }
+
+    describe "as an admin" do
+      before do
+        sign_in admin
+        visit review_path(review)
+      end
+
+      it "links to delete an invitation" do
+        page.should have_selector('.button.link', text: 'Delete Invitation')
+        click_link "Delete Invitation"
+        current_path.should == root_path
+        page.should have_selector('.flash-notice', text: 'bob@thoughtworks.com\'s invitation has been deleted.')
+      end
+    end
+  end
 end

@@ -44,6 +44,10 @@
     nil
   end
 
+  def delete_invite
+      review.invitations.delete(self)
+  end
+
   def sent_to?(user)
     return false if user.nil?
     user == self.user

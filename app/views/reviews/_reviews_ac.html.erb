@@ -15,18 +15,20 @@
     <tr>
       <td><%= review.review_type %></td>
       <td><%= review.review_date %></td>
-      <td><%= review.upcoming? ? "yes" : "" %></td>
-      <td>
+      <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
+      <td class="nowrap button-col">
         <% if review.upcoming? %>
-          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => 'send_invite_link' %>
+          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => "button link" %>
         <% end %>
       </td>
-      <td>
+      <td class="nowrap button-col">
         <% if review.upcoming? %>
-          <%= link_to 'Show Review Details', review %>
+          <%= link_to 'Show Review Details', review , :class => "button link" %>
         <% end %>
       </td>
-      <td><%= link_to 'Feedback Summary', summary_review_path(review) %></td>
+      <td class="nowrap button-col">
+        <%= link_to 'Feedback Summary', summary_review_path(review), :class => "button link" %>
+      </td>
     </tr>
 
   <% end %>

@@ -20,7 +20,7 @@
         <td><%= review.review_type %></td>
         <td><%= invitation.sent_date %></td>
         <td><%= review.feedback_deadline %></td>
-        <td class="button-col">
+        <td class="nowrap button-col">
           <ul>
             <li>
               <%= link_to "Start Feedback", new_review_feedback_path(review),
@@ -64,7 +64,7 @@
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
         <td><%= review.feedback_deadline %></td>
-        <td><%= link_to "Resume Feedback", edit_review_feedback_path(review, feedback), class: "button link" %></td>
+        <td class="nowrap button-col"><%= link_to "Resume Feedback", edit_review_feedback_path(review, feedback), class: "button link" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -91,7 +91,7 @@
         <td><%= review.review_type %></td>
         <td><%= completed.project_worked_on %></td>
         <td><%= completed.updated_at.to_date %></td>
-        <td>
+        <td class="nowrap button-col">
           <%= link_to "View Feedback",
             review_feedback_path(review, completed), class: "button link" %><br>
         </td>

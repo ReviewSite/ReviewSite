@@ -29,11 +29,12 @@
     aoColumnDefs: [
       { bSortable: false, aTargets: [ 4 ] },
       { sClass: "admin", aTargets: [3] },
-      { sClass: "ac", aTargets: [2] }
+      { sClass: "ac", aTargets: [2] },
+      { sClass: "nowrap button-col", aTargets: [4] }
     ],
     fnCreatedRow: function(nRow, aData, iDataIndex){
       var email = aData[1];
       $(nRow).attr('id', email.substr(0, email.indexOf('@')));
-    } 
+    }
   });
 </script>

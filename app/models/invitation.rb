@@ -11,7 +11,7 @@
                       case_sensitive: false,
                       scope: [:review_id],
                       message: "%{value} could not be invited -- Email already invited." }
-  validate :has_feedback
+  validate :has_no_feedback?
   validate :tw_email?
 
   def tw_email?
@@ -21,11 +21,10 @@
     end
   end
 
-  def has_feedback
-    review.feedbacks.each do |f|
-      if f.user == user
-        errors.add(:review, "#{user.email} has already given feedback for this review.")
-      end
+  def has_no_feedback?
+    if feedback
+      errors.clear
+      errors.add(:review, "#{user.email} has already given feedback for this review.")
     end
   end
 

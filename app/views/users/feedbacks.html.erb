@@ -23,10 +23,16 @@
         <td class="button-col">
           <ul>
             <li>
-              <%= link_to "Start Feedback", new_review_feedback_path(review), class: "button link" %>
+              <%= link_to "Start Feedback", new_review_feedback_path(review),
+                class: "button link" %>
             </li>
             <li>
-              <%= link_to "Decline invitation", review_invitation_path(review, invitation), class: "button link", :method => :delete %>
+              <%= link_to "Decline invitation",
+                review_invitation_path(review, invitation),
+                class: "button link",
+                method: :delete,
+                confirm: "Are you sure you want to decline "\
+                  "#{review.associate_consultant}'s feedback invitation?'"%>
             </li>
           </ul>
         </td>
@@ -86,7 +92,8 @@
         <td><%= completed.project_worked_on %></td>
         <td><%= completed.updated_at.to_date %></td>
         <td>
-          <%= link_to "View Feedback", review_feedback_path(review, completed), class: "button link" %><br>
+          <%= link_to "View Feedback",
+            review_feedback_path(review, completed), class: "button link" %><br>
         </td>
       </tr>
     <% end %>

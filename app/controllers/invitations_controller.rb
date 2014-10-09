@@ -27,9 +27,7 @@ class InvitationsController < ApplicationController
           for error in @invitation.errors.messages.values.flatten
             errors << error
           end
-        # elsif !email.include? "thoughtworks.com"
-           # errors << "#{email} could not be invited -- Not a ThoughtWorks Email."
-         end
+        end
       end
     end
 
@@ -65,7 +63,11 @@ class InvitationsController < ApplicationController
   def destroy
     invitation_email = @invitation.email
     @invitation.delete_invite
-    redirect_to root_path, notice: "#{invitation_email}\'s invitation has been deleted."
+    if (current_user.email == invitation_email)
+      redirect_to root_path, notice: "You have successfully declined #{@review.associate_consultant.user.name}'s feedback invitation."
+    else
+      redirect_to root_path, notice: "#{invitation_email}\'s invitation has been deleted."
+    end
   end
 
   def send_reminder

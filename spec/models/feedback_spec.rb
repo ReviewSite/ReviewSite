@@ -58,12 +58,21 @@ describe Feedback do
   end
 
   describe "submit_final" do
-    let(:review) { FactoryGirl.create(:review) }
-    subject { FactoryGirl.build(:feedback, id: 1, review: review) }
+    let(:coach) { FactoryGirl.create(:coach) }
+    let(:ac) { FactoryGirl.create(:associate_consultant, coach: coach) }
+    let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+    subject { FactoryGirl.build(:feedback, id: 1, review: review,
+      user: ac.user) }
 
     it "sends notification email" do
       UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
       UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
+      subject.submit_final
+    end
+
+    it "does not send notification email when coach does not exist" do
+      UserMailer.should_not_receive(:new_feedback_notification_coach)
+      subject.review.associate_consultant.coach = nil
       subject.submit_final
     end
 

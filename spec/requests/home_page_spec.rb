@@ -106,6 +106,24 @@ describe "Home page" do
           page.should have_selector("h1", text: "Upcoming Reviews")
         end
       end
+
+      describe "who has graduated", js: true do
+        before do
+          graduated_ac = FactoryGirl.create(:associate_consultant,
+            user: FactoryGirl.create(:user), graduated: true)
+          @ac_with_many_reviews.coach = graduated_ac.user
+          graduated_ac.user.coachees << @ac_with_many_reviews
+          sign_in graduated_ac.user
+        end
+
+        it "should show coachee reviews" do
+          page.should have_selector('h1', text: "UPCOMING REVIEWS")
+        end
+
+        it "should not see 'Your Upcoming Review'" do
+          page.should_not have_selector('h1', text: "YOUR UPCOMING REVIEW")
+        end
+      end
     end
 
     describe "as a coach", js: true do
@@ -117,5 +135,4 @@ describe "Home page" do
       end
     end
   end
-
 end

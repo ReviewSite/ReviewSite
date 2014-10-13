@@ -63,4 +63,11 @@ class UserMailer < ActionMailer::Base
     @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{invitation.email}>", :subject => "[ReviewSite] Please leave feedback for #{@ac.user.name}")
   end
+
+  def feedback_declined(invitation)
+    mail(
+      :to => "<#{invitation.reviewee.user.email}>",
+      :subject =>
+        "[ReviewSite] #{invitation.email} has declined your feedback request")
+  end
 end

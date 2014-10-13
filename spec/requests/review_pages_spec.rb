@@ -341,4 +341,55 @@ describe "Review pages" do
       end
     end
   end
+
+  describe "index" do
+    let(:user_with_reviews) { FactoryGirl.create(:user,
+      email: "testestest@thoughtworks.com") }
+    let!(:ac_with_four_reviews) { FactoryGirl.create(:associate_consultant,
+      user: user_with_reviews, graduated: true) }
+
+    describe "as a graduated ac" do
+      before do
+        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+          review_type: "6-Month")
+        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+          review_type: "12-Month")
+        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+          review_type: "18-Month")
+        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+          review_type: "24-Month")
+        sign_in ac_with_four_reviews.user
+        visit reviews_path
+      end
+
+      it "should show ac's review table" do
+        page.should have_selector('h1', text: 'My Reviews')
+      end
+
+      it "should show ac's reviews", js: true do
+        page.all('tr', text: "#{ac_with_four_reviews.user.name}").count.should == 4
+      end
+
+      describe "who's also a coach" do
+        let(:coachee) { FactoryGirl.create(:associate_consultant,
+          coach: ac_with_four_reviews.user) }
+
+          before do
+            FactoryGirl.create(:review, associate_consultant: coachee,
+              review_type: "6-Month")
+            FactoryGirl.create(:review, associate_consultant: coachee,
+              review_type: "12-Month")
+              visit reviews_path
+          end
+
+        it "should show the coachee(s)' review table" do
+          page.should have_selector('h1', text: "Viewing All Reviews")
+        end
+
+        it "should show the coachee's reviews", js: true do
+          page.all('tr', text: "#{coachee.user.name}").count.should == 2
+        end
+      end
+    end
+  end
 end

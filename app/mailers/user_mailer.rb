@@ -65,6 +65,8 @@ class UserMailer < ActionMailer::Base
   end
 
   def feedback_declined(invitation)
+    @invitation = invitation
+    @review = invitation.review
     mail(
       :to => "<#{invitation.reviewee.user.email}>",
       :subject =>

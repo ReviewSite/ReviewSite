@@ -1,7 +1,8 @@
 <% if current_user.ac? %>
   <h1>My Reviews</h1>
   <%= render partial: 'reviews_ac' %>
-<% else %>
+<% end %>
+<% if !current_user.ac? || current_user.associate_consultant.graduated %>
   <h1>Viewing All Reviews</h1>
     <% if current_user.admin? %>
       <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'button' %></div>

@@ -288,7 +288,7 @@ describe ReviewsController do
     end
   end
 
-  describe "SEND EMAIL" do
+  describe "SEND email" do
     let(:admin_user) { FactoryGirl.create(:admin_user) }
     let(:user) { FactoryGirl.create(:user) }
     let(:ac) { FactoryGirl.create(:associate_consultant, :user => user) }

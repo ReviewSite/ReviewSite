@@ -49,11 +49,11 @@
 }
 
 
-tr.odd td.sorting_1, 
-tr.odd td.sorting_2, 
-tr.odd td.sorting_3, 
-tr.even td.sorting_1, 
-tr.even td.sorting_2, 
+tr.odd td.sorting_1,
+tr.odd td.sorting_2,
+tr.odd td.sorting_3,
+tr.even td.sorting_1,
+tr.even td.sorting_2,
 tr.even td.sorting_3 {
   background-color: $brand-input-gray;
 }
@@ -66,23 +66,10 @@ td ul li {
   clear: both;
 }
 
-.members-col {
-  width: 50% !important;
+.boolean-col {
+  width: 10%;
 }
 
-.name-col, .action-col {
-  width: 25% !important;
+.nowrap {
+  white-space: nowrap;
 }
-
-.reviewing-group-col, .reviewer-name-col {
-  width: 20% !important;
-}
-
-.associate-consultant-col, .action-small-col {
-  width: 15% !important;
-}
-
-.review-type-col, .review-date-col, .submitted-feedback-col, .boolean-col {
-  width: 10% !important;
-}
-

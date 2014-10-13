@@ -6,7 +6,7 @@
     <th class="review-type-col">Review Type</th>
     <th class="review-date-col">Review Date</th>
     <th class="submitted-feedback-col">Submitted<br/>Feedback</th>
-    <th></th>
+    <th class="action-small-col"></th>
   </tr>
   </thead>
   <tbody>
@@ -25,7 +25,9 @@
           sInfoFiltered: ""
         },
         aoColumnDefs: [
-          { bSortable: false, aTargets: [ 4, 5 ] }
+          { bSortable: false, aTargets: [ 4, 5 ] },
+          { sClass: "nowrap", aTargets: [ 0 ] },
+          { sClass: "nowrap button-col", aTargets: [ 5 ] }
         ]
     });
 </script>

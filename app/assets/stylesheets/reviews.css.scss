@@ -5,15 +5,6 @@
 
 
 // I want to delete this stuff
-#reviews-summary {
-  height: 100%;
-  overflow: auto;
-}
-
-#reviews td {
-  white-space: nowrap;
-}
-
 .new_feedback_link {
   color: blue;
   &:visited {
@@ -28,7 +19,6 @@
 .caption-font {
   width: 25%;
   word-wrap: break-word;
-  diplay: inline-block;
   border: 1px solid black;
 }
 
@@ -276,5 +266,3 @@
     padding-bottom: 20px;
   }
 }
-
-

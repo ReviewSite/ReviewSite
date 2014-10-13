@@ -11,9 +11,9 @@
   <tbody>
   <% @reviewing_groups.each do |reviewing_group| %>
       <tr>
-        <td><%= reviewing_group.name %></td>
+        <td class="nowrap"><%= reviewing_group.name %></td>
         <td><%= list(reviewing_group.users) %></td>
-        <td>
+        <td class="nowrap button-col">
           <ul>
             <li><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group), class: "button link" %></li>
             <li><%= link_to 'Delete', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' }, class: "button link" %></li>

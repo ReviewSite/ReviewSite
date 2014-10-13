@@ -20,32 +20,34 @@
         <%= feedback.invitation.sent_date %>
       <% end %>
       </td>
-      <% if feedback.submitted %>
-          <td>Submitted</td>
-      <% else %>
-          <td>Not Submitted</td>
-      <% end %>
-      <td>
-        <ul>
-            <% if (not feedback.submitted?) and (not feedback.is_additional) %>
-              <li> <%= link_to 'Send Reminder',
-                  send_reminder_review_feedback_path(feedback.review, feedback),
-                  data: {confirm: "This will send an email to #{feedback.user.email}.\nAre you sure you want to?"}, method: :post, class: "button link" %></li>
-            <% end %>
-            <%  if can? :submit, feedback %>
-              <li> <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link" %></li>
-                <% elsif can? :unsubmit, feedback %>
-                  <li> <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link"  %></li>
-            <% end %>
-            <% if can? :edit, feedback %>
-              <li> <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "button link" %></li>
-            <% end %>
-            <% if can? :show, feedback %>
-              <li><%= link_to 'Show', [feedback.review, feedback], class: "button link" %></li>
-            <% end %>
-          </ul>
-          </td>
 
+      <td class="nowrap">
+        <% if feedback.submitted %>
+            Submitted
+        <% else %>
+            Not Submitted
+        <% end %>
+      </td>
+      <td class="nowrap button-col">
+        <ul>
+          <% if (not feedback.submitted?) and (not feedback.is_additional) %>
+            <li> <%= link_to 'Send Reminder',
+                send_reminder_review_feedback_path(feedback.review, feedback),
+                data: {confirm: "This will send an email to #{feedback.user.email}.\nAre you sure you want to?"}, method: :post, class: "button link" %></li>
+          <% end %>
+          <%  if can? :submit, feedback %>
+            <li> <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link" %></li>
+              <% elsif can? :unsubmit, feedback %>
+            <li> <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link"  %></li>
+          <% end %>
+          <% if can? :edit, feedback %>
+            <li> <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "button link" %></li>
+          <% end %>
+          <% if can? :show, feedback %>
+            <li><%= link_to 'Show', [feedback.review, feedback], class: "button link" %></li>
+          <% end %>
+        </ul>
+      </td>
     </tr>
   <% end %>
 
@@ -56,8 +58,8 @@
       <td></td>
       <td></td>
       <td><%= invitation.sent_date %></td>
-      <td>Not Started</td>
-      <td>
+      <td class="nowrap">Not Started</td>
+      <td class="nowrap button-col">
         <ul>
           <li><%= link_to 'Send Reminder',
                   send_reminder_review_invitation_path(invitation.review, invitation),
@@ -70,11 +72,10 @@
                   method: :delete, class: "button link" %>
           </li>
         </ul>
-                </td>
+      </td>
     </tr>
     <% end %>
   <% end %>
-
 
   </tbody>
 </table>

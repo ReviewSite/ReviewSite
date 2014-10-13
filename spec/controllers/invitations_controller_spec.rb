@@ -144,6 +144,8 @@ describe InvitationsController do
 
   describe "DELETE destroy" do
     let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
+    let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
+
     it "destroys the requested invitation" do
       expect do
         delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
@@ -158,6 +160,32 @@ describe InvitationsController do
     it "flashes a notification" do
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
       flash[:notice].should == "#{invitation.email}\'s invitation has been deleted."
+    end
+
+    it "flashes different notification on decline" do
+      set_current_user reviewer
+      delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
+      flash[:notice].should == "You have successfully declined #{review.associate_consultant.user}\'s feedback invitation."
+      set_current_user admin
+    end
+
+    it "send a notification email when reviewee deletes invitation" do
+      set_current_user reviewer
+
+      message = double(Mail::Message)
+      message.should_receive(:deliver)
+      UserMailer.stub!(:feedback_declined).and_return(message)
+      UserMailer.should_receive(:feedback_declined).with(invitation)
+
+      delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
+
+      set_current_user admin
+    end
+
+    it "otherwise does not send notification email" do
+      UserMailer.should_not_receive(:feedback_declined).with(invitation)
+      
+      delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
     end
   end
 

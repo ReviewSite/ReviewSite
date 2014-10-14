@@ -1,3 +1,8 @@
+@mixin focus {
+    border: 1px solid $brand-gray;
+    border-bottom: 2px solid $brand-gray;
+}
+
 form {
   margin-bottom: 0;
 }
@@ -42,7 +47,7 @@ select[multiple=multiple] {
   @include transition(border-color);
   background-color: $brand-input-gray;
   border-radius: $form-border-radius;
-  border: 2px solid $brand-input-gray;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: $base-border;
   box-shadow: $form-box-shadow;
   font-family: $form-font-family;
@@ -55,6 +60,7 @@ select[multiple=multiple] {
 
   &:focus {
     outline: none;
+    @include focus;
   }
 }
 
@@ -87,15 +93,19 @@ input[type="checkbox"] + label, input[type="radio"] + label {
 }
 
 select {
-  // @include appearance(none);
-  // border-radius: 0;
   margin-bottom: $base-spacing;
   width: 100%;
   height: 2.5em;
-  background-color: $brand-primary;
+  background-color: $brand-input-gray;
   border: 0;
-  color: white;
+  border-bottom: $base-border;
+  color: $brand-gray;
   font-weight: $light;
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid $brand-gray !important;
+  }
 }
 
 .field {

@@ -157,6 +157,23 @@ describe UserMailer do
     end
   end
 
+  describe "Feedback declined" do
+    let (:ac) { FactoryGirl.create(:associate_consultant) }
+    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+    let (:email) { "recipient@example.com" }
+    let (:invitation) { review.invitations.create(email: email) }
+
+    describe "email sent to AC" do
+      let (:mail) { UserMailer.feedback_declined(invitation) }
+
+      subject { mail }
+
+      its (:subject) { should == "[ReviewSite] recipient@example.com has "\
+        "declined your feedback request" }
+      its (:to) { should == [ac.user.email] }
+    end
+  end
+
 
   describe "Feedback reminder" do
     let (:ac) { FactoryGirl.create(:associate_consultant) }

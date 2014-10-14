@@ -79,5 +79,4 @@ jQuery (function () {
     $("#which-reviews").toggle();
   });
 
-
 });

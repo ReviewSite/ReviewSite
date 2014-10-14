@@ -2,6 +2,7 @@ ul.token-input-list {
   width: 100%;
   border: 0;
   background-color: $brand-input-gray;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: $base-border;
   font-size: $form-font-size;
   font-weight: $form-font-weight;
@@ -19,9 +20,11 @@ ul.token-input-list {
       background-color: $brand-input-gray;
     }
   }
-
 }
 
+ul.token-input-focused {
+  @include focus;
+}
 
 div.token-input-dropdown {
   font-family: $form-font-family;

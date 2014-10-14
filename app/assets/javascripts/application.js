@@ -79,5 +79,12 @@ jQuery (function () {
     $("#which-reviews").toggle();
   });
 
+  $("input").focus(function() {
+    $(this).addClass("focus");
+  });
+
+  $("input").focusout(function() {
+    $(this).removeClass("focus");
+  });
 
 });

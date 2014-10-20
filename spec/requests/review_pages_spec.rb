@@ -60,7 +60,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(admin))
 
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
@@ -83,7 +83,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self-assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(ac.user))
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
         inputs.values do |value|
@@ -124,7 +124,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(coach))
 
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
@@ -254,7 +254,7 @@ describe "Review pages" do
       it { should_not have_selector('td', text: 'Not') }
 
       it "links to show feedback" do
-        click_link "Show"
+        page.find(".fa-eye").click
         current_path.should == review_feedback_path(review, feedback)
       end
 
@@ -332,8 +332,7 @@ describe "Review pages" do
       end
 
       it "links to delete an invitation" do
-        page.should have_selector('.button.link', text: 'Delete Invitation')
-        click_link "Delete Invitation"
+        page.find(".fa-trash").click
         current_path.should == root_path
         page.should have_selector('.flash-notice', text: 'bob@thoughtworks.com\'s invitation has been deleted.')
       end

@@ -4,9 +4,9 @@
 
 <table class="datatable">
   <thead>
-  <th class="reviewing-group-col">Name</th>
-  <th class="members-col">Members</th>
-  <th class="action-small-col"></th>
+  <th>Name</th>
+  <th>Members</th>
+  <th></th>
   </thead>
   <tbody>
   <% @reviewing_groups.each do |reviewing_group| %>
@@ -15,8 +15,8 @@
         <td><%= list(reviewing_group.users) %></td>
         <td class="nowrap button-col">
           <ul>
-            <li><%= link_to 'Edit', edit_reviewing_group_path(reviewing_group), class: "button link" %></li>
-            <li><%= link_to 'Delete', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' }, class: "button link" %></li>
+            <li><%= link_to '', edit_reviewing_group_path(reviewing_group), class: "fa fa-pencil fa-lg fa-fw" %></li>
+            <li><%= link_to '', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash fa-lg fa-fw" %></li>
           </ul>
         </td>
       </tr>

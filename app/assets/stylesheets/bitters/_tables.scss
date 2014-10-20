@@ -40,6 +40,11 @@ th {
 }
 
 td.button-col {
-  width: 15%;
+  width: 10%;
   background-color: $brand-input-gray;
+}
+
+td.button-col li {
+  padding-left: 5px;
+  padding-right: 5px;
 }

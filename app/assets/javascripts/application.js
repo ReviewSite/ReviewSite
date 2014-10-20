@@ -79,4 +79,6 @@ jQuery (function () {
     $("#which-reviews").toggle();
   });
 
+  $('.sidenav a[href^="' + location.pathname + '"]').first().parent().addClass("active");
+
 });

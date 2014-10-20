@@ -1,0 +1,43 @@
+<div class="sidenav">
+  <ul>
+    <li class="header">Manage Review</li>
+            
+    <% if can? :read, review %>
+    <li><%= link_to "Track Feedback Progress", review %></li>
+    <% end %>
+
+    <% if can? :summary, review %>
+    <li><%= link_to "Feedback Summary", summary_review_path(review) %></li>
+    <% end %>
+
+    <% if can? :create, Invitation %>
+    <li><%= link_to "Request Feedback", new_review_invitation_path(review) %></li>
+    <% end %>
+
+    <% if can? :create, SelfAssessment %>
+      <% if review.self_assessments.count > 0 %>
+      <li><%= link_to "Update Self-Assessment", edit_review_self_assessment_path(review, review.self_assessments.first) %></li>
+                                
+      <% else %>
+      <li><%= link_to "Submit Self-Assessment", new_review_self_assessment_path(review) %></li>
+      <% end %>
+    <% end %>
+                                                                                                    
+    <% if can? :create_additional, Feedback %>
+    <li><%= link_to "Submit Feedback Manually", additional_review_feedbacks_path(review) %></li>
+    <% end %>
+
+    <li>
+      <%= link_to url_for(:action => "summary", :controller => "reviews", :id => review, :format => "xlsx"), id:"export_to_excel" do %> 
+          Export to <%= image_tag("excel_icon.gif", :class => "excel-image") %>
+      <% end %>
+    </li>
+
+    <% if current_user.admin? %>
+      <li class="header">Admin Panel</li>
+      <li><%= link_to "Email Review Info", send_email_review_path(@review), remote: true %></li>
+      <li><%= link_to "Edit Review Details", edit_review_path(@review), id: "review_edit" %></li>
+      <li><%= link_to "Delete Review", @review, method: :delete, data: { confirm: "Are you sure you want to delete this review? This will also delete all associated feedback." }, id: "review_destroy" %></li>
+    <% end %>
+  </ul>
+</div>

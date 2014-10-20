@@ -43,16 +43,9 @@ describe "Home page" do
           subject.should have_selector("table#reviews td", text: "1 / 1")
         end
 
-        it "links to review summary page" do
-          within("table#reviews") do
-            click_link 'Feedback Summary'
-          end
-          current_path.should == summary_review_path(review)
-        end
-
         it "links to review show page" do
           within("table#reviews") do
-            click_link "Show Review"
+            page.find(".fa-eye").click
           end
           current_path.should == review_path(review)
         end
@@ -79,7 +72,7 @@ describe "Home page" do
       end
 
       it "links to review summary page" do
-        click_link 'View Summary'
+        click_link 'Feedback Summary'
         current_path.should == summary_review_path(@upcoming_review)
       end
 
@@ -92,9 +85,9 @@ describe "Home page" do
 
       it "should only show the most recent review" do
         @ac_with_many_reviews.reviews.count.should eq(3)
-        page.should have_selector("h2", text: @upcoming_review.review_type.titleize)
-        page.should_not have_selector("h2", text: @latest_review.review_type.titleize)
-        page.should_not have_selector("h2", text: @first_review.review_type.titleize)
+        page.should have_selector("h1", text: "Your Upcoming Review")
+        page.should_not have_selector("h1", text: @latest_review.review_type.upcase)
+        page.should_not have_selector("h1", text: @first_review.review_type.upcase)
       end
 
       describe "who is also a coach" do
@@ -130,6 +123,7 @@ describe "Home page" do
       before { sign_in coach }
 
       it "links to review summary page" do
+        page.find(".fa-eye").click
         click_link 'Feedback Summary'
         current_path.should == summary_review_path(review)
       end

@@ -1,6 +1,10 @@
 <% provide :title, 'Request Feedback' %>
 <h1>Request Feedback</h1>
+<h2><%= @review.pretty_print_with(current_user) %></h2>
 
+<div class="container">
+  <%= render :partial => "reviews/sidenav", :locals => { :review => @review } %>
+  <div class="main-content">
 <section class="form-container">
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
   <p><%= label_tag :no_email, class:"checkbox" do %>
@@ -33,7 +37,8 @@ Deadline: #{@review.feedback_deadline}
   <%= submit_tag "Send Request" %>
 <% end %>
 </section>
-
+</div>
+</div>
 
 <script>
 $(document).ready(function($) {

@@ -1,5 +1,9 @@
-<h2><%= @review %></h2>
+<h2><%= @review.pretty_print_with(current_user) %></h2>
 
+<div class="container">
+  <%= render :partial => "reviews/sidenav", :locals => { :review => @review } %>
+
+  <div class="main-content">
 <section class="form-container">
 <%= form_for([@review, @self_assessment]) do |f| %>
   <% if @self_assessment.errors.any? %>
@@ -23,3 +27,5 @@
   </div>
 <% end %>
 </section>
+<div>
+</div>

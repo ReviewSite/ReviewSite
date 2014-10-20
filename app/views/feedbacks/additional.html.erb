@@ -1,2 +1,2 @@
-<h1><%= @review %> - ADDITIONAL Feedback</h1>
+<h1><%= @review.pretty_print_with(current_user) %> - ADDITIONAL Feedback</h1>
 <%= render :partial => 'form', :locals => {:additional => true} %>

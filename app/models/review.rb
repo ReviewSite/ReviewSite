@@ -159,7 +159,15 @@ class Review < ActiveRecord::Base
   end
 
   def to_s
-    "#{associate_consultant.user.name}'s #{review_type} Review"
+    self.pretty_print_with(nil)
+  end
+
+  def pretty_print_with(user)
+    if !user.nil? && user == associate_consultant.user
+      "Your #{review_type} Review"
+    else
+      "#{associate_consultant.user.name}'s #{review_type} Review"
+    end
   end
 
   def has_existing_feedbacks?

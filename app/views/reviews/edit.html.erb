@@ -1,4 +1,10 @@
 <h1>Editing <%= @review %></h1>
 
+<div class="container">
+  <%= render :partial => "sidenav", :locals => { :review => @review } %>
+
+  <div class="main-content">
 <% button_title = 'Save Changes' %>
 <%= render :partial => 'form', :locals => {button_title: button_title} %>
+</div>
+</div>

@@ -41,6 +41,7 @@ class UsersController < ApplicationController
       end
 
     else
+      @user.build_associate_consultant
       render 'new'
     end
   end

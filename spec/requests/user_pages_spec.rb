@@ -102,7 +102,7 @@ describe "User pages: " do
 
         visit user_path(nonadmin)
         page.should have_selector("#isAC", text: 'true')
-        page.should have_selector("#program-start-date", text: "2014-07-08")
+        page.should have_selector("#program-start-date", text: "Jul. 08, 2014")
       end
     end
   end
@@ -290,14 +290,14 @@ describe "User pages: " do
 
       it "should link to show", js: true do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "View Profile"
+          page.find(".fa-eye").click
           current_path.should == user_path(user)
         end
       end
 
       it "should link to edit", js: true do
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Edit"
+          page.find(".fa-pencil").click
           current_path.should == edit_user_path(user)
         end
       end
@@ -305,7 +305,7 @@ describe "User pages: " do
       it "should link to destroy", js: true do
         page.evaluate_script('window.confirm = function() { return true; }')
         within(:xpath, '//tr[contains(.//td/text(), "Andy")]') do
-          click_link "Delete"
+          page.find(".fa-trash").click
           current_path.should == users_path
         end
         page.should have_selector('.flash-success', text: 'User deleted.')
@@ -345,8 +345,8 @@ describe "User pages: " do
         page.should have_selector('#feedbacks td', text: review.review_type)
         page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#feedbacks td a', text: "Resume Feedback")
-        click_link "Resume Feedback"
+        page.should have_selector('#feedbacks td .fa-pencil')
+        page.find(".fa-pencil").click
         current_path.should == edit_review_feedback_path(review, feedback)
       end
 
@@ -359,8 +359,8 @@ describe "User pages: " do
         page.should have_selector('#completeds td', text: review.review_type)
         page.should have_selector('#completeds td', text: feedback.project_worked_on)
         page.should have_selector('#completeds td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#completeds td a', text: "View")
-        click_link "View Feedback"
+        page.should have_selector('#completeds td .fa-eye')
+        page.find(".fa-eye").click
         current_path.should == review_feedback_path(review, feedback)
       end
     end

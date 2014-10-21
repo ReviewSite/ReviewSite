@@ -31,9 +31,9 @@ class UsersDatatable
           user.admin ? 'yes' : '',
 
           h("<ul>
-              <li>#{(link_to('View Profile', user, class: "button link") unless cannot? :read, user)}</li>
-              <li>#{(link_to('Edit', url_helpers.edit_user_path(user), class: "button link") unless cannot? :edit, user)}</li>
-              <li>#{(link_to('Delete', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "button link") unless cannot? :destroy, user)}</li>
+              <li>#{(link_to('', user, class: "fa fa-eye fa-lg fa-fw") unless cannot? :read, user)}</li>
+              <li>#{(link_to('', url_helpers.edit_user_path(user), class: "fa fa-pencil fa-lg fa-fw") unless cannot? :edit, user)}</li>
+              <li>#{(link_to('', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash fa-lg fa-fw") unless cannot? :destroy, user)}</li>
           </ul>".html_safe)
       ]
     end

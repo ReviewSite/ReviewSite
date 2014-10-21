@@ -15,14 +15,16 @@
 @import "bitters/base";
 @import "neat";
 
-// MIXINS
-
 // COMPONENTS
 @import "containers";
 @import "navigation";
 @import "footer";
 @import "dev-panel";
-@import "debug-dump";
+@import "icons";
+@import "feedback-form";
+@import "form-errors";
+@import "sidenav";
+
 
 // VENDOR COMPONENTS
 @import "bootstrap-datepicker3";
@@ -37,9 +39,6 @@
 
 // PAGE LAYOUTS
 // if possible, these should be broken up into component partials
-@import "feedback-form";
-
 @import "welcome";
 @import "reviews";
-@import "scaffolds";
 @import "custom";

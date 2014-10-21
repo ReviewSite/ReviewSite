@@ -1,2 +1,3 @@
-<h1>Review Details</h1>
+<h1><%= @review.pretty_print_with(current_user) %></h1>
+<h2>Review Date: <%= @review.review_date %></h2>
 <%= render @review %>

@@ -3,31 +3,6 @@ body {
   font-weight: $light;
 }
 
-.improvement_text {
-  color:#09f;
-}
-
-.exceed_text {
-  color:#3CC929;
-}
-
-body.reviews.summary thead {
-  background-color: lightgray;
-}
-
-body.reviews.summary th {
-  padding: 10px 18px;
-}
-
-body.reviews.summary tbody tr {
-  border-bottom: 1px dashed grey;
-}
-
-body.reviews.summary tbody td {
-  padding: 20px 10px;
-  text-align: left;
-}
-
 #which-reviews {
   display: none;
   margin-top: 20px;

@@ -25,17 +25,12 @@ class ReviewsDatatable
   def data
     reviews.map do |review|
       [
-          h(review.associate_consultant.reviewing_group),
+          # h(review.associate_consultant.reviewing_group),
           h(review.associate_consultant.user.name),
           h(review.review_type),
           h(review.review_date),
-          h("#{review.feedbacks.where(:submitted => true).count} / #{review.feedbacks.count}"),
-          h("<ul>
-              <li>#{(link_to('Email Review Info', url_helpers.send_email_review_path(review),
-                   remote: true, class: "send_email_link button link") unless cannot? :send_email, Review)}</li>
-              <li>#{(link_to('Show Review', review, class: "button link") unless cannot? :read, review)}</li>
-              <li>#{(link_to('Feedback Summary', url_helpers.summary_review_path(review), class: "button link") unless cannot? :summary, review)}</li>
-            </ul>".html_safe)
+          # h("#{review.feedbacks.where(:submitted => true).count} / #{review.feedbacks.count}"),
+          (link_to('', review, class: "fa fa-eye fa-lg"))
       ]
     end
   end
@@ -64,7 +59,7 @@ class ReviewsDatatable
   end
 
   def sort_column
-    columns = %w[reviewing_groups.name users.name review_date review_date feedback_deadline] # col[n] order_by
+    columns = %w[users.name review_date review_date feedback_deadline] # col[n] order_by
     columns[params[:iSortCol_0].to_i]
   end
 

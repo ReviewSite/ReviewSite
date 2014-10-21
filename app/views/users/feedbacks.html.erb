@@ -1,13 +1,15 @@
 <% provide(:title, "Feedback Requests") %>
 
-<h1>New Invitations</h1>
+<h1>Feedback Requests</h1>
+<h2>New Invitations</h2>
 
+<div class="form-container">
 <table id="invitations">
   <thead>
     <tr>
       <th>Reviewee</th>
       <th>Review Type</th>
-      <th>Invitation Sent</th>
+      <th>Invite Sent</th>
       <th>Feedback Deadline</th>
       <th></th>
     </tr>
@@ -23,13 +25,13 @@
         <td class="nowrap button-col">
           <ul>
             <li>
-              <%= link_to "Start Feedback", new_review_feedback_path(review),
-                class: "button link" %>
+              <%= link_to "", new_review_feedback_path(review),
+                class: "fa fa-play fa-lg fa-fw" %>
             </li>
             <li>
-              <%= link_to "Decline invitation",
+              <%= link_to "",
                 review_invitation_path(review, invitation),
-                class: "button link",
+                class: "fa fa-trash fa-lg fa-fw",
                 method: :delete,
                 confirm: "Are you sure you want to decline "\
                   "#{review.associate_consultant}'s feedback invitation?'"%>
@@ -40,16 +42,19 @@
     <% end %>
   </tbody>
 </table>
-<br>
-<h1>Unfinished Feedback</h1>
+</div>
 
+<br>
+<h2>Unfinished Feedback</h2>
+
+<div class="form-container">
 <table id="feedbacks">
   <thead>
     <tr>
       <th>Reviewee</th>
       <th>Review Type</th>
-      <th>Project worked on</th>
-      <th>Date Updated</th>
+      <th>Project</th>
+      <th>Updated</th>
       <th>Deadline</th>
       <th></th>
     </tr>
@@ -64,20 +69,23 @@
         <td><%= feedback.project_worked_on %></td>
         <td><%= feedback.updated_at.to_date %></td>
         <td><%= review.feedback_deadline %></td>
-        <td class="nowrap button-col"><%= link_to "Resume Feedback", edit_review_feedback_path(review, feedback), class: "button link" %></td>
+        <td class="nowrap button-col"><%= link_to "", edit_review_feedback_path(review, feedback), class: "fa fa-pencil fa-lg fa-fw" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<br>
-<h1>Completed Feedback</h1>
+</div>
 
+<br>
+<h2>Completed Feedback</h2>
+
+<div class="form-container">
 <table id="completeds">
   <thead>
     <tr>
       <th>Reviewee</th>
       <th>Review Type</th>
-      <th>Project worked on</th>
+      <th>Project</th>
       <th>Date Finished</th>
       <th></th>
     </tr>
@@ -92,13 +100,14 @@
         <td><%= completed.project_worked_on %></td>
         <td><%= completed.updated_at.to_date %></td>
         <td class="nowrap button-col">
-          <%= link_to "View Feedback",
-            review_feedback_path(review, completed), class: "button link" %><br>
+          <%= link_to "",
+            review_feedback_path(review, completed), class: "fa fa-eye fa-lg fa-fw" %><br>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+</div>
 
 <br class="spacer" />
 <br class="spacer" />

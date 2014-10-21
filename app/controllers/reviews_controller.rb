@@ -93,7 +93,7 @@ class ReviewsController < ApplicationController
     UserMailer.review_creation(@review).deliver
     flash[:success] = "An email with the details of the review was sent!"
 
-    render :js => "window.location = '#{root_path}'"
+    render :js => "window.location = '#{review_path}'"
   end
 
   private

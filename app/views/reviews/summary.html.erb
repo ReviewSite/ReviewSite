@@ -1,32 +1,22 @@
-<div class="content-container">
-  <div id="review-categories" class="bs-docs-sidebar">
-    <ul class="nav nav-list bs-docs-sidenav affix">
-      <% @review.headings.each_with_index do |heading, index| %>
-        <li><a href="#heading<%= index %>"><%= heading %></a></li>
-      <% end %>
-      <li><a href="#heading<%= @review.headings.count %>" class="jump">Self-Assessment</a></li>
-      <li>
-        <%= link_to url_for(:format => 'xlsx'), id:"export_to_excel" do%>
-            <p>Export to <%= image_tag('excel_icon.gif', :class => "excel-image") %></p>
-        <% end %>
-      </li>
-    </ul>
-  </div>
+<h1>Feedback Summary</h1>
+<h2><%= @review.pretty_print_with(current_user) %></h2>
 
-  <div class="summary">
-    <h1>Feedback Summary for <%= @review %></h1>
+<div class="container">
+  <%= render :partial => "sidenav", :locals => { :review => @review } %>
+
+  <div class="main-content">
 
     <% @review.headings.each_with_index do |heading, index| %>
       <% header_group = @review.fields_for_heading(heading) %>
         <section class="sections" id="heading<%= index%>">
-          <h2><%= heading %></h2>
+          <h3><%= heading %></h3>
           <table class="review-table">
             <thead>
             <tr>
-              <th class="caption-font">Info</th>
+              <th>Info</th>
               <% header_group.each do |header| %>
                   <% if header.present? %>
-                      <th class="caption-font <%= 'improvement_text' if header.match("improve")%><%='exceed_text' if header.match("exceed") %>">
+                      <th>
                         <%= header.titleize %>
                       </th>
                   <% end %>
@@ -50,7 +40,7 @@
                     </td>
                     <% header_group.each do |header| %>
                         <% if header.present? %>
-                            <td class="<%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
+                            <td>
                               <%= simple_format(feedback.public_send(header)) %>
                             </td>
                         <% end %>
@@ -65,7 +55,7 @@
     <% end %>
 
     <section class="sections" id="heading<%= @review.headings.count  %>">
-      <h2>Self-Assessment</h2>
+      <h3>Self-Assessment</h3>
       <table class="review-table">
         <thead>
         <tr>

@@ -5,7 +5,7 @@
 
   input{
     display: inline-block;
-    width: 367px;
+    width: 300px;
     padding: 5px;
     margin: 0;
   }
@@ -13,7 +13,7 @@
 
 .dataTables_length {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 5px;
 
   select {
     height: initial;
@@ -27,6 +27,10 @@
 
 .dataTables_info {
   display: inline-block;
+}
+
+.dataTables_empty {
+  text-align: center;
 }
 
 .dataTables_paginate {
@@ -48,14 +52,48 @@
   cursor: pointer;
 }
 
+tr.odd {
+  background-color: $brand-input-gray;
+}
+
+tr.even {
+  background-color: lighten($brand-container-gray, 5%);
+}
 
 tr.odd td.sorting_1,
 tr.odd td.sorting_2,
-tr.odd td.sorting_3,
+tr.odd td.sorting_3 {
+  background-color: darken($brand-input-gray, 5%);
+}
+
 tr.even td.sorting_1,
 tr.even td.sorting_2,
 tr.even td.sorting_3 {
-  background-color: $brand-input-gray;
+  background-color: darken($brand-container-gray, 5%);
+}
+
+table.dataTable tbody tr:hover {
+  background-color: transparentize($brand-secondary, 0.7);
+
+  &.even td.sorting_1,
+  &.odd td.sorting_1 {
+    background-color: transparentize($brand-secondary, 0.7);
+  }
+}
+
+%sorting {
+  font-size: xx-small;
+  padding-left: 10px;
+}
+
+th.sorting_desc:after, th.sorting:after {
+  content: "\25BC";
+  @extend %sorting;
+}
+
+th.sorting_asc:after {
+  content: "\25B2";
+  @extend %sorting;
 }
 
 td ul li {
@@ -64,10 +102,6 @@ td ul li {
 
 .spacer {
   clear: both;
-}
-
-.boolean-col {
-  width: 10%;
 }
 
 .nowrap {

@@ -1,12 +1,12 @@
 <table class="feedback">
   <thead>
   <tr>
-    <th class="reviewer-name-col">Reviewer</th>
-    <th class="reviewer-name-col">Project worked on</th>
-    <th class="review-date-col">Date Updated</th>
-    <th class="review-date-col">Invitation Sent</th>
-    <th class="boolean-col">Status</th>
-    <th class="action-col"></th>
+    <th>Reviewer</th>
+    <th>Project</th>
+    <th>Invite Sent</th>
+    <th>Updated</th>
+    <th>Status</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -14,37 +14,38 @@
     <tr>
       <td><%= feedback.reviewer %></td>
       <td><%= feedback.project_worked_on %></td>
-      <td><%= feedback.updated_at.to_date %></td>
       <td>
       <% if feedback.invitation %>
         <%= feedback.invitation.sent_date %>
       <% end %>
       </td>
 
+      <td><%= feedback.updated_at.to_date %></td>
+      
       <td class="nowrap">
         <% if feedback.submitted %>
-            Submitted
+          <span class="fa fa-lock fa-fw"></span> Submitted
         <% else %>
-            Not Submitted
+          <span class="fa fa-unlock fa-fw"></span> Not Submitted
         <% end %>
       </td>
       <td class="nowrap button-col">
         <ul>
           <% if (not feedback.submitted?) and (not feedback.is_additional) %>
-            <li> <%= link_to 'Send Reminder',
+            <li> <%= link_to '',
                 send_reminder_review_feedback_path(feedback.review, feedback),
-                data: {confirm: "This will send an email to #{feedback.user.email}.\nAre you sure you want to?"}, method: :post, class: "button link" %></li>
+                data: {confirm: "This will send a reminder email to #{feedback.user.email}.\nAre you sure you want to?"}, method: :post, class: "fa fa-send fa-lg fa-fw" %></li>
           <% end %>
           <%  if can? :submit, feedback %>
-            <li> <%= link_to 'Submit', submit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link" %></li>
+            <li> <%= link_to '', submit_review_feedback_path(feedback.review, feedback), method: :put, class: "fa fa-lock fa-lg fa-fw" %></li>
               <% elsif can? :unsubmit, feedback %>
-            <li> <%= link_to 'Unsubmit', unsubmit_review_feedback_path(feedback.review, feedback), method: :put, class: "button link"  %></li>
+            <li> <%= link_to '', unsubmit_review_feedback_path(feedback.review, feedback), method: :put, class: "fa fa-unlock fa-lg fa-fw"  %></li>
           <% end %>
           <% if can? :edit, feedback %>
-            <li> <%= link_to 'Edit', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "button link" %></li>
+            <li> <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw" %></li>
           <% end %>
           <% if can? :show, feedback %>
-            <li><%= link_to 'Show', [feedback.review, feedback], class: "button link" %></li>
+            <li><%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw" %></li>
           <% end %>
         </ul>
       </td>
@@ -58,18 +59,18 @@
       <td></td>
       <td></td>
       <td><%= invitation.sent_date %></td>
-      <td class="nowrap">Not Started</td>
+      <td class="nowrap"><span class="fa fa-lock fa-fw fa-hidden"></span> Not Started</td>
       <td class="nowrap button-col">
         <ul>
-          <li><%= link_to 'Send Reminder',
+          <li><%= link_to '',
                   send_reminder_review_invitation_path(invitation.review, invitation),
-                  data: {confirm: "This will send an email to #{invitation.email}.\nAre you sure you want to?"},
-                  method: :post, class: "button link" %>
+                  data: {confirm: "This will send a reminder email to #{invitation.email}.\nAre you sure you want to?"},
+                  method: :post, class: "fa fa-send fa-lg fa-fw" %>
           </li>
-          <li><%= link_to 'Delete Invitation',
+          <li><%= link_to '',
                   review_invitation_path(invitation.review, invitation),
                   data: {confirm: "Are you sure you want to delete your invitation to #{invitation.email}?"},
-                  method: :delete, class: "button link" %>
+                  method: :delete, class: "fa fa-trash fa-lg fa-fw" %>
           </li>
         </ul>
       </td>

@@ -1,0 +1,53 @@
+.sidenav {
+  @include span-columns(3);
+}
+
+.main-content {
+  @include span-columns(9);
+  @include omega();
+  margin-top: 30px;
+}
+
+.main-content :first-child {
+  margin-top: 0;
+  margin-left: 0;
+  max-width: 100%;
+}
+
+.sidenav ul {
+  margin: 30px 0 0;
+  padding: 0;
+}
+
+.sidenav li {
+  display: block;
+  margin: 0 0 -1px;
+  padding: 8px 14px;
+  border: 1px solid $brand-input-gray;
+}
+
+.sidenav li.header {
+  background-color: $brand-input-border;
+}
+
+.sidenav li:not(.header):not(.active):hover {
+  background-color: $brand-container-gray;
+  cursor: pointer;
+}
+
+.sidenav li.active {
+  background-color: $brand-mint;
+
+  a {
+    color: white;
+  }
+}
+
+.sidenav li.active:hover {
+  background-color: lighten($brand-mint, 5%);
+}
+
+.excel-image {
+  height: 25px;
+  vertical-align: top;
+}

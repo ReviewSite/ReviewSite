@@ -14,7 +14,7 @@
 
   <div class="field">
     <% if @review.persisted? %>
-      <%= f.label :associate_consultant_id %><br />
+      <%= f.label :associate_consultant_id %>
       <p class="help-text"><%= @review.associate_consultant.user.name %></p>
     <%else%>
       <%= f.label :associate_consultant_id %>

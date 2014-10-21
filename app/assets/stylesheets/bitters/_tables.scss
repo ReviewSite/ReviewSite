@@ -6,16 +6,15 @@ table {
 }
 
 thead {
-  background: $dark-gray;
+  background: $brand-secondary;
 }
 
 th {
-  padding: ($base-spacing / 2) 0;
+  padding: ($base-spacing / 2) 15px;
   text-align: left;
   font-size: 0.9em;
   font-weight: normal;
   color: $brand-container-gray;
-  text-align: center;
 }
 
 tbody {
@@ -24,9 +23,8 @@ tbody {
 }
 
 td {
-  border-bottom: $base-border;
   padding: ($base-spacing / 2) 15px;
-  text-align: center;
+  text-align: left;
 
   a {
     font-weight: bold;
@@ -40,6 +38,10 @@ th {
 }
 
 td.button-col {
-  width: 15%;
-  background-color: $brand-input-gray;
+  width: 4%;
+}
+
+td.button-col li {
+  padding-left: 5px;
+  padding-right: 5px;
 }

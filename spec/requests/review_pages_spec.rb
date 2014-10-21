@@ -60,7 +60,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(admin))
 
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
@@ -83,7 +83,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self-assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(ac.user))
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
         inputs.values do |value|
@@ -124,7 +124,7 @@ describe "Review pages" do
       end
 
       it "displays feedback and self assessment" do
-        page.should have_selector('h1', text: review.to_s)
+        page.should have_selector('h2', text: review.pretty_print_with(coach))
 
         page.should have_content(Date.today)
         page.should have_content(reviewer.name)
@@ -180,9 +180,8 @@ describe "Review pages" do
         new_review = Review.last
         current_path.should == review_path(new_review)
 
-        page.should have_selector('h2', text: new_review.review_type.titleize)
-        page.should have_selector('p', text: new_review.feedback_deadline)
-        page.should have_selector('p', text: new_review.review_date)
+        page.should have_selector('h1', text: new_review.review_type.upcase)
+        page.should have_selector('h2', text: new_review.review_date)
       end
     end
 
@@ -243,10 +242,10 @@ describe "Review pages" do
         visit review_path(review)
       end
 
-      it { should have_selector('h2', text: review.review_type.titleize) }
+      it { should have_selector('h1', text: review.review_type) }
       it { should have_selector('th', text: 'Reviewer') }
       it { should have_selector('th', text: 'Project') }
-      it { should have_selector('th', text: 'Date Updated') }
+      it { should have_selector('th', text: 'Updated') }
       it { should have_selector('th', text: 'Status')}
       it { should have_selector('td', text: reviewer.name) }
       it { should have_selector('td', text: inputs['project_worked_on']) }
@@ -255,7 +254,7 @@ describe "Review pages" do
       it { should_not have_selector('td', text: 'Not') }
 
       it "links to show feedback" do
-        click_link "Show"
+        page.find(".fa-eye").click
         current_path.should == review_feedback_path(review, feedback)
       end
 
@@ -276,12 +275,12 @@ describe "Review pages" do
    #   end
 
       it "links to additional feedback" do
-        click_link "Additional Feedback"
+        click_link "Submit Feedback Manually"
         current_path.should == additional_review_feedbacks_path(review)
       end
 
       it "links to view summary" do
-        click_link "View Summary"
+        click_link "Feedback Summary"
         current_path.should == summary_review_path(review)
       end
 
@@ -315,11 +314,10 @@ describe "Review pages" do
   describe "send email" do
     it "when 'send email' link is clicked", js: true do
       sign_in admin
-      visit root_path
+      visit review_path(review)
 
       UserMailer.should_receive(:review_creation).with(review).and_return(double(deliver: true))
       click_link "Email Review Info"
-      current_path.should == root_path
       page.should have_selector('.flash-success', text: 'An email with the details of the review was sent!')
     end
   end
@@ -334,8 +332,7 @@ describe "Review pages" do
       end
 
       it "links to delete an invitation" do
-        page.should have_selector('.button.link', text: 'Delete Invitation')
-        click_link "Delete Invitation"
+        page.find(".fa-trash").click
         current_path.should == root_path
         page.should have_selector('.flash-notice', text: 'bob@thoughtworks.com\'s invitation has been deleted.')
       end

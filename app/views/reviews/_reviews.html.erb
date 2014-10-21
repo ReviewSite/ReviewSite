@@ -1,17 +1,17 @@
+<div class="form-container">
 <table id="reviews" class="display" data-source="<%= reviews_url(format: "json") %>">
   <thead>
   <tr>
-    <th class="reviewing-group-col">Reviewing Group</th>
-    <th class="associate-consultant-col">Associate Consultant</th>
-    <th class="review-type-col">Review Type</th>
-    <th class="review-date-col">Review Date</th>
-    <th class="submitted-feedback-col">Submitted<br/>Feedback</th>
-    <th class="action-small-col"></th>
+    <th>Associate Consultant</th>
+    <th>Review Type</th>
+    <th>Review Date</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
   </tbody>
 </table>
+</div>
 
 <br class="spacer" />
 <br class="spacer" />
@@ -25,9 +25,9 @@
           sInfoFiltered: ""
         },
         aoColumnDefs: [
-          { bSortable: false, aTargets: [ 4, 5 ] },
+          { bSortable: false, aTargets: [ 3 ] },
           { sClass: "nowrap", aTargets: [ 0 ] },
-          { sClass: "nowrap button-col", aTargets: [ 5 ] }
+          { sClass: "nowrap button-col", aTargets: [ 3 ] }
         ]
     });
 </script>

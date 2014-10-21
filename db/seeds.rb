@@ -62,13 +62,11 @@
   def generate_review_with_feedbacks(id, review_type, review_date)
     review = Review.create({ associate_consultant_id: id, review_type: review_type, feedback_deadline: review_date, review_date: review_date })
 
-    3.times do
-      review.feedbacks.create({ user_id: @users.sample.id, attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+    review.feedbacks.create({ user_id: 100 - id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
                                 submitted: true })
-      review.feedbacks.create({ user_id: @users.sample.id, attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+    review.feedbacks.create({ user_id: id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
                                 submitted: false })
-      review.invitations.create({ email: @users.sample.email })
-    end
+    review.invitations.create({ email: @users.sample.email })
   end
 
   (6..85).to_a.each do |i|

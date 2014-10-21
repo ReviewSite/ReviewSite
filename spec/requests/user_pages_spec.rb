@@ -345,8 +345,8 @@ describe "User pages: " do
         page.should have_selector('#feedbacks td', text: review.review_type)
         page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
         page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#feedbacks td a', text: "Resume Feedback")
-        click_link "Resume Feedback"
+        page.should have_selector('#feedbacks td .fa-pencil')
+        page.find(".fa-pencil").click
         current_path.should == edit_review_feedback_path(review, feedback)
       end
 
@@ -359,8 +359,8 @@ describe "User pages: " do
         page.should have_selector('#completeds td', text: review.review_type)
         page.should have_selector('#completeds td', text: feedback.project_worked_on)
         page.should have_selector('#completeds td', text: feedback.updated_at.to_date.to_s)
-        page.should have_selector('#completeds td a', text: "View")
-        click_link "View Feedback"
+        page.should have_selector('#completeds td .fa-eye')
+        page.find(".fa-eye").click
         current_path.should == review_feedback_path(review, feedback)
       end
     end

@@ -16,7 +16,7 @@
               <th>Info</th>
               <% header_group.each do |header| %>
                   <% if header.present? %>
-                      <th class="<%= 'improvement_text' if header.match("improve")%><%='exceed_text' if header.match("exceed") %>">
+                      <th>
                         <%= header.titleize %>
                       </th>
                   <% end %>
@@ -40,7 +40,7 @@
                     </td>
                     <% header_group.each do |header| %>
                         <% if header.present? %>
-                            <td class="<%= 'improvement_text' if header.match("improve")  %><%= 'exceed_text' if header.match("exceed") %>">
+                            <td>
                               <%= simple_format(feedback.public_send(header)) %>
                             </td>
                         <% end %>

@@ -2,18 +2,20 @@
 
 <div class="new-review"><%= link_to 'New User', new_user_path, :class => 'button' %></div>
 
+<div class="form-container">
 <table id="users" class="datatable" data-source="<%= users_url(format: "json") %>">
   <thead>
-  <th class="name-col">Name</th>
-  <th class="name-col">Email</th>
-  <th class="boolean-col">AC</th>
-  <th class="boolean-col">Admin</th>
-  <th class="action-col"></th>
+  <th>Name</th>
+  <th>Email</th>
+  <th>AC</th>
+  <th>Admin</th>
+  <th></th>
   </thead>
   <tbody>
 
   </tbody>
 </table>
+</div>
 
 <br class="spacer" />
 

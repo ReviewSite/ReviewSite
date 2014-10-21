@@ -31,17 +31,9 @@ describe "Home page" do
 
       describe "supports ajax pagination", :js => true do
 
-        it {should have_selector("#reviews td", text: ac.reviewing_group.name) }
         it {should have_selector("table#reviews td", text: ac.user.name) }
         it {should have_selector("table#reviews td", text: review.review_type) }
         it {should have_selector("table#reviews td", text: review.review_date.to_s) }
-        it {should have_selector("table#reviews td", text: "0 / 1") }
-
-        it "updates submitted feedback count" do
-          feedback.update_attribute(:submitted, true)
-          visit root_path
-          subject.should have_selector("table#reviews td", text: "1 / 1")
-        end
 
         it "links to review show page" do
           within("table#reviews") do

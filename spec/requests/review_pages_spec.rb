@@ -245,7 +245,7 @@ describe "Review pages" do
       it { should have_selector('h1', text: review.review_type) }
       it { should have_selector('th', text: 'Reviewer') }
       it { should have_selector('th', text: 'Project') }
-      it { should have_selector('th', text: 'Date Updated') }
+      it { should have_selector('th', text: 'Updated') }
       it { should have_selector('th', text: 'Status')}
       it { should have_selector('td', text: reviewer.name) }
       it { should have_selector('td', text: inputs['project_worked_on']) }

@@ -75,7 +75,8 @@ $brand-container-border: #eee;
 
 // Site Primary Colors
 $brand-primary: $brand-blue;
-$brand-secondary: $brand-orange;
+$brand-complement: complement($brand-primary);
+$brand-secondary: $brand-pink;
 $brand-success: $brand-mint;
 $brand-warning: $brand-light;
 $brand-danger: $brand-red;

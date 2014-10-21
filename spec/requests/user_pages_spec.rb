@@ -102,7 +102,7 @@ describe "User pages: " do
 
         visit user_path(nonadmin)
         page.should have_selector("#isAC", text: 'true')
-        page.should have_selector("#program-start-date", text: "2014-07-08")
+        page.should have_selector("#program-start-date", text: "Jul. 08, 2014")
       end
     end
   end

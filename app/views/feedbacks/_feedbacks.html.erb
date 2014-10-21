@@ -2,9 +2,9 @@
   <thead>
   <tr>
     <th>Reviewer</th>
-    <th>Project worked on</th>
-    <th>Date Updated</th>
-    <th>Invitation Sent</th>
+    <th>Project</th>
+    <th>Invite Sent</th>
+    <th>Updated</th>
     <th>Status</th>
     <th></th>
   </tr>
@@ -14,18 +14,19 @@
     <tr>
       <td><%= feedback.reviewer %></td>
       <td><%= feedback.project_worked_on %></td>
-      <td><%= feedback.updated_at.to_date %></td>
       <td>
       <% if feedback.invitation %>
         <%= feedback.invitation.sent_date %>
       <% end %>
       </td>
 
+      <td><%= feedback.updated_at.to_date %></td>
+      
       <td class="nowrap">
         <% if feedback.submitted %>
-            Submitted
+          <span class="fa fa-lock fa-fw"></span> Submitted
         <% else %>
-            Not Submitted
+          <span class="fa fa-unlock fa-fw"></span> Not Submitted
         <% end %>
       </td>
       <td class="nowrap button-col">
@@ -58,7 +59,7 @@
       <td></td>
       <td></td>
       <td><%= invitation.sent_date %></td>
-      <td class="nowrap">Not Started</td>
+      <td class="nowrap"><span class="fa fa-lock fa-fw fa-hidden"></span> Not Started</td>
       <td class="nowrap button-col">
         <ul>
           <li><%= link_to '',

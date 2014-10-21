@@ -196,7 +196,7 @@ describe UserMailer do
 
       it "contains deadline message" do
         mail.body.encoded.should match(
-          "The deadline for leaving feedback is 2020-01-01."
+          "The deadline for leaving feedback is Jan. 01, 2020."
         )
       end
 
@@ -236,7 +236,7 @@ describe UserMailer do
 
       it "contains deadline message" do
         mail.body.encoded.should match(
-          "The deadline for leaving feedback is 2020-01-01."
+          "The deadline for leaving feedback is Jan. 01, 2020."
         )
       end
 

@@ -38,7 +38,7 @@ describe "Navbar" do
     it "should link to homepage" do
       visit signin_path
       within(".navigation") do
-        click_link "Home"
+        click_link "TW Review Site"
       end
       current_path.should == root_path
     end
@@ -82,7 +82,7 @@ describe "Navbar" do
     it "should link to homepage" do
       visit signin_path
       within(".navigation") do
-        click_link "Home"
+        click_link "TW Review Site"
       end
       current_path.should == root_path
     end
@@ -113,7 +113,7 @@ describe "Navbar" do
     it "should redirect to signup page via 'Home' link" do
       visit new_password_reset_path
       within(".navigation") do
-        click_link "Home"
+        click_link "TW Review Site"
       end
       current_path.should == signup_path
     end

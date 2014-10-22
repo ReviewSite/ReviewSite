@@ -8,7 +8,7 @@ module FeedbacksHelper
   def open_requests(user)
 
     invitations = []
-    Invitation.all.each do |invitation|
+    Invitation.includes(:review).each do |invitation|
       if invitation.sent_to?(current_user) and !invitation.feedback
         invitations << invitation
       end

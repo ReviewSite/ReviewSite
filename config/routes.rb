@@ -53,6 +53,7 @@ ReviewSite::Application.routes.draw do
   resources :users do
     get :get_users, :on => :collection
     get :feedbacks, :on => :member
+    get :completed_feedback, :on => :member
   end
 
   if ENV['OKTA-TEST-MODE']

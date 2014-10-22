@@ -24,6 +24,16 @@
     background-color: $brand-success;
   }
 
+  &.diet {
+    background-color: white;
+    border: 1px solid $base-border-color;
+    color: $brand-gray;
+  }
+
+  &.diet:hover {
+    background-color: $brand-input-gray;
+  }
+
   &.link {
     color: $brand-pink;
     background-color: transparent;

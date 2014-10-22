@@ -74,9 +74,13 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @invitations = Invitation.includes(:review, {:review => :associate_consultant}).select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
-    @feedbacks = current_user.feedbacks.where(submitted: false)
-    @completeds = current_user.feedbacks.where(submitted: true)
+    @invitations = Invitation.includes(:review, {:review => {:associate_consultant => :user}}).select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
+
+    @feedbacks = current_user.feedbacks.includes(:review).where(submitted: false)
+  end
+
+  def completed_feedback
+    @completeds = current_user.feedbacks.includes(:review, {:review => :associate_consultant}).where(submitted: true)
   end
 
   def get_users
@@ -87,7 +91,7 @@ class UsersController < ApplicationController
       flash[:alert] = "You are not authorized to view this page."
       return
     end
-    
+
     respond_to do |format|
       format.html
       format.json { render :json => @users.map{ |user| {:id => user.id, :name => user.name} } }

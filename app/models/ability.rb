@@ -31,7 +31,7 @@ class Ability
     can [:summary, :index, :read], Review, :associate_consultant => { :coach_id => user.id }
     can [:summary, :index, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
 
-    can [:update, :feedbacks], User, :id => user.id
+    can [:update, :feedbacks, :completed_feedback], User, :id => user.id
 
     # admin permissions
       if user.admin

@@ -5,5 +5,5 @@ require File.expand_path('../application', __FILE__)
 ReviewSite::Application.initialize!
 
 Date::DATE_FORMATS.merge!(
-  :default => "%b. %d, %Y"
+  :short_date => "%b. %d, %Y"
 )

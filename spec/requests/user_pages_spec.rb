@@ -73,6 +73,7 @@ describe "User pages: " do
 
         visit edit_user_path(nonadmin)
         page.find("#isac").trigger("click")
+        fill_in "Program start date", with: "2014-07-08"
         page.find("#user_associate_consultant_attributes_graduated", visible: true).trigger("click")
         select reviewing_group.name, from: "Reviewing group"
 
@@ -343,8 +344,8 @@ describe "User pages: " do
         visit feedbacks_user_path(reviewer)
         page.should have_selector('#feedbacks td', text: ac.user.name)
         page.should have_selector('#feedbacks td', text: review.review_type)
-        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s)
-        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s(:short_date))
+        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_s(:short_date))
         page.should have_selector('#feedbacks td .fa-pencil')
         page.find(".fa-pencil").click
         current_path.should == edit_review_feedback_path(review, feedback)
@@ -353,7 +354,7 @@ describe "User pages: " do
 
       it "displays the feedback with a 'View Feedback' action if submitted" do
         feedback.update_attribute(:submitted, true)
-        visit feedbacks_user_path(reviewer)
+        visit completed_feedback_user_path(reviewer)
 
         page.should have_selector('#completeds td', text: ac.user.name)
         page.should have_selector('#completeds td', text: review.review_type)

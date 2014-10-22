@@ -5,7 +5,7 @@ We would like to inform you that your <%== @review_type %> review has been set u
 You can invite peers to provide feedback and work on your self-assessment by clicking on the link:
 <%== review_url(@review) %>
 
-Your review is currently scheduled for <%== @review_date %>, and the deadline to submit feedback is <%== @feedback_deadline %>. Please make sure to collect feedback on time!
+Your review is currently scheduled for <%== @review_date.to_s(:short_date) %>, and the deadline to submit feedback is <%== @feedback_deadline.to_s(:short_date) %>. Please make sure to collect feedback on time!
 
 If you have any questions, feel free to post them in our myThoughtWorks group at <%== @my_tw_url %> or talk to your People Coach.
 

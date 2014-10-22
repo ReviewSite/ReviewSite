@@ -17,7 +17,7 @@ describe UsersController do
         okta_name: 'JoeCAS',
         admin: false,
         associate_consultant_attributes: {
-          program_start_date: '2014-07-08',
+          program_start_date: Date.new(2014,7,8),
           reviewing_group_id: FactoryGirl.create(:reviewing_group).id
         }
     }

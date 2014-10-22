@@ -5,8 +5,6 @@
     <th>Review Date</th>
     <th>Upcoming?</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -18,16 +16,8 @@
       <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
       <td class="nowrap button-col">
         <% if review.upcoming? %>
-          <%= link_to 'Invite Reviewer', new_review_invitation_path(review), :class => "button link" %>
+          <%= link_to '', review , :class => "fa fa-eye fa-lg fa-fw" %>
         <% end %>
-      </td>
-      <td class="nowrap button-col">
-        <% if review.upcoming? %>
-          <%= link_to 'Show Review Details', review , :class => "button link" %>
-        <% end %>
-      </td>
-      <td class="nowrap button-col">
-        <%= link_to 'Feedback Summary', summary_review_path(review), :class => "button link" %>
       </td>
     </tr>
 

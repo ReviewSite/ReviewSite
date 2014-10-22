@@ -25,11 +25,9 @@ class ReviewsDatatable
   def data
     reviews.map do |review|
       [
-          # h(review.associate_consultant.reviewing_group),
           h(review.associate_consultant.user.name),
           h(review.review_type),
-          h(review.review_date),
-          # h("#{review.feedbacks.where(:submitted => true).count} / #{review.feedbacks.count}"),
+          h(review.review_date.to_s(:short_date)),
           (link_to('', review, class: "fa fa-eye fa-lg"))
       ]
     end

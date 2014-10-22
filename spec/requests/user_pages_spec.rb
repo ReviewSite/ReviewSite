@@ -29,7 +29,7 @@ describe "User pages: " do
       end
 
       it { should have_selector('.flash-success', text: 'Profile updated') }
-      it { should have_link('Sign out', href: signout_path) }
+      it { should have_link('Sign Out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
     end

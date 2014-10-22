@@ -1,5 +1,5 @@
 <% provide :title, 'Request Feedback' %>
-<h1>Request Feedback</h1>
+<h1>Ask for Feedback</h1>
 <h2><%= @review.pretty_print_with(current_user) %></h2>
 
 <div class="container">
@@ -8,7 +8,7 @@
 <section class="form-container">
 <%= form_tag review_invitations_path(@review), method: "post" do |f| %>
   <p><%= label_tag :no_email, class:"checkbox" do %>
-    <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see the invitation when they log into the site.) &nbsp; &nbsp;<% end %></p>
+    <%= check_box_tag :no_email, "1" %> Do not send an email notification. (Your reviewer will still see a notification when they log in.)<% end %></p>
 
   <br/>
 <div class="field">
@@ -18,11 +18,11 @@
 </div>
 <div id="email_contents">
     <p><%= label_tag :subject, "Subject:" %>
-  <%= text_field_tag :subject, "[ReviewSite] You've been invited to give feedback for #{@ac.user.name}"  %></p>
+  <%= text_field_tag :subject, "[ReviewSite] You've been asked to give feedback for #{@ac.user.name}"  %></p>
 
     <p><%= label_tag :message, "Body:" %></p>
     <% @default_body = <<-EOM
-You have been invited to provide feedback. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
+You have been asked to provide feedback for #{@ac.user.name}. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
 Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
 Name: #{@review.associate_consultant}
@@ -34,7 +34,7 @@ Deadline: #{@review.feedback_deadline}
     <%= text_area_tag :message, @default_body %>
   
 </div>
-  <%= submit_tag "Send Request" %>
+  <%= submit_tag "Send" %>
 <% end %>
 </section>
 </div>

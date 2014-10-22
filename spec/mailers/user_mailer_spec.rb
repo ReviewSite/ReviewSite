@@ -49,8 +49,8 @@ describe UserMailer do
     end
 
     it 'contains the feedback deadline and review date' do
-      mail.body.encoded.should match("Your review is currently scheduled for #{review.review_date}")
-      mail.body.encoded.should match("the deadline to submit feedback is #{review.feedback_deadline}")
+      mail.body.encoded.should match("Your review is currently scheduled for #{review.review_date.to_s(:short_date)}")
+      mail.body.encoded.should match("the deadline to submit feedback is #{review.feedback_deadline.to_s(:short_date)}")
     end
   end
 

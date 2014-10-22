@@ -33,7 +33,7 @@ describe "Home page" do
 
         it {should have_selector("table#reviews td", text: ac.user.name) }
         it {should have_selector("table#reviews td", text: review.review_type) }
-        it {should have_selector("table#reviews td", text: review.review_date.to_s) }
+        it {should have_selector("table#reviews td", text: review.review_date.to_s(:short_date)) }
 
         it "links to review show page" do
           within("table#reviews") do
@@ -59,7 +59,7 @@ describe "Home page" do
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
-        click_link 'Request Feedback'
+        click_link 'Ask for Feedback'
         current_path.should == new_review_invitation_path(@upcoming_review)
       end
 

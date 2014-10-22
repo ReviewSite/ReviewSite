@@ -181,7 +181,7 @@ describe "Review pages" do
         current_path.should == review_path(new_review)
 
         page.should have_selector('h1', text: new_review.review_type.upcase)
-        page.should have_selector('h2', text: new_review.review_date)
+        page.should have_selector('h2', text: new_review.review_date.to_s(:short_date))
       end
     end
 
@@ -264,7 +264,7 @@ describe "Review pages" do
       # end
 
       it "links to invite reviewer" do
-        click_link "Request Feedback"
+        click_link "Ask for Feedback"
         current_path.should == new_review_invitation_path(review)
       end
 

@@ -1,0 +1,49 @@
+<% provide(:title, "Feedback Requests") %>
+
+<h1>Feedback Requests</h1>
+
+<div class="new-review">
+  <%= link_to "View Feedback in Progress", feedbacks_user_path(current_user), :class => "diet button" %>
+</div>
+
+<div class="form-container">
+<table id="completeds">
+  <thead>
+    <tr>
+      <th>Reviewee</th>
+      <th>Review Type</th>
+      <th>Project</th>
+      <th>Date Finished</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @completeds.each do |completed| %>
+      <% review = completed.review %>
+
+      <tr>
+        <td><%= review.associate_consultant %></td>
+        <td><%= review.review_type %></td>
+        <td><%= completed.project_worked_on %></td>
+        <td><%= completed.updated_at.to_date %></td>
+        <td class="nowrap button-col">
+          <%= link_to "",
+            review_feedback_path(review, completed), class: "fa fa-eye fa-lg fa-fw" %><br>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<script>
+  $('#completeds').dataTable({
+    bPaginate: false,
+    bInfo: false,
+    bFilter: false,
+    bLengthChange: false,
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [4] }
+    ]
+  });
+</script>

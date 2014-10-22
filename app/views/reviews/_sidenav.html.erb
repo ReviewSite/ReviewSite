@@ -11,7 +11,7 @@
     <% end %>
 
     <% if can? :create, Invitation %>
-    <li><%= link_to "Request Feedback", new_review_invitation_path(review) %></li>
+    <li><%= link_to "Ask for Feedback", new_review_invitation_path(review) %></li>
     <% end %>
 
     <% if can? :create, SelfAssessment %>

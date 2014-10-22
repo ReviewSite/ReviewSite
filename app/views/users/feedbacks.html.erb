@@ -1,16 +1,19 @@
 <% provide(:title, "Feedback Requests") %>
 
 <h1>Feedback Requests</h1>
-<h2>New Invitations</h2>
+
+<div class="new-review">
+  <%= link_to "View Completed Feedback", completed_feedback_user_path(current_user), :class => "diet button" %>
+</div>
 
 <div class="form-container">
-<table id="invitations">
+<table id="feedbacks">
   <thead>
     <tr>
       <th>Reviewee</th>
       <th>Review Type</th>
-      <th>Invite Sent</th>
-      <th>Feedback Deadline</th>
+      <th>Deadline</th>
+      <th>Last Updated</th>
       <th></th>
     </tr>
   </thead>
@@ -20,8 +23,8 @@
       <tr>
         <td><%= review.associate_consultant %></td>
         <td><%= review.review_type %></td>
-        <td><%= invitation.sent_date %></td>
-        <td><%= review.feedback_deadline %></td>
+        <td><%= review.feedback_deadline.to_s(:short_date) %></td>
+        <td><%= review.updated_at.to_s(:short_date) %></td>
         <td class="nowrap button-col">
           <ul>
             <li>
@@ -40,69 +43,16 @@
         </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
-</div>
 
-<br>
-<h2>Unfinished Feedback</h2>
-
-<div class="form-container">
-<table id="feedbacks">
-  <thead>
-    <tr>
-      <th>Reviewee</th>
-      <th>Review Type</th>
-      <th>Project</th>
-      <th>Updated</th>
-      <th>Deadline</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @feedbacks.includes(:review, {:review => :associate_consultant}).each do |feedback| %>
+    <% @feedbacks.each do |feedback| %>
       <% review = feedback.review %>
 
       <tr>
         <td><%= review.associate_consultant %></td>
         <td><%= review.review_type %></td>
-        <td><%= feedback.project_worked_on %></td>
-        <td><%= feedback.updated_at.to_date %></td>
-        <td><%= review.feedback_deadline %></td>
+        <td><%= review.feedback_deadline.to_s(:short_date) %></td>
+        <td><%= feedback.updated_at.to_s(:short_date) %></td>
         <td class="nowrap button-col"><%= link_to "", edit_review_feedback_path(review, feedback), class: "fa fa-pencil fa-lg fa-fw" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-</div>
-
-<br>
-<h2>Completed Feedback</h2>
-
-<div class="form-container">
-<table id="completeds">
-  <thead>
-    <tr>
-      <th>Reviewee</th>
-      <th>Review Type</th>
-      <th>Project</th>
-      <th>Date Finished</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @completeds.includes(:review, {:review => :associate_consultant}).each do |completed| %>
-      <% review = completed.review %>
-
-      <tr>
-        <td><%= review.associate_consultant %></td>
-        <td><%= review.review_type %></td>
-        <td><%= completed.project_worked_on %></td>
-        <td><%= completed.updated_at.to_date %></td>
-        <td class="nowrap button-col">
-          <%= link_to "",
-            review_feedback_path(review, completed), class: "fa fa-eye fa-lg fa-fw" %><br>
-        </td>
       </tr>
     <% end %>
   </tbody>
@@ -114,30 +64,6 @@
 
 <script>
   $('#feedbacks').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bLengthChange: false,
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [5] }
-    ]
-  });
-</script>
-
-<script>
-  $('#invitations').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bLengthChange: false,
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [4] }
-    ]
-  });
-</script>
-
-<script>
-  $('#completeds').dataTable({
     bPaginate: false,
     bInfo: false,
     bFilter: false,

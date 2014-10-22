@@ -9,7 +9,7 @@ To get started, please visit <%== new_review_feedback_url(@review) %>.
 <% end %>
 
 <% if @review.feedback_deadline >= Date.today %>
-The deadline for leaving feedback is <%== @review.feedback_deadline %>.
+The deadline for leaving feedback is <%== @review.feedback_deadline.to_s(:short_date) %>.
 <% else %>
 Even though the feedback deadline has passed, we would love to hear your thoughts.
 <% end %>

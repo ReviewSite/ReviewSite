@@ -12,8 +12,8 @@ describe "Signing in" do
       visit root_path
       current_path.should == root_path
       page.should have_content("Jennifer Doe")
-      page.should have_content('Sign out')
-      page.should_not have_content('Sign in')
+      page.should have_content('Sign Out')
+      page.should_not have_content('Sign In')
     end
   end
 
@@ -37,12 +37,12 @@ describe "Signing in" do
       visit signin_path
       fill_in 'Email', with: 'jdoe@thoughtworks.com'
       fill_in 'Password', with: 'password'
-      click_button 'Sign in'
+      click_button 'Sign In'
 
       current_path.should == root_path
       page.should have_content("Jennifer Doe")
-      page.should have_content('Sign out')
-      page.should_not have_content('Sign in')
+      page.should have_content('Sign Out')
+      page.should_not have_content('Sign In')
       page.should have_selector(".flash", text: "From now on, we will sign you in automatically via OKTA.")
 
       user.reload

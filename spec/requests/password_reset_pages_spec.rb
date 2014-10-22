@@ -8,6 +8,14 @@ describe "Password reset pages" do
   describe "Request password reset" do
     describe "request form" do
       before do
+        visit root_path
+
+        within "#okta-input" do
+          fill_in "temp-okta", with: "askjdh"
+          click_button "Change User"
+        end
+
+        click_button "Change User"
         visit signin_path
         click_link "Forgot password?"
       end
@@ -17,7 +25,7 @@ describe "Password reset pages" do
       describe "with invalid information" do
         before { click_button "Request Password Reset" }
 
-        it { should have_selector('h1', text:'Sign in') }
+        it { should have_selector('h1', text:'Sign In') }
         it { should have_selector('.flash-notice') }
       end
 
@@ -27,22 +35,24 @@ describe "Password reset pages" do
         it "should send email when form is submitted" do
           UserMailer.should_receive(:password_reset).with(user).and_return(double("mailer", :deliver => true))
           click_button "Request Password Reset"
+
+          should have_selector('h1', text:'Sign In')
+          should have_selector('.flash-notice')
         end
 
-        describe "directed to signin page" do
-          before { click_button "Request Password Reset" }
-          it { should have_selector('h1', text:'Sign in') }
-          it { should have_selector('.flash-notice') }
-        end
+        describe "when the user signs in" do
+          before do
+            click_button "Request Password Reset"
+          end
 
-        specify "user should still have original password" do
-          click_button "Request Password Reset"
-          visit signin_path
-          fill_in "Password", with: "password"
-          fill_in "Email", with: user.email
-          click_button "Sign in"
+          it "user should still have original password" do
+            fill_in "Password", with: "password"
+            fill_in "Email", with: user.email
+            click_button "Sign In"
 
-          page.should_not have_selector('.flash-error')
+            page.should_not have_selector('.flash-error')
+          end
+
         end
       end
     end

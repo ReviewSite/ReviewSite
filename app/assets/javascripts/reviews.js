@@ -20,7 +20,24 @@ jQuery(function () {
     $(this).text("Sent").addClass('improvement_text');
   });
 
-  $( document ).tooltip();
+  $( document ).tooltip({
+    position: {
+      my: "middle top",
+      at: "middle bottom+15"
+    },
+
+    show: {
+      duration: 100
+    },
+
+    hide: {
+      duration: 100
+    },
+
+    open: function(event, ui) {
+      ui.tooltip.prepend("<div class='tooltip-arrow'></div>");
+    }
+  });
 
   $("#review_review_date").change(function() {
     var date = new Date( $("#review_review_date").val() );

@@ -29,7 +29,9 @@
 
   <p id="program-start-date">
     <b>Program Start Date:</b>
-    <%= @user.associate_consultant.program_start_date.strftime(Date::DATE_FORMATS[:short_date]) %>
+    <% unless @user.associate_consultant.program_start_date.nil? %>
+      <%= @user.associate_consultant.program_start_date.strftime(Date::DATE_FORMATS[:short_date]) %>
+    <% end %>
   </p>
 
   <p id="notes">

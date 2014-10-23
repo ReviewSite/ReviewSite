@@ -53,6 +53,7 @@ describe User do
     it "should have one error" do
       user.valid?
       user.errors[:name].count.should == 1
+      user.errors.messages[:name].should include("can't be blank.")
     end
   end
 
@@ -63,6 +64,7 @@ describe User do
     it "should have one error" do
       user.valid?
       user.errors[:okta_name].count.should == 1
+      user.errors.messages[:okta_name].should include("can't be blank.")
     end
   end
 
@@ -73,8 +75,10 @@ describe User do
     it "should have one error" do
       user.valid?
       user.errors[:email].count.should == 1
+      user.errors.messages[:email].should include("can't be blank.")
     end
   end
+  
   describe "When name is too long" do
     before{user.name = "a"*51}
     it { should_not be_valid}

@@ -1,6 +1,7 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
+  include ModelsModule
   attr_accessible :name, :okta_name, :email
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   before_save { |user| user.email = user.email.downcase }
+  after_validation :check_errors
 
   def to_s
     self.name
@@ -50,5 +52,9 @@ class User < ActiveRecord::Base
 
   def matches_password?(unencrypted_password)
     BCrypt::Password.new(password_digest) == unencrypted_password
+  end
+
+  def check_errors
+    update_errors(self)
   end
 end

@@ -39,6 +39,16 @@ describe Review do
       end
     end
 
+    it "disallows a review with a blank Review Type" do
+      @review.review_type = nil
+      @review.valid?.should be_false
+    end
+
+    it "should remove extra error messages when the Review Type is blank" do
+      @review.review_type = nil
+      @review.errors[:review_type].count == 1
+    end
+
     it "disallows Review Type of 2-Month" do
       @review.review_type = "2-Month"
       @review.valid?.should be_false

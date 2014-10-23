@@ -1,4 +1,5 @@
 class Review < ActiveRecord::Base
+  include ModelsModule
   attr_accessible \
       :associate_consultant_id,
       :feedback_deadline,
@@ -7,7 +8,8 @@ class Review < ActiveRecord::Base
 
   belongs_to :associate_consultant
 
-  validates :review_type, :presence => true, :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
+  validates :review_type, :presence => true,
+            :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
   validates :associate_consultant_id, :presence => true
   validates :associate_consultant_id, :uniqueness => {:scope => [:review_type]}
   validates :feedback_deadline, :presence => true
@@ -16,12 +18,12 @@ class Review < ActiveRecord::Base
   has_many :feedbacks, :dependent => :destroy
   has_many :self_assessments, :dependent => :destroy
   has_many :invitations, :dependent => :destroy
+  after_validation :check_errors
 
 
   def self.default_load
     self.includes({ :associate_consultant => :user })
   end
-
 
   after_initialize :init
 
@@ -176,4 +178,7 @@ class Review < ActiveRecord::Base
     self.review_date.present? && self.review_date.between?(Date.today, Date.today + 6.months)
   end
 
+  def check_errors
+    update_errors(self)
+  end
 end

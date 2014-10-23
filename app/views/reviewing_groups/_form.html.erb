@@ -1,19 +1,11 @@
 <section class="form-container">
 <%= form_for(@reviewing_group) do |f| %>
-  <% if @reviewing_group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@reviewing_group.errors.count, "error") %> prohibited this Reviewing Group from being saved:</h2>
-
-      <ul>
-      <% @reviewing_group.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
     <%= f.label :name %>
+    <% if @reviewing_group.errors[:name] %>
+      <p class="field-error-message"><%= @reviewing_group.errors[:name].first %></p>
+    <% end %>
     <%= f.text_field :name %>
   </div>
 

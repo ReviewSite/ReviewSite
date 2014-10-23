@@ -12,6 +12,10 @@
   <br/>
 <div class="field">
   <%= label_tag :emails, "To:", class: "nofloat" %>
+  <% if @invitation.errors[:emails] %>
+    <p class="field-error-message"><%= @invitation.errors[:emails].first %></p>
+  <% end %>
+  
   <p class="help-text">Must have an '@thoughtworks.com' email address; separate multiple emails with ','</p>
   <%= text_field_tag :emails, nil, class: "long" %>
 </div>

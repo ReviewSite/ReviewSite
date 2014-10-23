@@ -15,10 +15,16 @@
 
 <div class="field">
   <%= f.label :reviewing_group_id %>
+  <% if @user.associate_consultant.errors[:reviewing_group_id] %>
+    <p class="field-error-message"><%= @user.associate_consultant.errors[:reviewing_group_id].first %></p>
+  <% end %>
   <%= f.select :reviewing_group_id, format_all_for_select(ReviewingGroup), :include_blank => "Select Reviewing Group" %>
 </div>
 
 <div class="field">
   <%= f.label :coach_id, "Coach" %>
+  <% if @user.associate_consultant.errors[:coach_id] %>
+    <p class="field-error-message"><%= @user.associate_consultant.errors[:coach_id].first %></p>
+  <% end %>
   <%= f.text_field :coach_id, "data-pre" => Array.wrap(@user.associate_consultant.coach).to_json %>
 </div>

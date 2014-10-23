@@ -39,7 +39,7 @@ describe "User pages: " do
         fill_in "Email", with: "b"
         click_button "Save Changes"
       end
-      it { should have_content('error') }
+      it { should have_content('invalid') }
     end
 
     describe "as an admin", js: true do
@@ -123,7 +123,7 @@ describe "User pages: " do
       it "re-renders page with error message if invalid information" do
         click_button "Create Account"
         page.should have_selector('h1', text: 'Create an Account')
-        page.should have_content('error')
+        page.should have_content("can't be blank")
       end
 
       it "creates an account and sends an email" do

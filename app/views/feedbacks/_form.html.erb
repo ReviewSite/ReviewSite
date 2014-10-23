@@ -1,20 +1,14 @@
 <%= form_for([@review, @feedback]) do |f| %>
-  <% if @feedback.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
-
-      <ul>
-      <% @feedback.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="feedback-form-container">
     <div class="reviewer-info">
       <div class="field">
         <%= f.label "Feedback by" %>
+        
+        <% if @feedback.errors[:user_string] %>
+          <p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
+        <% end %>
+
         <% if not additional %>
           <%= @user_name %>
         <% else %>

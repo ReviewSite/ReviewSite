@@ -28,7 +28,7 @@ class ReviewsDatatable
           h(review.associate_consultant.user.name),
           h(review.review_type),
           h(review.review_date.to_s(:short_date)),
-          (link_to('', review, class: "fa fa-eye fa-lg"))
+          (link_to('', review, class: "fa fa-eye fa-lg", title: "View"))
       ]
     end
   end

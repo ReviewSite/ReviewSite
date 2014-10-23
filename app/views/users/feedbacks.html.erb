@@ -29,12 +29,14 @@
           <ul>
             <li>
               <%= link_to "", new_review_feedback_path(review),
-                class: "fa fa-play fa-lg fa-fw" %>
+                class: "fa fa-play fa-lg fa-fw",
+                title: "Start feedback" %>
             </li>
             <li>
               <%= link_to "",
                 review_invitation_path(review, invitation),
                 class: "fa fa-trash fa-lg fa-fw",
+                title: "Decline",
                 method: :delete,
                 confirm: "Are you sure you want to decline "\
                   "#{review.associate_consultant}'s feedback invitation?'"%>
@@ -52,7 +54,13 @@
         <td><%= review.review_type %></td>
         <td><%= review.feedback_deadline.to_s(:short_date) %></td>
         <td><%= feedback.updated_at.to_s(:short_date) %></td>
-        <td class="nowrap button-col"><%= link_to "", edit_review_feedback_path(review, feedback), class: "fa fa-pencil fa-lg fa-fw" %></td>
+        <td class="nowrap button-col">
+          <%= link_to "",
+            edit_review_feedback_path(review, feedback),
+            class: "fa fa-pencil fa-lg fa-fw",
+            title: "Edit"
+          %>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -15,8 +15,7 @@
   validate :tw_email?
 
   def tw_email?
-    if email && !email.include?("thoughtworks.com")
-      errors.clear
+    if email && !errors[:email].any? && !email.include?("@thoughtworks.com")
       errors.add(:email,"#{email} could not be invited -- Not a ThoughtWorks Email.")
     end
   end

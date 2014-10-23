@@ -79,13 +79,13 @@ describe InvitationsController do
       it "with one valid email displays error messages" do
         post :create, {emails: "test@thoughtworks.com, !!!invalid!!!", review_id: review.id}, valid_sessions
         flash[:success].should == "An invitation has been sent to: test@thoughtworks.com"
-        flash[:alert].should include("!!!invalid!!! could not be invited -- Not a ThoughtWorks Email.")
+        flash[:alert].should include("!!!invalid!!! could not be invited -- Invalid Email.")
       end
 
       it "with multiple emails with errors displays multiple error messages" do
         post :create, {emails: "!!!invalid1!!!, !!!invalid2!!!", review_id: review.id}, valid_sessions
-        flash[:alert].should include("!!!invalid1!!! could not be invited -- Not a ThoughtWorks Email.")
-        flash[:alert].should include("!!!invalid2!!! could not be invited -- Not a ThoughtWorks Email.")
+        flash[:alert].should include("!!!invalid1!!! could not be invited -- Invalid Email.")
+        flash[:alert].should include("!!!invalid2!!! could not be invited -- Invalid Email.")
       end
 
       it "with one valid email saves the valid one" do
@@ -184,7 +184,7 @@ describe InvitationsController do
 
     it "otherwise does not send notification email" do
       UserMailer.should_not_receive(:feedback_declined).with(invitation)
-      
+
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
     end
   end

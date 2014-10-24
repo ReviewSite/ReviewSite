@@ -7,8 +7,6 @@
   <thead>
   <th>Name</th>
   <th>Email</th>
-  <th>AC</th>
-  <th>Admin</th>
   <th></th>
   </thead>
   <tbody>
@@ -29,10 +27,8 @@
         sInfoFiltered: ""
     },
     aoColumnDefs: [
-      { bSortable: false, aTargets: [ 4 ] },
-      { sClass: "admin", aTargets: [3] },
-      { sClass: "ac", aTargets: [2] },
-      { sClass: "nowrap button-col", aTargets: [4] }
+      { bSortable: false, aTargets: [ 2 ] },
+      { sClass: "nowrap button-col", aTargets: [2] }
     ],
     fnCreatedRow: function(nRow, aData, iDataIndex){
       var email = aData[1];

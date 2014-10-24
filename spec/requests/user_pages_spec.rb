@@ -50,7 +50,7 @@ describe "User pages: " do
 
         visit users_path
         id_selector = nonadmin.email.slice(0..(nonadmin.email.index('@'))-1)
-        page.should have_selector("tr##{id_selector} td.admin", text: '')
+        page.should_not have_selector("tr##{id_selector} .fa-key")
 
         visit edit_user_path(nonadmin)
         page.find("#user_associate_consultant_attributes_graduated", visible: false).should be_disabled
@@ -59,7 +59,7 @@ describe "User pages: " do
 
         page.find("#user-form-submit").trigger("click")
 
-        page.should have_selector("tr##{id_selector} td.admin", text: 'yes')
+        page.should have_selector("tr##{id_selector} .fa-key")
 
         sign_in nonadmin
         page.should have_selector("#admin-menu")
@@ -198,7 +198,7 @@ describe "User pages: " do
         new_user = User.last
         new_user.associate_consultant.reviews.size.should == 4
         id_selector = new_user.email.slice(0..(new_user.email.index('@'))-1)
-        page.should have_selector("tr##{id_selector} td.ac", text: 'yes')
+        page.should have_selector("tr##{id_selector} .fa-graduation-cap")
 
         visit user_path(new_user)
 
@@ -273,15 +273,12 @@ describe "User pages: " do
       it { should have_selector('h1', text: 'Manage Users') }
       it { should have_selector('th', text: 'Name') }
       it { should have_selector('th', text: 'Email') }
-      it { should have_selector('th', text: 'Admin') }
 
       it "has user fields displayed in table", js:true do
         should have_selector('td', text: 'Andy')
         should have_selector('td', text: 'andy@example.com')
-        should have_selector('td.admin', text: '')
         should have_selector('td', text: admin.name)
         should have_selector('td', text: admin.email)
-        should have_selector('td.admin', text: 'yes')
       end
 
       it "should link to new" do

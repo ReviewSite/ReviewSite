@@ -16,7 +16,11 @@
       <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
       <td class="nowrap button-col">
         <% if review.upcoming? %>
-          <%= link_to '', review , :class => "fa fa-eye fa-lg fa-fw" %>
+          <%= link_to '',
+            review ,
+            :class => "fa fa-eye fa-lg fa-fw",
+            :title => "View"
+          %>
         <% end %>
       </td>
     </tr>

@@ -28,7 +28,9 @@
         <td><%= completed.updated_at.to_date %></td>
         <td class="nowrap button-col">
           <%= link_to "",
-            review_feedback_path(review, completed), class: "fa fa-eye fa-lg fa-fw" %><br>
+            review_feedback_path(review, completed),
+            class: "fa fa-eye fa-lg fa-fw",
+            title: "View" %><br>
         </td>
       </tr>
     <% end %>

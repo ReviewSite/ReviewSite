@@ -3,6 +3,7 @@ class SelfAssessment < ActiveRecord::Base
 
   validates :associate_consultant, :presence => true
   validates :review, :presence => true
+  validates :response, :presence => true
 
   belongs_to :review
   belongs_to :associate_consultant

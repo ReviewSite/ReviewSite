@@ -35,7 +35,7 @@ class ReviewingGroupsController < ApplicationController
 
     respond_to do |format|
       if @reviewing_group.save
-        format.html { redirect_to reviewing_groups_url, notice: 'Reviewing Group was successfully created.' }
+        format.html { redirect_to reviewing_groups_url, success: 'Reviewing Group was successfully created.' }
         format.json { head :no_content }
       else
         format.html { render action: "new" }

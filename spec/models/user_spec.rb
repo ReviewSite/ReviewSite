@@ -45,14 +45,40 @@ describe User do
     end
 
   end
+
   describe "When name is not present" do
     before{user.name = ""}
     it { should_not be_valid}
+
+    it "should have one error" do
+      user.valid?
+      user.errors[:name].count.should == 1
+      user.errors.messages[:name].should include("can't be blank.")
+    end
   end
+
+  describe "when okta name is not present" do
+    before { user.okta_name = "" }
+    it { should_not be_valid }
+
+    it "should have one error" do
+      user.valid?
+      user.errors[:okta_name].count.should == 1
+      user.errors.messages[:okta_name].should include("can't be blank.")
+    end
+  end
+
   describe "When email is not present" do
     before{user.email = ""}
     it { should_not be_valid}
+
+    it "should have one error" do
+      user.valid?
+      user.errors[:email].count.should == 1
+      user.errors.messages[:email].should include("can't be blank.")
+    end
   end
+  
   describe "When name is too long" do
     before{user.name = "a"*51}
     it { should_not be_valid}
@@ -133,4 +159,3 @@ describe User do
   end
 
 end
-

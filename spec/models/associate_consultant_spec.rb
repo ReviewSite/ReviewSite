@@ -29,6 +29,12 @@ describe AssociateConsultant do
     @ac.valid?.should == false
   end
 
+  it "shouldn't be valid with invalid reviewing group" do
+    @ac.reviewing_group = nil
+    @ac.valid?.should == false
+    @ac.errors[:reviewing_group_id].should include("can't be blank.")
+  end
+
   it "should be valid with valid coach id" do
     @ac.coach_id = 1
     @ac.valid?.should == true

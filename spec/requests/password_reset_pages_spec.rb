@@ -25,8 +25,8 @@ describe "Password reset pages" do
       describe "with invalid information" do
         before { click_button "Request Password Reset" }
 
-        it { should have_selector('h1', text:'Sign In') }
-        it { should have_selector('.flash-notice') }
+        it { should have_selector('h1', text:'Reset Password') }
+        it { should have_selector('.flash-alert') }
       end
 
       describe "with valid information" do

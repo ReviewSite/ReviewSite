@@ -1,16 +1,5 @@
 <section class="form-container">
 <%= form_for(@review) do |f| %>
-  <% if @review.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
-
-      <ul>
-      <% @review.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
     <% if @review.persisted? %>
@@ -18,22 +7,35 @@
       <p class="help-text"><%= @review.associate_consultant.user.name %></p>
     <%else%>
       <%= f.label :associate_consultant_id %>
+      <% if @review.errors[:associate_consultant_id] %>
+        <p class="field-error-message"><%= @review.errors[:associate_consultant_id].first %></p>
+      <% end %>
       <%= f.text_field :associate_consultant_id %>
     <%end%>
   </div>
 
   <div class="field">
     <%= f.label :review_type %>
+    <% if @review.errors[:review_type] %>
+      <p class="field-error-message"><%= @review.errors[:review_type].first %></p>
+    <% end %>
     <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']], :include_blank => "Select Review Type" %>
   </div>
 
   <div class="field">
     <%= f.label :review_date %>
+      <% if @review.errors[:review_date] %>
+      <p class="field-error-message"><%= @review.errors[:review_date].first %></p>
+    <% end %>
     <%= f.text_field :review_date, class: "datepicker future", placeholder: "yyyy-mm-dd" %>
   </div>
 
   <div class="field">
     <%= f.label :feedback_deadline %>
+    <% if @review.errors[:feedback_deadline] %>
+      <p class="field-error-message"><%= @review.errors[:feedback_deadline].first %></p>
+    <% end %>
+   
     <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
     <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>

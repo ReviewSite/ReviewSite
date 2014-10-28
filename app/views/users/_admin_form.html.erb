@@ -1,31 +1,29 @@
 <section class="form-container">
 <%= nested_form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <p>When creating a new user account for someone else, a welcome email will be sent to them.</p>
 
   <div class="field">
     <%= f.label :name %>
+    <% if @user.errors[:name] %>
+      <p class="field-error-message"><%= @user.errors[:name].first %></p>
+    <% end %>
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
     <%= f.label :email %>
+    <% if @user.errors[:email] %>
+      <p class="field-error-message"><%= @user.errors[:email].first %></p>
+    <% end %>
     <%= f.text_field :email %>
   </div>
 
   <div class="field">
     <%= f.label :okta_name %>
+     <% if @user.errors[:okta_name] %>
+      <p class="field-error-message"><%= @user.errors[:okta_name].first %></p>
+    <% end %>
     <p class="help-text">This must match the username used to log in to OKTA.</p>
     <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
   </div>

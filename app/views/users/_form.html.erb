@@ -1,24 +1,19 @@
 <section class="form-container">
 <%= nested_form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="field">
     <%= f.label :name %>
+    <% if @user.errors[:name] %>
+      <p class="field-error-message"><%= @user.errors[:name].first %></p>
+    <% end %>
     <%= f.text_field :name %>
   </div>
 
   <div class="field">
     <%= f.label :email %>
+    <% if @user.errors[:email] %>
+      <p class="field-error-message"><%= @user.errors[:email].first %></p>
+    <% end %>  
     <%= f.text_field :email %>
   </div>
 

@@ -25,10 +25,12 @@
         <td><%= review.associate_consultant %></td>
         <td><%= review.review_type %></td>
         <td><%= completed.project_worked_on %></td>
-        <td><%= completed.updated_at.to_date %></td>
+        <td><%= completed.updated_at.to_date.to_s(:short_date) %></td>
         <td class="nowrap button-col">
           <%= link_to "",
-            review_feedback_path(review, completed), class: "fa fa-eye fa-lg fa-fw" %><br>
+            review_feedback_path(review, completed),
+            class: "fa fa-eye fa-lg fa-fw",
+            title: "View" %><br>
         </td>
       </tr>
     <% end %>

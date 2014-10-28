@@ -65,7 +65,7 @@ class InvitationsController < ApplicationController
     @invitation.delete_invite
     if (current_user.email == invitation_email)
       UserMailer.feedback_declined(@invitation).deliver
-      redirect_to root_path, notice: "You have successfully declined #{@review.associate_consultant.user.name}'s feedback invitation."
+      redirect_to root_path, notice: "You have successfully declined #{@review.associate_consultant.user.name}'s feedback request."
     else
       redirect_to root_path, notice: "#{invitation_email}\'s invitation has been deleted."
     end

@@ -16,11 +16,11 @@
       <td><%= feedback.project_worked_on %></td>
       <td>
       <% if feedback.invitation %>
-        <%= feedback.invitation.sent_date %>
+        <%= feedback.invitation.sent_date.to_s(:short_date) %>
       <% end %>
       </td>
 
-      <td><%= feedback.updated_at.to_date %></td>
+      <td><%= feedback.updated_at.to_date.to_s(:short_date) %></td>
 
       <td class="nowrap">
         <% if feedback.submitted %>
@@ -66,7 +66,7 @@
       <td><%= invitation.email %></td>
       <td></td>
       <td></td>
-      <td><%= invitation.sent_date %></td>
+      <td><%= invitation.sent_date.to_s(:short_date) %></td>
       <td class="nowrap"><span class="fa fa-lock fa-fw fa-hidden"></span> Not Started</td>
       <td class="nowrap button-col">
         <ul>

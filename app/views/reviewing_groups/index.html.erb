@@ -16,8 +16,22 @@
         <td><%= list(reviewing_group.users) %></td>
         <td class="nowrap button-col">
           <ul>
-            <li><%= link_to '', edit_reviewing_group_path(reviewing_group), class: "fa fa-pencil fa-lg fa-fw" %></li>
-            <li><%= link_to '', reviewing_group, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash fa-lg fa-fw" %></li>
+            <li>
+              <%= link_to '',
+                edit_reviewing_group_path(reviewing_group),
+                class: "fa fa-pencil fa-lg fa-fw",
+                title: "Edit"
+              %>
+            </li>
+            <li>
+              <%= link_to '',
+                reviewing_group,
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: "fa fa-trash fa-lg fa-fw",
+                title: "Delete"
+              %>
+            </li>
           </ul>
         </td>
       </tr>

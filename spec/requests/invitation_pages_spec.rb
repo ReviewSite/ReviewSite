@@ -78,7 +78,7 @@ describe "Invitations" do
         expect do
           find("a[href^=\"" + review_invitation_path(review, invitation) + "\"]").click()
         end.to change(Invitation, :count).by(-1)
-        page.find(".flash-notice").text.should include "You have successfully declined #{ac_user.name}'s feedback invitation."
+        page.find(".flash-notice").text.should include "You have successfully declined #{ac_user.name}'s feedback request."
       end
 
       it "should let user submit HTTP request to decline invitation" do

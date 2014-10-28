@@ -1,4 +1,5 @@
-<table class="reviews">
+<div class="form-container">
+<table id="reviews" class="display">
   <thead>
   <tr>
     <th>Review Type</th>
@@ -28,18 +29,20 @@
   <% end %>
   </tbody>
 </table>
+</div>
 
 <br class="spacer" />
 <br class="spacer" />
 
 <script>
-  $('table.reviews').dataTable({
-    bJQueryUI: true,
+  $('table#reviews').dataTable({
     bLengthChange: false,
     bFilter: false,
     aoColumnDefs: [
       { aDataSort: [ 1 ], aTargets: [ 0 ] },
-      { bSortable: false, aTargets: [ 3, 4, 5 ] }
+      { bSortable: false, aTargets: [ 3 ] },
+      { sClass: "nowrap", aTargets: [ 0 ] },
+      { sClass: "nowrap button-col", aTargets: [ 3 ] }
     ]
   });
 </script>

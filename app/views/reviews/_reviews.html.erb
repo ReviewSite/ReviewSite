@@ -18,16 +18,16 @@
 
 <script>
   $('table#reviews').dataTable({
-        sPaginationType: "full_numbers",
-        bServerSide: true,
-        sAjaxSource: $('#reviews').data('source'),
-        oLanguage: {
-          sInfoFiltered: ""
-        },
-        aoColumnDefs: [
-          { bSortable: false, aTargets: [ 3 ] },
-          { sClass: "nowrap", aTargets: [ 0 ] },
-          { sClass: "nowrap button-col", aTargets: [ 3 ] }
-        ]
-    });
+    sPaginationType: "full_numbers",
+    bServerSide: true,
+    sAjaxSource: $('#reviews').data('source'),
+    oLanguage: {
+      sInfoFiltered: ""
+    },
+    aoColumnDefs: [
+      { bSortable: false, aTargets: [ 3 ] },
+      { sClass: "nowrap", aTargets: [ 0 ] },
+      { sClass: "nowrap button-col", aTargets: [ 3 ] }
+    ]
+  });
 </script>

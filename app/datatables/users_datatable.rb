@@ -36,7 +36,7 @@ class UsersDatatable
         h("<ul>
             <li>#{(link_to('', user, class: "fa fa-eye fa-lg fa-fw", title: "View") unless cannot? :read, user)}</li>
             <li>#{(link_to('', url_helpers.edit_user_path(user), class: "fa fa-pencil fa-lg fa-fw", title: "Edit") unless cannot? :edit, user)}</li>
-            <li>#{(link_to('', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash fa-lg fa-fw", title: "Delete") unless cannot? :destroy, user)}</li>
+            <li>#{(link_to('', user, method: :delete, data: { confirm: 'Are you sure you want to delete this user?' }, class: "fa fa-trash fa-lg fa-fw", title: "Delete") unless cannot? :destroy, user)}</li>
           </ul>".html_safe)
       ]
     end

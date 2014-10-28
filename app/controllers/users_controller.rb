@@ -26,12 +26,13 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
-      flash[:success] = "User has been successfully created"
+      flash[:success] = "User \"#{@user.name}\" was successfully created"
       if @user.ac? && !@user.associate_consultant.program_start_date.nil?
         self.create_reviews
         flash[:success] += " with 6-Month, 12-Month, 18-Month, and 24-Month reviews"
       end
       flash[:success] += "."
+
       UserMailer.registration_confirmation(@user).deliver
 
       if current_user && current_user.admin?
@@ -48,12 +49,13 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(params[:user])
-      flash[:success] = "Profile updated"
+      flash[:success] = "User \"#{@user.name}\" was successfully updated"
       selected = "1"
       if params[:isac] == selected && !@user.associate_consultant.program_start_date.nil?
         self.create_reviews
         flash[:success] += " and reviews created"
       end
+      flash[:success] += "."
 
       if current_user.admin?
         redirect_to users_path
@@ -68,8 +70,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    flash[:success] = "User \"#{@user.name}\" was successfully deleted."
     @user.destroy
-    flash[:success] = "User deleted."
     redirect_to users_url
   end
 

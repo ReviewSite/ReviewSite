@@ -175,7 +175,7 @@ describe "Review pages" do
         fill_in "review_feedback_deadline", with: "21/06/2014"
 
         UserMailer.should_receive(:review_creation).and_return(double(deliver: true))
-        click_button "Create Review"
+        click_button "Create"
 
         new_review = Review.last
         current_path.should == review_path(new_review)
@@ -275,7 +275,7 @@ describe "Review pages" do
    #   end
 
       it "links to additional feedback" do
-        click_link "Submit Feedback Manually"
+        click_link "Record External Feedback"
         current_path.should == additional_review_feedbacks_path(review)
       end
 

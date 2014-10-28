@@ -24,7 +24,7 @@
     <% end %>
                                                                                                     
     <% if can? :create_additional, Feedback %>
-    <li><%= link_to "Submit Feedback Manually", additional_review_feedbacks_path(review) %></li>
+    <li><%= link_to "Record External Feedback", additional_review_feedbacks_path(review) %></li>
     <% end %>
 
     <li>

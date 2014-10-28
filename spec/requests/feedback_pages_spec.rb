@@ -312,7 +312,6 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "displays feedback information with no 'Edit' link" do
-          page.should have_selector("h2", text: ac.user.name)
           page.should have_selector("h2", text: review.review_type)
           page.should have_content(user.name)
           inputs.values.each do |value|

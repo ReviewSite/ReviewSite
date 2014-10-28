@@ -15,7 +15,6 @@ describe "User pages: " do
 
     describe "page" do
       it { should have_selector('h1',    text: "Update Your Profile") }
-      it { title.should == "Review Site | Edit User" }
     end
 
     describe "user with valid information" do
@@ -28,7 +27,7 @@ describe "User pages: " do
         click_button "Save Changes"
       end
 
-      it { should have_selector('.flash-success', text: 'Profile updated') }
+      it { should have_selector('.flash-success') }
       it { should have_link('Sign Out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
@@ -82,8 +81,8 @@ describe "User pages: " do
         current_path.should eql users_path
 
         visit user_path(nonadmin)
-        page.should have_selector("#isAC", text: 'true')
-        page.should have_selector("#hasGraduated", text: 'true')
+        page.should have_selector("#isAC", text: 'Yes')
+        page.should have_selector("#hasGraduated", text: 'Yes')
       end
 
       it "can make an ac" do
@@ -98,11 +97,11 @@ describe "User pages: " do
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
-        page.should have_selector('.flash-success', text: 'Profile updated and reviews created')
+        page.should have_selector('.flash-success', text: 'User "'+ nonadmin.name + '" was successfully updated and reviews created')
         current_path.should eql users_path
 
         visit user_path(nonadmin)
-        page.should have_selector("#isAC", text: 'true')
+        page.should have_selector("#isAC", text: 'Yes')
         page.should have_selector("#program-start-date", text: "Jul. 08, 2014")
       end
     end
@@ -134,7 +133,7 @@ describe "User pages: " do
         click_button 'Create Account'
 
         current_path.should eql root_path
-        page.should have_selector('.flash-success', text: 'User has been successfully created.')
+        page.should have_selector('.flash-success', text: 'User "Bob Smith" was successfully created')
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
@@ -161,10 +160,10 @@ describe "User pages: " do
         fill_in "Name", with: "Bob Smith"
         fill_in "Email", with: "test@example.com"
         fill_in "Okta name", with: "roberto"
-        click_button 'Create User'
+        click_button 'Create'
 
         current_path.should eql users_path
-        page.should have_selector('.flash-success', text: 'User has been successfully created.')
+        page.should have_selector('.flash-success', text: 'User "Bob Smith" was successfully created.')
 
         ActionMailer::Base.deliveries.length.should == 1
         mail = ActionMailer::Base.deliveries.last
@@ -190,10 +189,10 @@ describe "User pages: " do
         select reviewing_group.name, from: "Reviewing group"
         find("#token-input-user_associate_consultant_attributes_coach_id").set(coach.id)
 
-        click_button 'Create User'
+        click_button 'Create'
 
         current_path.should eql users_path
-        page.should have_selector('.flash-success', text: 'User has been successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
+        page.should have_selector('.flash-success', text: 'User "Roberto Glob" was successfully created with 6-Month, 12-Month, 18-Month, and 24-Month reviews.')
 
         new_user = User.last
         new_user.associate_consultant.reviews.size.should == 4
@@ -203,11 +202,10 @@ describe "User pages: " do
         visit user_path(new_user)
 
         new_ac = new_user.associate_consultant
-        page.should have_selector("#isAC", text: 'true')
-        page.should have_selector("#hasGraduated", text: 'false')
+        page.should have_selector("#isAC", text: 'Yes')
+        page.should have_selector("#hasGraduated", text: 'No')
         page.should have_selector("#notes", text: new_ac.notes)
         page.should have_selector("#reviewing-group", text: new_ac.reviewing_group)
-        page.should have_selector("#coach", text: new_ac.coach)
       end
     end
 
@@ -234,7 +232,7 @@ describe "User pages: " do
 
       it { should have_content(user.name) }
       it { should have_content(user.email) }
-      it { should have_content("Admin: false") }
+      it { should have_content("Admin No") }
 
       it "links to edit page" do
         click_link "Edit"
@@ -242,7 +240,7 @@ describe "User pages: " do
       end
 
       it "links to users index page" do
-        click_link "Back"
+        page.find(".diet.button", text: "Manage Users").click
         current_path.should == users_path
       end
     end
@@ -306,7 +304,7 @@ describe "User pages: " do
           page.find(".fa-trash").click
           current_path.should == users_path
         end
-        page.should have_selector('.flash-success', text: 'User deleted.')
+        page.should have_selector('.flash-success', text: 'User "Andy" was successfully deleted')
         page.should_not have_selector('td', text: 'Andy')
         page.should_not have_selector('td', text: 'andy@example.com')
         page.should_not have_selector('td.delete', text: 'false')

@@ -1,58 +1,39 @@
-<p>
-  <b>Role Competence went well:</b>
+<% unless @feedback.role_competence_went_well.blank? %>
+  <label>Role Competence went well</label>
   <%= simple_format(@feedback.role_competence_went_well) %>
-</p>
+<% end %>
 
-<p>
-  <b>Role Competence to be improved:</b>
+<% unless @feedback.role_competence_to_be_improved.blank? %>
+  <label>Role Competence to be improved</label>
   <%= simple_format(@feedback.role_competence_to_be_improved) %>
-</p>
+<% end %>
 
-<p>
-  <b>Role Competence scale:</b>
-  <%= @feedback.role_competence_scale %>
-</p>
-
-<p>
-  <b>Consulting Skills went well:</b>
+<% unless @feedback.consulting_skills_went_well.blank? %>
+  <label>Consulting Skills went well</label>
   <%= simple_format(@feedback.consulting_skills_went_well) %>
-</p>
+<% end %>
 
-<p>
-  <b>Consulting Skills to be improved:</b>
+<% unless @feedback.consulting_skills_to_be_improved.blank? %>
+  <label>Consulting Skills to be improved</label>
   <%= simple_format(@feedback.consulting_skills_to_be_improved) %>
-</p>
+<% end %>
 
-<p>
-  <b>Consulting Skills scale:</b>
-  <%= @feedback.consulting_skills_scale %>
-</p>
-<p>
-  <b>Teamwork went well:</b>
+<% unless @feedback.teamwork_went_well.blank? %>
+  <label>Teamwork went well</label>
   <%= simple_format(@feedback.teamwork_went_well) %>
-</p>
+<% end %>
 
-<p>
-  <b>Teamwork to be improved:</b>
+<% unless @feedback.teamwork_to_be_improved.blank? %>
+  <label>Teamwork to be improved</label>
   <%= simple_format(@feedback.teamwork_to_be_improved) %>
-</p>
+<% end %>
 
-<p>
-  <b>Teamwork scale:</b>
-  <%= @feedback.teamwork_scale %>
-</p>
-
-<p>
-  <b>Contributions went well:</b>
+<% unless @feedback.contributions_went_well.blank? %>
+  <label>Contributions went well</label>
   <%= simple_format(@feedback.contributions_went_well) %>
-</p>
+<% end %>
 
-<p>
-  <b>Contributions to be improved:</b>
+<% unless @feedback.contributions_to_be_improved.blank? %>
+  <label>Contributions to be improved</label>
   <%= simple_format(@feedback.contributions_to_be_improved) %>
-</p>
-
-<p>
-  <b>Contributions scale:</b>
-  <%= @feedback.contributions_scale %>
-</p>
+<% end %>

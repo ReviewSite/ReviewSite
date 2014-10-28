@@ -249,7 +249,7 @@ describe "Review pages" do
       it { should have_selector('th', text: 'Status')}
       it { should have_selector('td', text: reviewer.name) }
       it { should have_selector('td', text: inputs['project_worked_on']) }
-      it { should have_selector('td', text: feedback.updated_at.to_date.to_s) }
+      it { should have_selector('td', text: feedback.updated_at.to_date.to_s(:short_date)) }
       it { should have_selector('td', text: 'Submitted') }
       it { should_not have_selector('td', text: 'Not') }
 

@@ -359,7 +359,7 @@ describe "User pages: " do
         page.should have_selector('#completeds td', text: ac.user.name)
         page.should have_selector('#completeds td', text: review.review_type)
         page.should have_selector('#completeds td', text: feedback.project_worked_on)
-        page.should have_selector('#completeds td', text: feedback.updated_at.to_date.to_s)
+        page.should have_selector('#completeds td', text: feedback.updated_at.to_date.to_s(:short_date))
         page.should have_selector('#completeds td .fa-eye')
         page.find(".fa-eye").click
         current_path.should == review_feedback_path(review, feedback)

@@ -13,7 +13,7 @@
 
     <tr>
       <td><%= review.review_type %></td>
-      <td><%= review.review_date %></td>
+      <td><%= review.review_date.to_s(:short_date) %></td>
       <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
       <td class="nowrap button-col">
         <% if review.upcoming? %>

@@ -141,7 +141,7 @@ describe "Feedback pages", :type => :feature do
 
   describe "additional" do
     before do
-      sign_in FactoryGirl.create(:user)
+      sign_in ac_user
       visit additional_review_feedbacks_path(review)
       fill_in "feedback_user_string", with: "A non-user"
     end

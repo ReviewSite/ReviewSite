@@ -5,6 +5,7 @@ describe FeedbacksController do
     @review = FactoryGirl.create(:review)
     @user = FactoryGirl.create(:user)
     set_current_user(@user)
+    Ability.any_instance.stub(:can?).and_return(true)
   end
 
   def valid_attributes
@@ -34,20 +35,23 @@ describe FeedbacksController do
         @feedback = Feedback.create! valid_attributes
       end
 
-      it "disallows seeing feedback submitted by other people" do
-        @other_user = FactoryGirl.create(:user)
-        set_current_user(@other_user)
-
-        get :show, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
-
-        response.should redirect_to(root_url)
-      end
+    # Tested by ability_spec.rb:99
+      # it "disallows seeing feedback submitted by other people" do
+      #   @other_user = FactoryGirl.create(:user)
+      #   set_current_user(@other_user)
+      #
+      #   get :show, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
+      #
+      #   response.should redirect_to(root_url)
+      # end
     end
     describe "as an admin" do
       before(:each) do
         @admin = FactoryGirl.create(:admin_user)
         set_current_user @admin
       end
+
+    # Tested by ability_spec.rb:88
       it "can read feedback that is 'submitted'" do
         @feedback = FactoryGirl.create(:submitted_feedback)
         get :show, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
@@ -56,13 +60,14 @@ describe FeedbacksController do
         response.should be_success
       end
 
-      it "cannot read feedback that is NOT in the 'submitted' state" do
-        @feedback = FactoryGirl.create(:feedback)
-        get :show, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-        @feedback.submitted.should == false
-        assigns(:feedback).should eq(@feedback)
-        response.should redirect_to(root_url)
-      end
+      # Tested by ability_spec.rb:80
+    #   it "cannot read feedback that is NOT in the 'submitted' state" do
+    #     @feedback = FactoryGirl.create(:feedback)
+    #     get :show, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
+    #     @feedback.submitted.should == false
+    #     assigns(:feedback).should eq(@feedback)
+    #     response.should redirect_to(root_url)
+    #   end
     end
   end
 
@@ -108,11 +113,12 @@ describe FeedbacksController do
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end
-    it "cannot edit feedback that has been 'submitted'" do
-      feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
-      get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
-      response.should redirect_to(root_url)
-    end
+    # Tested by ability_spec.rb:88
+    # it "cannot edit feedback that has been 'submitted'" do
+    #   feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+    #   get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+    #   response.should redirect_to(root_url)
+    # end
     describe "for another user" do
       before(:each) do
         @feedback = Feedback.create! valid_attributes
@@ -120,10 +126,11 @@ describe FeedbacksController do
         set_current_user(@other_user)
         @other_feedback = FactoryGirl.create(:feedback, :review => @review, :user => @other_user)
       end
-      it "cannot edit another user's feedback" do
-        get :edit, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
-        response.should redirect_to(root_url)
-      end
+      # Tested by ability_spec.rb:88 (edit and update have same permissions)
+      # it "cannot edit another user's feedback" do
+      #   get :edit, {:id => @feedback.to_param, :review_id => @review.id}, valid_session
+      #   response.should redirect_to(root_url)
+      # end
     end
   end
 
@@ -263,12 +270,12 @@ describe FeedbacksController do
         UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
         put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
       end
-
-      it "cannot update feedback that has been 'submitted'" do
-        feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
-        put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
-        response.should redirect_to(root_url)
-      end
+      # Tested by ability_spec.rb:88
+      # it "cannot update feedback that has been 'submitted'" do
+      #   feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+      #   put :update, {:id => feedback.to_param, :feedback => {}, :review_id => @review.id}, valid_session
+      #   response.should redirect_to(root_url)
+      # end
     end
 
     describe "with invalid params" do

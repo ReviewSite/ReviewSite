@@ -35,7 +35,9 @@ class ReviewingGroupsController < ApplicationController
 
     respond_to do |format|
       if @reviewing_group.save
-        format.html { redirect_to reviewing_groups_url, success: 'Reviewing Group was successfully created.' }
+        flash[:success] = "Reviewing group \"#{params[:reviewing_group][:name]}\" was successfully created."
+
+        format.html { redirect_to reviewing_groups_url }
         format.json { head :no_content }
       else
         format.html { render action: "new" }
@@ -49,7 +51,9 @@ class ReviewingGroupsController < ApplicationController
   def update
     respond_to do |format|
       if @reviewing_group.update_attributes(params[:reviewing_group])
-        format.html { redirect_to reviewing_groups_url, notice: 'Reviewing group was successfully updated.' }
+        flash[:success] = "Reviewing group \"#{params[:reviewing_group][:name]}\" was successfully updated."
+
+        format.html { redirect_to reviewing_groups_url }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -61,7 +65,9 @@ class ReviewingGroupsController < ApplicationController
   # DELETE /reviewing_groups/1
   # DELETE /reviewing_groups/1.json
   def destroy
+    flash[:success] = "Reviewing group \"#{@reviewing_group.name}\" was successfully deleted."
     @reviewing_group.destroy
+
     respond_to do |format|
       format.html { redirect_to reviewing_groups_url }
       format.json { head :no_content }

@@ -1,2 +1,3 @@
-<h1>Start Feedback for <%= @review %></h1>
-<%= render :partial => 'form', :locals => {:additional => false } %>
+<h1>Start Feedback</h1>
+<h2><%= @review %></h2>
+<%= render :partial => 'form', :locals => {:additional => false, :edit_page => false } %>

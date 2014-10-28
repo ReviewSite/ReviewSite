@@ -28,7 +28,7 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new.json
   def new
     if @review.invitations.where(email: current_user.email).empty?
-      redirect_to root_path, notice: "You have not been invited to submit feedback for this review"
+      redirect_to root_path, notice: "You have not been invited to submit feedback for this review."
       return
     end
     @feedback = Feedback.new

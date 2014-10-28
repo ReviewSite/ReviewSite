@@ -1,7 +1,4 @@
-<h1>Editing Feedback for <%= @feedback.review %></h1>
+<h1>Edit Feedback</h1>
+<h2><%= @feedback.review %></h2>
 
-<%= render :partial => 'form', :locals => {:additional => !@feedback.user_string.nil? } %>
-<div class="delete_padder">
-  <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "btn btn-danger", :confirm => "Are you sure?"  %>
-</div>
-
+<%= render :partial => 'form', :locals => {:additional => !@feedback.user_string.nil?, :edit_page => true } %>

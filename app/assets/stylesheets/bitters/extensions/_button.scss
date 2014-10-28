@@ -21,7 +21,11 @@
   }
 
   &.success {
-    background-color: $brand-success;
+    background-color: $success-color;
+  }
+
+  &.danger {
+    background-color: $error-color;
   }
 
   &.diet {

@@ -24,16 +24,19 @@ class UsersDatatable
 
   def data
     users.map do |user|
-      [
-          h(user.name),
-          h(user.email),
-          user.ac? ? 'yes' : '' ,
-          user.admin ? 'yes' : '',
 
-          h("<ul>
-              <li>#{(link_to('', user, class: "fa fa-eye fa-lg fa-fw", title: "View") unless cannot? :read, user)}</li>
-              <li>#{(link_to('', url_helpers.edit_user_path(user), class: "fa fa-pencil fa-lg fa-fw", title: "Edit") unless cannot? :edit, user)}</li>
-              <li>#{(link_to('', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "fa fa-trash fa-lg fa-fw", title: "Delete") unless cannot? :destroy, user)}</li>
+      ac_icon = user.ac? ? "<span class='fa fa-graduation-cap fa-fw' title='AC'></span>" : ""
+      admin_icon = user.admin? ? "<span class='fa fa-key fa-fw' title='Admin'></span>" : ""
+
+      [
+        h("#{user.name} #{ac_icon} #{admin_icon}".html_safe),
+
+        h(user.email),
+
+        h("<ul>
+            <li>#{(link_to('', user, class: "fa fa-eye fa-lg fa-fw", title: "View") unless cannot? :read, user)}</li>
+            <li>#{(link_to('', url_helpers.edit_user_path(user), class: "fa fa-pencil fa-lg fa-fw", title: "Edit") unless cannot? :edit, user)}</li>
+            <li>#{(link_to('', user, method: :delete, data: { confirm: 'Are you sure you want to delete this user?' }, class: "fa fa-trash fa-lg fa-fw", title: "Delete") unless cannot? :destroy, user)}</li>
           </ul>".html_safe)
       ]
     end

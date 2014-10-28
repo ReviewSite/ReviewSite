@@ -19,14 +19,8 @@ describe "PasswordReset" do
     click_link "Forgot password?"
   end
 
-  describe "GET /password_resets/new" do
-    it "has the correct title" do
-      title.should == "Review Site | Request Password Reset"
-    end
-  end
-
   describe "requesting a new password" do
-    context "with invalid information" do
+    describe "with invalid information" do
       before { click_button "Request Password Reset" }
 
       describe "should redirect to the sign in page" do

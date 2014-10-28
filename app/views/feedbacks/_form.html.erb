@@ -11,12 +11,6 @@
     </div>
   <% end %>
 
-  <div id="instructions">
-    <p>There is no need to include responses in all categories in the form below if it does not apply.</p>
-
-    <p>Make sure to save what you have so far by clicking the 'Save Feedback' button. When you are ready to share your feedback with others, you can submit your feedback as final. Once you click 'Submit Final', you will no longer be able to come back and make changes to your feedback.</p>
-  </div>
-
   <div class="feedback-form-container">
     <div class="reviewer-info">
       <div class="field">
@@ -71,6 +65,10 @@
       <div class="actions">
         <%= f.submit 'Save Feedback', { :id => "save-feedback-button" } %>
         <%= f.submit 'Submit Final', {:class => "success", :id => "submit-final-button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+
+        <% if edit_page %>
+          <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
+        <% end %>
       </div>
     </div>
   </div>

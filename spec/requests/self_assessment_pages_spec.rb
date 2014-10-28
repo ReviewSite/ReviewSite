@@ -18,7 +18,7 @@ describe "Self assessment page" do
 
       it "lets AC create a self assessment" do
         fill_in 'Response', with: 'This is a self-assessment.'
-        click_button 'Submit Self Assessment'
+        click_button 'Submit'
         current_path.should == summary_review_path(review)
 
         self_assessment = SelfAssessment.last
@@ -36,7 +36,7 @@ describe "Self assessment page" do
 
       it "lets admin create a self assessment if one hasn't been created" do
         fill_in 'Response', with: 'This is a self-assessment.'
-        click_button 'Submit Self Assessment'
+        click_button 'Submit'
         current_path.should == summary_review_path(review)
 
         self_assessment = SelfAssessment.last

@@ -1,33 +1,43 @@
+<h1>View Feedback</h1>
+<h2><%= @feedback.review.pretty_print_with(current_user) %></h2>
 
-<h1>Feedback Details</h1>
-<h2>Associate Consultant: <%= @feedback.review.associate_consultant %></h2>
-<H2>Review Type: <%= @feedback.review.review_type %></h2>
+<div class="new-review">
+<% if can? :edit, @feedback %>
+  <%= link_to 'Edit', edit_review_feedback_path(@review, @feedback), :class => "button" %>
+<% end %>
 
+  <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
+</div>
+
+<section class="form-container">
 <p>
-  <b>Reviewer:</b>
+  <label>Reviewer</label>
   <%= @feedback.reviewer %>
 </p>
 
+<% unless @feedback.project_worked_on.blank? %>
 <p>
-  <b>Project worked on:</b>
+  <label>Project worked on</label>
   <%= @feedback.project_worked_on %>
 </p>
+<% end %>
 
+<% unless @feedback.role_description.blank? %>
 <p>
-  <b>Role description:</b>
+  <label>Role description</label>
   <%= @feedback.role_description %>
 </p>
+<% end %>
+
 <% if @feedback.new_review_format %>
   <%= render :partial => "show_new" %>
 <% else %>
   <%= render :partial => "show_old" %>
 <% end %>
 
-<p>
-  <b>Comments:</b>
+<% unless @feedback.comments.blank? %>
+  <label>Comments</label>
   <%= simple_format(@feedback.comments) %>
-</p>
-
-<% if can? :edit, @feedback %>
-  <%= link_to 'Edit', edit_review_feedback_path(@review, @feedback) %> |
 <% end %>
+
+</section>

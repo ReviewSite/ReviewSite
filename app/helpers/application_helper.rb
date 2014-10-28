@@ -16,4 +16,8 @@ module ApplicationHelper
     collection.map { |item| item.to_s }.sort.join(', ')
   end
 
+  def to_yes_no_string(boolean)
+    boolean ? "Yes" : "No"
+  end
+
 end

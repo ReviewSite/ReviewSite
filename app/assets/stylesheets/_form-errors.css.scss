@@ -1,12 +1,12 @@
 .field_with_errors > input,
 .field_with_errors > select, 
 .field_with_errors > .token-input-list {
-  border: 1px solid $brand-red;
+  border: 1px solid $brand-danger;
 }
 
 .field-error-message {
   margin: 0;
-  color: $brand-red;
+  color: $brand-danger;
 
   &:first-letter {
     text-transform: uppercase;

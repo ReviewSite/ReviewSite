@@ -3,7 +3,6 @@
     <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= stylesheet_link_tag    "application", media: "all" %>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
@@ -17,7 +16,7 @@
               <section class="flash flash-<%= key %>"><%= simple_format(value) %></section>
           <% end %>
         </section>
-       
+
         <%= yield %>
         <%= render 'layouts/footer' %>
       </section>
@@ -26,7 +25,7 @@
     <footer class="dev-env-panel">
       <% if ENV['OKTA-TEST-MODE'] %>
         <section id="dev-env-notification">
-          Test Environment 
+          Test Environment
         </section>
         <section id="okta-input">
           <p>Currently viewing as: <b><%= current_okta_name %></b></p>

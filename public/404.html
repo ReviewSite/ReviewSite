@@ -2,22 +2,40 @@
 <html>
 <head>
   <title>Review Site</title>
-  <style type="text/css">
-    body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto 0 auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
-    }
-    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/assets/application.css?body=1" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <h1>Whoopsadaisie!</h1>
-    <p>Looks like we still haven't found what you're looking for. Have a cookie?</p>
+  <header class="navigation">
+    <section class="navigation-wrapper">    
+      <section class="nav">
+      <a href="/" class="logo">Review Site Home</a>
+      </section>
+    </section>
+  </header>
+
+  <section class="content-container">
+    <h1>Whoopsadaisie.</h1>
+
+    <div class="form-container">
+      <p class="html-error">
+      Looks like we couldn't find what you were looking for.
+      </p> 
+      <p class="html-error">
+      Would you like a sympathy pat instead?
+      </p>
+    </div>
+    
+    <footer class="sticky">
+      <ul>
+        <li><a href="/welcome/contributors">Contributors</a></li>
+      </ul>
+    </footer>
+
+  </section>
+  
+  <footer class="dev-env-panel">
+  </footer>
 </body>
 </html>

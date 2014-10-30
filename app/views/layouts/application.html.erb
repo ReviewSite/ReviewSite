@@ -11,14 +11,21 @@
     <section id="<%= controller_name %>-<%= action_name %>">
       <%= render 'layouts/header' %>
       <section class="content-container">
+
         <section class="row">
           <% flash.each do |key, value| %>
-              <section class="flash flash-<%= key %>"><%= simple_format(value) %></section>
+            <section class="flash flash-<%= key %>">
+              <%= simple_format(value) %>
+            </section>
           <% end %>
         </section>
 
-        <%= yield %>
+        <section class="container">
+          <%= yield %>
+        </section>
+        
         <%= render 'layouts/footer' %>
+
       </section>
     </section>
 

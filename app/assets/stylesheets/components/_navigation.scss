@@ -1,7 +1,7 @@
 header.navigation {
   $navigation-padding: 1em;
   $navigation-background: $brand-primary;
-  $navigation-color: transparentize(white, 0.3);
+  $navigation-color: transparentize(white, 0.2);
   $navigation-color-hover: white;
   $navigation-nav-button-background: $base-accent-color;
   $navigation-nav-button-background-hover: lighten($navigation-background, 10);
@@ -82,6 +82,7 @@ header.navigation {
       color: $navigation-color;
       display: inline-block;
       font-weight: 400;
+      transition: all 0.2s ease-out;
 
       @include media ($horizontal-bar-mode) {
         padding-right: 1em;
@@ -90,6 +91,10 @@ header.navigation {
       &:hover {
         color: $navigation-color-hover;
       }
+    }
+
+    > a:hover {
+      @include transform(translateY(-2px));
     }
   }
 
@@ -186,8 +191,4 @@ header.navigation {
       }
     }
   }
-
-
 }
-
-

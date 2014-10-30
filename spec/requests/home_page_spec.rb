@@ -77,7 +77,7 @@ describe "Home page" do
 
       it "should only show the most recent review" do
         @ac_with_many_reviews.reviews.count.should eq(3)
-        page.should have_selector("h1", text: "Your Upcoming Review")
+        page.should have_selector("h1", text: "Your Upcoming " + @ac_with_many_reviews.upcoming_review.review_type + " Review")
         page.should_not have_selector("h1", text: @latest_review.review_type.upcase)
         page.should_not have_selector("h1", text: @first_review.review_type.upcase)
       end
@@ -88,7 +88,7 @@ describe "Home page" do
           @ac_with_many_reviews.coach = coach_ac.user
           coach_ac.user.coachees << @ac_with_many_reviews
           sign_in coach_ac.user
-          page.should have_selector("h1", text: "Upcoming Reviews")
+          page.should have_selector("h1", text: "Watched Reviews")
         end
       end
 
@@ -102,7 +102,7 @@ describe "Home page" do
         end
 
         it "should show coachee reviews" do
-          page.should have_selector('h1', text: "UPCOMING REVIEWS")
+          page.should have_selector('h1', text: "Watched Reviews".upcase)
         end
 
         it "should not see 'Your Upcoming Review'" do

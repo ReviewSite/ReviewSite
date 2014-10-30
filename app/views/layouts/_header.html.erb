@@ -10,8 +10,18 @@
             <% if can? :read, Feedback %>
               <li><%= link_to(feedbacks_user_path(current_user)) do %>
               Feedback Requests
-              <span class="badge"> <%= open_requests(current_user) %></span>
+                <% number_requests = open_requests(current_user) %>
+                <% if number_requests > 0 %>
+                  <span class="notice badge">
+                    <%= number_requests %>
+                  </span>
+                <% else %>
+                  <span class="badge">
+                    <%= number_requests %>
+                  </span>
                 <% end %>
+
+              <% end %>
               </li>
             <% end %>
 

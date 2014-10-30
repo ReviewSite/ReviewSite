@@ -1,7 +1,7 @@
 $badge-background: lighten($brand-primary, 20%);
 $badge-dark-color: $dark-gray;
 $badge-error-color: $error-color;
-$badge-notice-color: $notice-color;
+$badge-notice-color: $brand-complement;
 $badge-success-color: $success-color;
 $badge-font-color: white;
 $badge-font-size: $base-font-size * .75;
@@ -28,7 +28,6 @@ $badge-font-size: $base-font-size * .75;
 
   &.notice {
     background: $badge-notice-color;
-    color: darken($badge-notice-color, 60);
   }
 
   &.success {

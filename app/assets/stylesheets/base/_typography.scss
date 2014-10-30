@@ -4,7 +4,9 @@ body {
   color: $base-font-color;
   font-family: $base-font-family;
   font-size: $base-font-size;
+  font-weight: $light;
   line-height: $base-line-height;
+  cursor: default;
 }
 
 h1,
@@ -54,6 +56,11 @@ h6 {
 
 p {
   margin: 0 0 ($base-spacing / 2);
+}
+
+p.center {
+  margin: 0;
+  text-align: center;
 }
 
 a {

@@ -12,34 +12,33 @@
 
 // BASE
 @import "bourbon";
-@import "bitters/base";
+@import "base/base";
 @import "neat";
 
 // COMPONENTS
-@import "containers";
-@import "navigation";
-@import "footer";
-@import "dev-panel";
-@import "icons";
-@import "feedback-form";
-@import "form-errors";
-@import "sidenav";
+@import "components/containers";
+@import "components/navigation";
+@import "components/footer";
+@import "components/dev-panel";
+@import "components/icons";
+@import "components/form-errors";
+@import "components/sidenav";
+@import "components/tooltips";
+@import "components/action-bar";
+@import "components/which-reviews";
 
-
-// VENDOR COMPONENTS
+// VENDOR WIDGETS
 @import "bootstrap-datepicker3";
 @import "token-input";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
 // VENDOR OVERRIDES
-@import "datatable";
-@import "token-input-override";
-@import "datepicker-override";
+@import "overrides/datatable";
+@import "overrides/token-input-override";
+@import "overrides/datepicker-override";
 
 // PAGE LAYOUTS
-// if possible, these should be broken up into component partials
-@import "welcome";
-@import "reviews";
-@import "custom";
-@import "tooltips"
+@import "page_layouts/feedback-form";
+@import "page_layouts/contributors";
+@import "page_layouts/review-summary";

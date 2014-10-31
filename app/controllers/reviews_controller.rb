@@ -41,7 +41,8 @@ class ReviewsController < ApplicationController
       if @review.save
         UserMailer.review_creation(@review).deliver
 
-        format.html { redirect_to @review, success: 'Review was successfully created.' }
+        flash[:success] = "Review was successfully created."
+        format.html { redirect_to @review }
         format.json { render json: @review, status: :created, location: @review }
       else
         format.html { render action: "new" }
@@ -58,7 +59,9 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       if @review.update_attributes(params[:review])
-        format.html { redirect_to @review, success: 'Review was successfully updated.' }
+        flash[:success] = "Review was successfully updated."
+
+        format.html { redirect_to @review }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

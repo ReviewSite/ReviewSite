@@ -19,7 +19,8 @@ class SelfAssessmentsController < ApplicationController
 
     respond_to do |format|
       if @self_assessment.save
-        format.html { redirect_to summary_review_path(@review), notice: 'Self assessment was successfully created.' }
+        flash[:success] = "Self Assessment was successfully created."
+        format.html { redirect_to summary_review_path(@review) }
         format.json { render json: @self_assessment, status: :created, location: summary_review_path(@review) }
       else
         format.html { render action: "new" }
@@ -32,7 +33,8 @@ class SelfAssessmentsController < ApplicationController
 
     respond_to do |format|
       if @self_assessment.update_attributes(params[:self_assessment])
-        format.html { redirect_to summary_review_path(@review), notice: 'Self assessment was successfully updated.' }
+        flash[:success] = "Self Assessment was successfully updated."
+        format.html { redirect_to summary_review_path(@review) }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

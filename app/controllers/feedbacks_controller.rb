@@ -1,4 +1,5 @@
 class FeedbacksController < ApplicationController
+  load_resource :review
   load_and_authorize_resource
   before_filter :load_review
   before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
@@ -27,10 +28,6 @@ class FeedbacksController < ApplicationController
   # GET /feedbacks/new
   # GET /feedbacks/new.json
   def new
-    if @review.invitations.where(email: current_user.email).empty?
-      redirect_to root_path, notice: "You have not been invited to submit feedback for this review."
-      return
-    end
     @feedback = Feedback.new
     @feedback.review = @review
     find_feedback_for(current_user) if @review.has_existing_feedbacks?
@@ -172,6 +169,10 @@ class FeedbacksController < ApplicationController
   end
 
   private
+  def current_ability
+    @current_ability ||= Ability.new(current_user, @review)
+  end
+
   def load_feedback
     @feedback = Feedback.find_by_id(params[:id])
   end

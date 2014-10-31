@@ -39,107 +39,141 @@ describe Ability do
   describe "User with review" do
     before do
       @user = FactoryGirl.create(:user)
-      @admin_user = FactoryGirl.create(:admin_user)
       @ac = FactoryGirl.create(:associate_consultant, user: @user)
       @review = FactoryGirl.create(:review, associate_consultant: @ac)
-      @ability = Ability.new(@user)
-      @admin_ability = Ability.new(@admin_user)
     end
 
-    it "should only be able to manage self assessments for own reviews" do
-      @ability.should be_able_to(:manage, @review.self_assessments.new)
-      other_review = FactoryGirl.create(:review)
-      @ability.should_not be_able_to(:manage, other_review.self_assessments.new)
+    before(:each) do
+      @feedback = FactoryGirl.create(:feedback, review: @review)
     end
 
-    it "should allow users to create additional feedback for own reviews" do
-      @ability.should be_able_to(:additional, Feedback.new, @review)
-      @ability.should be_able_to(:create, Feedback.new, @review)
+    describe "as user with review" do
+      before do
+        @ability = Ability.new(@user)
+      end
+
+      it "should be able to send reminders on feedback for own review" do
+        @ability.should be_able_to(:send_reminder, @feedback)
+      end
+
+      it "should not be able to view, update, or destroy others' unsubmitted feedback" do
+        @ability.should_not be_able_to(:read, @feedback)
+        @ability.should_not be_able_to(:update, @feedback)
+        @ability.should_not be_able_to(:destroy, @feedback)
+      end
+
+      it "should only be able to manage self assessments for own reviews" do
+        @ability.should be_able_to(:manage, @review.self_assessments.new)
+        other_review = FactoryGirl.create(:review)
+        @ability.should_not be_able_to(:manage, other_review.self_assessments.new)
+      end
+
+      it "should allow users to create additional feedback for own reviews" do
+        @ability.should be_able_to(:additional, Feedback.new, @review)
+        @ability.should be_able_to(:create, Feedback.new, @review)
+      end
+
+      it "should be able to read submitted feedback for own review" do
+        @feedback.submitted = true
+        @ability.should be_able_to(:read, @feedback)
+      end
     end
 
-    it "should allow users to create feedback for reviews they are invited to" do
-      invited_user = FactoryGirl.create(:user)
-      invitation = FactoryGirl.create(:invitation, review: @review, email: invited_user.email)
-      invited_user_ability = Ability.new(invited_user)
-      invited_user_ability.should be_able_to(:create, Feedback.new, @review)
+    describe "as user giving feedback" do
+      before do
+        @giver_ability = Ability.new(@feedback.user)
+      end
+
+      it "should allow users to create feedback for reviews they are invited to" do
+        invited_user = FactoryGirl.create(:user)
+        invitation = FactoryGirl.create(:invitation, review: @review, email: invited_user.email)
+        invited_user_ability = Ability.new(invited_user)
+        invited_user_ability.should be_able_to(:create, Feedback.new, @review)
+      end
+
+      it "should be able to view, update, and destroy own unsubmitted feedback" do
+        @giver_ability.should be_able_to(:read, @feedback)
+        @giver_ability.should be_able_to(:update, @feedback)
+        @giver_ability.should be_able_to(:destroy, @feedback)
+      end
+
+      it "should be able to view, but not update, or destroy submitted feedback" do
+        @feedback.submitted = true
+        @giver_ability.should be_able_to(:read, @feedback)
+        @giver_ability.should_not be_able_to(:update, @feedback)
+        @giver_ability.should_not be_able_to(:destroy, @feedback)
+      end
     end
 
-    it "should not let admin create additional feedback for user review" do
-      @admin_ability.should_not be_able_to(:additional, Feedback.new, @review)
-      @admin_ability.should_not be_able_to(:create, Feedback.new, @review)
+    describe "as an admin" do
+      before do
+        admin_user = FactoryGirl.create(:admin_user)
+        @admin_ability = Ability.new(admin_user)
+      end
+
+      it "should not be able to create additional feedback for user review" do
+        @admin_ability.should_not be_able_to(:additional, Feedback.new, @review)
+        @admin_ability.should_not be_able_to(:create, Feedback.new, @review)
+      end
+
+      it "should not be able to view, update, or destroy others' unsubmitted feedback" do
+        @admin_ability.should_not be_able_to(:read, @feedback)
+        @admin_ability.should_not be_able_to(:update, @feedback)
+        @admin_ability.should_not be_able_to(:destroy, @feedback)
+      end
+
+      it "should be able to view, but not update or destroy submitted feedback" do
+        @feedback.submitted = true
+        @admin_ability.should be_able_to(:read, @feedback)
+        @admin_ability.should_not be_able_to(:update, @feedback)
+        @admin_ability.should_not be_able_to(:destroy, @feedback)
+      end
+
+      it "should be able to send reminders on feedback" do
+        @admin_ability.should be_able_to(:send_reminder, @feedback)
+      end
     end
 
-    it "should be able to view, update, and destroy own unsubmitted feedback" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: false)
-      giver_ability = Ability.new(feedback.user)
-      giver_ability.should be_able_to(:read, feedback)
-      giver_ability.should be_able_to(:update, feedback)
-      giver_ability.should be_able_to(:destroy, feedback)
+    describe "as coach" do
+      it "should be able to send reminders on feedback as coach of reviewee" do
+        coach_ability = Ability.new(@ac.coach)
+        coach_ability.should be_able_to(:send_reminder, @feedback)
+      end
+
+      it "should be able to read submitted feedback for coachee review" do
+        @feedback.submitted = true
+        coach_ability = Ability.new(@ac.coach)
+        coach_ability.should be_able_to(:read, @feedback)
+      end
     end
 
-    it "should not be able to view, update, or destroy others' unsubmitted feedback" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: false)
-      @ability.should_not be_able_to(:read, feedback)
-      @admin_ability.should_not be_able_to(:read, feedback)
-      @admin_ability.should_not be_able_to(:update, feedback)
-      @admin_ability.should_not be_able_to(:destroy, feedback)
+    describe "as reviewing group member" do
+      it "should be able to read submitted feedback as reviewing group member" do
+        @feedback.submitted = true
+        reviewing_group_member = FactoryGirl.create(:user)
+        @ac.reviewing_group.users << reviewing_group_member
+        reviewing_group_member_ability = Ability.new(reviewing_group_member)
+
+        reviewing_group_member_ability.should be_able_to(:read, @feedback)
+      end
     end
 
-    it "should be able to view, but not update, or destroy submitted feedback" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: true)
-      @admin_ability.should be_able_to(:read, feedback)
-      @admin_ability.should_not be_able_to(:update, feedback)
-      @admin_ability.should_not be_able_to(:destroy, feedback)
-      giver_ability = Ability.new(feedback.user)
-      giver_ability.should be_able_to(:read, feedback)
-      giver_ability.should_not be_able_to(:update, feedback)
-      giver_ability.should_not be_able_to(:destroy, feedback)
-      other_user = FactoryGirl.create(:user)
-      other_ability = Ability.new(other_user)
-      other_ability.should_not be_able_to(:read, feedback)
-      other_ability.should_not be_able_to(:update, feedback)
-      other_ability.should_not be_able_to(:destroy, feedback)
-    end
+    describe "as other user" do
+      before do
+        other_user = FactoryGirl.create(:user)
+        @other_user_ability = Ability.new(other_user)
+      end
 
-    it "should be able to read submitted feedback for own review" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: true)
-      @ability.should be_able_to(:read, feedback)
-    end
+      it "should not be able to send reminders on feedback for others' reviews" do
+        @other_user_ability.should_not be_able_to(:send_reminder, @feedback)
+      end
 
-    it "should be able to read submitted feedback for coachee review" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: true)
-      coach_ability = Ability.new(@ac.coach)
-      coach_ability.should be_able_to(:read, feedback)
-    end
-
-    it "should be able to read submitted feedback as reviewing group member" do
-      feedback = FactoryGirl.create(:feedback, review: @review, submitted: true)
-      reviewing_group_member = FactoryGirl.create(:user)
-      @ac.reviewing_group.users << reviewing_group_member
-      reviewing_group_member_ability = Ability.new(reviewing_group_member)
-
-      reviewing_group_member_ability.should be_able_to(:read, feedback)
-    end
-
-    it "should be able to send reminders on feedback as admin" do
-      feedback = FactoryGirl.create(:feedback, review: @review)
-      @admin_ability.should be_able_to(:send_reminder, feedback)
-    end
-
-    it "should be able to send reminders on feedback as coach of reviewee" do
-      feedback = FactoryGirl.create(:feedback, review: @review)
-      coach_ability = Ability.new(@ac.coach)
-      coach_ability.should be_able_to(:send_reminder, feedback)
-    end
-
-    it "should be able to send reminders on feedback for own review" do
-      feedback = FactoryGirl.create(:feedback, review: @review)
-      @ability.should be_able_to(:send_reminder, feedback)
-    end
-
-    it "should not be able to send reminders on feedback for others' reviews" do
-      feedback = FactoryGirl.create(:feedback)
-      @ability.should_not be_able_to(:send_reminder, feedback)
+      it "should not be able to view, but not update, or destroy submitted feedback" do
+        @feedback.submitted = true
+        @other_user_ability.should_not be_able_to(:read, @feedback)
+        @other_user_ability.should_not be_able_to(:update, @feedback)
+        @other_user_ability.should_not be_able_to(:destroy, @feedback)
+      end
     end
   end
 end

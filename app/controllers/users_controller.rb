@@ -42,7 +42,9 @@ class UsersController < ApplicationController
       end
 
     else
-      @user.build_associate_consultant
+      if @user.associate_consultant.nil?
+        @user.build_associate_consultant
+      end
       render 'new'
     end
   end

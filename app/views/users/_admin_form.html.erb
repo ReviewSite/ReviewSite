@@ -34,14 +34,16 @@
     </div>
 
     <div class="field">
-      <% if @user.ac? %>
-        <%= check_box_tag 'isac', 'yes', true, disabled: true %> <%= f.label "Associate Consultant", class: "checkbox" %>
-      <% else %>
-        <%= check_box_tag 'isac' %> <%= f.label "Associate Consultant", class: "checkbox" %>
+      <%= check_box_tag 'isac',
+        '1', # value
+        !@user.associate_consultant.blank? || !@user.associate_consultant.errors.empty?, #checked
+        disabled: @user.ac? %>
+      <%= f.label "Associate Consultant", class: "checkbox" %>
+      <% unless @user.ac? %>
         <p class="help-text">Reviews will be created for new ACs if start date is not blank.</p>
       <% end %>
     </div>
-    
+
     <section class="nested-form-container">
       <%= f.fields_for :associate_consultant %>
     </section>

@@ -24,4 +24,12 @@ class AssociateConsultant < ActiveRecord::Base
   def hasGraduated?
     !self.graduated.nil? && self.graduated
   end
+
+  def blank?
+    self.reviewing_group.blank? &&
+      self.coach.blank? &&
+      self.graduated.blank? &&
+      self.program_start_date.blank? &&
+      self.notes.blank?
+  end
 end

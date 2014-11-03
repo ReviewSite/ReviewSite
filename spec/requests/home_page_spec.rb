@@ -82,16 +82,6 @@ describe "Home page" do
         page.should_not have_selector("h1", text: @first_review.review_type.upcase)
       end
 
-      describe "who is also a coach" do
-        it "should contain a table of coachee reviews" do
-          coach_ac = FactoryGirl.create(:associate_consultant, user: FactoryGirl.create(:user))
-          @ac_with_many_reviews.coach = coach_ac.user
-          coach_ac.user.coachees << @ac_with_many_reviews
-          sign_in coach_ac.user
-          page.should have_selector("h1", text: "Watched Reviews")
-        end
-      end
-
       describe "who has graduated", js: true do
         before do
           graduated_ac = FactoryGirl.create(:associate_consultant,

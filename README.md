@@ -9,12 +9,12 @@
 
 #### Spin up the Vagrant box
 * `$ cd vagrant_postgres91_utf8_rails`
-* `$ vagrant up`  
-  * vagrant up will provision the Vagrant box, create the databases, and run the bundler
+* `$ vagrant up`
 * `$ vagrant ssh`
 * `$ cd workspace`
 
 #### Set up the local environment
+* [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
 * `$ echo "PORT=9292" > .env`
 * `$ echo "RACK_ENV=development" >> .env`
 * `$ rake db:migrate`
@@ -22,12 +22,13 @@
 * `$ RAILS_ENV=test rake db:migrate`
 
 #### Run the test suite
-* Using capybara-webkit
-  * `$ xvfb-run rspec`
-  * If you repeatedly receive the error "Xvfb failed to start," try `$ xvfb-run --server-num=1 rspec`.
-* Using poltergeist
+* All the tests
   * `$ rspec`
-* For manual testing, see the wiki
+* One test file
+  * `$ rspec spec/.../..._spec.rb`
+* One test block
+  * `$ rspec spec/.../..._spec.rb:40`
+* See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
 
 #### Start the local server
 * `$ foreman start` (this will not return)
@@ -37,7 +38,7 @@ If your foreman is very slow, try getting a new network setup:
 * `$ foreman start `
 
 View the dev site locally:
-* http://localhost:9292/
+* `http://localhost:9292/`
 
 ## Deploying the ReviewSite to Heroku
 When deploying to a new Heroku instance (developers will NOT need to do
@@ -65,5 +66,5 @@ it is possible to redirect all e-mail to an address that you control.
 ## Questions?
 * Valerie Roske, Tech Lead (varoske@thoughtworks)
 * Alex Jablonski, Developer (ajablons@thoughtworks)
-* Brandon Smith, Developer (ajablons@thoughtworks)
+* Brandon Smith, Developer (brsmith@thoughtworks)
 * Whitney Behr, QA (wlbehr@thoughtworks)

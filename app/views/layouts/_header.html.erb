@@ -1,5 +1,5 @@
 <header class="navigation">
-  <section class="navigation-wrapper">    
+  <section class="navigation-wrapper">
     <section class="nav">
       <%= link_to "Review Site Home", root_path, class: "logo" %>
 
@@ -8,25 +8,30 @@
         <% if signed_in? %>
 
             <% if can? :read, Feedback %>
-              <li><%= link_to(feedbacks_user_path(current_user)) do %>
-              Feedback Requests
-                <% number_requests = open_requests(current_user) %>
-                <% if number_requests > 0 %>
-                  <span class="notice badge">
-                    <%= number_requests %>
-                  </span>
-                <% else %>
-                  <span class="badge">
-                    <%= number_requests %>
-                  </span>
+              <li>
+                <%= link_to(feedbacks_user_path(current_user)) do %>
+                  Feedback Requests
+                  <% number_requests = open_requests(current_user) %>
+                  <% if number_requests > 0 %>
+                    <span class="notice badge">
+                      <%= number_requests %>
+                    </span>
+                  <% else %>
+                    <span class="badge">
+                      <%= number_requests %>
+                    </span>
+                  <% end %>
                 <% end %>
-
-              <% end %>
               </li>
             <% end %>
 
-            <% if can? :index, Review %>
-              <li> <%= link_to "Reviews", reviews_path %></li>
+            <% if current_user.ac? %>
+              <li> <%= link_to "My Reviews", reviews_path %></li>
+              <% if !current_user.coachees.empty? %>
+                <li> <%= link_to "Coachee Reviews", reviews_path %> </li>
+              <% end %>
+            <% elsif can? :index, Review %>
+              <li> <%= link_to "Watched Reviews", reviews_path %> </li>
             <% end %>
 
             <% if current_user.admin? %>
@@ -60,7 +65,7 @@
                 </li>
               </ul>
             </li>
-            
+
         <% else %>
             <li><%= link_to "Sign In", signin_path %></li>
             <li><%= link_to "Create Account", signup_path %></li>

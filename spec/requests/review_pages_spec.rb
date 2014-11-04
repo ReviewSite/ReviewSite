@@ -364,7 +364,7 @@ describe "Review pages" do
       end
 
       it "should show ac's reviews", js: true do
-        page.all('tr', text: "#{ac_with_four_reviews.user.name}").count.should == 4
+        page.all("tr", text: "Month").count.should == 4
       end
 
       describe "who's also a coach" do

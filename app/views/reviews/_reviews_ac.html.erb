@@ -16,7 +16,7 @@
       <td><%= review.review_date.to_s(:short_date) %></td>
       <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
       <td class="nowrap button-col">
-        <% if review.upcoming? %>
+        <% if review.upcoming? || (review.review_date < Date.today) %>
           <%= link_to '',
             review ,
             :class => "fa fa-eye fa-lg fa-fw",

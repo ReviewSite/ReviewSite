@@ -69,8 +69,7 @@ describe Ability do
       end
 
       it "should allow users to create additional feedback for own reviews" do
-        @ability.should be_able_to(:additional, Feedback.new, @review)
-        @ability.should be_able_to(:create, Feedback.new, @review)
+        @ability.should be_able_to(:create, @review.feedbacks.build)
       end
 
       it "should be able to read submitted feedback for own review" do
@@ -88,7 +87,7 @@ describe Ability do
         invited_user = FactoryGirl.create(:user)
         invitation = FactoryGirl.create(:invitation, review: @review, email: invited_user.email)
         invited_user_ability = Ability.new(invited_user)
-        invited_user_ability.should be_able_to(:create, Feedback.new, @review)
+        invited_user_ability.should be_able_to(:create, @review.feedbacks.build)
       end
 
       it "should be able to view, update, and destroy own unsubmitted feedback" do
@@ -112,8 +111,8 @@ describe Ability do
       end
 
       it "should not be able to create additional feedback for user review" do
-        @admin_ability.should_not be_able_to(:additional, Feedback.new, @review)
-        @admin_ability.should_not be_able_to(:create, Feedback.new, @review)
+        @admin_ability.should_not be_able_to(:additional, @review.feedbacks.build)
+        @admin_ability.should_not be_able_to(:create, @review.feedbacks.build)
       end
 
       it "should not be able to view, update, or destroy others' unsubmitted feedback" do

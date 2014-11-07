@@ -1,6 +1,6 @@
 class FeedbacksController < ApplicationController
   load_resource :review
-  load_and_authorize_resource
+  load_and_authorize_resource through: :review
   before_filter :load_review
   before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
   before_filter :load_user_name, :only => [:new, :edit]
@@ -169,10 +169,6 @@ class FeedbacksController < ApplicationController
   end
 
   private
-  def current_ability
-    @current_ability ||= Ability.new(current_user, @review)
-  end
-
   def load_feedback
     @feedback = Feedback.find_by_id(params[:id])
   end

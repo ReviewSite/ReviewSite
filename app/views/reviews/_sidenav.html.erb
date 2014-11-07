@@ -14,7 +14,7 @@
     <li><%= link_to "Ask for Feedback", new_review_invitation_path(review) %></li>
     <% end %>
 
-    <% if can? :create, review => SelfAssessment %>
+    <% if can? :create, (review.self_assessments.build && review.self_assessments.pop) %>
       <% if review.self_assessments.count > 0 %>
         <li><%= link_to "Update Self-Assessment", edit_review_self_assessment_path(review, review.self_assessments.first) %></li>
       <% else %>

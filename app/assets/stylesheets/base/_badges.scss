@@ -34,4 +34,8 @@ $badge-font-size: $base-font-size * .75;
     background: $badge-success-color;
     color: darken($badge-success-color, 60);
   }
+
+  &.table {
+    background: $brand-primary;
+  }
 }

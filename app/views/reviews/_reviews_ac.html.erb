@@ -4,7 +4,6 @@
   <tr>
     <th>Review Type</th>
     <th>Review Date</th>
-    <th>Upcoming?</th>
     <th></th>
   </tr>
   </thead>
@@ -12,9 +11,14 @@
   <% @reviews.each do |review| %>
 
     <tr>
-      <td><%= review.review_type %></td>
+      <td><%= review.review_type %>
+        <% if review.upcoming? %>
+          <span class="table badge">
+            Upcoming
+          </span>
+        <% end %>
+      </td>
       <td><%= review.review_date.to_s(:short_date) %></td>
-      <td class="boolean-col"><%= review.upcoming? ? "yes" : "" %></td>
       <td class="nowrap button-col">
         <% if review.upcoming? || (review.review_date < Date.today) %>
           <%= link_to '',
@@ -37,9 +41,9 @@
     bFilter: false,
     aoColumnDefs: [
       { aDataSort: [ 1 ], aTargets: [ 0 ] },
-      { bSortable: false, aTargets: [ 3 ] },
+      { bSortable: false, aTargets: [ 2 ] },
       { sClass: "nowrap", aTargets: [ 0 ] },
-      { sClass: "nowrap button-col", aTargets: [ 3 ] }
+      { sClass: "nowrap button-col", aTargets: [ 2 ] }
     ]
   });
 </script>

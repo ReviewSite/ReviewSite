@@ -65,6 +65,6 @@ it is possible to redirect all e-mail to an address that you control.
 
 ## Questions?
 * Valerie Roske, Tech Lead (varoske@thoughtworks)
-* Alex Jablonski, Developer (ajablons@thoughtworks)
+* Alex Jablonski, Developer (ajablonski@thoughtworks)
 * Brandon Smith, Developer (brsmith@thoughtworks)
 * Whitney Behr, QA (wlbehr@thoughtworks)

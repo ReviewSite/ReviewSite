@@ -274,11 +274,6 @@ describe "Review pages" do
    #     current_path.should == root_path
    #   end
 
-      it "links to additional feedback" do
-        click_link "Record External Feedback"
-        current_path.should == additional_review_feedbacks_path(review)
-      end
-
       it "links to view summary" do
         click_link "Feedback Summary"
         current_path.should == summary_review_path(review)

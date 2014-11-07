@@ -10,8 +10,8 @@
     <li><%= link_to "Feedback Summary", summary_review_path(review) %></li>
     <% end %>
 
-    <% if can? :create, review => Invitation %>
-    <li><%= link_to "Ask for Feedback", new_review_invitation_path(review) %></li>
+    <% if can? :create, (review.invitations.build && review.invitations.pop) %>
+      <li><%= link_to "Ask for Feedback", new_review_invitation_path(review) %></li>
     <% end %>
 
     <% if can? :create, (review.self_assessments.build && review.self_assessments.pop) %>
@@ -21,9 +21,9 @@
         <li><%= link_to "Submit Self-Assessment", new_review_self_assessment_path(review) %></li>
       <% end %>
     <% end %>
-    
-    <% if can? :additional, review => Feedback %>
-    <li><%= link_to "Record External Feedback", additional_review_feedbacks_path(review) %></li>
+
+    <% if can? :create, (review.feedbacks.build && review.feedbacks.pop) %>
+      <li><%= link_to "Record External Feedback", additional_review_feedback_path(review) %></li>
     <% end %>
 
     <li>

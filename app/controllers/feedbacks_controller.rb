@@ -15,29 +15,17 @@ class FeedbacksController < ApplicationController
     end
   end
 
-  # GET /feedbacks/additional
-  def additional
-    @feedback = Feedback.new
-    @feedback.review = @review
-    respond_to do |format|
-      format.html # additional.html.erb
-      format.json { render json: @feedback }
-    end
-  end
-
   # GET /feedbacks/new
+  # GET /feedbacks/additional
   # GET /feedbacks/new.json
   def new
-    @feedback = Feedback.new
-    @feedback.review = @review
     find_feedback_for(current_user) if @review.has_existing_feedbacks?
-
     respond_to do |format|
       format.html do
         if @feedback.submitted?
           redirect_to root_path, notice: "You have already submitted feedback."
         else
-          render html: @feedback
+          render action: request.path.split("/").last # 'new' or 'additional'
         end
       end
       format.json { render json: @feedback }

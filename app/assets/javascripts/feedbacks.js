@@ -1,3 +1,4 @@
+var ler;
 jQuery(function () {
     jQuery("#accordion").accordion({
       heightStyle:"content",
@@ -10,6 +11,17 @@ jQuery(function () {
         $.scrollTo(ui.newHeader, {offset:{top:-100}});
       }
     });
+
+    $('.feedback-form-container').find('input, select, textarea').on("keyup", function() {
+    window.onbeforeunload = function() {
+      return "You have not saved your changes.";
+    };
+    $('.feedback-form-container').find('input, select, textarea').off('keyup');
+  });
+
+  $('.feedback-form-container').find('#save-feedback-button, #submit-final-button').on('click', function() {
+    window.onbeforeunload = null;
+  });
 
 });
 

@@ -76,7 +76,7 @@ describe "Review pages" do
       end
     end
 
-    describe "as a ac" do
+    describe "as an ac" do
       before do
         sign_in ac.user
         visit summary_review_path(review)
@@ -274,11 +274,6 @@ describe "Review pages" do
    #     current_path.should == root_path
    #   end
 
-      it "links to additional feedback" do
-        click_link "Record External Feedback"
-        current_path.should == additional_review_feedbacks_path(review)
-      end
-
       it "links to view summary" do
         click_link "Feedback Summary"
         current_path.should == summary_review_path(review)
@@ -340,10 +335,26 @@ describe "Review pages" do
   end
 
   describe "index" do
+    let(:ac_with_old_review) { FactoryGirl.create(:associate_consultant)}
     let(:user_with_reviews) { FactoryGirl.create(:user,
       email: "testestest@thoughtworks.com") }
     let!(:ac_with_four_reviews) { FactoryGirl.create(:associate_consultant,
       user: user_with_reviews, graduated: true) }
+
+    describe "as an ac" do
+      before do
+        FactoryGirl.create(:review, associate_consultant: ac_with_old_review,
+          review_type: "6-Month", review_date: Date.today - 6.months)
+        FactoryGirl.create(:review, associate_consultant: ac_with_old_review,
+          review_type: "12-Month")
+        sign_in ac_with_old_review.user
+        visit reviews_path
+      end
+
+      it "should be able to see old reviews" do
+        page.all("tr", text:"6-Month").first.should have_selector(".fa-eye")
+      end
+    end
 
     describe "as a graduated ac" do
       before do

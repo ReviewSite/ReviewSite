@@ -4,22 +4,24 @@ ReviewSite::Application.routes.draw do
 
   resources :associate_consultants, only: [:index]
 
+  match "/reviews/:review_id/feedbacks/additional",
+        to: "feedbacks#new",
+        as: "additional_review_feedback",
+        via: [:get]
+
   resources :reviews do
     member do
-        get :summary
-        get :send_email
+      get :summary
+      get :send_email
     end
 
-    resources :feedbacks, :except => [:index] do
+    resources :feedbacks, except: [:index] do
       member do
         put :submit
         put :unsubmit
         post :send_reminder
       end
 
-      collection do
-        get :additional
-      end
     end
 
     resources :self_assessments, except: [:index, :show]
@@ -31,33 +33,33 @@ ReviewSite::Application.routes.draw do
     end
   end
 
-  root :to => 'welcome#index'
+  root to: "welcome#index"
 
   resources :sessions, only: [:new, :create, :destroy]
 
   resources :password_resets, only: [:new, :create, :edit]
 
   match "/auth/:provider/callback" => "sessions#callback"
-  match '/signup',  to: 'users#new'
-  match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
+  match "/signup",  to: "users#new"
+  match "/signin",  to: "sessions#new"
+  match "/signout", to: "sessions#destroy", via: :delete
 
-  resources :welcome, :only => [:index] do
+  resources :welcome, only: [:index] do
     collection do
-      get 'help'
-      get 'contributors'
-      get 'test_error'
+      get "help"
+      get "contributors"
+      get "test_error"
     end
   end
 
   resources :users do
-    get :get_users, :on => :collection
-    get :feedbacks, :on => :member
-    get :completed_feedback, :on => :member
+    get :get_users, on: :collection
+    get :feedbacks, on: :member
+    get :completed_feedback, on: :member
   end
 
-  if ENV['OKTA-TEST-MODE']
-    match '/set_temp_okta', to: 'sessions#set_temp_okta', via: :post
+  if ENV["OKTA-TEST-MODE"]
+    match "/set_temp_okta", to: "sessions#set_temp_okta", via: :post
   end
 
 end

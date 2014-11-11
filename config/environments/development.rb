@@ -2,8 +2,8 @@ ReviewSite::Application.configure do
   config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[ReviewSite Error] ",
-      :sender_address => %{<do-not-reply@thoughtworks.org>},
-      :exception_recipients => %w{error_recipient@example.com}
+      :sender_address => %{<do-not-reply@thoughtworks.com>},
+      :exception_recipients => %w{ajablonski@thoughtworks.com}
     }
 
   config.after_initialize do

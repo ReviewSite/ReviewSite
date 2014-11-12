@@ -27,4 +27,7 @@ vagrant_postgres91_utf8_rails/.vagrant.v1.1366390144
 #Ignore generated assets
 /public
 
+#Ignore code coverage
+/coverage
+
 .DS_Store

@@ -63,6 +63,7 @@ group :test do
   gem 'spork', '0.9.0'
   gem 'launchy', '~> 2.1.2'
   gem 'rake'
+  gem 'simplecov'
 end
 
 gem 'omniauth'

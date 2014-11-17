@@ -1,0 +1,44 @@
+<section class="form-container">
+<%= nested_form_for @user do |f| %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <% if @user.errors[:name] %>
+      <p class="field-error-message"><%= @user.errors[:name].first %></p>
+    <% end %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %>
+    <% if @user.errors[:email] %>
+      <p class="field-error-message"><%= @user.errors[:email].first %></p>
+    <% end %>
+    <ul class="email-addresses">
+      <li> <%= @user.email %> </li>
+    </ul>
+  </div>
+
+  <div class="field" style="display:block" id="additional_email">
+    <label> Add Email Address </label>
+    <%= f.text_field :email, id:"new-email", style: "display: inline; width: 88%"%>
+    <!-- <button id="add-email" class="diet button add-email"> Add </button> -->
+    <%= link_to "Add", '', class: "diet button add-email", id: "add-email" %>
+  </div>
+
+  <%= f.hidden_field :okta_name, value: current_okta_name %>
+
+  <div class="actions">
+    <%= f.submit "#{button_title}", id: "user-form-submit" %>
+    <%= link_to "Cancel", users_path, class: "diet button" %>
+  </div>
+
+<% end %>
+
+  <% if !signed_in? %>
+    <div class="margin-top-30">
+      <p>Already have an account? <%= link_to "Sign In", signin_path %></p>
+    </div>
+  <% end %>
+
+</section>

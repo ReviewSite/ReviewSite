@@ -83,7 +83,11 @@ jQuery (function () {
 
   $('#add-email').on('click', function(event) {
     event.preventDefault();
-    $('.email-addresses').append("<li>" + $('#new-email').val() + "</li>");
-  })
-
+    var newEmailAddress = $('#new-email').val();
+    if (newEmailAddress.replace(/ /g,'') !== ""){
+      $('.email-addresses').append("<tr>" +
+        "<td>" + newEmailAddress + "</td>" +
+        "<td><a class='fa fa-trash fa-lg fa-fw' style='float:right;'>"+"</a></td></tr>");
+    }
+  });
 });

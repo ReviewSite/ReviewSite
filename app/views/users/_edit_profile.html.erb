@@ -14,15 +14,17 @@
     <% if @user.errors[:email] %>
       <p class="field-error-message"><%= @user.errors[:email].first %></p>
     <% end %>
-    <ul class="email-addresses">
-      <li> <%= @user.email %> </li>
-    </ul>
+    <table class="email-addresses">
+      <tr>
+        <td> <%= @user.email %> </td>
+        <td> <a class='fa fa-trash fa-lg fa-fw' style='float:right;'></a> </td>
+      <tr>
+    </table>
   </div>
 
   <div class="field" style="display:block" id="additional_email">
     <label> Add Email Address </label>
     <%= f.text_field :email, id:"new-email", style: "display: inline; width: 88%"%>
-    <!-- <button id="add-email" class="diet button add-email"> Add </button> -->
     <%= link_to "Add", '', class: "diet button add-email", id: "add-email" %>
   </div>
 

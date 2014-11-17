@@ -1,3 +1,11 @@
 .review-table {
   table-layout: fixed;
 }
+
+.review-table tr:not(:first-child) {
+  border-top: 2px solid $brand-primary;
+}
+
+.review-table td {
+  vertical-align: top;
+}

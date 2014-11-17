@@ -85,9 +85,19 @@ jQuery (function () {
     event.preventDefault();
     var newEmailAddress = $('#new-email').val();
     if (newEmailAddress.replace(/ /g,'') !== ""){
-      $('.email-addresses').append("<tr>" +
-        "<td>" + newEmailAddress + "</td>" +
+      $('.email-address-table').append("<tr>" +
+        "<td class='email-address-column'>" + newEmailAddress + "</td>" +
         "<td><a class='fa fa-trash fa-lg fa-fw' style='float:right;'>"+"</a></td></tr>");
     }
+  });
+
+  $('#user-form-submit').on('click', function(event) {
+    var newArray = []
+    var emailAddresses = $('.email-address-column').each(function() {
+      newArray.push($(this).text());
+    });
+    var values = $("<input>").attr("type", "hidden").attr("name",
+      "additional_emails").val(newArray);
+    $(".edit_user").append(values);
   });
 });

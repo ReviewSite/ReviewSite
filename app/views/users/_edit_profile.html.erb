@@ -14,9 +14,9 @@
     <% if @user.errors[:email] %>
       <p class="field-error-message"><%= @user.errors[:email].first %></p>
     <% end %>
-    <table class="email-addresses">
+    <table class="email-address-table">
       <tr>
-        <td> <%= @user.email %> </td>
+        <td class="email-address-column"> <%= @user.email %> </td>
         <td> <a class='fa fa-trash fa-lg fa-fw' style='float:right;'></a> </td>
       <tr>
     </table>

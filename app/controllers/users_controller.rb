@@ -50,6 +50,14 @@ class UsersController < ApplicationController
   end
 
   def update
+    emails = params[:additional_emails]
+    if !emails.nil?
+      emails = emails.split(',')
+      emails.each do |email|
+        puts "EMAIL: #{email}"
+        # Email.create(email)
+      end
+    end
     if @user.update_attributes(params[:user])
       flash[:success] = "User \"#{@user.name}\" was successfully updated"
       selected = "1"

@@ -51,11 +51,14 @@ class UsersController < ApplicationController
 
   def update
     emails = params[:additional_emails]
-    if !emails.nil? && emails.kind_of?(Array)
+    if !emails.nil?
       emails = emails.split(',')
-      emails.each do |email|
-        new_email = AdditionalEmail.create(user_id: @user.id, email: email)
-        puts "NEW EMAIL: #{new_email}"
+      if emails.kind_of?(Array)
+        puts "/////WE'VE GOT AN ARRAY\\\\\""
+        emails.each do |email|
+          new_email = AdditionalEmail.create(user_id: @user.id, email: email)
+          puts "NEW EMAIL: #{new_email.email}"
+        end
       end
     end
     if @user.update_attributes(params[:user])

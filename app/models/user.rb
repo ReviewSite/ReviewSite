@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
 
   has_many :coachees, :class_name => "AssociateConsultant", :foreign_key => "coach_id"
-  has_many :additional_emails, class_name: "AdditionalEmails"
+  has_many :additional_emails, class_name: "AdditionalEmail", foreign_key: "user_id"
   has_one :associate_consultant, :dependent => :destroy
   has_many :feedbacks
   has_and_belongs_to_many :reviewing_groups

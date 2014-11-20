@@ -1,3 +1,3 @@
 class AdditionalEmail < ActiveRecord::Base
-  # attr_accessible :title, :body
+  attr_accessible :user_id, :email
 end

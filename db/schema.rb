@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141119153846) do
+ActiveRecord::Schema.define(:version => 20141119213711) do
 
-  create_table "additional_emails", :force => true do |t|
+  create_table "additional_email", :force => true do |t|
     t.string  "email"
     t.integer "user_id"
   end

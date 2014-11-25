@@ -32,7 +32,8 @@
   end
 
   def user
-    User.find_by_email(email)
+    User.find_by_email(email) ||
+      User.find(AdditionalEmail.find_by_email(email).user_id)
   end
 
   def feedback

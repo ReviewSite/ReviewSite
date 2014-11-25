@@ -19,6 +19,10 @@
         <td class="email-address-column"> <%= @user.email %> </td>
         <td> <a class='fa fa-trash fa-lg fa-fw' style='float:right;'></a> </td>
       <tr>
+      <% @user.additional_emails.each do |email| %>
+        <%= render partial: 'additional_emails/additional_email',
+          locals: { additional_email: email } %>
+      <% end %>
     </table>
   </div>
 
@@ -27,7 +31,8 @@
     <%= f.text_field :additional_emails, id:"new-email",
       style: "display: inline; width: 88%",
         name: "additional_emails", value: ""%>
-    <%= link_to "Add", '', class: "diet button add-email", id: "add-email" %>
+    <%= link_to "Add", 'add_email', remote: true,
+        class: "diet button add-email", id: "add-email"%>
   </div>
 
   <%= f.hidden_field :okta_name, value: current_okta_name %>

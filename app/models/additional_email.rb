@@ -5,6 +5,7 @@ class AdditionalEmail < ActiveRecord::Base
   validates :email, presence:   true,
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
+  validates :user_id, presence: true
   validate :must_be_thoughtworks_email
   after_validation :check_errors
 

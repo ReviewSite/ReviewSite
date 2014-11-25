@@ -105,7 +105,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.js do
         email_id = params[:additional_email_id]
-        puts "THE ID IS #{email_id}"
         AdditionalEmail.destroy(email_id)
       end
       render 'edit'

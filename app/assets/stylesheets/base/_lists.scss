@@ -17,6 +17,21 @@ ol {
   }
 }
 
+div.ideaListHeader {
+  margin-top: 10px;
+  margin-bottom: -5px;
+}
+
+div.ideaListHeader b{
+  color: rgb(239,91,161);
+}
+
+ul.ideaListElement {
+  padding-top: 5px;
+  margin-left: 35px;
+  list-style-type: circle;
+}
+
 dl {
   margin-bottom: $base-spacing / 2;
 

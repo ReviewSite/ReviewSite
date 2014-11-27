@@ -35,8 +35,7 @@
     <div class="feedback-form">
       <div id="accordion">
         <% @review.headings.each do |heading| %>
-          <h3><%= @review.heading_title(heading) %> 
-          <span class="fa fa-caret-down"></span></h3>
+          <h3><%= @review.heading_title(heading) %></h3>
           <div>
             <%= raw @review.description(heading) %>
 

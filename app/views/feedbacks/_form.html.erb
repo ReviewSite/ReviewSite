@@ -47,8 +47,8 @@
             <% end %>
             <% if @review.has_scale(heading) %>
               <div class="scale">
-                <%= f.label @review.scale_field(heading), "Please use a scale to prioritize areas you feel the reviewee should focus." %>
-                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
+                <%= f.label @review.scale_field(heading), "Priority of this area moving forward." %>
+                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => ""}, {:class => "feedback_scale" } %>
               </div>
             <% end %>
           </div>

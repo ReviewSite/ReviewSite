@@ -68,8 +68,8 @@ class Review < ActiveRecord::Base
 
                       <div class = \'ideaListHeader\'><b> Ownership of Concepts:</b> Does #{associate_consultant} </div>\
                       <ul class = \'ideaListElement\'>\
-                        <li> act as a go-to person for a specific topic? </li>\ 
-                        <li> take leadership in situations related to their specialities? </li>\ 
+                        <li> act as a go-to person for a specific topic? </li>\
+                        <li> take leadership in situations related to their specialities? </li>\
                         <li> teach others? </li></ul>\
 
                       <div class = \'ideaListHeader\'><b> Self Directed Learning:</b> Does #{associate_consultant} </div>\
@@ -108,7 +108,7 @@ class Review < ActiveRecord::Base
                       <ul class = \'ideaListElement\'>\
                         <li> show enthusiasm for the project? </li>\
                         <li> focus on helping the team succeed rather than having their own \'hero moments\'? </li></ul>\
-                      
+
                       <div class = \'ideaListHeader\'><b> Collaboration:</b> Does #{associate_consultant} </div>\
                       <ul class = \'ideaListElement\'>\
                         <li> communicate effectively and respectfully to their pair? </li>\
@@ -137,7 +137,11 @@ class Review < ActiveRecord::Base
 
     # BOTH
     questions["Comments"] = Question.new("Comments", " General Comments", ["comments"],
-                                         "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
+                    "<p>\
+                      <div class = \'ideaListHeader\'><b> Anything not covered above. </b>\
+                      What ealse do you want to share about #{associate_consultant}?</div>\
+                    </p>")
+                                        #  "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
     questions
   end
 

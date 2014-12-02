@@ -3,8 +3,8 @@
   <div class="feedback-form-container">
     <div class="reviewer-info">
       <div class="field">
-        <%= f.label "Feedback by" %>
-        
+        <%= f.label t('feedback.feedback_by') %>
+
         <% if @feedback.errors[:user_string] %>
           <p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
         <% end %>
@@ -17,17 +17,17 @@
       </div>
 
       <div class="field">
-        <%= f.label :project_worked_on %>
+        <%= f.label t('feedback.feedback_deadline') %>
+        <p><%= @feedback.review.feedback_deadline %></p>
+      </div>
+
+      <div class="field">
+        <%= f.label t('feedback.project_worked_on') %>
         <%= f.text_field :project_worked_on %>
       </div>
 
       <div class="field">
-        <%= f.label :feedback_deadline %>
-        <%= f.text_field :feedback_deadline, :value => @feedback.review.feedback_deadline, :disabled => true%>
-      </div>
-
-      <div class="field">
-        <%= f.label :role_description %>
+        <%= f.label t('feedback.role_description') %>
         <%= f.text_field :role_description %>
       </div>
     </div>
@@ -35,8 +35,7 @@
     <div class="feedback-form">
       <div id="accordion">
         <% @review.headings.each do |heading| %>
-          <h3><%= @review.heading_title(heading) %> 
-          <span class="fa fa-caret-down"></span></h3>
+          <h3><%= @review.heading_title(heading) %></h3>
           <div>
             <%= raw @review.description(heading) %>
 
@@ -48,8 +47,8 @@
             <% end %>
             <% if @review.has_scale(heading) %>
               <div class="scale">
-                <%= f.label @review.scale_field(heading), "Please use a scale to prioritize areas you feel the reviewee should focus." %>
-                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => "Select a scale"}, {:class => "feedback_scale" } %>
+                <%= f.label @review.scale_field(heading), "Priority of this area moving forward." %>
+                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => ""}, {:class => "feedback_scale" } %>
               </div>
             <% end %>
           </div>

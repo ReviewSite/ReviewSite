@@ -1,16 +1,10 @@
 var ler;
 jQuery(function () {
-    jQuery("#accordion").accordion({
-      heightStyle:"content",
-      active: 4,
-      collapsible: true
-    });
-
-    $("#accordion").on("accordionactivate", function (event, ui) {
-      if (ui.newPanel.length) {
-        $.scrollTo(ui.newHeader, {offset:{top:-100}});
-      }
-    });
+  jQuery("#accordion").accordion({
+    heightStyle:"content",
+    active: 4,
+    collapsible: true
+  });
 
     $('.feedback-form-container').find('input, select, textarea').on("keyup", function() {
     window.onbeforeunload = function() {
@@ -23,5 +17,9 @@ jQuery(function () {
     window.onbeforeunload = null;
   });
 
+  $("#accordion").on("accordionactivate", function (event, ui) {
+    if (ui.newPanel.length) {
+      $.scrollTo(ui.newHeader, {offset:{top:-100}});
+    }
+  });
 });
-

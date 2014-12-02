@@ -2,58 +2,57 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
-  activerecord:
-    attributes:
-      feedback:
-        project_worked_on: 'Project Worked on Together'
-        role_description: 'Your role on that project'
+  feedback:
+    feedback_by: "Feedback by"
+    feedback_deadline: "Feedback deadline"
+    project_worked_on: 'Project worked on together'
+    role_description: 'Your role on that project'
 
-        role_competence_went_well: 'What went well'
-        role_competence_to_be_improved: 'What can be improved'  
-        role_competence_action_items: 'Action Items'
-        consulting_skills_went_well: 'What went well' 
-        consulting_skills_to_be_improved: 'What can be improved' 
-        consulting_skills_action_items: 'Action Items' 
-        teamwork_went_well: 'What went well' 
-        teamwork_to_be_improved: 'What can be improved' 
-        teamwork_action_items: 'Action Items' 
-        contributions_went_well: 'What went well' 
-        contributions_to_be_improved: 'What can be improved' 
-        contributions_action_items: 'Action Items'
+    role_competence_went_well: 'What went well'
+    role_competence_to_be_improved: 'What can be improved'
+    role_competence_action_items: 'Action Items'
+    consulting_skills_went_well: 'What went well'
+    consulting_skills_to_be_improved: 'What can be improved'
+    consulting_skills_action_items: 'Action Items'
+    teamwork_went_well: 'What went well'
+    teamwork_to_be_improved: 'What can be improved'
+    teamwork_action_items: 'Action Items'
+    contributions_went_well: 'What went well'
+    contributions_to_be_improved: 'What can be improved'
+    contributions_action_items: 'Action Items'
 
-        tech_exceeded: 'Technical Competence: Exceeded Expectations (Really excels in this area)'
-        tech_met: 'Technical Competence: Met Expectations (Does a good job)'
-        tech_improve: 'Technical Competence: Improvement Desired (Suggestions for further development)'
+    tech_exceeded: 'Technical Competence: Exceeded Expectations (Really excels in this area)'
+    tech_met: 'Technical Competence: Met Expectations (Does a good job)'
+    tech_improve: 'Technical Competence: Improvement Desired (Suggestions for further development)'
 
-        client_exceeded: 'Client Interaction: Exceeded Expectations (Really excels in this area)'
-        client_met: 'Client Interaction: Met Expectations (Does a good job)'
-        client_improve: 'Client Interaction: Improvement Desired (Suggestions for further development)'
+    client_exceeded: 'Client Interaction: Exceeded Expectations (Really excels in this area)'
+    client_met: 'Client Interaction: Met Expectations (Does a good job)'
+    client_improve: 'Client Interaction: Improvement Desired (Suggestions for further development)'
 
-        ownership_exceeded: 'Ownership/Delivery focus: Exceeded Expectations (Really excels in this area)'
-        ownership_met: 'Ownership/Delivery focus: Met Expectations (Does a good job)'
-        ownership_improve: 'Ownership/Delivery focus: Improvement Desired (Suggestions for further development)'
+    ownership_exceeded: 'Ownership/Delivery focus: Exceeded Expectations (Really excels in this area)'
+    ownership_met: 'Ownership/Delivery focus: Met Expectations (Does a good job)'
+    ownership_improve: 'Ownership/Delivery focus: Improvement Desired (Suggestions for further development)'
 
-        leadership_exceeded: 'Leadership: Exceeded Expectations (Really excels in this area)'
-        leadership_met: 'Leadership: Met Expectations (Does a good job)'
-        leadership_improve: 'Leadership: Improvement Desired (Suggestions for further development)'
+    leadership_exceeded: 'Leadership: Exceeded Expectations (Really excels in this area)'
+    leadership_met: 'Leadership: Met Expectations (Does a good job)'
+    leadership_improve: 'Leadership: Improvement Desired (Suggestions for further development)'
 
-        teamwork_exceeded: 'Teamwork: Exceeded Expectations (Really excels in this area)'
-        teamwork_met: 'Teamwork: Met Expectations (Does a good job)'
-        teamwork_improve: 'Teamwork: Improvement Desired (Suggestions for further development)'
+    teamwork_exceeded: 'Teamwork: Exceeded Expectations (Really excels in this area)'
+    teamwork_met: 'Teamwork: Met Expectations (Does a good job)'
+    teamwork_improve: 'Teamwork: Improvement Desired (Suggestions for further development)'
 
-        attitude_exceeded: 'Attitude: Exceeded Expectations (Really excels in this area)'
-        attitude_met: 'Attitude: Met Expectations (Does a good job)'
-        attitude_improve: 'Attitude: Improvement Desired (Suggestions for further development)'
+    attitude_exceeded: 'Attitude: Exceeded Expectations (Really excels in this area)'
+    attitude_met: 'Attitude: Met Expectations (Does a good job)'
+    attitude_improve: 'Attitude: Improvement Desired (Suggestions for further development)'
 
-        professionalism_exceeded: 'Professionalism: Exceeded Expectations (Really excels in this area)'
-        professionalism_met: 'Professionalism: Met Expectations (Does a good job)'
-        professionalism_improve: 'Professionalism: Improvement Desired (Suggestions for further development)'
+    professionalism_exceeded: 'Professionalism: Exceeded Expectations (Really excels in this area)'
+    professionalism_met: 'Professionalism: Met Expectations (Does a good job)'
+    professionalism_improve: 'Professionalism: Improvement Desired (Suggestions for further development)'
 
-        organizational_exceeded: 'Organizational Improvement: Exceeded Expectations (Really excels in this area)'
-        organizational_met: 'Organizational Improvement: Met Expectations (Does a good job)'
-        organizational_improve: 'Organizational Improvement: Improvement Desired (Suggestions for further development)'
+    organizational_exceeded: 'Organizational Improvement: Exceeded Expectations (Really excels in this area)'
+    organizational_met: 'Organizational Improvement: Met Expectations (Does a good job)'
+    organizational_improve: 'Organizational Improvement: Improvement Desired (Suggestions for further development)'
 
-        innovative_exceeded: 'Innovation/Out of the box thinking: Exceeded Expectations (Really excels in this area)'
-        innovative_met: 'Innovation/Out of the box thinking: Met Expectations (Does a good job)'
-        innovative_improve: 'Innovation/Out of the box thinking: Improvement Desired (Suggestions for further development)'
+    innovative_exceeded: 'Innovation/Out of the box thinking: Exceeded Expectations (Really excels in this area)'
+    innovative_met: 'Innovation/Out of the box thinking: Met Expectations (Does a good job)'
+    innovative_improve: 'Innovation/Out of the box thinking: Improvement Desired (Suggestions for further development)'

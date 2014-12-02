@@ -58,64 +58,90 @@ class Review < ActiveRecord::Base
   def questions
     questions = {}
 
-    # old-style questions
-    questions["Tech"] = Question.new("Tech", "Technical Competence", ["tech_exceeded", "tech_met", "tech_improve"],
-                                     "<p>Aptitude/ knowledge/ skills <br />" +
-                                     "Able to understand the application?<br />" +
-                                     "Able to apply existing knowledge and skills during development/analysis?<br />" +
-                                     "Keen on learning new languages/tools/applications?<br />" +
-                                     "Share knowledge with other team members as and when required?<br />" +
-                                     "Self-driven?</p>")
-    questions["Client"] = Question.new("Client", "Client Interaction", ["client_exceeded", "client_met", "client_improve"],
-                                       "<p>Presentation/showcase skills, ability to handle unreasonable demands, suggest alternative solutions, negotiation, body language during client interactions</p>")
-    questions["Ownership"] = Question.new("Ownership", "Ownership/Delivery focus", ["ownership_exceeded", "ownership_met", "ownership_improve"],
-                                          "<p>Understands the need to deliver on time,  stretches to deliver if need be, accountability on stories that they have/are working on, dependability</p>")
-    questions["Leadership"] = Question.new("Leadership", "Leadership", ["leadership_exceeded", "leadership_met", "leadership_improve"],
-                                           "<p>Proactive, leads by example, motivates etc. <br />" +
-                                           "Mentoring: Bringing new team members up to speed, work with existing team members on areas that they find difficult to understand</p>")
-    questions["OldTeamwork"] = Question.new("OldTeamwork", "Teamwork", ["teamwork_exceeded", "teamwork_met", "teamwork_improve"],
-                                         "<p>Building relationships and working with team members, Updates to team, Pairing, internal communication/sharing feedback right and on time</p>")
-    questions["Attitude"] = Question.new("Attitude", "Attitude", ["attitude_exceeded", "attitude_met", "attitude_improve"],
-                                         "<p>Energy, Enthusiasm, Co-operative, Helpful, Approachable</p>")
-    questions["Professionalism"] = Question.new("Professionalism", "Professionalism", ["professionalism_exceeded", "professionalism_met", "professionalism_improve"],
-                                               "<p>Punctuality wrt Standups/ team meetings/ timesheet submission, planning and informing absence, professional conduct, ability to handle difficult team members/clients, conflict resolution</p>")
-    questions["Organizational"] = Question.new("Organizational", "Organizational Involvement", ["organizational_exceeded", "organizational_met", "organizational_improve"],
-                                               "<p>P1/P2: User groups, mailing lists, AC Learning Sessions, HOD, Away Day, lunch & learns</p>" +
-                                               "<p>P3/social Justice: Aware/Actively involved in SIP, townhall discussions, TW sponsored events such as Black Girls Code, Rails Girls, etc., volunteerism outside of TW, global events </p>" +
-                                               "<p>Recruiting, Code Reviews, team dinners, pub night, my.thoughtworks.com</p>")
-    questions["Innovative"] = Question.new("Innovative", "Innovation/Out of the box thinking", ["innovative_exceeded", "innovative_met", "innovative_improve"],
-                                           "<p>Simple new ideas that made lives easier on the project or clients/ unique innovative solutions in or outside of projects</p>")
-
     # new-style questions
-    questions["Role Competence"] = Question.new("Role Competence", "Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
-                                                "<p> <b>Understanding:</b> Tech stack, domain, trust to onboard others <br />" +
-                                                "<b>Ownership of concept:</b> go-to person for specific questions, accountability, leads discussions, confidence<br />" +
-                                                "<b>Learnings:</b> Eager to learn new tools/apps/languages, ability to apply learnings, innovative, side projects, self directed learnings<br />" +
-                                                "<b>Effective collaborator:</b> Good knowledge transfer, effective pair, knows shortcut keys, drives/navagates/rotates pairs, desk checks<br /></p>",
-                                                "role_competence_scale")
-    questions["Consulting Skills"] = Question.new("Consulting Skills", "Consulting Skills", ["consulting_skills_went_well", "consulting_skills_to_be_improved"],
-                                                  "<p><b>Customer Commitment:</b> understand what the client really needs, understand deadlines and why they are important, building relationships with the client, being able to influence client de    velopers to use technologies<br />" +
-                                                  "<b>Communication skils:</b> Asks questions, professionally offers concerns and alternative solutions, ability to influence, push back when needed<br />" +
-                                                  "<b>Delivery:</b> Stretches to deliver if need be, understands need to deliver on time<br />" +
-                                                  "<b>Aware of Perceptions:</b> professional client facing presence, good understanding of business needs vs. personal wants<br /></p>",
-                                                  "consulting_skills_scale")
+    questions["Role Competence"] = Question.new("Role Competence", " Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
+                    "<p class = \'ideaList\'> \
+                      <div class = \'ideaListHeader\'><b> Understanding:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> understand the tech stack and the business domain? </li>\
+                        <li> have sufficient knowledge to help onboard new team members? </li></ul>\
 
-    questions["Teamwork"] = Question.new("Teamwork", "Teamwork", ["teamwork_went_well", "teamwork_to_be_improved"],
-                                         "<p><b>Relationship building:</b> Working with team members, conflict resolution, people want to work with you again<br />" +
-                                         "<b>Feedback:</b> Ability to deliver and ask for feedback, reacts well to feedback<br />" +
-                                         "<b>Attitude:</b> Approachable, enthusiastic, helpful, respectful, will work outside of 40 hours to help project if needed<br />" +
-                                         "<b>Professionalism:</b> Professional client-facing presence, punctual, turns in time sheets, acceptable attendance and visability to team<br /></p>",
-                                         "teamwork_scale")
+                      <div class = \'ideaListHeader\'><b> Ownership of Concepts:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> act as a go-to person for a specific topic? </li>\
+                        <li> take leadership in situations related to their specialities? </li>\
+                        <li> teach others? </li></ul>\
 
-    questions["Contributions"] = Question.new("Contributions", "Contributions", ["contributions_went_well", "contributions_to_be_improved"],
-                                              "<p><b>Knowledge Sharing:</b> L&Ls, HOD, Away Day, AC Continuing Learning Sessions, hallway chats<br />" +
-                                              "<b>Social Resposibility:</b> Awareness, involvement, contribution<br />" +
-                                              "<b>TW sponsored events: ex:</b> SIP, Black Girls Code, Rails Girls, Black @ TW, WNB<br /></p>",
-                                              "contributions_scale")
+                      <div class = \'ideaListHeader\'><b> Self Directed Learning:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> study project-related topics outside of work? </li>\
+                        <li> apply lessons learned through studies to the project? </li>\
+                        <li> look for and suggest new ways to improve the project? </li></ul>\
+                    </p>", "role_competence_scale")
+
+    questions["Consulting Skills"] = Question.new("Consulting Skills", " Consulting Skills", ["consulting_skills_went_well", "consulting_skills_to_be_improved"],
+                    "<p class = \'ideaList\'> \
+                      <div class = \'ideaListHeader\'><b> Client Relationships:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> understand the clients\' needs and deadlines? </li>\
+                        <li> actively build relationships? </li>\
+                        <li> push back when necessary and provide constructive reasons? </li></ul>\
+
+                      <div class = \'ideaListHeader\'><b> Communication Skills\:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> ask questions and actively listen? </li>\
+                        <li> deliver focused and effective discussions? </li>\
+                        <li> offer concerns and alternative solutions? </li></ul>\
+
+                      <div class = \'ideaListHeader\'><b> Professionalism:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> demonstrate accountability for assigned tasks and responsibilities? </li>\
+                        <li> show up on time and work necessary hours? </li>\
+                        <li> behave appropriately in work environments? </li>\
+                        <li> follow through on commitments? </li>\
+                        <li> show awareness of others\' perceptions? </li></ul>\
+                    </p>", "consulting_skills_scale")
+
+    questions["Teamwork"] = Question.new("Teamwork", " Teamwork", ["teamwork_went_well", "teamwork_to_be_improved"],
+                    "<p class = \'ideaList\'>\
+                      <div class = \'ideaListHeader\'><b> Attitude:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> show enthusiasm for the project? </li>\
+                        <li> focus on helping the team succeed rather than having their own \'hero moments\'? </li></ul>\
+
+                      <div class = \'ideaListHeader\'><b> Collaboration:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> communicate effectively and respectfully to their pair? </li>\
+                        <li> facilitate cross-role communication? </li>\
+                        <li> resolve conflicts within the team? </li>\
+                        <li> give and receive feedback well? </li></ul>\
+                    </p>", "teamwork_scale")
+
+    questions["Contributions"] = Question.new("Contributions", " Contributions", ["contributions_went_well", "contributions_to_be_improved"],
+                    "<p class = \'ideaList\'>\
+                      <div class = \'ideaListHeader\'><b> Knowledge Sharing:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> give presentations or lead discussions? </li>\
+                        <li> reach out and offer support to other ThoughtWorkers? </li></ul>\
+
+                      <div class = \'ideaListHeader\'><b> Social Responsibility:</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>\
+                        <li> demonstrate awareness and interest in learning more about social issues? </li>\
+                        <li> participate in P3 events and discussions? </li></ul>\
+
+                      <div class = \'ideaListHeader\'><b> Participation</b> Does #{associate_consultant} </div>\
+                      <ul class = \'ideaListElement\'>
+                        <li> volunteer to organize or attend events? </li>\
+                        <li> actively contribute to the betterment of TW (ex: recruiting, provide feedback for AC Learning Plan)? </li></ul>\
+                    </p>", "contributions_scale")
 
     # BOTH
-    questions["Comments"] = Question.new("Comments", "General Comments", ["comments"],
-                                         "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
+    questions["Comments"] = Question.new("Comments", " General Comments", ["comments"],
+                    "<p>\
+                      <div class = \'ideaListHeader\'><b> Anything not covered above. </b>\
+                      What ealse do you want to share about #{associate_consultant}?</div>\
+                    </p>")
+                                        #  "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
     questions
   end
 
@@ -137,7 +163,7 @@ class Review < ActiveRecord::Base
     result = ""
     unless questions[heading].nil?
       if heading != "Comments"
-       result += "<p>Here are some topics to think about... </p>"
+       result += "<p>Here are some questions to consider... </p>"
       end
       result += questions[heading].description
     end

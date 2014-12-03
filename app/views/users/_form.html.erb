@@ -13,8 +13,12 @@
     <%= f.label :email %>
     <% if @user.errors[:email] %>
       <p class="field-error-message"><%= @user.errors[:email].first %></p>
-    <% end %>  
+    <% end %>
     <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= render partial: 'edit_profile' %>
   </div>
 
   <%= f.hidden_field :okta_name, value: current_okta_name %>

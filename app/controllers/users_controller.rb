@@ -94,7 +94,6 @@ class UsersController < ApplicationController
         else
           render 'edit'
         end
-
         # render "additional_emails/add_email.js.erb",
         #   locals: { email: params[:additional_email] }
       end
@@ -105,7 +104,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.js do
         email_id = params[:additional_email_id]
-        AdditionalEmail.destroy(email_id)
+        if email_id
+          AdditionalEmail.destroy(email_id)
+        end
       end
       render 'edit'
     end

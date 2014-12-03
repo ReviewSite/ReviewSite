@@ -22,8 +22,8 @@ describe "User pages: " do
       let(:new_email) { "immanew@example.com" }
 
       before do
-        fill_in "Name",             with: new_name
-        fill_in "Email",            with: new_email
+        fill_in "Name",                     with: new_name
+        fill_in "Email",                    with: new_email
         click_button "Save Changes"
       end
 

@@ -88,12 +88,12 @@ jQuery (function () {
       dataType:'script',
       type:'get',
       url: 'add_email'
-    })
+    });
 
     $("#new-email").val('');
   });
 
-  $(".remove-additional-email").on("click", function(){
+  $(document).on("click", ".remove-additional-email", function(){
     $.ajax({
       complete:function(request){},
       data:'additional_email_id='+ $(this).attr('id'),
@@ -101,6 +101,7 @@ jQuery (function () {
       type:'get',
       url: 'remove_email'
     });
+
     var email_id = $(this).attr('id');
 
     $(".email-address-column#"+email_id).closest('tr').remove();

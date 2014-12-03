@@ -1,6 +1,6 @@
 <tr>
   <%= nested_form_for @user do |f| %>
-    <td class='email-address-column', id= "<%=additional_email.id %>" >
+    <td class='email-address-column', id= "<%= additional_email.id %>" >
       <%= additional_email.email %>
       <% if additional_email.errors.any? %>
         <p class="field-error-message">

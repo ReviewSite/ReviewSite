@@ -1,4 +1,6 @@
 require 'spec_helper'
+include WaitForAjax
+
 
 describe "User pages: " do
   subject { page }
@@ -42,28 +44,71 @@ describe "User pages: " do
         fill_in "Email",                    with: new_email
       end
 
-      describe "with valid information", js: true do
-        it "should display the email" do
-          additional_email = "nottakenemail@thoughtworks.com"
+      describe "with valid, ThoughtWorks email", js: true do
+        additional_email = "nottakenemail@thoughtworks.com"
+
+        before do
           user = FactoryGirl.create(:user, okta_name: "nottaken",
             email: "randomemailthatworks@thoughtworks.com")
           fill_in "new-email",        with: additional_email
           click_link "Add"
+        end
 
+        it "should display the email" do
           page.should have_selector('.email-address-column',
             text: additional_email)
         end
+
+        it "should create an additional email in the database" do
+          wait_for_ajax
+          AdditionalEmail.find_by_email(additional_email).email.eql? additional_email
+        end
       end
 
-      describe "with invalid information", js: true do
+      describe "with invalid, ThoughtWorks email", js: true do
+        additional_email = "invalidthoughtworks.com"
+        before do
+          user = FactoryGirl.create(:user, okta_name: "reserved",
+            email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",        with: additional_email
+          click_link "Add"
+        end
+
         it "should display the email with an error message" do
-          additional_email = "invalidemail.com"
+          page.should have_selector('.field-error-message',
+            text: "Email is invalid")
+        end
+
+        it "should not create an additional email in the database" do
+          wait_for_ajax
+          AdditionalEmail.find_by_email(additional_email).should
+          be_nil
+        end
+      end
+
+      describe "with valid, non-ThoughtWorks email", js: true do
+        it "should display the email with an error message" do
+          additional_email = "valid@nontw.com"
           user = FactoryGirl.create(:user, okta_name: "nottaken",
             email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",              with: additional_email
           click_link "Add"
 
-          page.should have_selector('.field-error-message', text: "Email is invalid")
+          page.should have_selector('.field-error-message',
+            text: "Email must be a ThoughtWorks email")
+        end
+      end
+
+      describe "with invalid email", js: true do
+        it "should display the email with an error message" do
+          additional_email = "invalidnontw.com"
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+          email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",              with: additional_email
+          click_link "Add"
+
+          page.should have_selector('.field-error-message',
+            text: "Email is invalid")
         end
       end
     end

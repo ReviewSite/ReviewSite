@@ -87,7 +87,7 @@ class UsersController < ApplicationController
               else
                 # render 'edit'
               end
-              render "additional_emails/add_email.js.erb",
+              render "additional_emails/add_email",
                 locals: { email: @new_email }
             end
           end

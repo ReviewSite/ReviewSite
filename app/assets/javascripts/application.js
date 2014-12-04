@@ -110,4 +110,12 @@ jQuery (function () {
   $(".edit-additional-email").on("click", function() {
     $(this).closest('td').html();
   });
+
+  $('#new-email').keypress(function (e) {
+    var key = e.which;
+    if(key == 13) {
+        $('#add-email').click();
+        return false;
+    }
+  });
 });

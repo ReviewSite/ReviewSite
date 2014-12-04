@@ -158,7 +158,6 @@ describe "User pages: " do
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
-
         current_path.should eql users_path
 
         visit user_path(nonadmin)

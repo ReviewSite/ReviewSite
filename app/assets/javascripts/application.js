@@ -107,10 +107,6 @@ jQuery (function () {
     $(".email-address-column#"+email_id).closest('tr').remove();
   });
 
-  $(".edit-additional-email").on("click", function() {
-    $(this).closest('td').html();
-  });
-
   $('#new-email').keypress(function (e) {
     var key = e.which;
     if(key == 13) {

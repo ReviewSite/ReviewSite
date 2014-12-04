@@ -1,6 +1,5 @@
 <div>
-<!-- <section class="form-container"> -->
-<!-- <%= nested_form_for @user do |f| %> -->
+  <!-- <%= nested_form_for @user do |f| %> -->
 
   <div class="field" style="display:block" id="additional_email">
     <label> Add Additional Email </label>
@@ -12,11 +11,6 @@
   </div>
 
   <div class="field">
-    <!-- <%= f.label :email, "Primary Email" %>
-    <% if @user.errors[:email] %>
-      <p class="field-error-message"><%= @user.errors[:email].first %></p>
-    <% end %>
-    <%= f.text_field :email %> -->
     <table class="email-address-table">
       <tr>
         <td class="email-address-column"> <%= @user.email %> </td>
@@ -32,17 +26,13 @@
     </table>
   </div>
 
-
   <%= f.hidden_field :okta_name, value: current_okta_name %>
 
+  <!-- <% end %> -->
 
-<!-- <% end %> -->
-
-<% if !signed_in? %>
-  <div class="margin-top-30">
-    <p>Already have an account? <%= link_to "Sign In", signin_path %></p>
-  </div>
-<% end %>
-
-<!-- </section> -->
+  <% if !signed_in? %>
+    <div class="margin-top-30">
+      <p>Already have an account? <%= link_to "Sign In", signin_path %></p>
+    </div>
+  <% end %>
 </div>

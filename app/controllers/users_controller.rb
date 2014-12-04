@@ -104,7 +104,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.js do
         email_id = params[:additional_email_id]
-        if email_id
+        if defined?(email_id)
           AdditionalEmail.destroy(email_id)
         end
       end

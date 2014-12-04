@@ -16,7 +16,9 @@
       </td>
     <% else %>
       <td>
-        <a class='fa fa-pencil fa-lg fa-fw edit-additional-email' style='float:right;'></a>
+        <%= link_to "", '', remote: true,
+        class: 'fa fa-trash fa-lg fa-fw remove-additional-email',
+          style: 'float:right;' %>
       </td>
     <% end %>
   <% end %>

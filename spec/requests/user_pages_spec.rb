@@ -33,6 +33,41 @@ describe "User pages: " do
       specify { user.reload.email.should == new_email }
     end
 
+    describe "user adds an additional email" do
+      let(:new_name)  { "Imma NewName" }
+      let(:new_email) { "immanew@example.com" }
+
+      before do
+        fill_in "Name",                     with: new_name
+        fill_in "Email",                    with: new_email
+      end
+
+      describe "with valid information", js: true do
+        it "should display the email" do
+          additional_email = "nottakenemail@thoughtworks.com"
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+            email: "randomemailthatworks@thoughtworks.com")
+          fill_in "new-email",        with: additional_email
+          click_link "Add"
+
+          page.should have_selector('.email-address-column',
+            text: additional_email)
+        end
+      end
+
+      describe "with invalid information", js: true do
+        it "should display the email with an error message" do
+          additional_email = "invalidemail.com"
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+            email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",              with: additional_email
+          click_link "Add"
+
+          page.should have_selector('.field-error-message', text: "Email is invalid")
+        end
+      end
+    end
+
     describe "user with invalid information" do
       before do
         fill_in "Name", with: "a"
@@ -41,6 +76,7 @@ describe "User pages: " do
       end
       it { should have_content('invalid') }
     end
+
 
     describe "as an admin", js: true do
       it "can make another user an admin" do

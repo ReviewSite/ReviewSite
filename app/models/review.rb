@@ -58,12 +58,11 @@ class Review < ActiveRecord::Base
   def questions
     questions = {}
 
-    # new-style questions
     questions["Role Competence"] = Question.new("Role Competence", " Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
                     "<p class = \'ideaList\'> \
                       <div class = \'ideaListHeader\'><b> Understanding:</b> Does #{associate_consultant} </div>\
                       <ul class = \'ideaListElement\'>\
-                        <li> understand the tech stack and the business domain? </li>\
+                        <li> understand the tech stack and/or the business domain? </li>\
                         <li> have sufficient knowledge to help onboard new team members? </li></ul>\
 
                       <div class = \'ideaListHeader\'><b> Ownership of Concepts:</b> Does #{associate_consultant} </div>\
@@ -90,7 +89,7 @@ class Review < ActiveRecord::Base
                       <div class = \'ideaListHeader\'><b> Communication Skills\:</b> Does #{associate_consultant} </div>\
                       <ul class = \'ideaListElement\'>\
                         <li> ask questions and actively listen? </li>\
-                        <li> deliver focused and effective discussions? </li>\
+                        <li> contribute focused and effective ideas to discussions? </li>\
                         <li> offer concerns and alternative solutions? </li></ul>\
 
                       <div class = \'ideaListHeader\'><b> Professionalism:</b> Does #{associate_consultant} </div>\
@@ -111,7 +110,7 @@ class Review < ActiveRecord::Base
 
                       <div class = \'ideaListHeader\'><b> Collaboration:</b> Does #{associate_consultant} </div>\
                       <ul class = \'ideaListElement\'>\
-                        <li> communicate effectively and respectfully to their pair? </li>\
+                        <li> communicate effectively and respectfully in one-on-one conversations? </li>\
                         <li> facilitate cross-role communication? </li>\
                         <li> resolve conflicts within the team? </li>\
                         <li> give and receive feedback well? </li></ul>\
@@ -135,13 +134,11 @@ class Review < ActiveRecord::Base
                         <li> actively contribute to the betterment of TW (ex: recruiting, provide feedback for AC Learning Plan)? </li></ul>\
                     </p>", "contributions_scale")
 
-    # BOTH
     questions["Comments"] = Question.new("Comments", " General Comments", ["comments"],
                     "<p>\
                       <div class = \'ideaListHeader\'><b> Anything not covered above. </b>\
-                      What ealse do you want to share about #{associate_consultant}?</div>\
+                      What else do you want to share about #{associate_consultant}?</div>\
                     </p>")
-                                        #  "<p>Anything not covered above. What else do you want to share about #{associate_consultant}?</p>")
     questions
   end
 

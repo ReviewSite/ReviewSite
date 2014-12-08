@@ -7,6 +7,7 @@ class AdditionalEmail < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   validates :user_id, presence: true
   validate :must_be_thoughtworks_email
+  belongs_to :user
   after_validation :check_errors
 
   def must_be_thoughtworks_email

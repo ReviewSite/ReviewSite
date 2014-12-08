@@ -9,29 +9,23 @@ class Ability
       can :create, User
     else
       # baseline
-      can :manage, SelfAssessment do | self_assessment |
-        self_assessment.review.upcoming? &&
-          own_review?(self_assessment.review, user)
+      can :manage, SelfAssessment, :review => { :associate_consultant => { :user_id => user.id } }
+
+      can :manage, Invitation, :review => { :associate_consultant => { :user_id => user.id } }
+      can :manage, Invitation, :review => { :associate_consultant => { :coach_id => user.id } }
+      can [:read, :destroy], Invitation, :email => user.email
+
+      can [:read, :update, :destroy], Feedback, { :submitted => false, :user_id => user.id }
+
+      can [:create, :new], Feedback do |feedback, review = ability_review |
+        !review.invitations.where(email: user.email).empty? || (review.associate_consultant.user.id == user.id) ||
+          !review.invitations.where(user.additional_emails.includes(:email)).empty?
       end
 
-      can :manage, Invitation do | invitation |
-        invitation.review.upcoming? &&
-          (own_review?(invitation.review, user) ||
-          coachee_review?(invitation.review, user))
+      can :additional, Feedback do |feedback, review = ability_review|
+        review.associate_consultant.user.id == user.id
       end
-      can [:read, :destroy],
-          Invitation,
-          email: user.email
 
-      can [:read, :update, :destroy],
-          Feedback,
-          submitted: false, user_id: user.id
-      can [:create, :new], Feedback do | feedback |
-        feedback.review.upcoming? && (
-          !feedback.review.invitations.where(email: user.email).empty? ||
-          own_review?(feedback.review, user)
-        )
-      end
       can :send_reminder, Feedback, review: { associate_consultant:
         { user_id: user.id } }
       can :send_reminder, Feedback, review: { associate_consultant:

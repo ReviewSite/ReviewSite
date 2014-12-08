@@ -119,7 +119,13 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @invitations = Invitation.includes(:review, {:review => {:associate_consultant => :user}}).select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
+    @invitations = Invitation.includes(:review, {:review => {:associate_consultant => :user}}).select do |invitation|
+      if invitation.sent_to?(current_user) && !invitation.feedback
+        next(true)
+      elsif extra_email = AdditionalEmail.find_by_email(invitation.email)
+        next(User.find(extra_email.user_id) == current_user)
+      end
+    end
 
     @feedbacks = current_user.feedbacks.includes(:review).where(submitted: false)
   end

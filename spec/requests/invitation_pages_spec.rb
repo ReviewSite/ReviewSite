@@ -60,6 +60,35 @@ describe "Invitations" do
       end
     end
 
+    context "as an ac" do
+      context "inviting an email alias" do
+        additional_email = "anextraemail@thoughtworks.com"
+        before do
+          FactoryGirl.create(:additional_email, email: additional_email,
+            user_id: invited_user.id)
+          sign_in ac_user
+          visit new_review_invitation_path(review)
+          fill_in "emails", with: additional_email
+          fill_in "message", with: "Why, hello!"
+        end
+
+        it "should give the invited user a feedback request" do
+          user = FactoryGirl.create(:user) # placeholder
+          invite = Invitation.find_by_email(additional_email)
+          if invite
+            user = User.find_by_email(additional_email)
+            if user.nil?
+              user = AdditionalEmail.find_by_email(additional_email)
+              if user
+                user = User.find(user.user_id)
+              end
+            end
+          end
+          user.id.should.eql? invited_user.id
+        end
+      end
+    end
+
     context "as other user" do
       it "should not be accessible to other users" do
         other_user = FactoryGirl.create(:user)

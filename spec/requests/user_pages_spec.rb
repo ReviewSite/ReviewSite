@@ -62,6 +62,13 @@ describe "User pages: " do
         it "should create an additional email in the database" do
           wait_for_ajax
           AdditionalEmail.find_by_email(additional_email).email.eql? additional_email
+          user.additional_emails.first.email.eql? additional_email
+        end
+
+        it "should send a confirmation email" do
+          wait_for_ajax
+          email = ActionMailer::Base.deliveries.last
+          email.to.should == [additional_email]
         end
       end
 

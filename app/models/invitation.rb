@@ -37,7 +37,7 @@
       user
     else
      email = AdditionalEmail.find_by_email(email)
-     if !email.nil?
+     if !email.nil? && email.confirmed_at?
        User.find(email.user_id)
      end
    end

@@ -8,6 +8,15 @@ describe AdditionalEmail do
 
   it { should respond_to(:user_id) }
   it { should respond_to(:email) }
+  it { should respond_to(:confirmed_at) }
+  it { should respond_to(:confirmation_sent_at) }
+  it { should respond_to(:confirmation_token) }
+
+  describe "Default values" do
+    it "include an unconfirmed email" do
+      email.confirmed_at.should be_false
+    end
+  end
 
   describe "When email is blank" do
     before { email.email = "" }

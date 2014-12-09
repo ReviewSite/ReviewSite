@@ -123,7 +123,9 @@ class UsersController < ApplicationController
       if invitation.sent_to?(current_user) && !invitation.feedback
         next(true)
       elsif extra_email = AdditionalEmail.find_by_email(invitation.email)
-        next(User.find(extra_email.user_id) == current_user)
+        if extra_email.confirmed_at?
+          next(User.find(extra_email.user_id) == current_user)
+        end
       end
     end
 

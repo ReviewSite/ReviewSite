@@ -12,6 +12,11 @@ module FeedbacksHelper
       if invitation.sent_to?(current_user) and !invitation.feedback
         invitations << invitation
       end
+      if extra_email = AdditionalEmail.find_by_email(invitation.email)
+        if User.find(extra_email.user_id) == current_user
+          invitations << invitation
+        end
+      end
     end
 
     user.feedbacks.where("submitted = ?", false).count + invitations.count

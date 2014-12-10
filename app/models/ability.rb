@@ -11,11 +11,14 @@ class Ability
       # baseline
       can :manage, SelfAssessment, :review => { :associate_consultant => { :user_id => user.id } }
 
+
       can :manage, Invitation, :review => { :associate_consultant => { :user_id => user.id } }
       can :manage, Invitation, :review => { :associate_consultant => { :coach_id => user.id } }
       can [:read, :destroy], Invitation, :email => user.email
 
       can [:read, :update, :destroy], Feedback, { :submitted => false, :user_id => user.id }
+
+      can :manage, AdditionalEmail
 
       can [:create, :new], Feedback do |feedback, review = ability_review |
         !review.invitations.where(email: user.email).empty? || (review.associate_consultant.user.id == user.id) ||

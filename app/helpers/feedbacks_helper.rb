@@ -13,8 +13,10 @@ module FeedbacksHelper
         invitations << invitation
       end
       if extra_email = AdditionalEmail.find_by_email(invitation.email)
-        if User.find(extra_email.user_id) == current_user
-          invitations << invitation
+        if extra_email.confirmed_at?
+          if User.find(extra_email.user_id) == current_user
+            invitations << invitation
+          end
         end
       end
     end

@@ -82,6 +82,9 @@ class UsersController < ApplicationController
             emails.each do |email|
               @new_email = AdditionalEmail.new(user_id: @user.id, email: email)
               if @new_email.save
+                if flash
+                  flash.clear
+                end
                 # render "additional_emails/add_email.js.erb",
                 #   locals: { email: @new_email }
               else

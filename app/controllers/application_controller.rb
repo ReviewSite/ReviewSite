@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :require_login
 
-  check_authorization
+  check_authorization :unless => :devise_controller?
   protect_from_forgery
   include SessionsHelper
 

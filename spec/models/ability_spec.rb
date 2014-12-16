@@ -174,6 +174,28 @@ describe Ability do
     end
   end
 
+  describe "as an Alias-Invited User" do
+    let!(:invited_user) { FactoryGirl.create(:user) }
+    let!(:email_alias) { FactoryGirl.create(:additional_email,
+      user: invited_user, email: "alias@thoughtworks.com",
+        confirmed_at: Date.today) }
+    let!(:invitation) { FactoryGirl.create(:invitation, review: review,
+      email: email_alias.email) }
+
+    subject do
+      Ability.new(invited_user)
+    end
+
+    it "should allow users to create feedback "\
+      "for invites sent to their email aliases" do
+      should be_able_to(:create, review.feedbacks.build)
+    end
+
+    it "should allow users to decline invitation" do
+      should be_able_to(:destroy, invitation)
+    end
+  end
+
   describe "as a User Giving Feedback" do
     subject { Ability.new(feedback.user) }
 

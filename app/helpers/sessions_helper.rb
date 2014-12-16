@@ -5,7 +5,7 @@ module SessionsHelper
     redirect_back_or(root_url)
   end
 
-  def signed_in?
+  def signed_in?(options ={})
     not current_user.nil?
   end
 

@@ -60,6 +60,40 @@ describe "Invitations" do
       end
     end
 
+    describe "as an ac" do
+      context "when I invite someone for feedback" do
+        # additional_email = "anextraemail@thoughtworks.com"
+        let(:additional_email) { "anextraemail@thoughtworks.com" }
+
+        before do
+          FactoryGirl.create(:additional_email, email: additional_email,
+            user_id: invited_user.id)
+          sign_in ac_user
+          visit new_review_invitation_path(review)
+          fill_in "emails", with: additional_email
+          fill_in "message", with: "Why, hello!"
+          click_button "Send"
+        end
+        context "with an unconfirmed email alias" do
+          it "should not display a feedback request" do
+            sign_in invited_user
+            visit feedbacks_user_path(invited_user)
+
+            page.should_not have_content(ac_user.name)
+          end
+        end
+
+        context "with a confirmed email alias" do
+          it "should display a feedback request" do
+            extra_email = AdditionalEmail.find_by_email(additional_email)
+            extra_email.confirmed_at = Date.today
+
+            page.should have_content(ac_user.name)
+          end
+        end
+      end
+    end
+
     context "as other user" do
       it "should not be accessible to other users" do
         other_user = FactoryGirl.create(:user)

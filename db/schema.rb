@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141002153312) do
+ActiveRecord::Schema.define(:version => 20141209200814) do
+
+  create_table "additional_emails", :force => true do |t|
+    t.string   "email"
+    t.integer  "user_id"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+  end
 
   create_table "associate_consultants", :force => true do |t|
     t.datetime "created_at",         :null => false

@@ -1,4 +1,6 @@
 require 'spec_helper'
+include WaitForAjax
+
 
 describe "User pages: " do
   subject { page }
@@ -22,8 +24,8 @@ describe "User pages: " do
       let(:new_email) { "immanew@example.com" }
 
       before do
-        fill_in "Name",             with: new_name
-        fill_in "Email",            with: new_email
+        fill_in "Name",                     with: new_name
+        fill_in "Email",                    with: new_email
         click_button "Save Changes"
       end
 
@@ -31,6 +33,91 @@ describe "User pages: " do
       it { should have_link('Sign Out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
+    end
+
+    describe "user adds an additional email" do
+      let(:new_name)  { "Imma NewName" }
+      let(:new_email) { "immanew@example.com" }
+
+      before do
+        fill_in "Name",                     with: new_name
+        fill_in "Email",                    with: new_email
+      end
+
+      describe "with valid, ThoughtWorks email", js: true do
+        additional_email = "nottakenemail@thoughtworks.com"
+
+        before do
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+            email: "randomemailthatworks@thoughtworks.com")
+          fill_in "new-email",        with: additional_email
+          click_link "Add"
+        end
+
+        it "should display the email" do
+          page.should have_selector('.email-address-column',
+            text: additional_email)
+        end
+
+        it "should create an additional email in the database" do
+          wait_for_ajax
+          AdditionalEmail.find_by_email(additional_email).email.eql? additional_email
+          user.additional_emails.first.email.eql? additional_email
+        end
+
+        it "should send a confirmation email" do
+          wait_for_ajax
+          email = ActionMailer::Base.deliveries.last
+          email.to.should == [additional_email]
+        end
+      end
+
+      describe "with invalid, ThoughtWorks email", js: true do
+        additional_email = "invalidthoughtworks.com"
+        before do
+          user = FactoryGirl.create(:user, okta_name: "reserved",
+            email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",        with: additional_email
+          click_link "Add"
+        end
+
+        it "should display the email with an error message" do
+          page.should have_selector('.field-error-message',
+            text: "Email is invalid")
+        end
+
+        it "should not create an additional email in the database" do
+          wait_for_ajax
+          AdditionalEmail.find_by_email(additional_email).should
+          be_nil
+        end
+      end
+
+      describe "with valid, non-ThoughtWorks email", js: true do
+        it "should display the email with an error message" do
+          additional_email = "valid@nontw.com"
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+            email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",              with: additional_email
+          click_link "Add"
+
+          page.should have_selector('.field-error-message',
+            text: "Email must be a ThoughtWorks email")
+        end
+      end
+
+      describe "with invalid email", js: true do
+        it "should display the email with an error message" do
+          additional_email = "invalidnontw.com"
+          user = FactoryGirl.create(:user, okta_name: "nottaken",
+          email: "somethingnottaken@thoughtworks.com")
+          fill_in "new-email",              with: additional_email
+          click_link "Add"
+
+          page.should have_selector('.field-error-message',
+            text: "Email is invalid")
+        end
+      end
     end
 
     describe "user with invalid information" do
@@ -41,6 +128,7 @@ describe "User pages: " do
       end
       it { should have_content('invalid') }
     end
+
 
     describe "as an admin", js: true do
       it "can make another user an admin" do
@@ -77,7 +165,6 @@ describe "User pages: " do
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
-
         current_path.should eql users_path
 
         visit user_path(nonadmin)

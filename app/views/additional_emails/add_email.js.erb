@@ -1,0 +1,7 @@
+<% if email.errors.any? %>
+  $("label:contains('Add Additional Email')").append("<p class='field-error-message'><%= email.errors.full_messages.first %></p>");
+  $("#new-email").val("<%= email.email %>");
+<% else %>
+  $("#additional_email .field-error-message").remove();
+  $(".email-address-table").append("<%= escape_javascript render(partial: 'additional_emails/additional_email', locals: { additional_email: email }) %>");
+<% end %>

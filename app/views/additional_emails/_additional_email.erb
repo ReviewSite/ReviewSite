@@ -1,0 +1,25 @@
+<tr>
+  <%= nested_form_for @user do |f| %>
+    <td class='email-address-column', id= "<%= additional_email.id %>" >
+      <%= additional_email.email %>
+      <% if additional_email.errors.any? %>
+        <p class="field-error-message">
+          <%= additional_email.errors.full_messages.first %>
+        </p>
+      <% end %>
+    </td>
+    <% if !additional_email.id.nil? %>
+      <td>
+        <%= link_to "", 'remove_email', remote: true,
+            class: 'fa fa-trash fa-lg fa-fw remove-additional-email',
+              style: 'float:right;', id: additional_email.id %>
+      </td>
+    <% else %>
+      <td>
+        <%= link_to "", '', remote: true,
+        class: 'fa fa-trash fa-lg fa-fw remove-additional-email',
+          style: 'float:right;' %>
+      </td>
+    <% end %>
+  <% end %>
+</tr>

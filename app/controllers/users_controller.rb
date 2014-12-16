@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
   before_filter :load_user, :only => [:show, :edit, :update, :destroy, :feedbacks]
+  respond_to :js
 
   def new
     @user = User.new
@@ -71,6 +72,49 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_email
+    respond_to do |format|
+      format.js do
+        emails = params[:additional_email]
+        if !emails.nil?
+          emails = emails.split(',')
+          if emails.kind_of?(Array)
+            emails.each do |email|
+              @new_email = AdditionalEmail.new(user_id: @user.id, email: email)
+              if @new_email.save
+                if flash
+                  flash.clear
+                end
+                # render "additional_emails/add_email.js.erb",
+                #   locals: { email: @new_email }
+              else
+                # render 'edit'
+              end
+              render "additional_emails/add_email",
+                locals: { email: @new_email }
+            end
+          end
+        else
+          render 'edit'
+        end
+        # render "additional_emails/add_email.js.erb",
+        #   locals: { email: params[:additional_email] }
+      end
+    end
+  end
+
+  def remove_email
+    respond_to do |format|
+      format.js do
+        email_id = params[:additional_email_id]
+        if defined?(email_id)
+          AdditionalEmail.destroy(email_id)
+        end
+      end
+      render 'edit'
+    end
+  end
+
   def destroy
     flash[:success] = "User \"#{@user.name}\" was successfully deleted."
     @user.destroy
@@ -78,7 +122,15 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @invitations = Invitation.includes(:review, {:review => {:associate_consultant => :user}}).select{|invitation| invitation.sent_to?(current_user) && !invitation.feedback}
+    @invitations = Invitation.includes(:review, {:review => {:associate_consultant => :user}}).select do |invitation|
+      if invitation.sent_to?(current_user) && !invitation.feedback
+        next(true)
+      elsif extra_email = AdditionalEmail.find_by_email(invitation.email)
+        if extra_email.confirmed_at?
+          next(User.find(extra_email.user_id) == current_user)
+        end
+      end
+    end
 
     @feedbacks = current_user.feedbacks.includes(:review).where(submitted: false)
   end

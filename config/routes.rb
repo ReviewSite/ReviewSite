@@ -58,8 +58,13 @@ ReviewSite::Application.routes.draw do
     get :completed_feedback, on: :member
   end
 
-  if ENV["OKTA-TEST-MODE"]
-    match "/set_temp_okta", to: "sessions#set_temp_okta", via: :post
+  devise_for :additional_emails
+
+  get 'users/:id/add_email', to: 'users#add_email'
+  get 'users/:id/remove_email', to: 'users#remove_email'
+
+  if ENV['OKTA-TEST-MODE']
+    match '/set_temp_okta', to: 'sessions#set_temp_okta', via: :post
   end
 
 end

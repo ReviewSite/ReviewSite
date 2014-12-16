@@ -32,7 +32,15 @@
   end
 
   def user
-    User.find_by_email(email)
+    user = User.find_by_email(email)
+    if !user.nil?
+      user
+    else
+     email = AdditionalEmail.find_by_email(email)
+     if !email.nil? && email.confirmed_at?
+       User.find(email.user_id)
+     end
+   end
   end
 
   def feedback

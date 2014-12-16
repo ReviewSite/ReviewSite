@@ -53,8 +53,13 @@ ReviewSite::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  # for checking devise confirmation emails
+  # config.action_mailer.default_url_options = { :host => 'localhost:9292' }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
+
   # Allow mailers to use named routes in emails
-  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  config.action_mailer.default_url_options = { :host => "localhost:9292" }
 
   ENV['OKTA-TEST-MODE'] = "true"
   ENV['URL_CALLBACK'] = "http://localhost:9292/auth/saml/callback"

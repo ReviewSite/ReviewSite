@@ -16,6 +16,7 @@ gem 'jquery-tokeninput-rails'
 gem 'pg'
 gem 'axlsx_rails'
 gem 'faker'
+gem 'devise'
 
 # Gems used only for assets and not required
 # in production environments by default.

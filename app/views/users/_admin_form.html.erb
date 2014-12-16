@@ -1,59 +1,65 @@
 <section class="form-container">
-<%= nested_form_for @user do |f| %>
+  <%= nested_form_for @user do |f| %>
 
-  <p>When creating a new user account for someone else, a welcome email will be sent to them.</p>
+    <p>When creating a new user account for someone else, a welcome email will be sent to them.</p>
 
-  <div class="field">
-    <%= f.label :name %>
-    <% if @user.errors[:name] %>
-      <p class="field-error-message"><%= @user.errors[:name].first %></p>
-    <% end %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %>
-    <% if @user.errors[:email] %>
-      <p class="field-error-message"><%= @user.errors[:email].first %></p>
-    <% end %>
-    <%= f.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= f.label :okta_name %>
-     <% if @user.errors[:okta_name] %>
-      <p class="field-error-message"><%= @user.errors[:okta_name].first %></p>
-    <% end %>
-    <p class="help-text">This must match the username used to log in to OKTA.</p>
-    <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
-  </div>
-
-  <% if current_user != @user %>
     <div class="field">
-      <%= f.check_box :admin %> <%= f.label :admin, class: "checkbox" %>
+      <%= f.label :name %>
+      <% if @user.errors[:name] %>
+        <p class="field-error-message"><%= @user.errors[:name].first %></p>
+      <% end %>
+      <%= f.text_field :name %>
     </div>
 
     <div class="field">
-      <%= check_box_tag 'isac',
-        '1', # value
-        !@user.associate_consultant.blank? || !@user.associate_consultant.errors.empty?, #checked
-        disabled: @user.ac? %>
-      <%= f.label "Associate Consultant", class: "checkbox" %>
-      <% unless @user.ac? %>
-        <p class="help-text">Reviews will be created for new ACs if start date is not blank.</p>
+      <%= f.label :email %>
+      <% if @user.errors[:email] %>
+        <p class="field-error-message"><%= @user.errors[:email].first %></p>
+      <% end %>
+      <%= f.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= f.fields_for :additional_email do |email_fields| %>
+        <%= render :partial => 'edit_profile', locals: { form: email_fields } %>
       <% end %>
     </div>
 
-    <section class="nested-form-container">
-      <%= f.fields_for :associate_consultant %>
-    </section>
+    <div class="field">
+      <%= f.label :okta_name %>
+       <% if @user.errors[:okta_name] %>
+        <p class="field-error-message"><%= @user.errors[:okta_name].first %></p>
+      <% end %>
+      <p class="help-text">This must match the username used to log in to OKTA.</p>
+      <%= f.text_field :okta_name, value: @user.nil? ? "" : @user.okta_name %>
+    </div>
+
+    <% if current_user != @user %>
+      <div class="field">
+        <%= f.check_box :admin %> <%= f.label :admin, class: "checkbox" %>
+      </div>
+
+      <div class="field">
+        <%= check_box_tag 'isac',
+          '1', # value
+          !@user.associate_consultant.blank? || !@user.associate_consultant.errors.empty?, #checked
+          disabled: @user.ac? %>
+        <%= f.label "Associate Consultant", class: "checkbox" %>
+        <% unless @user.ac? %>
+          <p class="help-text">Reviews will be created for new ACs if start date is not blank.</p>
+        <% end %>
+      </div>
+
+      <section class="nested-form-container">
+        <%= f.fields_for :associate_consultant %>
+      </section>
+
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "#{button_title}", :id => "user-form-submit" %>
+      <%= link_to "Cancel", users_path, :class => "diet button" %>
+    </div>
 
   <% end %>
-
-  <div class="actions">
-    <%= f.submit "#{button_title}", :id => "user-form-submit" %>
-    <%= link_to "Cancel", users_path, :class => "diet button" %>
-  </div>
-
-<% end %>
 </section>

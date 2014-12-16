@@ -50,6 +50,8 @@ RSpec.configure do |config|
 
   config.include Capybara::DSL
 
+  config.include WaitForAjax, type: :feature
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end

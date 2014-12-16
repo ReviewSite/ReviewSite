@@ -18,7 +18,7 @@ describe AdditionalEmail do
     end
   end
 
-  describe "When email is blank" do
+  context "When email is blank" do
     before { email.email = "" }
     it { should_not be_valid }
 
@@ -29,7 +29,7 @@ describe AdditionalEmail do
     end
   end
 
-  describe "When email is invalid" do
+  context "When email is invalid" do
     before { email.email = "notinvalid" }
     it { should_not be_valid }
 
@@ -40,7 +40,7 @@ describe AdditionalEmail do
     end
   end
 
-  describe "when email is not a ThoughtWorks email" do
+  context "when email is not a ThoughtWorks email" do
     before { email.email = "bademail@nottw.com" }
     it { should_not be_valid }
 
@@ -51,7 +51,7 @@ describe AdditionalEmail do
     end
   end
 
-  describe "when email does not belong to a user" do
+  context "when email does not belong to a user" do
     before { email.user_id = nil }
     it { should_not be_valid }
 
@@ -60,6 +60,16 @@ describe AdditionalEmail do
       email.errors[:user_id].count.should == 1
       email.errors.messages[:user_id].should
         include("can't be blank.")
+    end
+  end
+
+  context "when email is valid" do
+    it "should be unique among all emails" do
+      FactoryGirl.create(:user, email: "takenemail@thoughtworks.com")
+      email = FactoryGirl.build(:additional_email,
+        email: "takenemail@thoughtworks.com")
+
+      email.should_not be_valid 
     end
   end
 end

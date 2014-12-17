@@ -8,7 +8,7 @@ For more information, check out the techniques described on [BetterSpecs][1]!
 RSpec example
 --------
 
-![Screenshot for funzies](app/assets/images/Rspec_screenshot.png "Some more text you see!?")
+![Screenshot](app/assets/images/Rspec_screenshot.png "Example Rspec")
 
 Use "describe" to denote which feature you are testing. When referring to a class method, use the "." or the "::" notation.
 When referring to an instance method, use the "#" notation.

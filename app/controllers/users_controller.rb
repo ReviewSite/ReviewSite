@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.js do
         emails = params[:additional_email]
-        if !emails.nil?
+        if !emails.blank?
           emails = emails.split(',')
           if emails.kind_of?(Array)
             emails.each do |email|
@@ -85,20 +85,15 @@ class UsersController < ApplicationController
                 if flash
                   flash.clear
                 end
-                # render "additional_emails/add_email.js.erb",
-                #   locals: { email: @new_email }
               else
-                # render 'edit'
               end
               render "additional_emails/add_email",
                 locals: { email: @new_email }
             end
           end
         else
-          render 'edit'
+          render :nothing => true, :status => 200, :content_type => 'text/html'
         end
-        # render "additional_emails/add_email.js.erb",
-        #   locals: { email: params[:additional_email] }
       end
     end
   end

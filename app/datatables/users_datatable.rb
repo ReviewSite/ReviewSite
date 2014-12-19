@@ -25,7 +25,16 @@ class UsersDatatable
   def data
     users.map do |user|
 
-      ac_icon = user.ac? ? "<span class='fa fa-graduation-cap fa-fw' title='AC'></span>" : ""
+      if user.ac?
+        ac_icon = "<span class='fa fa-book fa-fw' title='AC'></span>"
+        if user.ac? && user.associate_consultant.hasGraduated?
+          ac_icon = "<span class='fa fa-graduation-cap fa-fw' title='Graduated AC'></span>"
+        end
+      else
+        ac_icon = ""
+      end
+
+      # ac_icon = (user.ac? && user.associate_consultant.hasGraduated?) ? "<span class='fa fa-graduation-cap fa-fw' title='AC'></span>" : ""
       admin_icon = user.admin? ? "<span class='fa fa-key fa-fw' title='Admin'></span>" : ""
 
       [

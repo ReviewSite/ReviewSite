@@ -154,6 +154,7 @@ describe "User pages: " do
 
       it "can graduate an AC", js: true do
         nonadmin = FactoryGirl.create(:user)
+        id_selector = nonadmin.id
         sign_in admin_user
 
         visit users_path
@@ -170,6 +171,10 @@ describe "User pages: " do
         visit user_path(nonadmin)
         page.should have_selector("#isAC", text: 'Yes')
         page.should have_selector("#hasGraduated", text: 'Yes')
+
+        visit users_path
+        id_selector = nonadmin.email.slice(0..(nonadmin.email.index('@'))-1)
+        page.should have_selector("tr##{id_selector} .fa-graduation-cap")
       end
 
       it "can make an ac" do
@@ -284,7 +289,7 @@ describe "User pages: " do
         new_user = User.last
         new_user.associate_consultant.reviews.size.should == 4
         id_selector = new_user.email.slice(0..(new_user.email.index('@'))-1)
-        page.should have_selector("tr##{id_selector} .fa-graduation-cap")
+        page.should have_selector("tr##{id_selector} .fa-book")
 
         visit user_path(new_user)
 

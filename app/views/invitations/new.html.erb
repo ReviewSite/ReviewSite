@@ -19,11 +19,15 @@
   <p class="help-text">Must have an '@thoughtworks.com' email address; separate multiple emails with ','</p>
   <%= text_field_tag :emails, nil, class: "long" %>
 </div>
-<div id="email_contents">
-    <p><%= label_tag :subject, "Subject:" %>
-  <%= text_field_tag :subject, "[ReviewSite] You've been asked to give feedback for #{@ac.user.name}"  %></p>
 
-    <p><%= label_tag :message, "Body:" %></p>
+
+<div id="email_contents">
+<div class="field">
+  <%= label_tag :subject, "Subject:" %>
+  <p>[ReviewSite] You've been asked to give feedback for <%= @ac.user.name %></p>
+</div>
+
+    <%= label_tag :message, "Body:" %>
     <% @default_body = <<-EOM
 You have been asked to provide feedback for #{@ac.user.name}. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
 Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.

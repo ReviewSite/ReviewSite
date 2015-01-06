@@ -63,7 +63,7 @@ GEM
     bullet (4.8.0)
       activesupport
       uniform_notifier (>= 1.4.0)
-    cancan (1.6.10)
+    cancancan (1.9.2)
     canonix (0.1.1)
     capybara (2.4.1)
       mime-types (>= 1.16)
@@ -309,7 +309,7 @@ DEPENDENCIES
   bourbon
   brakeman
   bullet
-  cancan
+  cancancan (~> 1.9)
   capybara
   coffee-rails (~> 3.2.1)
   cucumber-rails (= 1.2.1)

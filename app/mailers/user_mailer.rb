@@ -6,12 +6,6 @@ class UserMailer < ActionMailer::Base
     mail(:to => "<#{user.email}>", :subject => "[ReviewSite] You were registered!")
   end
 
-  def password_reset(user)
-    @user = user
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
-    mail(:to => "<#{user.email}>", :subject => "[ReviewSite] Recover your account")
-  end
-
   def review_creation(review)
     @review = review
     @ac_name = review.associate_consultant.user.name

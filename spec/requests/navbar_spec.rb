@@ -102,24 +102,8 @@ describe "Navbar" do
     it { should_not have_selector(".navigation", text: "Reviewing Group") }
     it { should_not have_selector(".navigation", text: "Users") }
 
-    it "should link to signin page" do
-      visit new_password_reset_path
-      within(".navigation") do
-        click_link "Sign In"
-      end
-      current_path.should == signin_path
-    end
-
-    it "should redirect to signup page via 'Home' link" do
-      visit new_password_reset_path
-      within(".navigation") do
-        click_link "Review Site"
-      end
-      current_path.should == signup_path
-    end
-
     it "should redirect to signup page via site name" do
-      visit new_password_reset_path
+      visit root_path
       within(".navigation") do
         click_link "Review Site"
       end

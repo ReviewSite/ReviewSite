@@ -1,14 +1,16 @@
 <% if signed_in? and current_user.admin? %>
   <h1>New User</h1>
-
+  <% cancel_link = users_path %>
   <% form = 'admin_form' %>
   <% button_title = 'Create' %>
 
 <% else %>
   <h1>Create an Account</h1>
-
+  <% cancel_link = root_path %>
   <% form = 'form' %>
   <% button_title = 'Create Account' %>
 <% end %>
 
-<%= render :partial => form, :locals => {button_title: button_title} %>
+<%= render :partial => form, :locals => {
+  button_title: button_title,
+  cancel_link: cancel_link } %>

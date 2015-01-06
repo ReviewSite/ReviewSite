@@ -59,7 +59,7 @@ describe "Home page" do
       it { should_not have_selector("a", text: "Show") }
 
       it "links to reviewer invitation page" do
-        click_link 'Ask for Feedback'
+        find("a[href*='/invitations/new']").click
         current_path.should == new_review_invitation_path(@upcoming_review)
       end
 

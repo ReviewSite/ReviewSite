@@ -30,21 +30,19 @@
   background-color: $brand-input-border;
 }
 
-.sidenav li:not(.header):not(.active):hover {
+.sidenav li:not(.header):hover {
   background-color: $brand-container-gray;
   cursor: pointer;
 }
 
-.sidenav li.active {
+.sidenav a.active > li {
   background-color: $brand-mint;
-
-  a {
-    color: white;
-  }
+  color: white;
 }
 
-.sidenav li.active:hover {
-  background-color: lighten($brand-mint, 5%);
+.sidenav a.active > li:hover {
+  background-color: lighten($brand-mint, 5%) !important;
+  cursor: default;
 }
 
 .excel-image {

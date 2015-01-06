@@ -264,7 +264,7 @@ describe "Review pages" do
       # end
 
       it "links to invite reviewer" do
-        click_link "Ask for Feedback"
+        find("a[href*='/invitations/new']").click
         current_path.should == new_review_invitation_path(review)
       end
 

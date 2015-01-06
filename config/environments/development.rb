@@ -9,10 +9,11 @@ ReviewSite::Application.configure do
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
-    Bullet.alert = true
 
     # Detect eager-loaded associations which are not used
     Bullet.unused_eager_loading_enable = false
+
+    Bullet.alert = true
   end
 
   # Settings specified here will take precedence over those in config/application.rb

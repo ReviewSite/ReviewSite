@@ -39,7 +39,6 @@ ReviewSite::Application.routes.draw do
 
   match "/auth/:provider/callback" => "sessions#callback"
   match "/signup",  to: "users#new"
-  match "/signin",  to: "sessions#new"
   match "/signout", to: "sessions#destroy", via: :delete
 
   resources :welcome, only: [:index] do

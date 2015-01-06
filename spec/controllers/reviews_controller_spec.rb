@@ -142,30 +142,6 @@ describe ReviewsController do
     end
   end
   describe "when signed out" do
-    it "cannot GET new" do
-      get :new, {}, valid_session
-      response.should redirect_to(signin_path)
-    end
-    it "cannot GET edit" do
-      review = Review.create! valid_attributes
-      get :edit, {:id => review.to_param}, valid_session
-      response.should redirect_to(signin_path)
-    end
-    it "cannot POST create" do
-      review = Review.create! valid_attributes
-      post :create, {:review => valid_attributes}, valid_session
-      response.should redirect_to(signin_path)
-    end
-    it "cannot PUT update" do
-      review = Review.create! valid_attributes
-      put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
-      response.should redirect_to(signin_path)
-    end
-    it "cannot DELETE destroy" do
-      review = Review.create! valid_attributes
-      delete :destroy, {:id => review.to_param}, valid_session
-      response.should redirect_to(signin_path)
-    end
   end
 
   describe "GET edit" do

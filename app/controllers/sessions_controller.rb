@@ -1,12 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :require_login, only: [:callback]
   skip_authorization_check
-  
-  def new
-    if signed_in?
-      redirect_to root_url
-    end
-  end
 
   def callback
     session[:userinfo] = request.env['omniauth.auth'].uid

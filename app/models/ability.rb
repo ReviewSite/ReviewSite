@@ -10,7 +10,8 @@ class Ability
     else
       # baseline
       can :manage, SelfAssessment do | self_assessment |
-        self_assessment.review.upcoming? &&
+        (self_assessment.review_happened_recently? ||
+        self_assessment.review.upcoming?) &&
         own_review?(self_assessment.review, user)
       end
 

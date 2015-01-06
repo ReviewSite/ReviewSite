@@ -78,7 +78,7 @@ describe User do
       user.errors.messages[:email].should include("can't be blank.")
     end
   end
-  
+
   describe "When name is too long" do
     before{user.name = "a"*51}
     it { should_not be_valid}
@@ -157,5 +157,4 @@ describe User do
       user.ac?.should eq(true)
     end
   end
-
 end

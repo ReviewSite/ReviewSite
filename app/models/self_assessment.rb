@@ -7,4 +7,9 @@ class SelfAssessment < ActiveRecord::Base
 
   belongs_to :review
   belongs_to :associate_consultant
+
+  def review_happened_recently?
+    review_deadline = review.review_date
+    Date.today.between?(review_deadline, review_deadline + 2.weeks)
+  end
 end

@@ -79,7 +79,7 @@ jQuery (function () {
     $("#which-reviews").toggle();
   });
 
-  $('.sidenav a[href^="' + location.pathname + '"]').first().parent().addClass("active");
+  $('.sidenav a[href^="' + location.pathname + '"]').first().addClass("active");
 
   $("#add-email").on("click", function(){
     $.ajax({

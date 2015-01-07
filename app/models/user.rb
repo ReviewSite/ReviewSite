@@ -1,9 +1,6 @@
-require 'bcrypt'
-
 class User < ActiveRecord::Base
   include ModelsModule
-  attr_accessible :name, :okta_name, :email
-  attr_protected :password_reset_token, :password_reset_sent_at, :password_digest
+  attr_accessible :name, :okta_name, :email, :admin, :associate_consultant_attributes
 
   has_many :coachees, :class_name => "AssociateConsultant", :foreign_key => "coach_id"
   has_many :additional_emails, class_name: "AdditionalEmail",
@@ -34,28 +31,7 @@ class User < ActiveRecord::Base
     !self.associate_consultant.nil? && self.associate_consultant.persisted?
   end
 
-  def request_password_reset
-    self.update_column(:password_reset_token, SecureRandom.urlsafe_base64)
-    self.update_column(:password_reset_sent_at, Time.zone.now)
-    UserMailer.password_reset(self).deliver
-  end
-
-  def authenticate(unencrypted_password)
-    if has_password? and matches_password?(unencrypted_password)
-      self
-    else
-      false
-    end
-  end
-
   private
-  def has_password?
-    not password_digest.nil?
-  end
-
-  def matches_password?(unencrypted_password)
-    BCrypt::Password.new(password_digest) == unencrypted_password
-  end
 
   def check_errors
     update_errors(self)

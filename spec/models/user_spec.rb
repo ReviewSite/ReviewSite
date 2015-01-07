@@ -4,14 +4,12 @@ describe User do
   let(:user) { FactoryGirl.build(:user,
                                  name: "Example User",
                                  email: "user@example.com",
-                                 okta_name: "testCAS",
-                                 password_digest: BCrypt::Password.create("password")) }
+                                 okta_name: "testCAS") }
 
   subject { user }
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
-  it { should respond_to(:password_digest) }
   it { should respond_to(:admin) }
 
   it { should be_valid }
@@ -29,21 +27,6 @@ describe User do
     end
 
     it { should be_admin }
-  end
-
-  describe "return value of authenticate method" do
-    before { user.save }
-    let(:found_user) { User.find_by_email(user.email) }
-    describe "with valid password" do
-      it { should == found_user.authenticate("password") }
-    end
-
-    describe "with invalid password" do
-      let(:user_for_invalid_password) { found_user.authenticate("invalid") }
-      it { should_not == user_for_invalid_password }
-      specify { user_for_invalid_password.should be_false }
-    end
-
   end
 
   describe "When name is not present" do
@@ -119,34 +102,6 @@ describe User do
 
   describe "to_s is the name" do
     it { user.to_s.should == user.name }
-  end
-
-  describe "request password reset" do
-    before do
-      user.save!
-    end
-
-    it "should send request to UserMailer" do
-      UserMailer.should_receive(:password_reset).and_return(double("mailer", :deliver => true))
-      user.request_password_reset
-    end
-
-    describe "columns" do
-      before do
-        @mailerDouble
-        UserMailer.stub(password_reset: double("mailer", :deliver => true))
-        user.request_password_reset
-        user.reload
-      end
-
-      it "should have a password reset token" do
-        subject[:password_reset_token].should_not be_nil
-      end
-
-      it "should have a password reset sent_at" do
-        subject[:password_reset_sent_at].should_not be_nil
-      end
-    end
   end
 
   describe "#ac?" do

@@ -35,12 +35,6 @@ ReviewSite::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # Speed up testing
-  require 'bcrypt'
-  silence_warnings do
-    BCrypt::Engine::DEFAULT_COST = BCrypt::Engine::MIN_COST
-  end
-
   # Allow mailers to use named routes in emails
   config.action_mailer.default_url_options = { :host => "localhost:9292" }
 

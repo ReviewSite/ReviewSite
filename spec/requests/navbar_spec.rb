@@ -12,7 +12,6 @@ describe "Navbar" do
 
     it { should have_selector(".navigation", text: admin.name) }
     it { should_not have_selector(".navigation", text: "Sign In") }
-    it { should have_selector(".navigation", text: "Sign Out") }
 
     it "should link to reviewing group index page" do
       within(".navigation") do
@@ -36,7 +35,6 @@ describe "Navbar" do
     end
 
     it "should link to homepage" do
-      visit signin_path
       within(".navigation") do
         click_link "Review Site"
       end
@@ -44,7 +42,6 @@ describe "Navbar" do
     end
 
     it "should link to homepage via site name" do
-      visit signin_path
       within(".navigation") do
         click_link "Review Site"
       end
@@ -60,8 +57,6 @@ describe "Navbar" do
     end
 
     it { should have_selector(".navigation", text: user.name) }
-    it { should have_selector(".navigation", text: "Sign Out") }
-    it { should_not have_selector(".navigation", text: "Sign In") }
     it { should_not have_selector(".navigation", text: "Reviewing Group") }
     it { should_not have_selector(".navigation", text: "Users") }
 
@@ -80,7 +75,6 @@ describe "Navbar" do
     end
 
     it "should link to homepage" do
-      visit signin_path
       within(".navigation") do
         click_link "Review Site"
       end
@@ -88,7 +82,6 @@ describe "Navbar" do
     end
 
     it "should link to homepage via site name" do
-      visit signin_path
       within(".navigation") do
         click_link "Review Site"
       end
@@ -97,33 +90,7 @@ describe "Navbar" do
   end
 
   describe "not signed in" do
-    it { should_not have_selector(".navigation", text: "Sign Out") }
-    it { should_not have_selector(".navigation", text: "Settings") }
     it { should_not have_selector(".navigation", text: "Reviewing Group") }
     it { should_not have_selector(".navigation", text: "Users") }
-
-    it "should link to signin page" do
-      visit new_password_reset_path
-      within(".navigation") do
-        click_link "Sign In"
-      end
-      current_path.should == signin_path
-    end
-
-    it "should redirect to signup page via 'Home' link" do
-      visit new_password_reset_path
-      within(".navigation") do
-        click_link "Review Site"
-      end
-      current_path.should == signup_path
-    end
-
-    it "should redirect to signup page via site name" do
-      visit new_password_reset_path
-      within(".navigation") do
-        click_link "Review Site"
-      end
-      current_path.should == signup_path
-    end
   end
 end

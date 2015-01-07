@@ -35,20 +35,12 @@ ReviewSite::Application.routes.draw do
 
   root to: "welcome#index"
 
-  resources :sessions, only: [:new, :create, :destroy]
-
-  resources :password_resets, only: [:new, :create, :edit]
-
   match "/auth/:provider/callback" => "sessions#callback"
-  match "/signup",  to: "users#new"
-  match "/signin",  to: "sessions#new"
-  match "/signout", to: "sessions#destroy", via: :delete
 
   resources :welcome, only: [:index] do
     collection do
       get "help"
       get "contributors"
-      get "test_error"
     end
   end
 

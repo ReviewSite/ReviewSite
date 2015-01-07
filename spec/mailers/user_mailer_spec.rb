@@ -54,20 +54,6 @@ describe UserMailer do
     end
   end
 
-  describe "Password reset" do
-    let(:user) { FactoryGirl.create(:user, password_reset_token: 'test_token') }
-    let(:mail) { UserMailer.password_reset(user) }
-    subject { mail }
-
-    its(:subject) { should == "[ReviewSite] Recover your account" }
-    its(:to) { should == [user.email] }
-    its(:from) { should == ['do-not-reply@thoughtworks.org'] }
-
-    it "provides reset url" do
-      mail.body.encoded.should =~ /test_token\/edit/
-    end
-  end
-
   describe "Feedback submitted notification for AC" do
     let (:user) { FactoryGirl.create(:user) }
     let (:ac) { FactoryGirl.create(:associate_consultant) }

@@ -16,9 +16,6 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     if signed_in?
       redirect_to root_url, :alert => exception.message
-    else
-      redirect_to signin_path, alert: "You must be signed in to access this page"
-      store_location
     end
   end
 end

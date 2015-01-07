@@ -11,7 +11,7 @@
   text-decoration: none;
 
   &:hover {
-    background-color: $hover-button-color;
+    background-color: $blue-hover-button-color;
     color: white;
   }
 
@@ -22,10 +22,18 @@
 
   &.success {
     background-color: $success-color;
+
+    &:hover {
+      background-color: $green-hover-button-color;
+    }
   }
 
   &.danger {
     background-color: $error-color;
+
+    &:hover {
+      background-color: $red-hover-button-color;
+    }
   }
 
   &.diet {

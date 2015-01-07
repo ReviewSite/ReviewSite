@@ -56,8 +56,8 @@
       </div>
       <br /><br />
       <div class="actions">
-        <%= f.submit 'Save Feedback', { :id => "save-feedback-button" } %>
-        <%= f.submit 'Submit Final', {:class => "success", :id => "submit-final-button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+        <%= f.submit 'Save', { :id => "save-feedback-button" } %>
+        <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
 
         <% if edit_page %>
           <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>

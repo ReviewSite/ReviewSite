@@ -1,0 +1,6 @@
+<%= form_for([@review, @feedback]) do |f| %>
+  <div class="new-review">
+    <%= f.submit 'Edit', { :class => "button", :id => "feedback_#{@feedback.id}_edit" } %>
+    <%= f.submit 'Submit', {:class => "success", :id => "submit-final-button", :name => "submit_final_button", :confirm => 'Once Submitted, you cannot change this feedback' } %>
+  </div>
+<% end %>

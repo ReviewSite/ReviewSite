@@ -5,12 +5,19 @@ class FeedbacksController < ApplicationController
   before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
   before_filter :load_user_name, :only => [:new, :edit]
 
-
   # GET /feedbacks/1
   # GET /feedbacks/1.json
   def show
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render json: @feedback }
+    end
+  end
+
+  def preview
+    respond_to do |format|
+      binding.pry
+      format.html
       format.json { render json: @feedback }
     end
   end
@@ -43,19 +50,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        if params[:submit_final_button]
-          @feedback.submit_final
-          format.html {
-            flash[:success] = 'Feedback was submitted.'
-            redirect_to [@review, @feedback]
-          }
-        else
-          format.html do
-            redirect_to edit_review_feedback_path(@review, @feedback)
-            flash[:success] = 'Feedback was saved for further editing.'
-          end
-        end
-
+        format.html { execute_button_action(format) }
         format.json { render json: [@review, @feedback], status: :created, location: [@review, @feedback] }
       else
         if params[:feedback][:user_string].nil?
@@ -73,19 +68,7 @@ class FeedbacksController < ApplicationController
   def update
     respond_to do |format|
       if @feedback.update_attributes(params[:feedback])
-        if params[:submit_final_button]
-          @feedback.submit_final
-          format.html {
-            flash[:success] =  'Feedback was submitted.'
-            redirect_to [@review, @feedback]
-          }
-         else
-          format.html do
-            redirect_to edit_review_feedback_path(@review.id, @feedback.id)
-            flash[:success] = 'Feedback was saved for further editing.'
-          end
-        end
-
+        format.html { execute_button_action(format) }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -125,7 +108,7 @@ class FeedbacksController < ApplicationController
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @feedback.errors, status: :unprocessable_entity }
+        format.json { render json: @feedback.errors , status: :unprocessable_entity }
       end
     end
   end
@@ -177,4 +160,18 @@ class FeedbacksController < ApplicationController
       end
     end
   end
+
+  def execute_button_action(format)
+    if params[:submit_final_button]
+      @feedback.submit_final
+      flash[:success] = 'Feedback was submitted.'
+      redirect_to [@review, @feedback]
+    elsif params[:preview_and_submit_button]
+      render action: "preview"
+    else
+      redirect_to edit_review_feedback_path(@review, @feedback)
+      flash[:success] = 'Feedback was saved for further editing.'
+    end
+  end
+
 end

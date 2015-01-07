@@ -35,8 +35,6 @@ ReviewSite::Application.routes.draw do
 
   root to: "welcome#index"
 
-  resources :sessions, only: [:create]
-
   match "/auth/:provider/callback" => "sessions#callback"
 
   resources :welcome, only: [:index] do

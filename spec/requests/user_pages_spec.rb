@@ -201,42 +201,6 @@ describe "User pages: " do
   describe "NEW/CREATE action" do
     before { ActionMailer::Base.deliveries.clear }
 
-    describe "as a new user" do
-      before {
-        visit root_path
-        within "#okta-input" do
-          fill_in "temp-okta", with: "roberto"
-          click_button "Change User"
-        end
-        visit new_user_path
-      }
-
-      it "re-renders page with error message if invalid information" do
-        click_button "Create Account"
-        page.should have_selector('h1', text: 'Create an Account')
-        page.should have_content("can't be blank")
-      end
-
-      it "creates an account and sends an email" do
-
-        fill_in "Name", with: "Bob Smith"
-        fill_in "Email", with: "test@example.com"
-        click_button 'Create Account'
-
-        current_path.should eql root_path
-        page.should have_selector('.flash-success', text: 'User "Bob Smith" was successfully created')
-
-        ActionMailer::Base.deliveries.length.should == 1
-        mail = ActionMailer::Base.deliveries.last
-        mail.to.should == ["test@example.com"]
-        mail.subject.should == "[ReviewSite] You were registered!"
-
-        new_user = User.last
-        new_user.name.should == "Bob Smith"
-        new_user.email.should == "test@example.com"
-      end
-    end
-
     describe "as an admin" do
 
       let!(:coach) { FactoryGirl.create(:coach) }

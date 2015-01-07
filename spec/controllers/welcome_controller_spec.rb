@@ -16,11 +16,5 @@ describe WelcomeController do
       end
     end
 
-    describe "user without saved OKTA name" do
-      it "should redirect to the signup page" do
-        get :index, {}, {userinfo: "test@test.com"}
-        response.should redirect_to signup_path
-      end
-    end
   end
 end

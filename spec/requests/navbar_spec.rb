@@ -90,17 +90,7 @@ describe "Navbar" do
   end
 
   describe "not signed in" do
-    it { should_not have_selector(".navigation", text: "Sign Out") }
-    it { should_not have_selector(".navigation", text: "Settings") }
     it { should_not have_selector(".navigation", text: "Reviewing Group") }
     it { should_not have_selector(".navigation", text: "Users") }
-
-    it "should redirect to signup page via site name" do
-      visit root_path
-      within(".navigation") do
-        click_link "Review Site"
-      end
-      current_path.should == signup_path
-    end
   end
 end

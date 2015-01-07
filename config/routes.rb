@@ -38,13 +38,11 @@ ReviewSite::Application.routes.draw do
   resources :sessions, only: [:create]
 
   match "/auth/:provider/callback" => "sessions#callback"
-  match "/signup",  to: "users#new"
 
   resources :welcome, only: [:index] do
     collection do
       get "help"
       get "contributors"
-      get "test_error"
     end
   end
 

@@ -12,7 +12,6 @@ describe "Navbar" do
 
     it { should have_selector(".navigation", text: admin.name) }
     it { should_not have_selector(".navigation", text: "Sign In") }
-    it { should have_selector(".navigation", text: "Sign Out") }
 
     it "should link to reviewing group index page" do
       within(".navigation") do
@@ -58,7 +57,6 @@ describe "Navbar" do
     end
 
     it { should have_selector(".navigation", text: user.name) }
-    it { should have_selector(".navigation", text: "Sign Out") }
     it { should_not have_selector(".navigation", text: "Reviewing Group") }
     it { should_not have_selector(".navigation", text: "Users") }
 

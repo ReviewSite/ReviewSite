@@ -35,11 +35,10 @@ ReviewSite::Application.routes.draw do
 
   root to: "welcome#index"
 
-  resources :sessions, only: [:new, :create, :destroy]
+  resources :sessions, only: [:create]
 
   match "/auth/:provider/callback" => "sessions#callback"
   match "/signup",  to: "users#new"
-  match "/signout", to: "sessions#destroy", via: :delete
 
   resources :welcome, only: [:index] do
     collection do

@@ -62,12 +62,26 @@
   def generate_review_with_feedbacks(id, review_type, review_date)
     review = Review.create({ associate_consultant_id: id, review_type: review_type, feedback_deadline: review_date, review_date: review_date })
 
-    review.feedbacks.create({ user_id: 100 - id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+    ## create submitted feedback
+    user1 = User.find(100 - id)
+
+    review.invitations.create({ email: user1.email })
+
+    review.feedbacks.create({ user_id: user1.id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
                                 submitted: true })
-    review.feedbacks.create({ user_id: id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+
+    ## create feedback in progress
+    user2 = User.find(id)
+
+    review.invitations.create({ email: user2.email })
+
+    review.feedbacks.create({ user_id: user2.id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
                                 submitted: false })
+
+    ## create invitations for feedback not started
     review.invitations.create({ email: @users.sample.email })
   end
+
 
   (6..85).to_a.each do |i|
     first_review_date = 1.month.ago

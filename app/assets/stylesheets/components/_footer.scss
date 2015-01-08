@@ -1,39 +1,19 @@
-.sticky {
-  $footer-color: $brand-primary;
-  $footer-link-color: $footer-color;
+.contributors-link {
+  display: inline-block;
+  float: right;
+  padding: 10px;
 
-  clear: both;
-
-  padding: $base-spacing;
-  width: 100%;
-  margin: 60px 0px 30px 0px;
-  border-top: 1px solid $light-gray;
-
-  ul {
-    margin-bottom: 1em;
-    @include media($large-screen) {
-      @include float(right);
-      margin-left: 1em;
-      margin-bottom: 0;
-    }
+  a {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 900;
   }
 
-  ul li {
-    padding-right: 1em;
-    font-weight: 800;
-
-    @include media($large-screen) {
-      display: inline;
-      text-align: left;
-    }
+  &:hover {
+      background-color: $dark-gray;
   }
+}
 
-  ul li a {
-    color: transparentize($footer-link-color, 0.6);
-
-    &:hover {
-      color: transparentize($footer-color, 0);
-    }
-  }
-
+.gutter {
+  min-height: 50px;
 }

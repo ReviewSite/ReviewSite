@@ -25,6 +25,11 @@ describe UserMailer do
     it 'assigns @email' do
       mail.body.encoded.should_not match(user.email)
     end
+
+    it 'assigns myTW group url' do
+      mail.body.encoded.should match(UserMailer.my_tw_url)
+    end
+
   end
 
   describe 'Review creation' do
@@ -44,12 +49,47 @@ describe UserMailer do
       mail.from.should == ['do-not-reply@thoughtworks.org']
     end
 
+    it 'assigns myTW group url' do
+      mail.body.encoded.should match(UserMailer.my_tw_url)
+    end
+
     it 'contains link to review' do
       mail.body.encoded.should match("You can invite peers to provide feedback and work on your self-assessment by clicking on the link:\r\n#{review_url(review)}")
     end
 
     it 'contains the feedback deadline and review date' do
       mail.body.encoded.should match("Your review is currently scheduled for #{review.review_date.to_s(:short_date)}")
+      mail.body.encoded.should match("the deadline to submit feedback is #{review.feedback_deadline.to_s(:short_date)}")
+    end
+  end
+
+  describe "Multiple reviews creation" do
+    let(:ac) {FactoryGirl.create(:associate_consultant)}
+    let(:review)  {FactoryGirl.create(:new_review_type, associate_consultant: ac)}
+    let(:mail) {UserMailer.reviews_creation(review) }
+
+    it 'renders the subject' do
+      mail.subject.should ==  "[ReviewSite] Reviews have been created for you"
+    end
+
+    it 'renders the receiver email' do
+      mail.to.should == ["#{ac.user.email}"]
+    end
+
+    it 'renders the sender email' do
+      mail.from.should == ['do-not-reply@thoughtworks.org']
+    end
+
+    it 'assigns myTW group url' do
+      mail.body.encoded.should match(UserMailer.my_tw_url)
+    end
+
+    it 'contains link to review' do
+      mail.body.encoded.should match("You can invite peers to provide feedback and work on your self-assessment by clicking on the link: #{review_url(review)}")
+    end
+
+    it 'contains the feedback deadline and review date' do
+      mail.body.encoded.should match("The review is currently scheduled for #{review.review_date.to_s(:short_date)}")
       mail.body.encoded.should match("the deadline to submit feedback is #{review.feedback_deadline.to_s(:short_date)}")
     end
   end
@@ -71,6 +111,10 @@ describe UserMailer do
 
     it 'renders the sender email' do
       mail.from.should == ['do-not-reply@thoughtworks.org']
+    end
+
+    it 'assigns myTW group url' do
+      mail.body.encoded.should match(UserMailer.my_tw_url)
     end
 
     it 'addresses the receiver' do
@@ -104,6 +148,10 @@ describe UserMailer do
 
     it 'renders the sender email' do
       mail.from.should == ['do-not-reply@thoughtworks.org']
+    end
+
+    it 'assigns myTW group url' do
+      mail.body.encoded.should match(UserMailer.my_tw_url)
     end
 
     it 'addresses the receiver' do
@@ -174,6 +222,10 @@ describe UserMailer do
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
+      it 'assigns myTW group url' do
+        mail.body.encoded.should match(UserMailer.my_tw_url)
+      end
+
       it "contains reminder message" do
         CGI.unescapeHTML(mail.body.encoded).should match(
            "This is a reminder to submit your feedback for #{review}."
@@ -214,6 +266,10 @@ describe UserMailer do
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
 
+      it 'assigns myTW group url' do
+        mail.body.encoded.should match(UserMailer.my_tw_url)
+      end
+
       it "contains reminder message" do
         CGI.unescapeHTML(mail.body.encoded).should match(
           "This is a reminder to submit your feedback for #{review}."
@@ -252,6 +308,10 @@ describe UserMailer do
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
+
+      it 'assigns myTW group url' do
+        mail.body.encoded.should match(UserMailer.my_tw_url)
+      end
 
       it "contains reminder message" do
         CGI.unescapeHTML(mail.body.encoded).should match(
@@ -294,6 +354,10 @@ describe UserMailer do
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
       its (:to) { should == ["recipient@example.com"] }
+
+      it 'assigns myTW group url' do
+        mail.body.encoded.should match(UserMailer.my_tw_url)
+      end
 
       it "contains reminder message" do
         CGI.unescapeHTML(mail.body.encoded).should match(

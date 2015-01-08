@@ -1,5 +1,22 @@
-<footer class="sticky">
-  <ul>
-    <li><%= link_to "Contributors", contributors_welcome_index_path %></li>
-  </ul>
+<footer class="dev-env-panel">
+
+  <% if ENV['OKTA-TEST-MODE'] %>
+    <section id="dev-env-notification">
+      Test Environment
+    </section>
+    
+    <section id="okta-input">
+      <p>Currently viewing as: <b><%= current_okta_name %></b></p>
+      <%= form_tag '/set_temp_okta' do %>
+        <%= text_field_tag 'temp-okta', nil, maxlength: 10, placeholder: 'Enter OKTA name' %>
+        <%= submit_tag 'Change User', id: 'temp-okta-submit' %>
+      <% end %>
+    </section>
+
+  <% end %>
+
+  <section class="contributors-link">
+    <%= link_to "Contact Us", contributors_welcome_index_path %>
+  </section>
+  
 </footer>

@@ -1,8 +1,12 @@
 class UserMailer < ActionMailer::Base
+  @my_tw_url = 'https://my.thoughtworks.com/groups/review-site-support'
+
+  def self.my_tw_url
+    @my_tw_url
+  end
 
   def registration_confirmation(user)
     @user = user
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{user.email}>", :subject => "[ReviewSite] You were registered!")
   end
 
@@ -13,7 +17,6 @@ class UserMailer < ActionMailer::Base
     @review_type = review.review_type
     @review_date = review.review_date
     @feedback_deadline = review.feedback_deadline
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{@ac_email}>", :subject => "[ReviewSite] Your #{@review_type} review has been created")
   end
 
@@ -21,7 +24,6 @@ class UserMailer < ActionMailer::Base
     @next_review = next_review
     @ac_name = next_review.associate_consultant.user.name
     @ac_email = next_review.associate_consultant.user.email
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{@ac_email}>", :subject => "[ReviewSite] Reviews have been created for you")
   end
 
@@ -30,7 +32,6 @@ class UserMailer < ActionMailer::Base
     @review = feedback.review
     @reviewer = feedback.user
     @reviewee = @review.associate_consultant
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{@reviewee.user.email}>", :subject => "[ReviewSite] You have new feedback from #{@reviewer}")
   end
 
@@ -40,7 +41,6 @@ class UserMailer < ActionMailer::Base
     @reviewer = feedback.user
     @reviewee = @review.associate_consultant
     @coach = @reviewee.coach unless @reviewee.coach.nil?
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{@coach.email}>", :subject => "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
   end
 
@@ -54,7 +54,6 @@ class UserMailer < ActionMailer::Base
     @ac = invitation.reviewee
     @review = invitation.review
     @feedback = invitation.feedback
-    @my_tw_url = 'https://my.thoughtworks.com/groups/jc-review-site'
     mail(:to => "<#{invitation.email}>", :subject => "[ReviewSite] Please leave feedback for #{@ac.user.name}")
   end
 

@@ -20,9 +20,9 @@ describe "Invitations" do
         fill_in "message", with: "Why, hello!"
       end
 
-      it "redirects to home page after submission" do
+      it "redirects to review after submission" do
         click_button "Send"
-        current_path.should == root_path
+        current_path.should == review_path(review)
         page.should have_selector('.flash-success', text: "An invitation has been sent to: reviewer@thoughtworks.com")
       end
 
@@ -35,7 +35,7 @@ describe "Invitations" do
         UserMailer.should_not_receive(:review_invitation)
         check "no_email"
         click_button "Send"
-        current_path.should == root_path
+        current_path.should == review_path(review)
         page.should have_selector('.flash-success', text: "An invitation has been created for: reviewer@thoughtworks.com")
       end
     end
@@ -48,9 +48,9 @@ describe "Invitations" do
         fill_in "message", with: "Why, hello!"
       end
 
-      it "redirects to home page after submission" do
+      it "redirects to review after submission" do
         click_button "Send"
-        current_path.should == root_path
+        current_path.should == review_path(review)
         page.should have_selector('.flash-success')
       end
 
@@ -112,7 +112,7 @@ describe "Invitations" do
         expect do
           find("a[href^=\"" + review_invitation_path(review, invitation) + "\"]").click()
         end.to change(Invitation, :count).by(-1)
-        page.find(".flash-notice").text.should include "You have successfully declined #{ac_user.name}'s feedback request."
+        page.find(".flash-success").text.should include "You have successfully declined #{ac_user.name}'s feedback request."
       end
 
       it "should let user submit HTTP request to decline invitation" do

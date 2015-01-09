@@ -5,6 +5,7 @@ describe Ability do
   let(:ac) { FactoryGirl.create(:associate_consultant, user: user) }
   let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
   let(:feedback) { FactoryGirl.create(:feedback, review: review) }
+  let(:invitation) { FactoryGirl.create(:invitation, review: review) }
 
   describe "as an Admin" do
     subject { Ability.new(FactoryGirl.create(:admin_user)) }
@@ -55,7 +56,9 @@ describe Ability do
     end
 
     describe "dealing with Invitation" do
-      it { should be_able_to(:manage, Invitation) }
+      it { should be_able_to(:create, invitation) }
+      it { should be_able_to(:send_reminder, invitation) }
+      it { should be_able_to(:destroy, invitation) }
     end
 
     describe "dealing with Review" do

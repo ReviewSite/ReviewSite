@@ -46,7 +46,7 @@ class InvitationsController < ApplicationController
       if success_message
         flash[:success] = success_message
       end
-      redirect_to root_path
+      redirect_to @review
     else
       if success_message
         flash.now[:success] = success_message
@@ -65,9 +65,11 @@ class InvitationsController < ApplicationController
     @invitation.delete_invite
     if (current_user.email == invitation_email)
       UserMailer.feedback_declined(@invitation).deliver
-      redirect_to root_path, notice: "You have successfully declined #{@review.associate_consultant.user.name}'s feedback request."
+      flash[:success] = "You have successfully declined #{@review.associate_consultant.user.name}'s feedback request."
+      redirect_to root_path
     else
-      redirect_to root_path, notice: "#{invitation_email}\'s invitation has been deleted."
+      flash[:success] = "#{invitation_email}\'s invitation has been deleted."
+      redirect_to root_path
     end
   end
 
@@ -78,7 +80,7 @@ class InvitationsController < ApplicationController
       UserMailer.feedback_reminder(@invitation).deliver
       flash[:success] = "Reminder email was sent!"
     end
-    redirect_to root_path
+    redirect_to @review
   end
 
   private

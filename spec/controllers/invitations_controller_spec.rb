@@ -40,9 +40,9 @@ describe InvitationsController do
         ActionMailer::Base.deliveries.should == []
       end
 
-      it "redirects to the homepage" do
+      it "redirects to the review" do
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
-        response.should redirect_to(root_path)
+        response.should redirect_to(review)
       end
 
       it "flashes a notification" do
@@ -159,13 +159,13 @@ describe InvitationsController do
 
     it "flashes a notification" do
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
-      flash[:notice].should == "#{invitation.email}\'s invitation has been deleted."
+      flash[:success].should == "#{invitation.email}\'s invitation has been deleted."
     end
 
     it "flashes different notification on decline" do
       set_current_user reviewer
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
-      flash[:notice].should == "You have successfully declined #{review.associate_consultant.user}\'s feedback request."
+      flash[:success].should == "You have successfully declined #{review.associate_consultant.user}\'s feedback request."
       set_current_user admin
     end
 
@@ -196,9 +196,9 @@ describe InvitationsController do
       let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
       let! (:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer) }
 
-      it "redirects to the homepage" do
+      it "redirects to the review" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        response.should redirect_to(root_path)
+        response.should redirect_to(review)
       end
 
       it "notifies that email has not been sent" do
@@ -217,9 +217,9 @@ describe InvitationsController do
       let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
       let! (:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
 
-      it "redirects to the homepage" do
+      it "redirects to the review" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        response.should redirect_to(root_path)
+        response.should redirect_to(review)
       end
 
       it "notifies that email has been sent" do

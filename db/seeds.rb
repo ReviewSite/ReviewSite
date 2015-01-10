@@ -67,7 +67,7 @@
 
     review.invitations.create({ email: user1.email })
 
-    review.feedbacks.create({ user_id: user1.id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+    review.feedbacks.create({ user_id: user1.id, project_worked_on: "Burkina Faso", role_competence_went_well: Faker::Lorem.sentences, consulting_skills_to_be_improved: Faker::Lorem.sentences, teamwork_went_well: Faker::Lorem.sentences,
                                 submitted: true })
 
     ## create feedback in progress
@@ -75,7 +75,7 @@
 
     review.invitations.create({ email: user2.email })
 
-    review.feedbacks.create({ user_id: user2.id, project_worked_on: "Burkina Faso", attitude_exceeded: Faker::Lorem.sentences, client_met: Faker::Lorem.sentences, innovative_met: Faker::Lorem.sentences,
+    review.feedbacks.create({ user_id: user2.id, project_worked_on: "Burkina Faso", role_competence_went_well: Faker::Lorem.sentences, consulting_skills_to_be_improved: Faker::Lorem.sentences, teamwork_went_well: Faker::Lorem.sentences,
                                 submitted: false })
 
     ## create invitations for feedback not started

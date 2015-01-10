@@ -1,58 +1,70 @@
 wb = xlsx_package.workbook
-title = wb.styles.add_style :sz => 24, :b => true, :i => true, :alignment => {:horizontal => :center}
-info = wb.styles.add_style :sz => 18, :b => true, :alignment => {:horizontal => :center, :wrapText => true}
-title_exceeded = wb.styles.add_style :fg_color => "FF22E988", :sz => 18, :b => true, :alignment => {:horizontal => :center}
-title_met = wb.styles.add_style :sz => 18, :b => true, :alignment => {:horizontal => :center}
-title_improved = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :b => true, :alignment => {:horizontal => :center}
+title = wb.styles.add_style :sz => 20, :b => true, :i => true, :alignment => {:horizontal => :center}
+header = wb.styles.add_style :sz => 16, :b => true, :alignment => {:horizontal => :center}
+info = wb.styles.add_style :sz => 12, :b => true, :alignment => {:horizontal => :center, :wrapText => true}
 feedback_info = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
-feedback_exceeded = wb.styles.add_style :fg_color => "FF22E988", :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
-feedback_met = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
-feedback_improved = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
-self_assessment = wb.styles.add_style :fg_color => "FF00ADEB", :sz => 18, :i => true, :b => true,  :alignment => {:horizontal => :center, :wrapText => true}
-self_assessment_content_style = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :center, :wrapText => true}
+feedback_info_even = wb.styles.add_style :sz => 10, :bg_color => "D0D0D0", :alignment => {:horizontal => :center, :wrapText => true}
 wrap_text = wb.styles.add_style :alignment => {:wrapText => true}
 
 wb.add_worksheet(name: "#{@review.associate_consultant.user.name.truncate(31)}") do |sheet|
-  sheet.add_row ["Feedback for Review #{@review}"], :style => title
-  sheet.merge_cells "A1:G1"
+  sheet.add_row ["Feedback for #{@review}"], :style => title
+  sheet.merge_cells "A1:F1"
+  sheet.add_row
+
   @review.headings.each do |heading|
-     header_group = @review.fields_for_heading(heading)
-     title_row = sheet.add_row
-     title_row.add_cell "Date"
-     title_row.add_cell "Feedback by"
-     title_row.add_cell "Project"
-     title_row.add_cell "Role"
-     header_group.each do |header|
+    header_group = @review.fields_for_heading(heading)
+
+    header_row = sheet.add_row [heading], style: header
+
+    title_row = sheet.add_row
+    title_row.add_cell "Date"
+    title_row.add_cell "Feedback by"
+    title_row.add_cell "Project"
+    title_row.add_cell "Role"
+    header_group.each do |header|
+      if header
+        title_row.add_cell header.titleize
+      end
+    end
+
+  title_row.style = [info, info, info, info, info, info, info]
+
+    @feedbacks.each_with_index do |feedback, index|
+      feedback_row = sheet.add_row
+      feedback_row.add_cell feedback.updated_at.to_date.to_s
+      feedback_row.add_cell feedback.reviewer
+      feedback_row.add_cell feedback.project_worked_on
+      feedback_row.add_cell feedback.role_description
+      
+      header_group.each do |header|
+      
         if header
-            title_row.add_cell header.titleize
+          feedback_row.add_cell feedback.public_send(header)
         end
-     end
-     title_row.style = [info, info, info, info, title_exceeded, title_met, title_improved]
-     @feedbacks.each do |feedback|
-        feedback_row = sheet.add_row
-        feedback_row.add_cell feedback.updated_at.to_date.to_s
-        feedback_row.add_cell feedback.reviewer
-        feedback_row.add_cell feedback.project_worked_on
-        feedback_row.add_cell feedback.role_description
-        header_group.each do |header|
-            if header
-                feedback_row.add_cell feedback.public_send(header)
-            end
-        end
-        feedback_row.style = [feedback_info, feedback_info, feedback_info, feedback_info, feedback_exceeded, feedback_met, feedback_improved]
-     end
-  sheet.add_row
+      end
+
+      if index % 2 == 0
+        feedback_row.style = [feedback_info_even, feedback_info_even, feedback_info_even, feedback_info_even, feedback_info_even, feedback_info_even, feedback_info_even]
+      else
+        feedback_row.style = [feedback_info, feedback_info, feedback_info, feedback_info, feedback_info, feedback_info, feedback_info]
+      end
+
+    end
+
+    sheet.add_row
   end
-  sheet.add_row
-  x = sheet.add_row ["Self Assessment"], :style => self_assessment
+
+  x = sheet.add_row ["Self Assessment"], :style => header
   self_assessment_title_row = sheet.add_row
-  self_assessment_title_row.add_cell "Date/Time", :style => info
-  self_assessment_title_row.add_cell "Self Assessment Notes", :style => info
+  self_assessment_title_row.add_cell "Date", :style => info
+  self_assessment_title_row.add_cell "Notes", :style => info
+  
   @review.self_assessments.each do |self_assessment|
     self_assessment_content = sheet.add_row
     self_assessment_content.add_cell self_assessment.updated_at.to_date.to_s
     self_assessment_content.add_cell self_assessment.response
-    self_assessment_content.style = [self_assessment_content_style, self_assessment_content_style]
+    self_assessment_content.style = [feedback_info, feedback_info]
   end
-  sheet.column_widths 17, 17, 15, 15, 37, 37, 37
+  
+  sheet.column_widths 25, 17, 15, 15, 37, 37, 37
 end

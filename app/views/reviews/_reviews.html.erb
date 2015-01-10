@@ -9,9 +9,23 @@
   </tr>
   </thead>
   <tbody>
+    <%# <% @reviews.each do |review| %1> %>
+
+    <%#   <tr> %>
+    <%#     <td><%= review.associate_consultant.user.name %1></td> %>
+    <%#     <td><%= review.review_type %1></td> %>
+    <%#     <td><%= review.review_date.to_s(:short_date) %1></td> %>
+    <%#     <td><%= link_to("", review, class: "fa fa-eye fa-lg", title: "View") %1></td> %>
+      <%# </tr> %>
+
+    <%# <% end %1> %>
   </tbody>
 </table>
 </div>
+
+
+<%# <%= will_paginate @reviews %1> %>
+
 
 <script>
   $('table#reviews').dataTable({

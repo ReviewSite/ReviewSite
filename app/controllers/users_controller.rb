@@ -11,7 +11,13 @@ class UsersController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { render json: UsersDatatable.new(view_context, current_ability) }
+      format.json {
+        @users = User.includes(:associate_consultant,
+                               {:associate_consultant => :reviewing_group},
+                               :additional_emails
+                              )
+        render json: @users
+      }
     end
   end
 

@@ -3,33 +3,70 @@
 <div class="new-review"><%= link_to 'New User', new_user_path, :class => 'button' %></div>
 
 <div class="form-container">
-<table id="users" class="datatable" data-source="<%= users_url(format: "json") %>">
+<table id="users" class="datatable">
   <thead>
   <th>Name</th>
   <th>Email</th>
   <th></th>
   </thead>
   <tbody>
+    <% @users.includes(:associate_consultant, :additional_emails, {:associate_consultant => :reviewing_group}).each do |user| %>
+      <tr>
 
+        <td>
+          <%= user.name %>
+          <% if user.ac? %>
+            <% if user.associate_consultant.hasGraduated? %>
+              <span class="fa fa-graduation-cap fa-fw" title="Graduated AC"></span>
+            <% else %>
+              <span class="fa fa-book fa-fw" title="AC"></span>
+            <% end %>
+          <% end %>
+          <% if user.admin? %>
+            <span class="fa fa-key fa-fw" title="Admin"></span>
+          <% end %>
+        </td>
+        <td><%= user.email %></td>
+        <td>
+          <ul>
+            <li>
+              <%= link_to("", user, class: "fa fa-eye fa-lg fa-fw", title: "View") %>
+            </li>
+            
+            <li>
+              <%= link_to("", edit_user_path(user), class: "fa fa-pencil fa-lg fa-fw", title: "Edit") %>
+            </li>
+            
+            <li>
+              <%= link_to("", user, method: :delete, data: { confirm: "Are you sure you want to delete this user?" }, class: "fa fa-trash fa-lg fa-fw", title: "Delete") %>
+            </li>
+          </ul>
+        </td>
+
+      </tr>
+    <% end %>
   </tbody>
 </table>
 </div>
 
 <script>
-  $('table#users').dataTable({
-    sPaginationType: "full_numbers",
-    bServerSide: true,
-    sAjaxSource: $('#users').data('source'),
-    oLanguage: {
-        sInfoFiltered: ""
+  $(function () {
+  $('table#users').DataTable({
+    pagingType: "full",
+    lengthChange: false,
+    language: {
+      infoFiltered: "",
+      search: "",
+      searchPlaceholder: "Search for a user by name or email"
     },
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [ 2 ] },
-      { sClass: "nowrap button-col", aTargets: [2] }
+    columnDefs: [
+      { orderable: false, targets: [ 2 ] },
+      { className: "nowrap button-col", targets: [2] }
     ],
-    fnCreatedRow: function(nRow, aData, iDataIndex){
-      var email = aData[1];
-      $(nRow).attr('id', email.substr(0, email.indexOf('@')));
+    createdRow: function(row, data, dataIndex){
+      var email = data[1];
+      $(row).attr('id', email.substr(0, email.indexOf('@')));
     }
+    });
   });
 </script>

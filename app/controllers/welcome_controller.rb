@@ -5,6 +5,7 @@ class WelcomeController < ApplicationController
   end
 
   def index
+    @reviews = Review.default_load.accessible_by(current_ability)
   end
 
 end

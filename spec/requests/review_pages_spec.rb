@@ -391,7 +391,7 @@ describe "Review pages" do
           end
 
         it "should show the coachee(s)' review table" do
-          page.should have_selector('h1', text: "Viewing All Reviews")
+          page.should have_selector('h1', text: "Watched Reviews")
         end
 
         it "should show the coachee's reviews", js: true do

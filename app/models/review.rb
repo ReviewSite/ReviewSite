@@ -22,7 +22,7 @@ class Review < ActiveRecord::Base
 
 
   def self.default_load
-    self.includes({ :associate_consultant => :user })
+    self.includes({ :associate_consultant => :user }, { :associate_consultant => :reviewing_group })
   end
 
   after_initialize :init

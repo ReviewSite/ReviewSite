@@ -1,5 +1,5 @@
 <% if !current_user.ac? || !current_user.coachees.empty? %>
-  <h1>Viewing All Reviews</h1>
+  <h1>Watched Reviews</h1>
     <% if current_user.admin? %>
       <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'button' %></div>
     <% end %>

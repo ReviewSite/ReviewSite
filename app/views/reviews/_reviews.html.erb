@@ -1,5 +1,5 @@
 <div class="form-container">
-<table id="reviews" class="display" data-source="<%= reviews_url(format: "json") %>">
+<table id="reviews" class="display datatable">
   <thead>
   <tr>
     <th>Associate Consultant</th>
@@ -9,36 +9,35 @@
   </tr>
   </thead>
   <tbody>
-    <%# <% @reviews.each do |review| %1> %>
+    <% @reviews.default_load.each do |review| %>
 
-    <%#   <tr> %>
-    <%#     <td><%= review.associate_consultant.user.name %1></td> %>
-    <%#     <td><%= review.review_type %1></td> %>
-    <%#     <td><%= review.review_date.to_s(:short_date) %1></td> %>
-    <%#     <td><%= link_to("", review, class: "fa fa-eye fa-lg", title: "View") %1></td> %>
-      <%# </tr> %>
+      <tr>
+        <td><%= review.associate_consultant.user.name %></td>
+        <td><%= review.review_type %></td>
+        <td><%= review.review_date.to_s(:short_date) %></td>
+        <td><%= link_to("", review, class: "fa fa-eye fa-lg", title: "View") %></td>
+      </tr>
 
-    <%# <% end %1> %>
+    <% end %>
   </tbody>
 </table>
 </div>
 
-
-<%# <%= will_paginate @reviews %1> %>
-
-
 <script>
-  $('table#reviews').dataTable({
-    sPaginationType: "full_numbers",
-    bServerSide: true,
-    sAjaxSource: $('#reviews').data('source'),
-    oLanguage: {
-      sInfoFiltered: ""
+  $(function() {
+  $('table#reviews').DataTable({
+    pagingType: "full",
+    lengthChange: false,
+    language: {
+      infoFiltered: "",
+      search: "",
+      searchPlaceholder: "Search for a review by AC or date"
     },
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [ 3 ] },
-      { sClass: "nowrap", aTargets: [ 0 ] },
-      { sClass: "nowrap button-col", aTargets: [ 3 ] }
+    columnDefs: [
+      { orderable: false, targets: [ 3 ] },
+      { className: "nowrap", targets: [ 0 ] },
+      { className: "nowrap button-col", targets: [ 3 ] }
     ]
+    })
   });
 </script>

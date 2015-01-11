@@ -4,10 +4,11 @@ class ReviewsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
-        @reviews = Review.default_load.accessible_by(current_ability)
+      format.html
+      format.json {
+        @reviews = Review.default_load.accessibly_by(current_ability)
+        render json: @reviews
       }
-      format.json { render json: ReviewsDatatable.new(view_context, current_ability) }
     end
   end
 

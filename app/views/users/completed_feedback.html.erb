@@ -37,13 +37,13 @@
 </div>
 
 <script>
-  $('#completeds').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bLengthChange: false,
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [4] }
+  $('#completeds').DataTable({
+    paging: false,
+    info: false,
+    searching: false,
+    lengthChange: false,
+    columnDefs: [
+      { orderable: false, targets: [4] }
     ]
   });
 </script>

@@ -68,13 +68,13 @@
 </div>
 
 <script>
-  $('#feedbacks').dataTable({
-    bPaginate: false,
-    bInfo: false,
-    bFilter: false,
-    bLengthChange: false,
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [4] }
+  $('#feedbacks').DataTable({
+    paging: false,
+    info: false,
+    searching: false,
+    lengthChange: false,
+    columnDefs: [
+      { orderable: false, targets: [4] }
     ]
   });
 </script>

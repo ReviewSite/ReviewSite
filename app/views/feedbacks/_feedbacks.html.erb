@@ -96,15 +96,13 @@
 </table>
 
 <script>
-  $('.feedback').dataTable({
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [5] }
+  $('.feedback').DataTable({
+    columnDefs: [
+      { orderable: false, targets: [5] }
     ],
-    bPaginate: false,
-    bLengthChange: false,
-    bFilter: false,
-    bInfo: false,
-    bRetrieve: true,
-    bDestroy: true
+    paging: false,
+    lengthChange: false,
+    searching: false,
+    info: false
     });
 </script>

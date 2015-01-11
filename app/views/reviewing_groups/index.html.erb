@@ -41,13 +41,13 @@
 </div>
 
 <script>
-  $('.datatable').dataTable({
-    bInfo: false,
-    bPaginate: false,
-    aoColumnDefs: [
-      { bSortable: false, aTargets: [2] }
+  $('.datatable').DataTable({
+    info: false,
+    paging: false,
+    columnDefs: [
+      { orderable: false, targets: [2] }
     ],
-    bLengthChange: false,
-    bFilter: false
+    lengthChange: false,
+    searching: false
   });
 </script>

@@ -60,7 +60,7 @@
         <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
 
         <% if edit_page %>
-          <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
+          <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :id => "delete-button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
         <% end %>
       </div>
     </div>

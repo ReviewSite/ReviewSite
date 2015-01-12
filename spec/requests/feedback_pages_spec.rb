@@ -6,7 +6,6 @@ describe "Feedback pages", :type => :feature do
   let(:user) { FactoryGirl.create(:user) }
   let(:admin) { FactoryGirl.create(:admin_user) }
   let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-  let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
   let(:inputs) { {
     'feedback_comments' => 'My Comments'
   } }
@@ -45,56 +44,54 @@ describe "Feedback pages", :type => :feature do
       end
 
       it "redirects to the preview page when 'Review & Submit' is clicked" do
-        # binding.pry
-        # page.execute_script(' $("#preview-and-submit-button").click(); ')
         click_button("Preview & Submit")
-        current_path.should == preview_review_feedback_path(review, feedback)
+        feedback = Feedback.last
+        current_path.should == preview_review_feedback_path(@current_review, feedback)
       end
     end
   end
 
   describe "'Preview and Submit Feedback' page" do
-    let!(:new_user) { FactoryGirl.create(:user) }
-    let(:ac) { FactoryGirl.create(:associate_consultant, user: new_user) }
     let!(:user) { FactoryGirl.create(:user) }
+    let(:feedback_user) { FactoryGirl.create(:user) }
+    let(:ac) { FactoryGirl.create(:associate_consultant, user: user) }
     let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-    let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+    let(:feedback) { FactoryGirl.create(:feedback, review: review,
+      user: user) }
 
     before do
-      sign_in new_user
-      visit new_review_feedback_path(review)
-      page.find("#ui-accordion-accordion-header-9").click
-
-      inputs.each do |field, value|
-        fill_in field, with: value
-      end
+      sign_in user
+      visit preview_review_feedback_path(review, feedback)
     end
 
     it "saves as final and sends email when 'Submit Final' is clicked", js: true do
       ActionMailer::Base.deliveries.clear
-
       page.evaluate_script('window.confirm = function() { return true; }')
-      page.execute_script(' $("#submit-final-button").click(); ')
+      click_button("Submit")
       page.should have_selector(".flash")
 
-      feedback = Feedback.last
-      current_path.should == review_feedback_path(review, feedback)
+      id = feedback.id
+      feedback = Feedback.find(id)
+      current_path.should == preview_review_feedback_path(review, feedback)
       feedback.submitted.should be_true
-
-      inputs.each do |field, value|
-        model_attr = field[9..-1]
-        feedback.send(model_attr).should == value
-      end
 
       ActionMailer::Base.deliveries.length.should == 2
       mail = ActionMailer::Base.deliveries.first
-      mail.to.should == [@current_ac.user.email]
+      mail.to.should == [ac.user.email]
       mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
+    end
+
+
+    it "redirects to 'Edit' page when 'Edit' is clicked" do
+      click_button("Edit")
+      current_path.should == edit_review_feedback_path(review, feedback)
     end
 
   end
 
   describe "'Edit Feedback' page" do
+    let!(:invitation) { FactoryGirl.create(:invitation, email: user.email,
+      review: review) }
     let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
 
     describe "as feedback owner" do
@@ -135,6 +132,23 @@ describe "Feedback pages", :type => :feature do
             model_attr = field[9..-1]
             feedback.send(model_attr).should == ""
           end
+        end
+
+        it "deletes feedback when 'Delete' is clicked" do
+          Feedback.exists?(feedback).should be_true
+          page.find("#delete-button").click()
+          Feedback.exists?(feedback).should be_false
+        end
+
+        it "redirects to preview page when 'Preview & Submit' is click" do
+          click_button("Preview & Submit")
+          feedback_id = feedback.id
+          current_path.should == preview_review_feedback_path(review, feedback)
+        end
+
+        it "redirects to home page when 'Delete' is clicked" do
+          page.find("#delete-button").click()
+          current_path.should == root_path
         end
       end
 
@@ -187,34 +201,6 @@ describe "Feedback pages", :type => :feature do
         model_attr = field[9..-1]
         feedback.send(model_attr).should == value
       end
-    end
-
-    it "saves as final and sends email if 'Submit Final' is clicked", js: true do
-      page.find("#ui-accordion-accordion-header-9").click
-
-      inputs.each do |field, value|
-        fill_in field, with: value
-      end
-
-      ActionMailer::Base.deliveries.clear
-
-      page.evaluate_script('window.confirm = function() { return true; }')
-      page.execute_script(' $("#submit-final-button").click(); ')
-      page.should have_selector(".flash")
-
-      feedback = Feedback.last
-      current_path.should == review_feedback_path(review, feedback)
-      feedback.submitted.should be_true
-      feedback.user_string.should == "A non-user"
-      inputs.each do |field, value|
-        model_attr = field[9..-1]
-        feedback.send(model_attr).should == value
-      end
-
-      ActionMailer::Base.deliveries.length.should == 2
-      mail = ActionMailer::Base.deliveries.first
-      mail.to.should == [ac.user.email]
-      mail.subject.should == "[ReviewSite] You have new feedback from #{feedback.user}"
     end
   end
 

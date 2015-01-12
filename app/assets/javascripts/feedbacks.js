@@ -13,7 +13,7 @@ jQuery(function () {
     $('.feedback-form-container').find('input, select, textarea').off('keyup');
   });
 
-  $('.feedback-form-container').find('#save-feedback-button, #submit-final-button').on('click', function() {
+  $('.feedback-form-container').find('#save-feedback-button, #preview-and-submit-button').on('click', function() {
     window.onbeforeunload = null;
   });
 

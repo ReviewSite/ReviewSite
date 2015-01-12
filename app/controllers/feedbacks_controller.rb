@@ -16,7 +16,6 @@ class FeedbacksController < ApplicationController
 
   def preview
     respond_to do |format|
-      binding.pry
       format.html
       format.json { render json: @feedback }
     end
@@ -165,9 +164,9 @@ class FeedbacksController < ApplicationController
     if params[:submit_final_button]
       @feedback.submit_final
       flash[:success] = 'Feedback was submitted.'
-      redirect_to [@review, @feedback]
+      redirect_to preview_review_feedback_path(@review, @feedback)
     elsif params[:preview_and_submit_button]
-      render action: "preview"
+      redirect_to preview_review_feedback_path(@review, @feedback)
     else
       redirect_to edit_review_feedback_path(@review, @feedback)
       flash[:success] = 'Feedback was saved for further editing.'

@@ -36,7 +36,7 @@ class Ability
 
       can :manage, AdditionalEmail
 
-      can [:create, :new], Feedback do |feedback|
+      can [:create, :new, :preview], Feedback do |feedback|
         review = feedback.review
         user_emails = user.additional_emails.collect {|e| e.email}
         !review.invitations.where(email: user.email).empty? || (review.associate_consultant.user.id == user.id) ||

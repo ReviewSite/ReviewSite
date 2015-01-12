@@ -20,8 +20,8 @@ ReviewSite::Application.routes.draw do
         put :submit
         put :unsubmit
         post :send_reminder
+        get :preview
       end
-
     end
 
     resources :self_assessments, except: [:index, :show]

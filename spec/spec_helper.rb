@@ -41,7 +41,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false)
+    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false, timeout: 180)
   end
 
   Capybara.javascript_driver = :poltergeist

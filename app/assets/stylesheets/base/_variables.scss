@@ -92,7 +92,9 @@ $base-accent-color: $brand-primary;
 $base-link-color: $base-accent-color;
 $hover-link-color: darken($base-accent-color, 15);
 $base-button-color: $base-link-color;
-$hover-button-color: $hover-link-color;
+$blue-hover-button-color: $hover-link-color;
+$green-hover-button-color: darken($brand-green, 15);
+$red-hover-button-color: darken($brand-red, 15);
 
 // Flash Colors
 $alert-color: $brand-warning;

@@ -1,0 +1,37 @@
+<h1>Preview Feedback</h1>
+<h2><%= @feedback.review.pretty_print_with(current_user) %></h2>
+
+<section class="form-container">
+  <p>
+    <label>Reviewer</label>
+    <%= @feedback.reviewer %>
+  </p>
+
+  <% unless @feedback.project_worked_on.blank? %>
+  <p>
+    <label>Project worked on</label>
+    <%= @feedback.project_worked_on %>
+  </p>
+  <% end %>
+
+  <% unless @feedback.role_description.blank? %>
+  <p>
+    <label>Role description</label>
+    <%= @feedback.role_description %>
+  </p>
+  <% end %>
+
+  <% if @feedback.new_review_format %>
+  <%= render :partial => "show_new" %>
+  <% else %>
+  <%= render :partial => "show_old" %>
+  <% end %>
+
+  <% unless @feedback.comments.blank? %>
+  <label>Comments</label>
+  <%= simple_format(@feedback.comments) %>
+  <% end %>
+
+</section>
+
+<%= render :partial => 'preview_buttons' %>

@@ -43,7 +43,7 @@ describe "Feedback pages", :type => :feature do
         end
       end
 
-      it "redirects to the preview page when 'Review & Submit' is clicked" do
+      it "redirects to the preview page when 'Preview & Submit' is clicked" do
         click_button("Preview & Submit")
         feedback = Feedback.last
         current_path.should == preview_review_feedback_path(@current_review, feedback)
@@ -72,7 +72,7 @@ describe "Feedback pages", :type => :feature do
 
       id = feedback.id
       feedback = Feedback.find(id)
-      current_path.should == preview_review_feedback_path(review, feedback)
+      current_path.should == completed_feedback_user_path(user)
       feedback.submitted.should be_true
 
       ActionMailer::Base.deliveries.length.should == 2

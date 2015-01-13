@@ -164,7 +164,7 @@ class FeedbacksController < ApplicationController
     if params[:submit_final_button]
       @feedback.submit_final
       flash[:success] = 'Feedback was submitted.'
-      redirect_to preview_review_feedback_path(@review, @feedback)
+      redirect_to completed_feedback_user_path(current_user)
     elsif params[:preview_and_submit_button]
       redirect_to preview_review_feedback_path(@review, @feedback)
     else

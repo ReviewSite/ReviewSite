@@ -1,1 +1,1 @@
-xvfb-run bundle exec rspec spec
+RAILS_ENV=test bundle exec rake spec:javascript; rspec

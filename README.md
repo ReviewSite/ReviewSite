@@ -22,11 +22,13 @@
 * `$ RAILS_ENV=test bundle exec rake db:migrate`
 
 #### Run the test suite
-* All the tests
+* All the tests (javascript + rspec)
+  * `$ sh runtests.sh`
+* All the rspec tests
   * `$ rspec`
-* One test file
+* One rspec test file
   * `$ rspec spec/.../..._spec.rb`
-* One test block
+* One rspec test block
   * `$ rspec spec/.../..._spec.rb:40`
 * Run the Jasmine tests
   * `$ RAILS_ENV=test bundle exec rake spec:javascript`

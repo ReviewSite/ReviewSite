@@ -1,5 +1,7 @@
 ReviewSite::Application.routes.draw do
 
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
+
   resources :reviewing_groups, except: [:show]
 
   resources :associate_consultants, only: [:index]

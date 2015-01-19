@@ -1,1 +1,0 @@
-pre_commit: time (time (rake db:migrate) && time (rake spec))

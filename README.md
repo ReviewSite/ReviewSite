@@ -17,17 +17,22 @@
 * [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
 * `$ echo "PORT=9292" > .env`
 * `$ echo "RACK_ENV=development" >> .env`
-* `$ rake db:migrate`
-* `$ rake db:seed`
-* `$ RAILS_ENV=test rake db:migrate`
+* `$ bundle exec rake db:migrate`
+* `$ bundle exec rake db:seed`
+* `$ RAILS_ENV=test bundle exec rake db:migrate`
 
 #### Run the test suite
-* All the tests
+* All the tests (javascript + rspec)
+  * `$ sh runtests.sh`
+* All the rspec tests
   * `$ rspec`
-* One test file
+* One rspec test file
   * `$ rspec spec/.../..._spec.rb`
-* One test block
+* One rspec test block
   * `$ rspec spec/.../..._spec.rb:40`
+* Run the Jasmine tests
+  * `$ RAILS_ENV=test bundle exec rake spec:javascript`
+  * To run a single test: `$ RAILS_ENV=test bundle exec rake spec:javascript SPEC=my_test`
 * See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
 
 #### Start the local server

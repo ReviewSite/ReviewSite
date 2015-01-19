@@ -13,105 +13,43 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require ReviewSite
 //= require_tree .
 //= require bootstrap-datepicker/core
 //= require jquery.tokeninput
-//= require scrollspy
+//
 //
 
+// Using the Garber-Irish Implementation for namespaces
 
-jQuery (function () {
-  $('.datepicker').datepicker({
-    todayBtn: "linked",
-    daysOfWeekDisabled: "0,6",
-    autoclose: true,
-    todayHighlight: true,
-    format: "yyyy-mm-dd"
-  });
+var APP = {
+  exec: function(controller, action){
+    var namespace = ReviewSite,
+        action = ( action === undefined ) ? "init" : action;
 
-  $('.datepicker.future').datepicker("setStartDate", "today");
-
-  $("#reviewing_group_user_tokens").tokenInput("/users/get_users.json", {
-    crossDomain: false,
-    prePopulate: $("#reviewing_group_user_tokens").data("pre"),
-    preventDuplicates: true
-  });
-
-  $("#review_associate_consultant_id").tokenInput("/associate_consultants.json", {
-    crossDomain: false,
-    prePopulate: $("#review_associate_consultant_id").data("pre"),
-    tokenLimit: 1
-  });
-
-  $("#user_associate_consultant_attributes_coach_id").tokenInput("/users/get_users.json", {
-    crossDomain: false,
-    prePopulate: $("#user_associate_consultant_attributes_coach_id").data("pre"),
-    tokenLimit: 1
-  });
-
-  var enableGraduatedCheckbox = function() {
-    $("#user_associate_consultant_attributes_graduated").removeAttr("disabled");
-    $('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]').removeAttr("disabled");
-  }
-
-  var disableGraduatedCheckbox = function() {
-    $("#user_associate_consultant_attributes_graduated").attr("disabled", "disabled");
-    $('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]').attr("disabled", "disabled");
-  }
-
-  if ($("#isac").length && $("#isac")[0].checked) {
-    $(".nested-form-container").show();
-    enableGraduatedCheckbox();
-  } else {
-    $(".nested-form-container").hide();
-  }
-
-  $("#isac").on('change', function() {
-    $(".nested-form-container").toggle();
-    if ($("#isac").length && $("#isac")[0].checked) {
-      enableGraduatedCheckbox();
-    } else {
-      disableGraduatedCheckbox();
+    if ( controller !== "" && namespace[controller] && typeof namespace[controller][action] == "function" ) {
+      namespace[controller][action]();
     }
-  });
+  },
 
-  $("#por-why").on('click', function() {
-    $("#which-reviews").toggle();
-  });
+  init: function() {
+    var body = document.body,
+        controller = body.getAttribute("data-controller"),
+        action = body.getAttribute("data-action");
 
-  $('.sidenav a[href^="' + location.pathname + '"]').first().addClass("active");
+    APP.exec("components", "ac");
+    APP.exec("components", "addEmail");
+    APP.exec("components", "datepicker");
+    APP.exec("components", "whichReviews");
+    APP.exec("components", "sidenav");
+    APP.exec("components", "tokenInput");
+    APP.exec("components", "tooltips");
+    APP.exec(controller);
+    APP.exec(controller, action);
+  }
+};
 
-  $("#add-email").on("click", function(){
-    $.ajax({
-      complete:function(request){},
-      data:'additional_email='+ $('#new-email').val(),
-      dataType:'script',
-      type:'get',
-      url: 'add_email'
-    });
 
-    $("#new-email").val('');
-  });
-
-  $(document).on("click", ".remove-additional-email", function(){
-    $.ajax({
-      complete:function(request){},
-      data:'additional_email_id='+ $(this).attr('id'),
-      dataType:'script',
-      type:'get',
-      url: 'remove_email'
-    });
-
-    var email_id = $(this).attr('id');
-
-    $(".email-address-column#"+email_id).closest('tr').remove();
-  });
-
-  $('#new-email').keypress(function (e) {
-    var key = e.which;
-    if(key == 13) {
-        $('#add-email').click();
-        return false;
-    }
-  });
+jQuery(function() {
+  APP.init();
 });

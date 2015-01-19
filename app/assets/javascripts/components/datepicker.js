@@ -1,6 +1,8 @@
-jQuery(function() {
+ReviewSite = ReviewSite || {};
+ReviewSite.components = ReviewSite.components || {};
 
-  $('.datepicker').datepicker({
+var setupDefaultDatepicker = function() {
+  $(".datepicker").datepicker({
     todayBtn: "linked",
     daysOfWeekDisabled: "0,6",
     autoclose: true,
@@ -8,6 +10,10 @@ jQuery(function() {
     format: "yyyy-mm-dd"
   });
 
-  $('.datepicker.future').datepicker("setStartDate", "today");
+  $(".datepicker.future").datepicker("setStartDate", "today");
+};
 
-});
+
+ReviewSite.components.datepicker = function() {
+  setupDefaultDatepicker();
+};

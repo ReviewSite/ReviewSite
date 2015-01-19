@@ -8,7 +8,7 @@
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
   </head>
-  <body>
+  <body data-controller="<%= controller_name %>" data-action="<%= action_name %>">
     <section id="<%= controller_name %>-<%= action_name %>">
       <%= render 'layouts/header' %>
       <section class="content-container">

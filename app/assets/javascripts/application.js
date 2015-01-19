@@ -13,7 +13,43 @@
 //= require jquery
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require ReviewSite
 //= require_tree .
 //= require bootstrap-datepicker/core
 //= require jquery.tokeninput
 //
+//
+
+// Using the Garber-Irish Implementation for namespaces
+
+var APP = {
+  exec: function(controller, action){
+    var namespace = ReviewSite,
+        action = ( action === undefined ) ? "init" : action;
+
+    if ( controller !== "" && namespace[controller] && typeof namespace[controller][action] == "function" ) {
+      namespace[controller][action]();
+    }
+  },
+
+  init: function() {
+    var body = document.body,
+        controller = body.getAttribute("data-controller"),
+        action = body.getAttribute("data-action");
+
+    APP.exec("components", "ac");
+    APP.exec("components", "addEmail");
+    APP.exec("components", "datepicker");
+    APP.exec("components", "whichReviews");
+    APP.exec("components", "sidenav");
+    APP.exec("components", "tokenInput");
+    APP.exec("components", "tooltips");
+    APP.exec(controller);
+    APP.exec(controller, action);
+  }
+};
+
+
+jQuery(function() {
+  APP.init();
+});

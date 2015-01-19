@@ -1,10 +1,8 @@
-var whichReviews = function() {
-  $("#por-why").on('click', function() {
+ReviewSite = ReviewSite || {};
+ReviewSite.components = ReviewSite.components || {};
+
+ReviewSite.components.whichReviews = function() {
+  $("#por-why").on("click", function() {
     $("#which-reviews").toggle();
   });
-};
-
-
-jQuery(function() {
-  whichReviews();
-});
+}

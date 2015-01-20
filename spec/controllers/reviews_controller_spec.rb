@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe ReviewsController do
 
   # This should return the minimal set of attributes required to create a valid
@@ -93,6 +92,11 @@ describe ReviewsController do
       assigns(:feedbacks).should eq([@feedback_sub])
     end
 
+    it "should call responder's xlsx method" do
+      get :summary, {id: @review.to_param, format: :xlsx}, valid_session
+      response.content_type.should include 'openxmlformats'
+    end
+
     describe "AC coach" do
       it "can see the summary for their coachee" do
         associate_consultant = @review.associate_consultant
@@ -141,6 +145,7 @@ describe ReviewsController do
       assigns(:review).should be_a_new(Review)
     end
   end
+
   describe "when signed out" do
   end
 
@@ -278,5 +283,4 @@ describe ReviewsController do
       response.should be_success
     end
   end
-
 end

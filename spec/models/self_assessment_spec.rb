@@ -11,16 +11,24 @@ describe SelfAssessment do
   it "requires an ac" do
     @self_assessment.valid?.should == false
     @self_assessment.response = "stuff"
+    @self_assessment.learning_assessment = "more stuff"
     @self_assessment.valid?.should == true
   end
 
   it "requires a review" do
     @self_assessment.valid?.should == false
     @self_assessment.response = "stuff"
+    @self_assessment.learning_assessment = "more stuff"
     @self_assessment.valid?.should == true
   end
 
   it "requires response text" do
+    @self_assessment.learning_assessment = "texty text"
+    @self_assessment.valid?.should == false
+  end
+
+  it "requires learning assessment text" do
+    @self_assessment.response = "text text"
     @self_assessment.valid?.should == false
   end
 

@@ -1,9 +1,11 @@
 class SelfAssessment < ActiveRecord::Base
-  attr_accessible :response, :review_id, :associate_consultant_id
+  attr_accessible :response, :review_id, :associate_consultant_id,
+    :learning_assessment
 
   validates :associate_consultant, :presence => true
   validates :review, :presence => true
   validates :response, :presence => true
+  validates :learning_assessment, :presence => true
 
   belongs_to :review
   belongs_to :associate_consultant

@@ -14,7 +14,7 @@
     <% if @user.errors[:email] %>
       <p class="field-error-message"><%= @user.errors[:email].first %></p>
     <% end %>
-    <%= f.text_field :email %>
+    <%= @user.email %>
   </div>
 
   <div class="field">

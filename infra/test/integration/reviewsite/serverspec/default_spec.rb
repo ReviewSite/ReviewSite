@@ -17,3 +17,8 @@ end
 describe command('which bundle') do
   its(:stdout) { should match '/opt/rbenv/shims/bundle' }
 end
+
+# Postgresql
+describe service('postgresql') do
+  it { should be_running }
+end

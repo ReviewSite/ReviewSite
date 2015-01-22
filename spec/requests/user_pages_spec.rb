@@ -21,17 +21,14 @@ describe "User pages: " do
 
     describe "user with valid information" do
       let(:new_name)  { "Imma NewName" }
-      let(:new_email) { "immanew@example.com" }
 
       before do
         fill_in "Name",                     with: new_name
-        fill_in "Email",                    with: new_email
         click_button "Save Changes"
       end
 
       it { should have_selector('.flash-success') }
       specify { user.reload.name.should  == new_name }
-      specify { user.reload.email.should == new_email }
     end
 
     describe "user adds an additional email" do
@@ -40,7 +37,6 @@ describe "User pages: " do
 
       before do
         fill_in "Name",                     with: new_name
-        fill_in "Email",                    with: new_email
       end
 
       describe "with valid, ThoughtWorks email", js: true do
@@ -118,16 +114,6 @@ describe "User pages: " do
         end
       end
     end
-
-    describe "user with invalid information" do
-      before do
-        fill_in "Name", with: "a"
-        fill_in "Email", with: "b"
-        click_button "Save Changes"
-      end
-      it { should have_content('invalid') }
-    end
-
 
     describe "as an admin", js: true do
       it "can make another user an admin" do

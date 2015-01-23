@@ -27,3 +27,12 @@ end
 describe package('nodejs') do
   it { should be_installed }
 end
+
+# Packages for capybara-webkit
+describe package('xvfb') do
+  it { should be_installed }
+end
+
+describe package('qt4-dev-tools') do
+  it { should be_installed }
+end

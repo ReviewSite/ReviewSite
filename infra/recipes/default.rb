@@ -23,3 +23,7 @@ end
 
 # Install Node.js (required by Rails 3 asset pipeline)
 include_recipe "nodejs"
+
+# Install xvfb and qt4-dev-tools
+package "xvfb"
+package "qt4-dev-tools"

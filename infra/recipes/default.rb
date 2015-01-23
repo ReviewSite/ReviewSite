@@ -20,3 +20,6 @@ include_recipe "postgresql::server_debian"
 execute "change_postgres_password" do
   command "echo \"ALTER USER Postgres WITH PASSWORD 'password'\" | sudo -u postgres psql"
 end
+
+# Install Node.js (required by Rails 3 asset pipeline)
+include_recipe "nodejs"

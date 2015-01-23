@@ -22,3 +22,8 @@ end
 describe service('postgresql') do
   it { should be_running }
 end
+
+# Node.js (required by Rails 3 asset pipeline)
+describe package('nodejs') do
+  it { should be_installed }
+end

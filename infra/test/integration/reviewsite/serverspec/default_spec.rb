@@ -36,3 +36,13 @@ end
 describe package('qt4-dev-tools') do
   it { should be_installed }
 end
+
+# Phantomjs
+describe package('phantomjs') do
+  it { should be_installed }
+end
+
+# Fontconfig for phantomjs
+describe package('fontconfig') do
+  it { should be_installed }
+end

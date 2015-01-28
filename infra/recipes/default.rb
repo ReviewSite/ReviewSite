@@ -27,3 +27,6 @@ include_recipe "nodejs"
 # Install xvfb and qt4-dev-tools
 package "xvfb"
 package "qt4-dev-tools"
+
+# Install Phantomjs for functional tests
+package "phantomjs"

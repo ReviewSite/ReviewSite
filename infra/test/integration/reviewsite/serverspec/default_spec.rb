@@ -1,11 +1,16 @@
 require 'serverspec'
 
+USER = "vagrant"
+WORKSPACE = "/home/#{USER}/workspace"
+PATH = "/opt/rbenv/shims:/opt/rbenv/bin:/opt/rbenv/plugins/ruby_build/bin:$PATH";
+BUNDLE_PATH = "~/bundle"
+
 # Required by serverspec
 set :backend, :exec
-set :path, '/opt/rbenv/bin:/opt/rbenv/shims:$PATH'
+set :path, PATH
 
 RSpec.configure do |c|
-  user    = 'vagrant'
+  user    = USER
 end
 
 # Ruby 1.9.3-p448
@@ -45,4 +50,9 @@ end
 # Fontconfig for phantomjs
 describe package('fontconfig') do
   it { should be_installed }
+end
+
+# Bundle Path
+describe command('sudo cat /etc/profile.d/bundle.sh') do
+  its(:stdout) { should match "export BUNDLE_PATH=#{BUNDLE_PATH}" }
 end

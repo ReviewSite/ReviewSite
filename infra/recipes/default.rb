@@ -1,16 +1,26 @@
+USER = "vagrant"
+WORKSPACE = "/home/vagrant/workspace"
+PATH = "/opt/rbenv/shims:/opt/rbenv/bin:/opt/rbenv/plugins/ruby_build/bin:#{ENV['PATH']}";
+BUNDLE_PATH = "~/bundle"
+ENVIRONMENT = {
+  "PATH" => "#{PATH}",
+  "BUNDLE_PATH" => "#{BUNDLE_PATH}"
+}
+
 # Install rbenv
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 
+RUBY_VERSION = "1.9.3-p448"
 # Install Ruby 1.9.3-p448
-rbenv_ruby "1.9.3-p448" do
-  ruby_version "1.9.3-p448"
+rbenv_ruby "#{RUBY_VERSION}" do
+  ruby_version "#{RUBY_VERSION}"
   global true
 end
 
 # Install Bundler gem
 rbenv_gem "bundler" do
-  ruby_version "1.9.3-p448"
+  ruby_version "#{RUBY_VERSION}"
 end
 
 # Install postgresql database
@@ -30,3 +40,12 @@ package "qt4-dev-tools"
 
 # Install Phantomjs for functional tests
 package "phantomjs"
+
+# Add the BUNDLE_PATH as an environment variable
+bash "add_bundle_path" do
+  user "root"
+  cwd "/etc"
+  code <<-EOT
+    echo "export BUNDLE_PATH=#{BUNDLE_PATH}" >> /etc/profile.d/bundle.sh
+  EOT
+end

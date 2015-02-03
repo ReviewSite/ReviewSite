@@ -2,6 +2,7 @@
 
 
 ## Project Setup
+* [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
 * Fork the repo
 * Install VirtualBox
 * Install Vagrant
@@ -15,15 +16,13 @@
     cd workspace
 
 #### Set up the local environment
-* First, [set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
-* Then run the following within the vagrant box
-      bundle install
-      echo "PORT=9292" > .env
-      echo "RACK_ENV=development" >> .env
-      bundle exec rake db:create
-      bundle exec rake db:migrate
-      bundle exec rake db:seed
-      RAILS_ENV=test bundle exec rake db:migrate
+    bundle install
+    echo "PORT=9292" > .env
+    echo "RACK_ENV=development" >> .env
+    bundle exec rake db:create
+    bundle exec rake db:migrate
+    bundle exec rake db:seed
+    RAILS_ENV=test bundle exec rake db:migrate
 
 #### Run the test suite
 * All the tests (javascript + rspec)

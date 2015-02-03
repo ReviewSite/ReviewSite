@@ -5,42 +5,46 @@
 * Fork the repo
 * Install VirtualBox
 * Install Vagrant
+* Install Vagrant-Berkshelf plugin
+    $ vagrant plugin install vagrant-berkshelf`
 * Request access to Okta Preview from TechOps
 
 #### Spin up the Vagrant box
-* `$ cd vagrant_postgres91_utf8_rails`
-* `$ vagrant up`
-* `$ vagrant ssh`
-* `$ cd workspace`
+    vagrant up
+    vagrant ssh
+    cd workspace
 
 #### Set up the local environment
-* [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
-* `$ echo "PORT=9292" > .env`
-* `$ echo "RACK_ENV=development" >> .env`
-* `$ bundle exec rake db:migrate`
-* `$ bundle exec rake db:seed`
-* `$ RAILS_ENV=test bundle exec rake db:migrate`
+* First, [set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
+* Then run the following within the vagrant box
+      bundle install
+      echo "PORT=9292" > .env
+      echo "RACK_ENV=development" >> .env
+      bundle exec rake db:create
+      bundle exec rake db:migrate
+      bundle exec rake db:seed
+      RAILS_ENV=test bundle exec rake db:migrate
 
 #### Run the test suite
 * All the tests (javascript + rspec)
   * `$ sh runtests.sh`
 * All the rspec tests
-  * `$ rspec`
+  * `$ bundle exec rspec`
 * One rspec test file
-  * `$ rspec spec/.../..._spec.rb`
+  * `$ bundle exec rspec spec/.../..._spec.rb`
 * One rspec test block
-  * `$ rspec spec/.../..._spec.rb:40`
+  * `$ bundle exec rspec spec/.../..._spec.rb:40`
 * Run the Jasmine tests
   * `$ RAILS_ENV=test bundle exec rake spec:javascript`
   * To run a single test: `$ RAILS_ENV=test bundle exec rake spec:javascript SPEC=my_test`
 * See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
 
 #### Start the local server
-* `$ foreman start` (this will not return)
+* `$ bundle exec foreman start` (this will not return)
 
 If your foreman is very slow, try getting a new network setup:
 * `$ sudo dhclient` (this will give a File Exists, that's ok)
-* `$ foreman start `
+* `$ bundle exec foreman start `
 
 View the dev site locally:
 * `http://localhost:9292/`

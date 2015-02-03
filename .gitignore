@@ -35,3 +35,6 @@ vagrant_postgres91_utf8_rails/.vagrant.v1.1366390144
 # ignore the test coverage results
 
 /coverage
+
+# ignore vagrant directory
+.vagrant

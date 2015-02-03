@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+  - ["../", "/home/vagrant/workspace"]
+  network:
+  - ["forwarded_port", {guest: 9292, host: 9293}]
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-14.04
+    driver:
+      box: trusty64
+
+suites:
+  - name: reviewsite
+    run_list:
+      - reviewsite

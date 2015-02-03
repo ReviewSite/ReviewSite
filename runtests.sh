@@ -1,1 +1,1 @@
-RAILS_ENV=test bundle exec rake spec:javascript; rspec
+RAILS_ENV=test bundle exec rake spec:javascript; bundle exec rspec

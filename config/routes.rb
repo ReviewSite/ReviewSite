@@ -39,6 +39,8 @@ ReviewSite::Application.routes.draw do
 
   match "/auth/:provider/callback" => "sessions#callback"
 
+  resources :sessions, only: [:new, :create, :destroy]
+
   resources :welcome, only: [:index] do
     collection do
       get "help"

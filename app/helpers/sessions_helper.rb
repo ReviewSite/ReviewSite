@@ -1,11 +1,9 @@
 module SessionsHelper
-
   def first_time_sign_in(user)
     user.update_attribute(:okta_name, current_okta_name)
     flash[:notice] = "From now on, we will sign you in automatically via OKTA."
     redirect_back_or(root_url)
   end
-
 
   def signed_in?(options ={})
     not current_user.nil?
@@ -38,7 +36,7 @@ module SessionsHelper
   end
 
   def current_okta_name
-    if ENV['OKTA-TEST-MODE']
+    if ENV["OKTA-TEST-MODE"]
       session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
       session[:userinfo].split("@")[0]

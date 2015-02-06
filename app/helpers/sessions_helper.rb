@@ -1,4 +1,10 @@
 module SessionsHelper
+  def first_time_sign_in(user)
+    user.update_attribute(:okta_name, current_okta_name)
+    flash[:notice] = "From now on, we will sign you in automatically via OKTA."
+    redirect_back_or(root_url)
+  end
+
   def signed_in?(options ={})
     not current_user.nil?
   end
@@ -20,12 +26,17 @@ module SessionsHelper
     session[:return_to] = request.url
   end
 
+  def sign_out
+    session[:userinfo] = nil
+    redirect_to "https://thoughtworks.okta.com/login/signout?fromURI=#{ENV['URL']}"
+  end
+
   def current_okta_name=(okta_name)
     session[:temp_okta_user] = okta_name
   end
 
   def current_okta_name
-    if ENV['OKTA-TEST-MODE']
+    if ENV["OKTA-TEST-MODE"]
       session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
       session[:userinfo].split("@")[0]

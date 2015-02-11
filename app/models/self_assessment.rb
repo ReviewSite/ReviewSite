@@ -5,7 +5,6 @@ class SelfAssessment < ActiveRecord::Base
   validates :associate_consultant, :presence => true
   validates :review, :presence => true
   validates :response, :presence => true
-  validates :learning_assessment, :presence => true
 
   belongs_to :review
   belongs_to :associate_consultant
@@ -14,4 +13,9 @@ class SelfAssessment < ActiveRecord::Base
     review_deadline = review.review_date
     Date.today.between?(review_deadline, review_deadline + 2.weeks)
   end
+
+  if false
+    validates :learning_assessment, :presence => true
+  end
+
 end

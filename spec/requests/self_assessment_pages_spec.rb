@@ -18,7 +18,11 @@ describe "Self assessment page" do
 
       it "lets AC create a self assessment" do
         fill_in 'Performance Assessment', with: 'This is a self-assessment.'
-        fill_in "Learning Assessment", with: "This is learning."
+
+        if false
+          fill_in "Learning Assessment", with: "This is learning."
+        end
+
         click_button 'Submit'
         current_path.should == summary_review_path(review)
 
@@ -55,7 +59,11 @@ describe "Self assessment page" do
         page.should have_selector('textarea#self_assessment_response',
                                     text: 'These are some notes that I have written')
         fill_in 'Performance Assessment', with: 'Now I have edited my self-assessment.'
-        fill_in "Learning Assessment", with: "Learnnnninnnggggg"
+
+        if false
+          fill_in "Learning Assessment", with: "Learnnnninnnggggg"
+        end
+
         click_button 'Save Changes'
         current_path.should == summary_review_path(review)
 

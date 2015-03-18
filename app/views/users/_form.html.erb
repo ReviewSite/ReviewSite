@@ -10,7 +10,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :email %>
+    <%= f.label :email, "Primary Email" %>
     <% if @user.errors[:email] %>
       <p class="field-error-message"><%= @user.errors[:email].first %></p>
     <% end %>

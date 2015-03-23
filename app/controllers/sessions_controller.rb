@@ -4,6 +4,12 @@ class SessionsController < ApplicationController
 
   def callback
     session[:userinfo] = request.env["omniauth.auth"].uid
+    user = User.find_by_email(session[:userinfo].downcase)
+
+    if user
+      first_time_sign_in user
+    end
+
     redirect_back_or(root_url)
   end
 
@@ -17,6 +23,7 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:session][:email].downcase)
     if user
       first_time_sign_in user
+      redirect_back_or(root_url)
     else
       flash.now[:error] = "Invalid email/password combination"
       render "new"

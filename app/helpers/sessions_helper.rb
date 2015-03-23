@@ -1,9 +1,7 @@
 module SessionsHelper
   def first_time_sign_in(user)
     user.update_attribute(:okta_name, current_okta_name)
-    user.update_attribute(:email, session[:userinfo])
     flash[:notice] = "From now on, we will sign you in automatically via OKTA."
-    redirect_back_or(root_url)
   end
 
   def signed_in?(options ={})

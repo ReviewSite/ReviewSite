@@ -4,10 +4,11 @@ class SessionsController < ApplicationController
 
   def callback
     session[:userinfo] = request.env["omniauth.auth"].uid
-    user = User.find_by_email(session[:userinfo].downcase)
+    session[:user_name] = request.env["omniauth.auth"].info.name
 
-    if user
-      first_time_sign_in user
+    user = User.find_by_email(session[:userinfo].downcase)
+    if !user
+      first_time_sign_in
     end
 
     redirect_back_or(root_url)

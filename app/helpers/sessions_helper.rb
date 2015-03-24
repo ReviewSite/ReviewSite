@@ -45,7 +45,7 @@ module SessionsHelper
     if ENV["OKTA-TEST-MODE"]
       session[:temp_okta_user] || session[:userinfo].split("@")[0]
     else
-      session[:user_name]
+      session[:user_name] || session[:userinfo].split("@")[0]
     end
   end
 

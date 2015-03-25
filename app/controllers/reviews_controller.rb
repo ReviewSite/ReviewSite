@@ -4,7 +4,18 @@ class ReviewsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html
+      format.html {
+        @reviews = @reviews.default_load
+        if current_user.ac?
+          @coachees = params[:coachees].present?
+          myReviews = current_user.associate_consultant.reviews
+          if @coachees
+            @reviews = @reviews - myReviews
+          else
+            @reviews = myReviews
+          end
+        end
+      }
       format.json {
         @reviews = Review.default_load.accessibly_by(current_ability)
         render json: @reviews

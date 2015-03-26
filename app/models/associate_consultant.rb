@@ -26,8 +26,8 @@ class AssociateConsultant < ActiveRecord::Base
   end
 
   def blank?
-    self.reviewing_group.blank? &&
-      self.coach.blank? &&
+    self.reviewing_group_id.blank? &&
+      self.coach_id.blank? &&
       self.graduated.blank? &&
       self.program_start_date.blank? &&
       self.notes.blank?

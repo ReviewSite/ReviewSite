@@ -6,22 +6,9 @@ module FeedbacksHelper
 
   #TODO: write tests
   def open_requests(user)
+    invitations = Invitation.where(email: user.all_emails)
 
-    invitations = []
-    Invitation.includes(:review).each do |invitation|
-      if invitation.sent_to?(current_user) and !invitation.feedback
-        invitations << invitation
-      end
-      if extra_email = AdditionalEmail.find_by_email(invitation.email)
-        if extra_email.confirmed_at?
-          if User.find(extra_email.user_id) == current_user
-            invitations << invitation
-          end
-        end
-      end
-    end
-
-    user.feedbacks.where("submitted = ?", false).count + invitations.count
+    user.feedbacks.where(submitted: false).count + invitations.count
   end
 
 end

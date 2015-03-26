@@ -292,9 +292,8 @@ describe "User pages: " do
         visit user_path(user)
       end
 
-      it "is inaccessible" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+      it "is accessible if visiting own page" do
+        current_path.should == user_path(user)
       end
     end
   end

@@ -144,7 +144,7 @@ describe Ability do
 
     describe "dealing with User" do
       it "should be able to view own user" do
-        should_not be_able_to(:read, user)
+        should be_able_to(:show, user)
       end
 
       it "should be able to update self" do

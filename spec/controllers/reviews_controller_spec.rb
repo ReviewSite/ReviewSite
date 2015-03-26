@@ -65,16 +65,13 @@ describe ReviewsController do
         @coachee.coach = user
         @coachee.save!
         Review.create_default_reviews(@coachee)
-        Review.stub(:accessible_by).and_return(@associate_consultant.reviews + @coachee.reviews)
+        Review.stub(:accessible_by).and_return(@associate_consultant.reviews)
       end
       it 'should by default show only the user\'s reviews' do
         get :index, {}, valid_session
         assigns(:reviews).should eq(@associate_consultant.reviews)
       end
-      it 'should show coachee reviews when passed the coachee parameter' do
-        get :index, {coachees: true}, valid_session
-        assigns(:reviews).should eq(@coachee.reviews)
-      end
+     
     end
 
     context 'user is not an AC' do
@@ -90,6 +87,22 @@ describe ReviewsController do
         get :index, {}, valid_session
         assigns(:reviews).should eq(@coachee.reviews)
       end
+    end
+  end
+
+  describe "GET coachees" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee.coach = user
+        @coachee.save!
+        Review.create_default_reviews(@coachee)
+        Review.stub(:accessible_by).and_return(@coachee.reviews)
+      end
+
+    it 'should show coachee reviews' do
+      get :coachees, {}, valid_session
+      assigns(:reviews).should eq(@coachee.reviews)
     end
   end
 

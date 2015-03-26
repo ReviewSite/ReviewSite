@@ -53,9 +53,9 @@ class Ability
       can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :coach_id => user.id } } }
       can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids } } }
 
-      can [:summary, :index, :read], Review, :associate_consultant => { :user_id => user.id }
-      can [:summary, :index, :read], Review, :associate_consultant => { :coach_id => user.id }
-      can [:summary, :index, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
+      can [:summary, :read], Review, :associate_consultant => { :user_id => user.id }
+      can [:summary, :read, :coachees], Review, :associate_consultant => { :coach_id => user.id }
+      can [:summary, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
 
       can [:show, :update, :feedbacks, :completed_feedback, :add_email, :remove_email], User, :id => user.id
 

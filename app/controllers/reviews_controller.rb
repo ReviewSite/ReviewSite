@@ -5,15 +5,8 @@ class ReviewsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @reviews = @reviews.default_load
         if current_user.ac?
-          @coachees = params[:coachees].present?
-          myReviews = current_user.associate_consultant.reviews
-          if @coachees
-            @reviews = @reviews - myReviews
-          else
-            @reviews = myReviews
-          end
+          @reviews = current_user.associate_consultant.reviews
         end
       }
       format.json {
@@ -22,6 +15,8 @@ class ReviewsController < ApplicationController
       }
     end
   end
+
+  def coachees; end
 
   # GET /reviews/1
   # GET /reviews/1.json

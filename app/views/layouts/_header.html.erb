@@ -28,7 +28,7 @@
             <% if current_user.ac? %>
               <li> <%= link_to "My Reviews", reviews_path %></li>
               <% if !current_user.coachees.empty? %>
-                <li> <%= link_to "Coachee Reviews", reviews_path(coachees: true) %> </li>
+                <li> <%= link_to "Coachee Reviews", coachees_reviews_path %> </li>
               <% end %>
             <% elsif can? :index, Review %>
               <li> <%= link_to "Watched Reviews", reviews_path %> </li>

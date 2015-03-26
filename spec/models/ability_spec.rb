@@ -229,6 +229,12 @@ describe Ability do
   describe "as a Coach" do
     subject { Ability.new(ac.coach) }
 
+    describe "dealing with Reviews" do
+      it "should be able to view coachees reviews" do
+        should be_able_to(:coachees, review)
+      end
+    end
+
     describe "dealing with Feedback" do
       it "should be able to send reminders on feedback as coach of reviewee" do
         should be_able_to(:send_reminder, feedback)

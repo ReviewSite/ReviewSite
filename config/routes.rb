@@ -17,6 +17,10 @@ ReviewSite::Application.routes.draw do
       get :send_email
     end
 
+    collection do
+      get :coachees
+    end
+
     resources :feedbacks, except: [:index] do
       member do
         put :submit
@@ -34,6 +38,7 @@ ReviewSite::Application.routes.draw do
       end
     end
   end
+
 
   root to: "welcome#index"
 

@@ -387,11 +387,11 @@ describe "Review pages" do
               review_type: "6-Month")
             FactoryGirl.create(:review, associate_consultant: coachee,
               review_type: "12-Month")
-              visit reviews_path
+              visit coachees_reviews_path
           end
 
         it "should show the coachee(s)' review table" do
-          page.should have_selector('h1', text: "Watched Reviews")
+          page.should have_selector('h1', text: "My Coachees' Reviews")
         end
 
         it "should show the coachee's reviews", js: true do

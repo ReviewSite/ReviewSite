@@ -9,7 +9,7 @@
   </tr>
   </thead>
   <tbody>
-    <% @reviews.each do |review| %>
+    <% @reviews.default_load.each do |review| %>
 
       <tr>
         <td><%= review.associate_consultant.user.name %></td>

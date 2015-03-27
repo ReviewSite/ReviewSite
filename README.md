@@ -7,7 +7,7 @@
 * Install VirtualBox
 * Install Vagrant
 * Install Vagrant-Berkshelf plugin
-    $ vagrant plugin install vagrant-berkshelf`
+    `$ vagrant plugin install vagrant-berkshelf`
 * Request access to Okta Preview from TechOps
 
 #### Spin up the Vagrant box
@@ -72,7 +72,4 @@ it is possible to redirect all e-mail to an address that you control.
 * `EMAIL_OVERRIDE=someone@somewhere.com`
 
 ## Questions?
-* Valerie Roske, Tech Lead (varoske@thoughtworks)
-* Alex Jablonski, Developer (ajablonski@thoughtworks)
-* Brandon Smith, Developer (brsmith@thoughtworks)
-* Whitney Behr, QA (wlbehr@thoughtworks)
+Any dev questions can be sent to tw-review-site@thoughtworks.com and it will be seen by all members of the Review Site team.

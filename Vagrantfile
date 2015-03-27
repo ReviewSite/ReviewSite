@@ -13,6 +13,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.berkshelf.berksfile_path = "./infra/Berksfile"
 
+  config.berkshelf.enabled = true
+
   config.vm.provision "chef_solo" do |chef|
     chef.cookbooks_path = "./infra"
     chef.run_list = ['reviewsite']

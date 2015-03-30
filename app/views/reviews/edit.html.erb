@@ -6,6 +6,10 @@
 
   <div class="main-content">
 <% button_title = 'Save Changes' %>
-<%= render :partial => 'form', :locals => {button_title: button_title} %>
+<% if current_user.admin %>
+  <%= render :partial => 'form', :locals => {button_title: button_title} %>
+<% else %>
+  <%= render :partial => 'form_ac', :locals => {button_title: button_title} %>
+<% end %>
 </div>
 </div>

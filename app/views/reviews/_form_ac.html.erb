@@ -3,15 +3,7 @@
 
   <div class="field">
     <%= f.label :associate_consultant_id %>
-    <% if @review.persisted? %>
-      <p class="help-text"><%= @review.associate_consultant.user.name %></p>
-    <%else%>
-      <%= f.label :associate_consultant_id %>
-      <% if @review.errors[:associate_consultant_id] %>
-        <p class="field-error-message"><%= @review.errors[:associate_consultant_id].first %></p>
-      <% end %>
-      <%= f.text_field :associate_consultant_id %>
-    <%end%>
+    <p class="help-text"><%= @review.associate_consultant.user.name %></p>
   </div>
 
   <div class="field">
@@ -19,15 +11,15 @@
     <% if @review.errors[:review_type] %>
       <p class="field-error-message"><%= @review.errors[:review_type].first %></p>
     <% end %>
-    <%= f.select :review_type, [['6-Month'],['12-Month'],['18-Month'],['24-Month']], :include_blank => "Select Review Type" %>
+    <p class="help-text"><%= @review.review_type %></p>
   </div>
 
   <div class="field">
     <%= f.label :review_date %>
-      <% if @review.errors[:review_date] %>
+    <% if @review.errors[:review_date] %>
       <p class="field-error-message"><%= @review.errors[:review_date].first %></p>
     <% end %>
-    <%= f.text_field :review_date, class: "datepicker future", placeholder: "yyyy-mm-dd" %>
+    <p class="help-text"><%= @review.review_date %>
   </div>
 
   <div class="field">

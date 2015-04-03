@@ -54,8 +54,8 @@
                 <%= current_user %>
               </a>
               <ul class="dropdown-menu pull-right">
-                <% if can? :read, current_user %>
-                  <li><%= link_to "Profile", current_user %></li>
+                <% if can? :show, current_user %>
+                  <li><%= link_to "View Profile", current_user %></li>
                 <% end %>
                 <li><%= link_to "Update Profile", edit_user_path(current_user) %></li>
               </ul>

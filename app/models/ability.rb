@@ -55,6 +55,9 @@ class Ability
       can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids } } }
 
       can [:summary, :index, :read], Review, :associate_consultant => { :user_id => user.id }
+      can [:update], Review do |review|
+        review.associate_consultant.user == user && review.review_date > Date.today
+      end
       can [:summary, :index, :read], Review, :associate_consultant => { :coach_id => user.id }
       can [:summary, :index, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
 

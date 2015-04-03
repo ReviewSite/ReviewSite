@@ -38,6 +38,12 @@
       <% end %>
     <% end %>
 
+    <% if can? :update, review %>
+      <%= link_to edit_review_path(review), id: "review_edit" do %>
+        <li>Edit Review Details</li>
+      <% end %>
+    <% end %>
+
     <%= link_to url_for(:action => "summary", :controller => "reviews", :id => review, :format => "xlsx"), id: "export_to_excel" do %>
       <li>Export to <%= image_tag("excel_icon.gif", :class => "excel-image") %></li>
     <% end %>
@@ -49,9 +55,6 @@
         <li>Email Review Info to AC</li>
       <% end %>
 
-      <%= link_to edit_review_path(@review), id: "review_edit" do %>
-        <li>Edit Review Details</li>
-      <% end %>
 
       <%= link_to @review, method: :delete, data: { confirm: "Are you sure you want to delete this review? This will also delete all associated feedback." }, id: "review_destroy" do %>
         <li>Delete Review</li>

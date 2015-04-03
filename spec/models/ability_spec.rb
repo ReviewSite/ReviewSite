@@ -124,6 +124,7 @@ describe Ability do
 
     describe "dealing with Review" do
       it { should_not be_able_to(:manage, Review) }
+      it { should be_able_to(:update, Review) }
 
       it "should be able to view summary of own review" do
         should be_able_to(:summary, review)

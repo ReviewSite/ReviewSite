@@ -221,15 +221,14 @@ describe "Review pages" do
       end
     end
 
-    describe "as a non-admin" do
+    describe "as the reviewee" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in ac.user
         visit edit_review_path(review)
       end
 
-       it "redirects to homepage" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+       it "shows the edit page" do
+        current_path.should == edit_review_path(review)
        end
     end
   end

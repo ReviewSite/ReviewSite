@@ -145,7 +145,7 @@ describe Ability do
 
     describe "dealing with User" do
       it "should be able to view own user" do
-        should_not be_able_to(:read, user)
+        should be_able_to(:show, user)
       end
 
       it "should be able to update self" do
@@ -229,6 +229,12 @@ describe Ability do
 
   describe "as a Coach" do
     subject { Ability.new(ac.coach) }
+
+    describe "dealing with Reviews" do
+      it "should be able to view coachees reviews" do
+        should be_able_to(:coachees, review)
+      end
+    end
 
     describe "dealing with Feedback" do
       it "should be able to send reminders on feedback as coach of reviewee" do

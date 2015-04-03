@@ -4,13 +4,19 @@ class ReviewsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html
+      format.html {
+        if current_user.ac?
+          @reviews = current_user.associate_consultant.reviews
+        end
+      }
       format.json {
         @reviews = Review.default_load.accessibly_by(current_ability)
         render json: @reviews
       }
     end
   end
+
+  def coachees; end
 
   # GET /reviews/1
   # GET /reviews/1.json

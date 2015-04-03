@@ -12,13 +12,6 @@
 
   <div class="field">
     <table class="email-address-table">
-      <tr>
-        <td class="email-address-column"> <%= @user.email %> </td>
-        <td>
-          <%= link_to '', 'remove_email', remote: true,
-            class: 'fa fa-trash fa-lg fa-fw', style: 'float:right;' %>
-        </td>
-      </tr>
       <% @user.additional_emails.each do |email| %>
         <%= render partial: 'additional_emails/additional_email',
           locals: { additional_email: email } %>

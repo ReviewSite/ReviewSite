@@ -53,6 +53,57 @@ describe ReviewsController do
         assigns(:reviews).should == []
       end
     end
+
+    context 'user is both AC and Coach' do
+      before do
+        @associate_consultant = FactoryGirl.create(:associate_consultant)
+        @associate_consultant.user = user
+        @associate_consultant.save!
+        user.save!
+        Review.create_default_reviews(@associate_consultant)
+        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee.coach = user
+        @coachee.save!
+        Review.create_default_reviews(@coachee)
+        Review.stub(:accessible_by).and_return(@associate_consultant.reviews)
+      end
+      it 'should by default show only the user\'s reviews' do
+        get :index, {}, valid_session
+        assigns(:reviews).should eq(@associate_consultant.reviews)
+      end
+     
+    end
+
+    context 'user is not an AC' do
+      before do 
+        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee.coach = user
+        @coachee.save!
+        Review.create_default_reviews(@coachee)
+        Review.stub(:accessible_by).and_return(@coachee.reviews)
+      end
+
+      it 'should always show the coachee/watched reviews' do
+        get :index, {}, valid_session
+        assigns(:reviews).should eq(@coachee.reviews)
+      end
+    end
+  end
+
+  describe "GET coachees" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee.coach = user
+        @coachee.save!
+        Review.create_default_reviews(@coachee)
+        Review.stub(:accessible_by).and_return(@coachee.reviews)
+      end
+
+    it 'should show coachee reviews' do
+      get :coachees, {}, valid_session
+      assigns(:reviews).should eq(@coachee.reviews)
+    end
   end
 
   describe "GET show" do

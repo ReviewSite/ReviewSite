@@ -44,10 +44,7 @@
   end
 
   def feedback
-    review.feedbacks.includes(:user).each do |f|
-      return f if f.user == user
-    end
-    nil
+    review.feedbacks.where(user_id: user).first
   end
 
   def delete_invite

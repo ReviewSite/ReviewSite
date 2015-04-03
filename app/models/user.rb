@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
     self.name
   end
 
+  def all_emails
+    [self.email] + self.additional_emails.map {|x| x.email}
+  end
+
   def ac?
     !self.associate_consultant.nil? && self.associate_consultant.persisted?
   end

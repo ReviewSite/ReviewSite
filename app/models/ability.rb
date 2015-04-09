@@ -68,18 +68,10 @@ class Ability
         can :manage, ReviewingGroup
         can :manage, AssociateConsultant
         can :manage, User
-        can :manage, Invitation do |invitation|
+        can :read, Invitation do |invitation|
           invitation.review.upcoming?
         end
         can [:summary, :index, :read], Feedback, { submitted: true }
-        can :send_reminder, Feedback, { submitted: false }
-        can :submit, Feedback do |feedback|
-          not feedback.submitted
-        end
-
-        can :unsubmit, Feedback do |feedback|
-          feedback.submitted
-        end
       end
     end
   end

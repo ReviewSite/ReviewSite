@@ -31,7 +31,7 @@
       </td>
       <td class="nowrap button-col">
         <ul>
-          <% if (not feedback.submitted?) and (not feedback.is_additional) %>
+          <% if (not feedback.submitted?) and (not feedback.is_additional) and (can? :send_reminder, feedback) %>
             <li>
               <%= link_to '',
                 send_reminder_review_feedback_path(feedback.review, feedback),
@@ -70,6 +70,7 @@
       <td class="nowrap"><span class="fa fa-lock fa-fw fa-hidden"></span> Not Started</td>
       <td class="nowrap button-col">
         <ul>
+          <% if can? :send_reminder, invitation %>
           <li>
             <%= link_to '',
               send_reminder_review_invitation_path(invitation.review, invitation),
@@ -78,6 +79,8 @@
               title: "Send reminder"
             %>
           </li>
+          <% end %>
+          <% if can? :destroy, invitation %>
           <li>
             <%= link_to '',
               review_invitation_path(invitation.review, invitation),
@@ -86,6 +89,7 @@
               title: "Delete"
             %>
           </li>
+          <% end %>
         </ul>
       </td>
     </tr>

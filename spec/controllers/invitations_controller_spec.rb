@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe InvitationsController do
-  let (:admin) { FactoryGirl.create(:admin_user) }
-  let (:review) { FactoryGirl.create(:review, feedback_deadline: Date.today) }
+  let (:user) { FactoryGirl.create(:user) }
+  let (:associate_consultant) { FactoryGirl.create(:associate_consultant, user: user)}
+  let (:review) { FactoryGirl.create(:review, feedback_deadline: Date.today, associate_consultant: associate_consultant) }
 
-  before { set_current_user admin }
+  before { set_current_user user }
 
   def valid_sessions
     {userinfo: "test@test.com"}
@@ -166,7 +167,7 @@ describe InvitationsController do
       set_current_user reviewer
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
       flash[:success].should == "You have successfully declined #{review.associate_consultant.user}\'s feedback request."
-      set_current_user admin
+      set_current_user user
     end
 
     it "send a notification email when reviewee deletes invitation" do
@@ -179,7 +180,7 @@ describe InvitationsController do
 
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
 
-      set_current_user admin
+      set_current_user user
     end
 
     it "otherwise does not send notification email" do

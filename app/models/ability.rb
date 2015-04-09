@@ -46,8 +46,6 @@ class Ability
         { :user_id => user.id } }
       can :send_reminder, Feedback, :review => { :associate_consultant =>
         { :coach_id => user.id } }
-      cannot :submit, Feedback # only admins can use "submit"/"unsubmit" functions in controller
-      cannot :unsubmit, Feedback
       can :read, Feedback, { :submitted => true, :user_id => user.id }
       can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :user_id => user.id } } }
       can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :coach_id => user.id } } }

@@ -76,42 +76,6 @@ class FeedbacksController < ApplicationController
     end
   end
 
-  # PUT /feedbacks/1/submit
-  # PUT /feedbacks/1.json
-  def submit
-    respond_to do |format|
-      if @feedback.save
-        @feedback.submit_final
-        format.html {
-          flash[:success] = 'Feedback was successfully updated.'
-          redirect_to root_path
-        }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @feedback.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /feedbacks/1/unsubmit
-  # PUT /feedbacks/1.json
-  def unsubmit
-    @feedback.submitted = false
-    respond_to do |format|
-      if @feedback.save
-        format.html {
-          flash[:success] = 'Feedback was successfully updated.'
-          redirect_to root_path
-        }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @feedback.errors , status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /feedbacks/1
   # DELETE /feedbacks/1.json
   def destroy

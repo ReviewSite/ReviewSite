@@ -257,22 +257,6 @@ describe "Review pages" do
         current_path.should == review_feedback_path(review, feedback)
       end
 
-      # it "links to edit feedback" do
-      #   click_link "feedback_#{feedback.id}_edit"
-      #   current_path.should == edit_review_feedback_path(review, feedback)
-      # end
-
-      it "links to invite reviewer" do
-        find("a[href*='/invitations/new']").click
-        current_path.should == new_review_invitation_path(review)
-      end
-
-   #   it "links to new feedback" do
-   #     click_link "New Feedback"
-#  #     current_path.should == new_review_feedback_path(review)
-   #     current_path.should == root_path
-   #   end
-
       it "links to view summary" do
         click_link "Feedback Summary"
         current_path.should == summary_review_path(review)
@@ -319,9 +303,9 @@ describe "Review pages" do
   describe "delete invitation" do
     let!(:invite) { FactoryGirl.create(:invitation, review: review) }
 
-    describe "as an admin" do
+    describe "as an AC" do
       before do
-        sign_in admin
+        sign_in ac_user
         visit review_path(review)
       end
 

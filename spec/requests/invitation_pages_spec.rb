@@ -12,34 +12,6 @@ describe "Invitations" do
 
   describe "invitation form" do
 
-    context "as admin" do
-      before do
-        sign_in admin
-        visit new_review_invitation_path(review)
-        fill_in "emails", with: "reviewer@thoughtworks.com"
-        fill_in "message", with: "Why, hello!"
-      end
-
-      it "redirects to review after submission" do
-        click_button "Send"
-        current_path.should == review_path(review)
-        page.should have_selector('.flash-success', text: "An invitation has been sent to: reviewer@thoughtworks.com")
-      end
-
-      it "sends an invitation email" do
-        UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Send"
-      end
-
-      it "does not send an email if the 'No email' option is selected" do
-        UserMailer.should_not_receive(:review_invitation)
-        check "no_email"
-        click_button "Send"
-        current_path.should == review_path(review)
-        page.should have_selector('.flash-success', text: "An invitation has been created for: reviewer@thoughtworks.com")
-      end
-    end
-
     context "as ac" do
       before do
         sign_in ac_user

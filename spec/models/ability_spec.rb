@@ -34,31 +34,30 @@ describe Ability do
         should_not be_able_to(:destroy, feedback)
       end
 
-      it "should be able to submit unsubmitted feedback" do
-        should be_able_to(:submit, feedback)
+      it "should not be able to submit or unsubmit unsubmitted feedback" do
+        should_not be_able_to(:submit, feedback)
         should_not be_able_to(:unsubmit, feedback)
       end
 
-      it "should be able to unsubmit submitted feedback" do
+      it "should not be able to unsubmit or submit submitted feedback" do
         feedback.submitted = true
-        should be_able_to(:unsubmit, feedback)
+        should_not be_able_to(:unsubmit, feedback)
         should_not be_able_to(:submit, feedback)
       end
 
-      it "should be able to send reminders on feedback" do
-        should be_able_to(:send_reminder, feedback)
-      end
-
-      it "should not be able to send reminders on submitted feedback" do
+      it "should not be able to send reminders on feedback" do
+        should_not be_able_to(:send_reminder, feedback)
         feedback.submitted = true
         should_not be_able_to(:send_reminder, feedback)
       end
+
     end
 
     describe "dealing with Invitation" do
-      it { should be_able_to(:create, invitation) }
-      it { should be_able_to(:send_reminder, invitation) }
-      it { should be_able_to(:destroy, invitation) }
+      it { should_not be_able_to(:create, invitation) }
+      it { should_not be_able_to(:send_reminder, invitation) }
+      it { should_not be_able_to(:destroy, invitation) }
+      it { should be_able_to(:read, invitation) }
     end
 
     describe "dealing with Review" do

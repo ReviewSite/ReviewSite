@@ -135,45 +135,6 @@ describe FeedbacksController do
     end
   end
 
-  describe "PUT unsubmit" do
-    before(:each) do
-      @feedback = FactoryGirl.create(:submitted_feedback)
-      @admin = FactoryGirl.create(:admin_user)
-      set_current_user @admin
-    end
-
-    it "can change the feedback to unsubmited" do
-      @feedback.submitted.should == true
-      put :unsubmit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-      response.should redirect_to(root_url)
-      @feedback.reload
-      @feedback.submitted.should == false
-    end
-  end
-
-  describe "PUT submit" do
-    before(:each) do
-      @feedback = FactoryGirl.create(:feedback)
-      @admin = FactoryGirl.create(:admin_user)
-      set_current_user @admin
-    end
-
-    it "can change the feedback to submited" do
-      @feedback.submitted.should == false
-      put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-      response.should redirect_to(root_url)
-      @feedback.reload
-      @feedback.submitted.should == true
-    end
-
-    it "sends a notification email" do
-      UserMailer.should_receive(:new_feedback_notification
-      ).and_return(double(deliver: true))
-      UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
-      put :submit, {:id => @feedback.to_param, :review_id => @feedback.review.id}, valid_session
-    end
-  end
-
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested feedback" do

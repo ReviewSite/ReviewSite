@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Review do
   describe "review" do
     before(:each) do
-      @review = FactoryGirl.create(:review)
+      @review = create(:review)
     end
 
     it "is valid" do
@@ -22,7 +22,7 @@ describe Review do
 
     it "can find its consultant" do
       r = Review.new
-      c = FactoryGirl.create(:associate_consultant)
+      c = create(:associate_consultant)
       r.review_type = "6-Month"
       r.feedback_deadline = Date.today
       r.review_date = Date.today
@@ -68,24 +68,24 @@ describe Review do
   end
 
   it "has feedback" do
-    r = FactoryGirl.create(:review)
-    f = FactoryGirl.create(:feedback, :review => r)
+    r = create(:review)
+    f = create(:feedback, :review => r)
 
     r.feedbacks.should == [f]
   end
 
   it "cannot have the same review_type for the same AC" do
-    r1 = FactoryGirl.create(:review)
-    r2 = FactoryGirl.build(:review, :review_type => r1.review_type, :associate_consultant => r1.associate_consultant)
+    r1 = create(:review)
+    r2 = build(:review, :review_type => r1.review_type, :associate_consultant => r1.associate_consultant)
 
     r2.valid?.should be_false
   end
 
   describe "review with multiple feedbacks" do
     before(:each) do
-      @review = FactoryGirl.create(:review)
-      @fb1 = FactoryGirl.create(:feedback, :review => @review)
-      @fb2 = FactoryGirl.create(:feedback, :review => @review)
+      @review = create(:review)
+      @fb1 = create(:feedback, :review => @review)
+      @fb2 = create(:feedback, :review => @review)
     end
 
     it "should delete related feedback" do
@@ -96,8 +96,8 @@ describe Review do
   end
 
   it "has self_assessments" do
-    r = FactoryGirl.create(:review)
-    s = FactoryGirl.create(:self_assessment, :review => r)
+    r = create(:review)
+    s = create(:self_assessment, :review => r)
     r.self_assessments.should == [s]
   end
 

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe "Feedback pages", :type => :feature do
-  let(:ac_user) { FactoryGirl.create(:user) }
-  let(:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+  let(:ac_user) { create(:user) }
+  let(:ac) { create(:associate_consultant, :user => ac_user) }
+  let(:user) { create(:user) }
+  let(:admin) { create(:admin_user) }
+  let(:review) { create(:review, associate_consultant: ac) }
   let(:inputs) { {
     'feedback_comments' => 'My Comments'
   } }
@@ -14,10 +14,10 @@ describe "Feedback pages", :type => :feature do
 
   describe "'Create New Feedback' page" do
     before do
-      @current_ac = FactoryGirl.create(:associate_consultant)
-      @current_review = FactoryGirl.create(:review, :associate_consultant => @current_ac)
-      @new_user = FactoryGirl.create(:user)
-      @invitation = FactoryGirl.create(:invitation, :email => @new_user.email, :review => @current_review)
+      @current_ac = create(:associate_consultant)
+      @current_review = create(:review, :associate_consultant => @current_ac)
+      @new_user = create(:user)
+      @invitation = create(:invitation, :email => @new_user.email, :review => @current_review)
     end
 
     context "when no previous feedback exists", js: true do
@@ -52,11 +52,11 @@ describe "Feedback pages", :type => :feature do
   end
 
   describe "'Preview and Submit Feedback' page" do
-    let!(:user) { FactoryGirl.create(:user) }
-    let(:feedback_user) { FactoryGirl.create(:user) }
-    let(:ac) { FactoryGirl.create(:associate_consultant, user: user) }
-    let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-    let(:feedback) { FactoryGirl.create(:feedback, review: review,
+    let!(:user) { create(:user) }
+    let(:feedback_user) { create(:user) }
+    let(:ac) { create(:associate_consultant, user: user) }
+    let!(:review) { create(:review, associate_consultant: ac) }
+    let(:feedback) { create(:feedback, review: review,
       user: user) }
 
     before do
@@ -90,9 +90,9 @@ describe "Feedback pages", :type => :feature do
   end
 
   describe "'Edit Feedback' page" do
-    let!(:invitation) { FactoryGirl.create(:invitation, email: user.email,
+    let!(:invitation) { create(:invitation, email: user.email,
       review: review) }
-    let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+    let(:feedback) { create(:feedback, review: review, user: user) }
 
     describe "as feedback owner" do
       before do
@@ -167,7 +167,7 @@ describe "Feedback pages", :type => :feature do
 
     describe "as other user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit edit_review_feedback_path(review, feedback)
       end
 
@@ -205,7 +205,7 @@ describe "Feedback pages", :type => :feature do
   end
 
   describe "'Show Completed Feedback' page" do
-    let(:feedback) { FactoryGirl.create(:feedback, review: review, user: user) }
+    let(:feedback) { create(:feedback, review: review, user: user) }
 
     before do
       inputs.each do |field, value|
@@ -307,7 +307,7 @@ describe "Feedback pages", :type => :feature do
 
       describe "as another user" do
         before do
-          sign_in FactoryGirl.create(:user)
+          sign_in create(:user)
           visit review_feedback_path(review, feedback)
         end
 

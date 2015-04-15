@@ -4,8 +4,8 @@ describe SelfAssessment do
 
   before do
     @self_assessment =  SelfAssessment.new
-    @self_assessment.review = FactoryGirl.create(:review)
-    @self_assessment.associate_consultant = FactoryGirl.create(:associate_consultant)
+    @self_assessment.review = create(:review)
+    @self_assessment.associate_consultant = create(:associate_consultant)
   end
 
   it "requires an ac" do

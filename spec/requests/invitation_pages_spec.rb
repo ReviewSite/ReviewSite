@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe "Invitations" do
-  let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:ac_user) { FactoryGirl.create(:user) }
-  let(:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
-  let(:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.tomorrow) }
-  let(:invited_user) { FactoryGirl.create(:user, :email => "invited@thoughtworks.com") }
-  let(:uninvited_user) { FactoryGirl.create(:user, :email => "uninvited@thoughtworks.com") }
+  let(:admin) { create(:admin_user) }
+  let(:ac_user) { create(:user) }
+  let(:ac) { create(:associate_consultant, :user => ac_user) }
+  let(:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.tomorrow) }
+  let(:invited_user) { create(:user, :email => "invited@thoughtworks.com") }
+  let(:uninvited_user) { create(:user, :email => "uninvited@thoughtworks.com") }
 
   subject { page }
 
@@ -38,7 +38,7 @@ describe "Invitations" do
         let(:additional_email) { "anextraemail@thoughtworks.com" }
 
         before do
-          FactoryGirl.create(:additional_email, email: additional_email,
+          create(:additional_email, email: additional_email,
             user_id: invited_user.id)
           sign_in ac_user
           visit new_review_invitation_path(review)
@@ -68,7 +68,7 @@ describe "Invitations" do
 
     context "as other user" do
       it "should not be accessible to other users" do
-        other_user = FactoryGirl.create(:user)
+        other_user = create(:user)
         sign_in other_user
         visit new_review_invitation_path(review)
         current_path.should == root_path
@@ -76,7 +76,7 @@ describe "Invitations" do
     end
 
     context "as invited user" do
-      let!(:invitation) { FactoryGirl.create(:invitation, :review => review, :email => "invited@thoughtworks.com") }
+      let!(:invitation) { create(:invitation, :review => review, :email => "invited@thoughtworks.com") }
 
       it "should let user decline invitation" do
         sign_in invited_user

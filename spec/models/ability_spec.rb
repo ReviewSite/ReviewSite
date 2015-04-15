@@ -1,14 +1,14 @@
 require "spec_helper"
 require "cancan/matchers"
 describe Ability do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:ac) { FactoryGirl.create(:associate_consultant, user: user) }
-  let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-  let(:feedback) { FactoryGirl.create(:feedback, review: review) }
-  let(:invitation) { FactoryGirl.create(:invitation, review: review) }
+  let(:user) { create(:user) }
+  let(:ac) { create(:associate_consultant, user: user) }
+  let(:review) { create(:review, associate_consultant: ac) }
+  let(:feedback) { create(:feedback, review: review) }
+  let(:invitation) { create(:invitation, review: review) }
 
   describe "as an Admin" do
-    subject { Ability.new(FactoryGirl.create(:admin_user)) }
+    subject { Ability.new(create(:admin_user)) }
 
     describe "dealing with Associate Consultant" do
       it { should be_able_to(:manage, AssociateConsultant) }
@@ -116,7 +116,7 @@ describe Ability do
 
     describe "dealing with Invitation" do
       it "should be able to manage invitation for own review" do
-        invitation = FactoryGirl.create(:invitation, review: review)
+        invitation = create(:invitation, review: review)
         should be_able_to(:manage, invitation)
       end
     end
@@ -136,7 +136,7 @@ describe Ability do
 
     describe "dealing with Self-Assessment" do
       it "should only be able to manage self assessments for own reviews" do
-        other_review = FactoryGirl.create(:review)
+        other_review = create(:review)
         should be_able_to(:manage, review.self_assessments.new)
         should_not be_able_to(:manage, other_review.self_assessments.new)
       end
@@ -158,9 +158,9 @@ describe Ability do
   end
 
   describe "as an Invited User" do
-    let(:invited_user) { FactoryGirl.create(:user) }
+    let(:invited_user) { create(:user) }
     let!(:invitation) do
-      FactoryGirl.create(:invitation, review: review, email: invited_user.email)
+      create(:invitation, review: review, email: invited_user.email)
     end
 
     subject do
@@ -178,11 +178,11 @@ describe Ability do
   end
 
   describe "as an Alias-Invited User" do
-    let!(:invited_user) { FactoryGirl.create(:user) }
-    let!(:email_alias) { FactoryGirl.create(:additional_email,
+    let!(:invited_user) { create(:user) }
+    let!(:email_alias) { create(:additional_email,
       user: invited_user, email: "alias@thoughtworks.com",
         confirmed_at: Date.today) }
-    let!(:invitation) { FactoryGirl.create(:invitation, review: review,
+    let!(:invitation) { create(:invitation, review: review,
       email: email_alias.email) }
 
     subject do
@@ -248,7 +248,7 @@ describe Ability do
 
     describe "dealing with Invitation" do
       it "should be able to manage invitation for coachee review" do
-        invitation = FactoryGirl.create(:invitation, review: review)
+        invitation = create(:invitation, review: review)
         should be_able_to(:manage, invitation)
       end
     end
@@ -256,7 +256,7 @@ describe Ability do
 
   describe "as a Reviewing Group Member" do
     subject do
-      reviewing_group_member = FactoryGirl.create(:user)
+      reviewing_group_member = create(:user)
       ac.reviewing_group.users << reviewing_group_member
       Ability.new(reviewing_group_member)
     end
@@ -282,7 +282,7 @@ describe Ability do
   end
 
   describe "as an Other User" do
-    subject { Ability.new(FactoryGirl.create(:user)) }
+    subject { Ability.new(create(:user)) }
 
     describe "dealing with Feedback" do
       it "should not be able to send reminders on feedback "\

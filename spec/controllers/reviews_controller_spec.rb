@@ -5,7 +5,7 @@ describe ReviewsController do
   # Review. As you add validations to Review, be sure to
   # update the return value of this method accordingly.
 
-  let(:ac) {FactoryGirl.create(:associate_consultant)}
+  let(:ac) {create(:associate_consultant)}
 
   def valid_attributes
     {
@@ -21,8 +21,8 @@ describe ReviewsController do
   end
 
   describe "GET index" do
-    let(:review) { FactoryGirl.create(:review) }
-    let(:user) { FactoryGirl.create(:user) }
+    let(:review) { create(:review) }
+    let(:user) { create(:user) }
 
     before do
         User.stub(:find_by_okta_name).and_return(user)
@@ -56,12 +56,12 @@ describe ReviewsController do
 
     context 'user is both AC and Coach' do
       before do
-        @associate_consultant = FactoryGirl.create(:associate_consultant)
+        @associate_consultant = create(:associate_consultant)
         @associate_consultant.user = user
         @associate_consultant.save!
         user.save!
         Review.create_default_reviews(@associate_consultant)
-        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee = create(:associate_consultant)
         @coachee.coach = user
         @coachee.save!
         Review.create_default_reviews(@coachee)
@@ -76,7 +76,7 @@ describe ReviewsController do
 
     context 'user is not an AC' do
       before do 
-        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee = create(:associate_consultant)
         @coachee.coach = user
         @coachee.save!
         Review.create_default_reviews(@coachee)
@@ -91,9 +91,9 @@ describe ReviewsController do
   end
 
   describe "GET coachees" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
     before do
-        @coachee = FactoryGirl.create(:associate_consultant)
+        @coachee = create(:associate_consultant)
         @coachee.coach = user
         @coachee.save!
         Review.create_default_reviews(@coachee)
@@ -107,12 +107,12 @@ describe ReviewsController do
   end
 
   describe "GET show" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:admin_user) { create(:admin_user) }
     before(:each) do
       set_current_user admin_user
     end
     it "assigns the requested review as @review" do
-      review = FactoryGirl.create(:review)
+      review = create(:review)
       get :show, {:id => review.to_param}, valid_session
       assigns(:review).should eq(review)
     end
@@ -121,10 +121,10 @@ describe ReviewsController do
   describe "GET summary" do
 
     before(:each) do
-      @review = FactoryGirl.create(:review)
-      @feedback_sub = FactoryGirl.create(:submitted_feedback, :review => @review)
-      @feedback_unsub = FactoryGirl.create(:feedback, :review => @review)
-      @admin_user = FactoryGirl.create(:admin_user)
+      @review = create(:review)
+      @feedback_sub = create(:submitted_feedback, :review => @review)
+      @feedback_unsub = create(:feedback, :review => @review)
+      @admin_user = create(:admin_user)
       set_current_user @admin_user
     end
 
@@ -151,7 +151,7 @@ describe ReviewsController do
     describe "AC coach" do
       it "can see the summary for their coachee" do
         associate_consultant = @review.associate_consultant
-        coach = FactoryGirl.create(:user)
+        coach = create(:user)
         associate_consultant.coach = coach
         associate_consultant.save!
         set_current_user coach
@@ -162,7 +162,7 @@ describe ReviewsController do
 
       it "can't see the summary for other coachees" do
         associate_consultant = @review.associate_consultant
-        coach = FactoryGirl.create(:user)
+        coach = create(:user)
         associate_consultant.save!
 
         set_current_user coach
@@ -175,8 +175,8 @@ describe ReviewsController do
     describe "with a reviewing group member" do
       it "the reviewing member can see the summary" do
         associate_consultant = @review.associate_consultant
-        other_user = FactoryGirl.create(:user)
-        reviewing_group = FactoryGirl.create(:reviewing_group, :users => [other_user])
+        other_user = create(:user)
+        reviewing_group = create(:reviewing_group, :users => [other_user])
 
         associate_consultant.reviewing_group = reviewing_group
         associate_consultant.save!
@@ -190,7 +190,7 @@ describe ReviewsController do
 
   describe "GET new" do
     it "assigns a new review as @review" do
-      admin_user = FactoryGirl.create(:admin_user)
+      admin_user = create(:admin_user)
       set_current_user admin_user
       get :new, {}, valid_session
       assigns(:review).should be_a_new(Review)
@@ -201,7 +201,7 @@ describe ReviewsController do
   end
 
   describe "GET edit" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:admin_user) { create(:admin_user) }
     before(:each) do
       set_current_user admin_user
     end
@@ -213,7 +213,7 @@ describe ReviewsController do
   end
 
   describe "POST create" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:admin_user) { create(:admin_user) }
     before(:each) do
       set_current_user admin_user
     end
@@ -254,7 +254,7 @@ describe ReviewsController do
   end
 
   describe "PUT update" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:admin_user) { create(:admin_user) }
     before(:each) do
       set_current_user admin_user
     end
@@ -302,7 +302,7 @@ describe ReviewsController do
   end
 
   describe "DELETE destroy" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
+    let(:admin_user) { create(:admin_user) }
     before(:each) do
       set_current_user admin_user
     end
@@ -321,10 +321,10 @@ describe ReviewsController do
   end
 
   describe "SEND email" do
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
-    let(:user) { FactoryGirl.create(:user) }
-    let(:ac) { FactoryGirl.create(:associate_consultant, :user => user) }
-    let(:review) { FactoryGirl.create(:review, :associate_consultant => ac) }
+    let(:admin_user) { create(:admin_user) }
+    let(:user) { create(:user) }
+    let(:ac) { create(:associate_consultant, :user => user) }
+    let(:review) { create(:review, :associate_consultant => ac) }
     before(:each) do
       set_current_user admin_user
     end

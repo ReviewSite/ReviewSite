@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe FeedbacksController do
   before(:each) do
-    @review = FactoryGirl.create(:review)
-    @user = FactoryGirl.create(:user)
+    @review = create(:review)
+    @user = create(:user)
     set_current_user(@user)
     Ability.any_instance.stub(:can?).and_return(true)
   end
@@ -25,7 +25,7 @@ describe FeedbacksController do
     end
 
     it "CAN show feedback that has been 'submitted'" do
-      feedback = FactoryGirl.create(:feedback, :submitted => true, :review => @review, :user => @user)
+      feedback = create(:feedback, :submitted => true, :review => @review, :user => @user)
       get :show, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       response.should be_success
@@ -44,7 +44,7 @@ describe FeedbacksController do
     end
 
     it "loads the existing feedback if one exists for this user" do
-      feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user)
+      feedback = create(:feedback, :review => @review, :user => @user)
       get :new, {:review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
@@ -52,7 +52,7 @@ describe FeedbacksController do
 
     describe "when the user already has existing NAMED feedback" do
       before(:each) do
-        feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user, :user_string => "John Doe")
+        feedback = create(:feedback, :review => @review, :user => @user, :user_string => "John Doe")
       end
 
       it "should create a new feedback" do
@@ -62,7 +62,7 @@ describe FeedbacksController do
       end
 
       it "loads the existing feedback if one exists for this user" do
-        feedback = FactoryGirl.create(:feedback, :review => @review, :user => @user)
+        feedback = create(:feedback, :review => @review, :user => @user)
         get :new, {:review_id => @review.id}, valid_session
         assigns(:feedback).should eq(feedback)
         assigns(:user_name).should eq(@user.name)

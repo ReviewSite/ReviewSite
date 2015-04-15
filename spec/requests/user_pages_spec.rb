@@ -6,9 +6,9 @@ describe "User pages: " do
   subject { page }
 
   describe "EDIT/UPDATE" do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:admin_user) { FactoryGirl.create(:admin_user) }
-    let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
+    let(:user) { create(:user) }
+    let(:admin_user) { create(:admin_user) }
+    let!(:reviewing_group) { create(:reviewing_group) }
 
     before do
       sign_in user
@@ -43,7 +43,7 @@ describe "User pages: " do
         additional_email = "nottakenemail@thoughtworks.com"
 
         before do
-          user = FactoryGirl.create(:user, okta_name: "nottaken",
+          user = create(:user, okta_name: "nottaken",
             email: "randomemailthatworks@thoughtworks.com")
           fill_in "new-email",        with: additional_email
           click_link "Add"
@@ -70,7 +70,7 @@ describe "User pages: " do
       describe "with invalid, ThoughtWorks email", js: true do
         additional_email = "invalidthoughtworks.com"
         before do
-          user = FactoryGirl.create(:user, okta_name: "reserved",
+          user = create(:user, okta_name: "reserved",
             email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",        with: additional_email
           click_link "Add"
@@ -91,7 +91,7 @@ describe "User pages: " do
       describe "with valid, non-ThoughtWorks email", js: true do
         it "should display the email with an error message" do
           additional_email = "valid@nontw.com"
-          user = FactoryGirl.create(:user, okta_name: "nottaken",
+          user = create(:user, okta_name: "nottaken",
             email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",              with: additional_email
           click_link "Add"
@@ -104,7 +104,7 @@ describe "User pages: " do
       describe "with invalid email", js: true do
         it "should display the email with an error message" do
           additional_email = "invalidnontw.com"
-          user = FactoryGirl.create(:user, okta_name: "nottaken",
+          user = create(:user, okta_name: "nottaken",
           email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",              with: additional_email
           click_link "Add"
@@ -117,7 +117,7 @@ describe "User pages: " do
 
     describe "as an admin", js: true do
       it "can make another user an admin" do
-        nonadmin = FactoryGirl.create(:user)
+        nonadmin = create(:user)
         sign_in admin_user
 
         visit users_path
@@ -138,7 +138,7 @@ describe "User pages: " do
       end
 
       it "can graduate an AC", js: true do
-        nonadmin = FactoryGirl.create(:user)
+        nonadmin = create(:user)
         id_selector = nonadmin.id
         sign_in admin_user
 
@@ -163,7 +163,7 @@ describe "User pages: " do
       end
 
       it "can make an ac" do
-        nonadmin = FactoryGirl.create(:user)
+        nonadmin = create(:user)
         sign_in admin_user
 
         visit users_path
@@ -189,11 +189,11 @@ describe "User pages: " do
 
     describe "as an admin" do
 
-      let!(:coach) { FactoryGirl.create(:coach) }
-      let!(:reviewing_group) { FactoryGirl.create(:reviewing_group) }
+      let!(:coach) { create(:coach) }
+      let!(:reviewing_group) { create(:reviewing_group) }
 
       before do
-        sign_in FactoryGirl.create(:admin_user)
+        sign_in create(:admin_user)
         visit new_user_path
       end
 
@@ -253,7 +253,7 @@ describe "User pages: " do
     describe "as a non-admin user" do
 
       it "cannot create new users" do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit new_user_path
         current_path.should == root_path
         page.should have_selector('.flash-alert', text: "You are not authorized to access this page.")
@@ -262,8 +262,8 @@ describe "User pages: " do
   end
 
   describe "SHOW page" do
-    let (:admin) { FactoryGirl.create(:admin_user) }
-    let!(:user) { FactoryGirl.create(:user) }
+    let (:admin) { create(:admin_user) }
+    let!(:user) { create(:user) }
 
     describe "as an admin" do
       before do
@@ -299,8 +299,8 @@ describe "User pages: " do
   end
 
   describe "INDEX page" do
-    let!(:user) { FactoryGirl.create(:user, name: 'Andy', email: 'andy@example.com') }
-    let!(:admin) { FactoryGirl.create(:admin_user) }
+    let!(:user) { create(:user, name: 'Andy', email: 'andy@example.com') }
+    let!(:admin) { create(:admin_user) }
 
     describe "as an admin" do
       before do
@@ -365,10 +365,10 @@ describe "User pages: " do
   end
 
   describe "FEEDBACKS" do
-    let(:reviewer) { FactoryGirl.create(:user) }
-    let(:ac) { FactoryGirl.create(:associate_consultant) }
-    let(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-    let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+    let(:reviewer) { create(:user) }
+    let(:ac) { create(:associate_consultant) }
+    let(:review) { create(:review, associate_consultant: ac) }
+    let!(:feedback) { create(:feedback, review: review, user: reviewer) }
 
     describe "as the reviewer" do
       before do
@@ -403,7 +403,7 @@ describe "User pages: " do
 
     describe "as another user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit feedbacks_user_path(reviewer)
       end
 

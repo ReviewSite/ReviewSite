@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe InvitationsController do
-  let (:user) { FactoryGirl.create(:user) }
-  let (:associate_consultant) { FactoryGirl.create(:associate_consultant, user: user)}
-  let (:review) { FactoryGirl.create(:review, feedback_deadline: Date.today, associate_consultant: associate_consultant) }
+  let (:user) { create(:user) }
+  let (:associate_consultant) { create(:associate_consultant, user: user)}
+  let (:review) { create(:review, feedback_deadline: Date.today, associate_consultant: associate_consultant) }
 
   before { set_current_user user }
 
@@ -113,15 +113,15 @@ describe InvitationsController do
       end
 
       it "rejects already invited user" do
-        FactoryGirl.create(:invitation, email: "test@thoughtworks.com", review: review)
+        create(:invitation, email: "test@thoughtworks.com", review: review)
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
         flash[:alert].should include("test@thoughtworks.com could not be invited -- Email already invited.")
       end
     end
 
     describe "if invited user has already created feedback" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
-      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
+      let!(:feedback) { create(:feedback, review: review, user: reviewer) }
 
       it "does not save the record" do
         expect do
@@ -145,7 +145,7 @@ describe InvitationsController do
 
   describe "DELETE destroy" do
     let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
-    let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
+    let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
 
     it "destroys the requested invitation" do
       expect do
@@ -194,8 +194,8 @@ describe InvitationsController do
     let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
 
     describe "with submitted feedback" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
-      let! (:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer) }
+      let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
+      let! (:feedback) { create(:submitted_feedback, review: review, user: reviewer) }
 
       it "redirects to the review" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
@@ -215,8 +215,8 @@ describe InvitationsController do
     end
 
     describe "without submitted feedback" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
-      let! (:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
+      let! (:feedback) { create(:feedback, review: review, user: reviewer) }
 
       it "redirects to the review" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  let(:user) { FactoryGirl.build(:user,
+  let(:user) { build(:user,
                                  name: "Example User",
                                  email: "user@example.com",
                                  okta_name: "testCAS") }
@@ -106,8 +106,8 @@ describe User do
 
   describe "#ac?" do
     it "returns true if a user is a ac" do
-      user = FactoryGirl.create(:user)
-      ac = FactoryGirl.create(:associate_consultant, :user => user)
+      user = create(:user)
+      ac = create(:associate_consultant, :user => user)
 
       user.ac?.should eq(true)
     end

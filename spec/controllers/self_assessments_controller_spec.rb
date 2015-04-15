@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe SelfAssessmentsController do
   before(:each) do
-    @user = FactoryGirl.create(:user)
+    @user = create(:user)
     set_current_user (@user)
-    @ac = FactoryGirl.create(:associate_consultant, :user => @user)
-    @review = FactoryGirl.create(:review, :associate_consultant => @ac)
+    @ac = create(:associate_consultant, :user => @user)
+    @review = create(:review, :associate_consultant => @ac)
   end
 
   def valid_attributes
@@ -30,7 +30,7 @@ describe SelfAssessmentsController do
 
   describe "GET edit" do
     it "assigns the requested self_assessment as @self_assessment" do
-      self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+      self_assessment = create(:self_assessment, :review => @review)
       get :edit, {:id => self_assessment.to_param, :review_id => @review.id}, valid_session
       assigns(:self_assessment).should eq(self_assessment)
     end
@@ -73,7 +73,7 @@ describe SelfAssessmentsController do
     end
     describe "when creating a self-assessment for another person" do
       before(:each) do
-        @new_review = FactoryGirl.create(:review)
+        @new_review = create(:review)
       end
       it "cannot succeed" do
         post :create, {:self_assessment => valid_attributes, :review_id => @new_review.id}, valid_session
@@ -85,7 +85,7 @@ describe SelfAssessmentsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested self_assessment" do
-        self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+        self_assessment = create(:self_assessment, :review => @review)
         # Assuming there are no other self_assessments in the database, this
         # specifies that the SelfAssessment created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -95,13 +95,13 @@ describe SelfAssessmentsController do
       end
 
       it "assigns the requested self_assessment as @self_assessment" do
-        self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+        self_assessment = create(:self_assessment, :review => @review)
         put :update, {:id => self_assessment.to_param, :self_assessment => valid_attributes, :review_id => @review.id}, valid_session
         assigns(:self_assessment).should eq(self_assessment)
       end
 
       it "redirects to the self_assessment" do
-        self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+        self_assessment = create(:self_assessment, :review => @review)
         put :update, {:id => self_assessment.to_param, :self_assessment => valid_attributes, :review_id => @review.id}, valid_session
         response.should redirect_to(summary_review_path(@review))
       end
@@ -109,7 +109,7 @@ describe SelfAssessmentsController do
 
     describe "with invalid params" do
       it "assigns the self_assessment as @self_assessment" do
-        self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+        self_assessment = create(:self_assessment, :review => @review)
         # Trigger the behavior that occurs when invalid params are submitted
         SelfAssessment.any_instance.stub(:save).and_return(false)
         put :update, {:id => self_assessment.to_param, :self_assessment => {}, :review_id => @review.id}, valid_session
@@ -117,7 +117,7 @@ describe SelfAssessmentsController do
       end
 
       it "re-renders the 'edit' template" do
-        self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+        self_assessment = create(:self_assessment, :review => @review)
         # Trigger the behavior that occurs when invalid params are submitted
         SelfAssessment.any_instance.stub(:save).and_return(false)
         put :update, {:id => self_assessment.to_param, :self_assessment => {}, :review_id => @review.id}, valid_session
@@ -128,14 +128,14 @@ describe SelfAssessmentsController do
 
   describe "DELETE destroy" do
     it "destroys the requested self_assessment" do
-      self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+      self_assessment = create(:self_assessment, :review => @review)
       expect {
         delete :destroy, {:id => self_assessment.to_param, :review_id => @review.id}, valid_session
       }.to change(SelfAssessment, :count).by(-1)
     end
 
     it "redirects to the self_assessments list" do
-      self_assessment = FactoryGirl.create(:self_assessment, :review => @review)
+      self_assessment = create(:self_assessment, :review => @review)
       delete :destroy, {:id => self_assessment.to_param, :review_id => @review.id}, valid_session
       response.should redirect_to(summary_review_path(@review))
     end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'URL Access:' do
-  let (:user) { FactoryGirl.create(:user) }
+  let (:user) { create(:user) }
 
   subject { page }
 

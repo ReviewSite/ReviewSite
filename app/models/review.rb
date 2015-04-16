@@ -7,6 +7,7 @@ class Review < ActiveRecord::Base
       :review_type
 
   belongs_to :associate_consultant
+  has_one :reviewee, through: :associate_consultant, source: :user
 
   validates :review_type, :presence => true,
             :inclusion => { :in => %w(6-Month 12-Month 18-Month 24-Month) }
@@ -41,6 +42,10 @@ class Review < ActiveRecord::Base
       reviews << review
     end
     return reviews
+  end
+
+  def in_the_future?
+    self.review_date > Date.today
   end
 
   class Question
@@ -186,10 +191,10 @@ class Review < ActiveRecord::Base
   end
 
   def pretty_print_with(user)
-    if !user.nil? && user == associate_consultant.user
+    if user.present? && user == self.reviewee
       "Your #{review_type} Review"
     else
-      "#{associate_consultant.user.name}'s #{review_type} Review"
+      "#{self.reviewee.name}'s #{review_type} Review"
     end
   end
 

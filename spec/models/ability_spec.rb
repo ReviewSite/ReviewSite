@@ -1,67 +1,47 @@
 require "spec_helper"
 require "cancan/matchers"
 describe Ability do
-  let(:user) { create(:user) }
-  let(:ac) { create(:associate_consultant, user: user) }
-  let(:review) { create(:review, associate_consultant: ac) }
-  let(:feedback) { create(:feedback, review: review) }
+  let(:user)       { create(:user) }
+  let(:ac)         { create(:associate_consultant, user: user) }
+  let(:review)     { create(:review, associate_consultant: ac) }
+  let(:submitted)  { false }
+  let(:feedback)   { create(:feedback, review: review, submitted: submitted) }
   let(:invitation) { create(:invitation, review: review) }
 
   describe "as an Admin" do
-    subject { Ability.new(create(:admin_user)) }
+    subject { Ability.new(create(:admin)) }
 
     describe "dealing with Associate Consultant" do
       it { should be_able_to(:manage, AssociateConsultant) }
     end
 
     describe "dealing with Feedback" do
-      it "should not be able to create additional feedback for user review" do
-        should_not be_able_to(:create, review.feedbacks.build)
-      end
+      it { should_not be_able_to(:create,        review.feedbacks.build) }
+      it { should_not be_able_to(:read,          feedback) }
+      it { should_not be_able_to(:update,        feedback) }
+      it { should_not be_able_to(:destroy,       feedback) }
+      it { should_not be_able_to(:submit,        feedback) }
+      it { should_not be_able_to(:send_reminder, feedback) }
 
-      it "should not be able to view, update, or destroy "\
-          "others' unsubmitted feedback" do
-        should_not be_able_to(:read, feedback)
-        should_not be_able_to(:update, feedback)
-        should_not be_able_to(:destroy, feedback)
+      describe "submitted feedback" do
+        let(:submitted) { true }
+        it { should     be_able_to(:read,          feedback) }
+        it { should_not be_able_to(:update,        feedback) }
+        it { should_not be_able_to(:destroy,       feedback) }
+        it { should_not be_able_to(:submit,        feedback) }
+        it { should_not be_able_to(:send_reminder, feedback) }
       end
-
-      it "should be able to view, but not update or destroy "\
-          "submitted feedback" do
-        feedback.submitted = true
-        should be_able_to(:read, feedback)
-        should_not be_able_to(:update, feedback)
-        should_not be_able_to(:destroy, feedback)
-      end
-
-      it "should not be able to submit or unsubmit unsubmitted feedback" do
-        should_not be_able_to(:submit, feedback)
-        should_not be_able_to(:unsubmit, feedback)
-      end
-
-      it "should not be able to unsubmit or submit submitted feedback" do
-        feedback.submitted = true
-        should_not be_able_to(:unsubmit, feedback)
-        should_not be_able_to(:submit, feedback)
-      end
-
-      it "should not be able to send reminders on feedback" do
-        should_not be_able_to(:send_reminder, feedback)
-        feedback.submitted = true
-        should_not be_able_to(:send_reminder, feedback)
-      end
-
     end
 
     describe "dealing with Invitation" do
-      it { should_not be_able_to(:create, invitation) }
+      it { should_not be_able_to(:create,        invitation) }
       it { should_not be_able_to(:send_reminder, invitation) }
-      it { should_not be_able_to(:destroy, invitation) }
-      it { should be_able_to(:read, invitation) }
+      it { should_not be_able_to(:destroy,       invitation) }
+      it { should     be_able_to(:read,          invitation) }
     end
 
     describe "dealing with Review" do
-      it { should be_able_to(:manage, Review) }
+      it { should be_able_to(:manage,  Review) }
       it { should be_able_to(:summary, Review) }
     end
 
@@ -70,9 +50,7 @@ describe Ability do
     end
 
     describe "dealing with Self Assessment" do
-      it "should not be able to manage self assessments" do
-        should_not be_able_to(:manage, review.self_assessments.new)
-      end
+      it { should_not be_able_to(:manage, review.self_assessments.new) }
     end
 
     describe "dealing with User" do
@@ -88,29 +66,29 @@ describe Ability do
     end
 
     describe "dealing with Feedback" do
-      it "should be able to send reminders on feedback for own review" do
-        should be_able_to(:send_reminder, feedback)
+      describe "should be able to send reminders on feedback for own review" do
+        it { should be_able_to(:send_reminder, feedback) }
       end
 
-      it "should not be able to view, update, or destroy "\
+      describe "should not be able to view, update, or destroy "\
           "others' unsubmitted feedback" do
-        should_not be_able_to(:read, feedback)
-        should_not be_able_to(:update, feedback)
-        should_not be_able_to(:destroy, feedback)
+        it { should_not be_able_to(:read,    feedback) }
+        it { should_not be_able_to(:update,  feedback) }
+        it { should_not be_able_to(:destroy, feedback) }
       end
 
-      it "should allow users to create additional feedback for own reviews" do
-        should be_able_to(:create, review.feedbacks.build)
+      describe "should allow users to create additional feedback for own reviews" do
+        it { should be_able_to(:create, review.feedbacks.build) }
       end
 
-      it "should be able to read submitted feedback for own review" do
-        feedback.submitted = true
-        should be_able_to(:read, feedback)
+      describe "should be able to read submitted feedback for own review" do
+        let(:submitted) { true }
+        it { should be_able_to(:read, feedback) }
       end
 
-      it "should not be able to submit or unsubmit feedback" do
-        should_not be_able_to(:submit, feedback)
-        should_not be_able_to(:unsubmit, feedback)
+      describe "should not be able to submit or unsubmit feedback" do
+        it { should_not be_able_to(:submit,   feedback) }
+        it { should_not be_able_to(:unsubmit, feedback) }
       end
     end
 
@@ -125,8 +103,8 @@ describe Ability do
       it { should_not be_able_to(:manage, Review) }
       it { should be_able_to(:update, Review) }
 
-      it "should be able to view summary of own review" do
-        should be_able_to(:summary, review)
+      describe "should be able to view summary of own review" do
+        it { should be_able_to(:summary, review) }
       end
     end
 
@@ -158,14 +136,10 @@ describe Ability do
   end
 
   describe "as an Invited User" do
-    let(:invited_user) { create(:user) }
-    let!(:invitation) do
-      create(:invitation, review: review, email: invited_user.email)
-    end
+    let(:invited_user) { build(:user) }
+    let!(:invitation) { create(:invitation, review: review, email: invited_user.email) }
 
-    subject do
-      Ability.new(invited_user)
-    end
+    subject { Ability.new(invited_user) }
 
     it "should allow users to create feedback "\
         "for reviews they are invited to" do
@@ -185,9 +159,7 @@ describe Ability do
     let!(:invitation) { create(:invitation, review: review,
       email: email_alias.email) }
 
-    subject do
-      Ability.new(invited_user)
-    end
+    subject { Ability.new(invited_user) }
 
     it "should allow users to create feedback "\
       "for invites sent to their email aliases" do
@@ -282,7 +254,7 @@ describe Ability do
   end
 
   describe "as an Other User" do
-    subject { Ability.new(create(:user)) }
+    subject { Ability.new(build(:user)) }
 
     describe "dealing with Feedback" do
       it "should not be able to send reminders on feedback "\

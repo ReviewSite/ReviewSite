@@ -1,8 +1,11 @@
  class Invitation < ActiveRecord::Base
   belongs_to :review
+
   attr_accessible :email, :username
 
+  THOUGHTWORKS_EMAIL = "thoughtworks.com"
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
   validates :email, presence: { message: "Email cannot be blank." },
                     format: {
                       with: VALID_EMAIL_REGEX,
@@ -14,9 +17,49 @@
   validate :has_no_feedback?
   validate :tw_email?
 
-  def tw_email?
-    if email && !errors[:email].any? && !email.include?("@thoughtworks.com")
-      errors.add(:email,"#{email} could not be invited -- Not a ThoughtWorks Email.")
+  def sent_date
+    created_at.to_date
+  end
+
+  def user
+    user = User.find_by_email(email)
+    if user.present?
+      user
+    else
+      find_user_by_additional_email(email)
+    end
+  end
+
+  def feedback
+    review.feedbacks.where(user_id: user).first
+  end
+
+  def delete_invite
+    review.invitations.delete(self)
+  end
+
+  def sent_to?(user)
+    if user.nil?
+      false
+    else
+      user == self.user
+    end
+  end
+
+  def reviewee
+    review.associate_consultant
+  end
+
+  def expired?
+    review.feedback_deadline < Date.today && feedback && feedback.submitted?
+  end
+
+  private
+
+  def find_user_by_additional_email(primary_email)
+    email = AdditionalEmail.find_by_email(primary_email)
+    if email.present? && email.confirmed_at?
+      User.find(email.user_id)
     end
   end
 
@@ -27,40 +70,9 @@
     end
   end
 
-  def sent_date
-    created_at.to_date
-  end
-
-  def user
-    user = User.find_by_email(email)
-    if !user.nil?
-      user
-    else
-     email = AdditionalEmail.find_by_email(email)
-     if !email.nil? && email.confirmed_at?
-       User.find(email.user_id)
-     end
-   end
-  end
-
-  def feedback
-    review.feedbacks.where(user_id: user).first
-  end
-
-  def delete_invite
-      review.invitations.delete(self)
-  end
-
-  def sent_to?(user)
-    return false if user.nil?
-    user == self.user
-  end
-
-  def reviewee
-    review.associate_consultant
-  end
-
-  def expired?
-    review.feedback_deadline < Date.today and feedback and feedback.submitted?
+  def tw_email?
+    if email && errors[:email].empty? && email.exclude?(THOUGHTWORKS_EMAIL)
+      errors.add(:email,"#{email} could not be invited -- Not a ThoughtWorks Email.")
+    end
   end
 end

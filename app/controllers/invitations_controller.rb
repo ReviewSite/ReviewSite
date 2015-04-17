@@ -66,11 +66,11 @@ class InvitationsController < ApplicationController
     if (current_user.email == invitation_email)
       UserMailer.feedback_declined(@invitation).deliver
       flash[:success] = "You have successfully declined #{@review.reviewee.name}'s feedback request."
-      redirect_to root_path
     else
       flash[:success] = "#{invitation_email}\'s invitation has been deleted."
-      redirect_to root_path
     end
+
+    redirect_to root_path
   end
 
   def send_reminder

@@ -4,20 +4,27 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    alias_action :create, :read, :update, :destroy, to: :crud
-
-    can :manage, [Review, ReviewingGroup, AssociateConsultant, User]  if user.admin?
+    if user.admin?
+      can :manage, [Review, ReviewingGroup, AssociateConsultant, User]
+    end
 
     # User
     can(:create, User) if user.new_record?
-    can [:show, :update, :feedbacks, :completed_feedback, :add_email, :remove_email], User, :id => user.id
+    can [:show,
+         :update,
+         :feedbacks,
+         :completed_feedback, 
+         :add_email, 
+         :remove_email], User, id: user.id
 
     # Invitation
-    can :manage, Invitation do | invitation |
-      invitation.review.upcoming? && review_participant?(invitation.review, user)
+    can :manage, Invitation do |invite|
+      invite.review.upcoming? && review_participant?(invite.review, user)
     end
 
-    can(:read, Invitation) { |invitation| invitation.review.upcoming? } if user.admin?
+    if user.admin?
+      can(:read, Invitation) { |invitation| invitation.review.upcoming? }
+    end
 
     can [:read, :destroy], Invitation, email: user.email
     can [:read, :destroy], Invitation do |invite|
@@ -28,22 +35,23 @@ class Ability
     can [:read, :update, :destroy], Feedback, submitted: false, user_id: user.id
     can [:summary, :index, :read],  Feedback, { submitted: true } if user.admin?
 
-    can [:create, :new], Feedback do | feedback |
+    can [:create, :new], Feedback do |feedback|
       feedback.review.upcoming? && (
       !feedback.review.invitations.where(email: user.email).empty? ||
       own_review?(feedback.review, user))
     end
 
-    can :send_reminder, Feedback, :review => { :associate_consultant => { :user_id => user.id } }
-    can :send_reminder, Feedback, :review => { :associate_consultant => { :coach_id => user.id } }
-    can :read, Feedback, { :submitted => true, :user_id => user.id }
-    can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :user_id => user.id } } }
-    can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :coach_id => user.id } } }
-    can :read, Feedback, { :submitted => true, :review => { :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids } } }
+    can :send_reminder, Feedback, review: { associate_consultant: { user_id: user.id } }
+    can :send_reminder, Feedback, review: { associate_consultant: { coach_id: user.id } }
+    can :read, Feedback, { submitted: true, user_id: user.id }
+    can :read, Feedback, { submitted: true, review: { associate_consultant: { user_id: user.id } } }
+    can :read, Feedback, { submitted: true, review: { associate_consultant: { coach_id: user.id } } }
+    can :read, Feedback, { submitted: true, review: { associate_consultant: { reviewing_group_id: user.reviewing_group_ids } } }
 
     can [:create, :new, :preview], Feedback do |feedback|
       review = feedback.review
-      review.invitations.where(email: user.email).any? || (review.reviewee.id == user.id) ||
+      review.invitations.where(email: user.email).any? ||
+      (review.reviewee.id == user.id) ||
       sent_to_alias?(review, user)
     end
 
@@ -58,10 +66,12 @@ class Ability
     can :manage, AdditionalEmail
 
     # Review
-    can [:summary, :read], Review, :associate_consultant => { :user_id => user.id }
-    can [:summary, :read, :coachees], Review, :associate_consultant => { :coach_id => user.id }
-    can [:summary, :read], Review, :associate_consultant => { :reviewing_group_id => user.reviewing_group_ids }
-    can([:update], Review) { |review| review.reviewee == user && review.in_the_future? }
+    can [:summary, :read], Review, associate_consultant: { user_id: user.id }
+    can [:summary, :read, :coachees], Review, associate_consultant: { coach_id: user.id }
+    can [:summary, :read], Review, associate_consultant: { reviewing_group_id: user.reviewing_group_ids }
+    can([:update], Review) do |review| 
+      review.reviewee == user && review.in_the_future?
+    end
 
   end
 

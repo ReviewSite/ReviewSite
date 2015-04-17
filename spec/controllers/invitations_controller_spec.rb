@@ -166,7 +166,7 @@ describe InvitationsController do
     it "flashes different notification on decline" do
       set_current_user reviewer
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
-      flash[:success].should == "You have successfully declined #{review.associate_consultant.user}\'s feedback request."
+      flash[:success].should == "You have successfully declined #{review.reviewee}\'s feedback request."
       set_current_user user
     end
 

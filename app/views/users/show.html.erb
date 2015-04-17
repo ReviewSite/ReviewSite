@@ -34,7 +34,7 @@
 <% if @user.ac? %>
   <p id="hasGraduated">
     <label>Graduated</label>
-    <%= to_yes_no_string(@user.associate_consultant.hasGraduated?) %>
+    <%= to_yes_no_string(@user.associate_consultant.has_graduated?) %>
   </p>
 
   <% unless @user.associate_consultant.program_start_date.nil? %>

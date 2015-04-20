@@ -18,11 +18,6 @@ describe AssociateConsultant do
     it { should belong_to(:user) }
   end
 
-  it "can graduate" do
-    graduate_ac = FactoryGirl.create(:graduated_ac)
-    graduate_ac.graduate
-    graduate_ac.graduated.should == true
-  end
 
   it "can have a reviewing group" do
     @ac.reviewing_group = FactoryGirl.create(:reviewing_group)

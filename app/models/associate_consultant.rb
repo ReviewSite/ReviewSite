@@ -32,9 +32,4 @@ class AssociateConsultant < ActiveRecord::Base
       self.program_start_date.blank? &&
       self.notes.blank?
   end
-
-  def graduate
-    self.graduated = Date.today > self.program_start_date + 24.months
-  end
-
 end

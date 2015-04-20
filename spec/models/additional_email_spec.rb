@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe AdditionalEmail do
-  let(:user) { FactoryGirl.create(:user, name: "Example User") }
-  let(:email) { FactoryGirl.build(:additional_email, user_id: user.id) }
+  let(:user) { create(:user, name: "Example User") }
+  let(:email) { build(:additional_email, user_id: user.id) }
 
   subject { email }
 
@@ -65,8 +65,8 @@ describe AdditionalEmail do
 
   context "when email is valid" do
     it "should be unique among all emails" do
-      FactoryGirl.create(:user, email: "takenemail@thoughtworks.com")
-      email = FactoryGirl.build(:additional_email,
+      create(:user, email: "takenemail@thoughtworks.com")
+      email = build(:additional_email,
         email: "takenemail@thoughtworks.com")
 
       email.should_not be_valid 

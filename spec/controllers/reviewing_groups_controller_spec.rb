@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ReviewingGroupsController do
   before(:each) do
-    @admin_user = FactoryGirl.create(:admin_user)
+    @admin_user = create(:admin_user)
     set_current_user(@admin_user)
   end
 

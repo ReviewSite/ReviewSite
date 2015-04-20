@@ -18,7 +18,7 @@ describe UsersController do
         admin: false,
         associate_consultant_attributes: {
           program_start_date: Date.new(2014,7,8),
-          reviewing_group_id: FactoryGirl.create(:reviewing_group).id
+          reviewing_group_id: create(:reviewing_group).id
         }
     }
   end
@@ -31,7 +31,7 @@ describe UsersController do
       admin: false,
       associate_consultant_attributes: {
         program_start_date: nil,
-        reviewing_group_id: FactoryGirl.create(:reviewing_group).id
+        reviewing_group_id: create(:reviewing_group).id
       }
     }
   end
@@ -45,7 +45,7 @@ describe UsersController do
   describe "#create" do
     context "Normal user registers another user" do
       before do
-        user = FactoryGirl.create(:user)
+        user = create(:user)
         set_current_user user
       end
 
@@ -57,7 +57,7 @@ describe UsersController do
 
     context "Admin registers a user" do
       before do
-        admin = FactoryGirl.create(:admin_user)
+        admin = create(:admin_user)
         set_current_user admin
       end
 
@@ -131,8 +131,8 @@ describe UsersController do
   describe "PUT update/:id" do
 
     before(:each) do
-      @admin = FactoryGirl.create(:admin_user)
-      @user = FactoryGirl.create(:user)
+      @admin = create(:admin_user)
+      @user = create(:user)
       set_current_user @admin
     end
 
@@ -165,7 +165,7 @@ describe UsersController do
       end
 
       it "should not have reviews if there is no start date" do
-        @user.associate_consultant = FactoryGirl.create(:associate_consultant, :program_start_date => nil)
+        @user.associate_consultant = create(:associate_consultant, :program_start_date => nil)
         @user.save!
         Review.should_not_receive(:create_default_reviews)
 
@@ -210,7 +210,7 @@ describe UsersController do
       end
 
       it "cannot update another user's password" do
-        other_user = FactoryGirl.create(:user, :name => "Jane" )
+        other_user = create(:user, :name => "Jane" )
         put :update, {id: other_user, user: valid_params}, valid_session
         response.should redirect_to root_path
         other_user.reload

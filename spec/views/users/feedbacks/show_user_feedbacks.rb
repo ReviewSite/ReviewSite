@@ -3,19 +3,19 @@ require 'spec_helper'
 describe "User Feedbacks" do
 
 	before(:each) do
-		@reviewer = FactoryGirl.create(:user, name: "Walter", email: "walter@example.com")
-		@dude = FactoryGirl.create(:user, name: "Jeffrey", email: "jeffrey@example.com")
-		@jesus = FactoryGirl.create(:user, name: "Jesus", email: "jesus@example.com")
-		@donnie = FactoryGirl.create(:user, name: "Donnie", email: "shutupdonnie@example.com")
-		@ac1 = FactoryGirl.create(:associate_consultant, user: @dude)
-		@ac2 = FactoryGirl.create(:associate_consultant, user: @jesus)
-		@ac3 = FactoryGirl.create(:associate_consultant, user: @donnie)
-		@reviewOne = FactoryGirl.create(:review, :new_review_format => false, associate_consultant: @ac1)
-		@reviewTwo = FactoryGirl.create(:review, :new_review_format => false, associate_consultant: @ac2)
-		@reviewThree = FactoryGirl.create(:review, :new_review_format => false, associate_consultant: @ac3)
-		@invitation = FactoryGirl.create(:invitation, review: @reviewThree, email: @reviewer.email)
-		@unfinished = FactoryGirl.create(:feedback, submitted: false, review: @reviewTwo, user: @reviewer)
-		@completed = FactoryGirl.create(:feedback, submitted: true, review:@reviewOne, user: @reviewer)
+		@reviewer = create(:user, name: "Walter", email: "walter@example.com")
+		@dude = create(:user, name: "Jeffrey", email: "jeffrey@example.com")
+		@jesus = create(:user, name: "Jesus", email: "jesus@example.com")
+		@donnie = create(:user, name: "Donnie", email: "shutupdonnie@example.com")
+		@ac1 = create(:associate_consultant, user: @dude)
+		@ac2 = create(:associate_consultant, user: @jesus)
+		@ac3 = create(:associate_consultant, user: @donnie)
+		@reviewOne = create(:review, :new_review_format => false, associate_consultant: @ac1)
+		@reviewTwo = create(:review, :new_review_format => false, associate_consultant: @ac2)
+		@reviewThree = create(:review, :new_review_format => false, associate_consultant: @ac3)
+		@invitation = create(:invitation, review: @reviewThree, email: @reviewer.email)
+		@unfinished = create(:feedback, submitted: false, review: @reviewTwo, user: @reviewer)
+		@completed = create(:feedback, submitted: true, review:@reviewOne, user: @reviewer)
 		sign_in @reviewer
 		visit feedbacks_user_path(@reviewer)
 	end

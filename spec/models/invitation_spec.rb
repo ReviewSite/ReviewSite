@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "Invitation" do
-  let (:ac) { FactoryGirl.create(:associate_consultant) }
-  let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+  let (:ac) { create(:associate_consultant) }
+  let (:review) { create(:review, associate_consultant: ac) }
   let (:invitation) { review.invitations.build(email: "review@thoughtworks.com") }
   subject { invitation }
 
@@ -27,7 +27,7 @@ describe "Invitation" do
 
     it "doesn't need to be unique across reviews" do
       subject.save!
-      other_review = FactoryGirl.create(:review)
+      other_review = create(:review)
       other_review.invitations.build(email: "review@thoughtworks.com").should be_valid
     end
   end
@@ -45,19 +45,19 @@ describe "Invitation" do
     end
 
     it "should be the feedback that matches the review and user" do
-      user = FactoryGirl.create(:user, email: invitation.email)
-      feedback = FactoryGirl.create(:feedback, review: review, user: user)
+      user = create(:user, email: invitation.email)
+      feedback = create(:feedback, review: review, user: user)
       subject.feedback.should == feedback
     end
   end
 
   describe "sent_to?" do
     it "should be false if user's email doesn't match invitation's email" do
-      subject.sent_to?( FactoryGirl.create(:user) ).should be_false
+      subject.sent_to?( create(:user) ).should be_false
     end
 
     it "should be true if user's email matches invitation's email" do
-      subject.sent_to?( FactoryGirl.create(:user, email: invitation.email) ).should be_true
+      subject.sent_to?( create(:user, email: invitation.email) ).should be_true
     end
 
     it "should not be sent to nil" do
@@ -66,23 +66,23 @@ describe "Invitation" do
   end
 
   describe "expired?" do
-    let (:user) { FactoryGirl.create(:user, email: subject.email) }
+    let (:user) { create(:user, email: subject.email) }
 
     it "should be false if feedback deadline has not passed and feedback is not submitted" do
       review.update_attribute(:feedback_deadline, Date.tomorrow)
-      FactoryGirl.create(:feedback, review: review, user: user)
+      create(:feedback, review: review, user: user)
       subject.expired?.should be_false
     end
 
     it "should be false if feedback deadline has not passed and feedback is submitted" do
       review.update_attribute(:feedback_deadline, Date.tomorrow)
-      FactoryGirl.create(:submitted_feedback, review: review, user: user)
+      create(:submitted_feedback, review: review, user: user)
       subject.expired?.should be_false
     end
 
     it "should be false if feedback deadline has passed and feedback is not submitted" do
       review.update_attribute(:feedback_deadline, Date.yesterday)
-      FactoryGirl.create(:feedback, review: review, user: user)
+      create(:feedback, review: review, user: user)
       subject.expired?.should be_false
     end
 
@@ -93,7 +93,7 @@ describe "Invitation" do
 
     it "should be true if feedback deadline has passed and feedback is submitted" do
       review.update_attribute(:feedback_deadline, Date.yesterday)
-      FactoryGirl.create(:submitted_feedback, review: review, user: user)
+      create(:submitted_feedback, review: review, user: user)
       subject.expired?.should be_true
     end
   end

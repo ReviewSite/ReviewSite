@@ -6,7 +6,7 @@ feedback_info = wb.styles.add_style :sz => 10, :alignment => {:horizontal => :ce
 feedback_info_even = wb.styles.add_style :sz => 10, :bg_color => "D0D0D0", :alignment => {:horizontal => :center, :wrapText => true}
 wrap_text = wb.styles.add_style :alignment => {:wrapText => true}
 
-wb.add_worksheet(name: "#{@review.associate_consultant.user.name.truncate(31)}") do |sheet|
+wb.add_worksheet(name: "#{@review.reviewee.name.truncate(31)}") do |sheet|
   sheet.add_row ["Feedback for #{@review}"], :style => title
   sheet.merge_cells "A1:F1"
   sheet.add_row

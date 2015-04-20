@@ -4,7 +4,7 @@ describe "Navbar" do
   subject { page }
 
   describe "as an admin" do
-    let(:admin) { FactoryGirl.create(:admin_user) }
+    let(:admin) { create(:admin_user) }
     before do
       sign_in admin
       visit root_path
@@ -50,7 +50,7 @@ describe "Navbar" do
   end
 
   describe "as a normal user" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
     before do
       sign_in user
       visit root_path

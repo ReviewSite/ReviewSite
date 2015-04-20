@@ -12,8 +12,8 @@ class UserMailer < ActionMailer::Base
 
   def review_creation(review)
     @review = review
-    @ac_name = review.associate_consultant.user.name
-    @ac_email = review.associate_consultant.user.email
+    @ac_name = review.reviewee.name
+    @ac_email = review.reviewee.email
     @review_type = review.review_type
     @review_date = review.review_date
     @feedback_deadline = review.feedback_deadline
@@ -22,8 +22,8 @@ class UserMailer < ActionMailer::Base
 
   def reviews_creation(next_review)
     @next_review = next_review
-    @ac_name = next_review.associate_consultant.user.name
-    @ac_email = next_review.associate_consultant.user.email
+    @ac_name = next_review.reviewee.name
+    @ac_email = next_review.reviewee.email
     mail(:to => "<#{@ac_email}>", :subject => "[ReviewSite] Reviews have been created for you")
   end
 

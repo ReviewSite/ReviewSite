@@ -12,7 +12,7 @@
     <% @reviews.default_load.each do |review| %>
 
       <tr>
-        <td><%= review.associate_consultant.user.name %></td>
+        <td><%= review.reviewee.name %></td>
         <td><%= review.review_type %></td>
         <td><%= review.review_date.to_s(:short_date) %></td>
         <td><%= link_to("", review, class: "fa fa-eye fa-lg", title: "View") %></td>

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe UserMailer do
 
   describe 'Registration confirmation' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
     let(:mail) { UserMailer.registration_confirmation(user) }
 
     it 'renders the subject' do
@@ -33,8 +33,8 @@ describe UserMailer do
   end
 
   describe 'Review creation' do
-    let(:ac) {FactoryGirl.create(:associate_consultant)}
-    let(:review)  {FactoryGirl.create(:new_review_type, associate_consultant: ac)}
+    let(:ac) {create(:associate_consultant)}
+    let(:review)  {create(:new_review_type, associate_consultant: ac)}
     let(:mail) {UserMailer.review_creation(review) }
 
     it 'renders the subject' do
@@ -64,8 +64,8 @@ describe UserMailer do
   end
 
   describe "Multiple reviews creation" do
-    let(:ac) {FactoryGirl.create(:associate_consultant)}
-    let(:review)  {FactoryGirl.create(:new_review_type, associate_consultant: ac)}
+    let(:ac) {create(:associate_consultant)}
+    let(:review)  {create(:new_review_type, associate_consultant: ac)}
     let(:mail) {UserMailer.reviews_creation(review) }
 
     it 'renders the subject' do
@@ -95,10 +95,10 @@ describe UserMailer do
   end
 
   describe "Feedback submitted notification for AC" do
-    let (:user) { FactoryGirl.create(:user) }
-    let (:ac) { FactoryGirl.create(:associate_consultant) }
-    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-    let (:feedback) { FactoryGirl.create(:submitted_feedback, user: user, review: review) }
+    let (:user) { create(:user) }
+    let (:ac) { create(:associate_consultant) }
+    let (:review) { create(:review, associate_consultant: ac) }
+    let (:feedback) { create(:submitted_feedback, user: user, review: review) }
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 
     it 'renders the subject' do
@@ -131,11 +131,11 @@ describe UserMailer do
   end
 
   describe "Feedback submitted notification for coach" do
-    let (:user) { FactoryGirl.create(:user) }
-    let (:coach) { FactoryGirl.create(:coach) }
-    let (:ac) { FactoryGirl.create(:associate_consultant, coach: coach) }
-    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-    let (:feedback) { FactoryGirl.create(:submitted_feedback, user: user, review: review) }
+    let (:user) { create(:user) }
+    let (:coach) { create(:coach) }
+    let (:ac) { create(:associate_consultant, coach: coach) }
+    let (:review) { create(:review, associate_consultant: ac) }
+    let (:feedback) { create(:submitted_feedback, user: user, review: review) }
     let (:mail) { UserMailer.new_feedback_notification_coach(feedback) }
 
     it 'renders the subject' do
@@ -168,8 +168,8 @@ describe UserMailer do
   end
 
   describe "Feedback invitation" do
-    let (:ac) { FactoryGirl.create(:associate_consultant) }
-    let (:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.today) }
+    let (:ac) { create(:associate_consultant) }
+    let (:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.today) }
     let (:email) { "recipient@example.com" }
     let (:message) { "Hello. Please leave feedback." }
     let (:mail) { UserMailer.review_invitation(review, email, message) }
@@ -192,8 +192,8 @@ describe UserMailer do
   end
 
   describe "Feedback declined" do
-    let (:ac) { FactoryGirl.create(:associate_consultant) }
-    let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
+    let (:ac) { create(:associate_consultant) }
+    let (:review) { create(:review, associate_consultant: ac) }
     let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
@@ -210,8 +210,8 @@ describe UserMailer do
 
 
   describe "Feedback reminder" do
-    let (:ac) { FactoryGirl.create(:associate_consultant) }
-    let (:review) { FactoryGirl.create(:review, associate_consultant: ac, feedback_deadline: Date.new(2020, 1, 1)) }
+    let (:ac) { create(:associate_consultant) }
+    let (:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.new(2020, 1, 1)) }
     let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
@@ -258,8 +258,8 @@ describe UserMailer do
     end
 
     describe "feedback started, deadline not passed" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "recipient@example.com") }
-      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:reviewer) { create(:user, email: "recipient@example.com") }
+      let!(:feedback) { create(:feedback, review: review, user: reviewer) }
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
@@ -345,8 +345,8 @@ describe UserMailer do
     end
 
     describe "feedback started, deadline passed" do
-      let (:reviewer) { FactoryGirl.create(:user, email: "recipient@example.com") }
-      let!(:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+      let (:reviewer) { create(:user, email: "recipient@example.com") }
+      let!(:feedback) { create(:feedback, review: review, user: reviewer) }
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 

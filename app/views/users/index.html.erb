@@ -16,7 +16,7 @@
         <td>
           <%= user.name %>
           <% if user.ac? %>
-            <% if user.associate_consultant.hasGraduated? %>
+            <% if user.associate_consultant.has_graduated? %>
               <span class="fa fa-graduation-cap fa-fw" title="Graduated AC"></span>
             <% else %>
               <span class="fa fa-book fa-fw" title="AC"></span>

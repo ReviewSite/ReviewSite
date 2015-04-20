@@ -11,7 +11,6 @@ class AssociateConsultant < ActiveRecord::Base
   validates :reviewing_group_id, :numericality => { :only_integer => true,
     :message => "can't be blank." } , :allow_blank => false
 
-
   def to_s
     self.user.name
   end
@@ -21,8 +20,8 @@ class AssociateConsultant < ActiveRecord::Base
     self.reviews.where('review_date' => date_range).first
   end
 
-  def hasGraduated?
-    !self.graduated.nil? && self.graduated
+  def has_graduated?
+    self.graduated?
   end
 
   def blank?
@@ -32,9 +31,4 @@ class AssociateConsultant < ActiveRecord::Base
       self.program_start_date.blank? &&
       self.notes.blank?
   end
-
-  def graduate
-    self.graduated = Date.today > self.program_start_date + 24.months
-  end
-
 end

@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:email) {|n| "person#{n}@thoughtworks.com" }
     admin false
 
-    factory :admin_user do
+    factory :admin_user, aliases: [:admin] do
       admin true
       sequence(:name) { |n| "Admin # #{n}" }
     end

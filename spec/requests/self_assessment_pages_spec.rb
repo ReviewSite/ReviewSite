@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe "Self assessment page" do
-  let (:admin) { FactoryGirl.create(:admin_user) }
-  let (:ac_user) { FactoryGirl.create(:user) }
-  let (:ac) { FactoryGirl.create(:associate_consultant, :user => ac_user) }
-  let (:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-  let (:feedback) { FactoryGirl.create(:feedback) }
+  let (:admin) { create(:admin_user) }
+  let (:ac_user) { create(:user) }
+  let (:ac) { create(:associate_consultant, :user => ac_user) }
+  let (:review) { create(:review, associate_consultant: ac) }
+  let (:feedback) { create(:feedback) }
 
   subject { page }
 
@@ -35,7 +35,7 @@ describe "Self assessment page" do
 
     describe "as another user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit new_review_self_assessment_path(review)
       end
 
@@ -47,7 +47,7 @@ describe "Self assessment page" do
   end
 
   describe "edit" do
-    let! (:self_assessment) { FactoryGirl.create(:self_assessment, review: review, associate_consultant: ac) }
+    let! (:self_assessment) { create(:self_assessment, review: review, associate_consultant: ac) }
 
     describe "as an AC" do
       before do
@@ -74,7 +74,7 @@ describe "Self assessment page" do
 
     describe "as another user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit edit_review_self_assessment_path(review, self_assessment)
       end
 

@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe "Review pages" do
-  let(:admin) { FactoryGirl.create(:admin_user) }
-  let(:coach) { FactoryGirl.create(:user) }
-  let(:reviewer) { FactoryGirl.create(:user) }
-  let(:ac_user) { FactoryGirl.create(:user) }
-  let(:ac) { FactoryGirl.create(:associate_consultant, coach: coach, :user => ac_user) }
-  let!(:review) { FactoryGirl.create(:review, associate_consultant: ac) }
-  let(:review_with_invite) { FactoryGirl.create(:review, associate_consultant: ac, review_type: "6-Month") }
-  let(:invite) { FactoryGirl.create(:invitation, review: review_with_invite, email: "example@thoughtworks.com") }
-  let(:feedback) { FactoryGirl.create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
+  let(:admin) { create(:admin_user) }
+  let(:coach) { create(:user) }
+  let(:reviewer) { create(:user) }
+  let(:ac_user) { create(:user) }
+  let(:ac) { create(:associate_consultant, coach: coach, :user => ac_user) }
+  let!(:review) { create(:review, associate_consultant: ac) }
+  let(:review_with_invite) { create(:review, associate_consultant: ac, review_type: "6-Month") }
+  let(:invite) { create(:invitation, review: review_with_invite, email: "example@thoughtworks.com") }
+  let(:feedback) { create(:submitted_feedback, review: review, user: reviewer, created_at: Time.now-2.days) }
   let(:inputs) { {
     'project_worked_on' => 'My Project',
     'role_description' => 'My Role',
@@ -45,7 +45,7 @@ describe "Review pages" do
   subject { page }
 
   describe "summary" do
-    let!(:self_assessment) { FactoryGirl.create(:self_assessment, associate_consultant: ac, review: review,
+    let!(:self_assessment) { create(:self_assessment, associate_consultant: ac, review: review,
                                               updated_at: DateTime.now-2.days) }
     before do
       inputs.each do |field, value|
@@ -102,10 +102,10 @@ describe "Review pages" do
     end
 
     describe "as a ac with a long name" do
-      let(:long_name_user) { FactoryGirl.create(:user, name: "aaaaa bbbbb ccccc ddddd eeeee ff") }
-      let(:long_name_ac) { FactoryGirl.create(:associate_consultant, :user => long_name_user) }
-      let!(:long_name_review) { FactoryGirl.create(:review, associate_consultant: long_name_ac) }
-      let!(:long_name_feedback) { FactoryGirl.create(:feedback, review: review, submitted: true) }
+      let(:long_name_user) { create(:user, name: "aaaaa bbbbb ccccc ddddd eeeee ff") }
+      let(:long_name_ac) { create(:associate_consultant, :user => long_name_user) }
+      let!(:long_name_review) { create(:review, associate_consultant: long_name_ac) }
+      let!(:long_name_feedback) { create(:feedback, review: review, submitted: true) }
 
       before do
         sign_in long_name_ac.user
@@ -142,7 +142,7 @@ describe "Review pages" do
 
     describe "as another user" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit summary_review_path(review)
       end
 
@@ -159,12 +159,12 @@ describe "Review pages" do
         sign_in admin
         visit new_review_path
 
-        unique_user = FactoryGirl.create(:user)
-        @unique_ac = FactoryGirl.create(:associate_consultant, :user => unique_user)
+        unique_user = create(:user)
+        @unique_ac = create(:associate_consultant, :user => unique_user)
       end
 
       it "creates a new review", js: true do
-        review = FactoryGirl.create(:review)
+        review = create(:review)
         page.execute_script( " $('.datepicker').datepicker('remove'); " )
         page.find_by_id('review_associate_consultant_id', visible: false).
           set(@unique_ac.id)
@@ -187,7 +187,7 @@ describe "Review pages" do
 
     describe "as a non-admin" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit new_review_path
       end
 
@@ -278,7 +278,7 @@ describe "Review pages" do
 
     describe "as a non-admin" do
       before do
-        sign_in FactoryGirl.create(:user)
+        sign_in create(:user)
         visit review_path(review)
       end
 
@@ -301,7 +301,7 @@ describe "Review pages" do
   end
 
   describe "delete invitation" do
-    let!(:invite) { FactoryGirl.create(:invitation, review: review) }
+    let!(:invite) { create(:invitation, review: review) }
 
     describe "as an AC" do
       before do
@@ -318,17 +318,17 @@ describe "Review pages" do
   end
 
   describe "index" do
-    let(:ac_with_old_review) { FactoryGirl.create(:associate_consultant)}
-    let(:user_with_reviews) { FactoryGirl.create(:user,
+    let(:ac_with_old_review) { create(:associate_consultant)}
+    let(:user_with_reviews) { create(:user,
       email: "testestest@thoughtworks.com") }
-    let!(:ac_with_four_reviews) { FactoryGirl.create(:associate_consultant,
+    let!(:ac_with_four_reviews) { create(:associate_consultant,
       user: user_with_reviews, graduated: true) }
 
     describe "as an ac" do
       before do
-        FactoryGirl.create(:review, associate_consultant: ac_with_old_review,
+        create(:review, associate_consultant: ac_with_old_review,
           review_type: "6-Month", review_date: Date.today - 6.months)
-        FactoryGirl.create(:review, associate_consultant: ac_with_old_review,
+        create(:review, associate_consultant: ac_with_old_review,
           review_type: "12-Month")
         sign_in ac_with_old_review.user
         visit reviews_path
@@ -341,13 +341,13 @@ describe "Review pages" do
 
     describe "as a graduated ac" do
       before do
-        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+        create(:review, associate_consultant: ac_with_four_reviews,
           review_type: "6-Month")
-        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+        create(:review, associate_consultant: ac_with_four_reviews,
           review_type: "12-Month")
-        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+        create(:review, associate_consultant: ac_with_four_reviews,
           review_type: "18-Month")
-        FactoryGirl.create(:review, associate_consultant: ac_with_four_reviews,
+        create(:review, associate_consultant: ac_with_four_reviews,
           review_type: "24-Month")
         sign_in ac_with_four_reviews.user
         visit reviews_path
@@ -362,13 +362,13 @@ describe "Review pages" do
       end
 
       describe "who's also a coach" do
-        let(:coachee) { FactoryGirl.create(:associate_consultant,
+        let(:coachee) { create(:associate_consultant,
           coach: ac_with_four_reviews.user) }
 
           before do
-            FactoryGirl.create(:review, associate_consultant: coachee,
+            create(:review, associate_consultant: coachee,
               review_type: "6-Month")
-            FactoryGirl.create(:review, associate_consultant: coachee,
+            create(:review, associate_consultant: coachee,
               review_type: "12-Month")
               visit coachees_reviews_path
           end

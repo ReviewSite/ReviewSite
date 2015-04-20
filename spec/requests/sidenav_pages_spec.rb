@@ -4,8 +4,8 @@ describe "Side Navbar" do
   subject { page }
 
   describe "Self Assessment Link" do
-    let!(:user) { FactoryGirl.create(:user) }
-    let!(:ac) { FactoryGirl.create(:associate_consultant,
+    let!(:user) { create(:user) }
+    let!(:ac) { create(:associate_consultant,
       user: user) }
 
     before do
@@ -14,7 +14,7 @@ describe "Side Navbar" do
 
     context "when review is upcoming" do
       it "should show submit self-assessment button" do
-        @review = FactoryGirl.create(:review, associate_consultant: ac,
+        @review = create(:review, associate_consultant: ac,
           review_date: Date.today + 3.days, review_type: "18-Month")
         visit review_path(@review)
 
@@ -24,7 +24,7 @@ describe "Side Navbar" do
 
     context "when review is beyond two weeks old" do
       it "should not show submit-assessment button" do
-        @review = FactoryGirl.create(:review, associate_consultant: ac,
+        @review = create(:review, associate_consultant: ac,
           review_date: Date.today - 5.years, review_type: "6-Month")
         visit review_path(@review)
 
@@ -34,7 +34,7 @@ describe "Side Navbar" do
 
     context "when review happened recently (within two weeks)" do
       it "should show submit self-assessment button" do
-        @review = FactoryGirl.create(:review, associate_consultant: ac,
+        @review = create(:review, associate_consultant: ac,
           review_date: Date.today - 2.weeks, review_type: "6-Month")
         visit review_path(@review)
 

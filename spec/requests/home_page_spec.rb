@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe "Home page" do
-  let (:admin) { FactoryGirl.create :admin_user }
-  let (:coach) { FactoryGirl.create :user }
-  let (:reviewer) { FactoryGirl.create :user }
-  let (:ac_user) { FactoryGirl.create :user}
-  let! (:ac) { FactoryGirl.create :associate_consultant, coach: coach, :user => ac_user }
-  let! (:review) { FactoryGirl.create :review, associate_consultant: ac, feedback_deadline: Date.tomorrow }
-  let! (:feedback) { FactoryGirl.create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
+  let (:admin) { create :admin_user }
+  let (:coach) { create :user }
+  let (:reviewer) { create :user }
+  let (:ac_user) { create :user}
+  let! (:ac) { create :associate_consultant, coach: coach, :user => ac_user }
+  let! (:review) { create :review, associate_consultant: ac, feedback_deadline: Date.tomorrow }
+  let! (:feedback) { create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 
   subject { page }
 
@@ -20,7 +20,7 @@ describe "Home page" do
 
     it "is invisible to other users" do
       page.should_not have_link("New Review")
-      sign_in FactoryGirl.create(:user)
+      sign_in create(:user)
       page.should_not have_link("New Review")
     end
   end
@@ -47,11 +47,11 @@ describe "Home page" do
 
     describe "as AC" do
       before do
-        @ac_with_many_reviews = FactoryGirl.create(:associate_consultant)
-        @first_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
-        @upcoming_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today + 1.month)
-        @latest_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 7.months)
-        @feedback = FactoryGirl.create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
+        @ac_with_many_reviews = create(:associate_consultant)
+        @first_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
+        @upcoming_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today + 1.month)
+        @latest_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 7.months)
+        @feedback = create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
 
         sign_in @ac_with_many_reviews.user
       end
@@ -84,8 +84,8 @@ describe "Home page" do
 
       describe "who has graduated", js: true do
         before do
-          graduated_ac = FactoryGirl.create(:associate_consultant,
-            user: FactoryGirl.create(:user), graduated: true)
+          graduated_ac = create(:associate_consultant,
+            user: create(:user), graduated: true)
           @ac_with_many_reviews.coach = graduated_ac.user
           graduated_ac.user.coachees << @ac_with_many_reviews
           sign_in graduated_ac.user

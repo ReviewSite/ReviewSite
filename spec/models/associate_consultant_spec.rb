@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe AssociateConsultant do
   before do
-    user = FactoryGirl.create(:user, name: "Example User")
-    coach = FactoryGirl.create(:user)
-    @ac = FactoryGirl.build(:associate_consultant, :coach => coach, :user => user)
+    user = create(:user, name: "Example User")
+    coach = create(:user)
+    @ac = build(:associate_consultant, :coach => coach, :user => user)
   end
 
   subject { @ac }
@@ -18,14 +18,9 @@ describe AssociateConsultant do
     it { should belong_to(:user) }
   end
 
-  it "can graduate" do
-    graduate_ac = FactoryGirl.create(:graduated_ac)
-    graduate_ac.graduate
-    graduate_ac.graduated.should == true
-  end
 
   it "can have a reviewing group" do
-    @ac.reviewing_group = FactoryGirl.create(:reviewing_group)
+    @ac.reviewing_group = create(:reviewing_group)
     @ac.valid?.should == true
   end
 
@@ -47,8 +42,8 @@ describe AssociateConsultant do
 
   describe "with reviews" do
     before(:each) do
-      @ac = FactoryGirl.create(:associate_consultant)
-      @review = FactoryGirl.create(:review, :associate_consultant => @ac, :review_type => "6-Month", :review_date => Date.today - 5.days)
+      @ac = create(:associate_consultant)
+      @review = create(:review, :associate_consultant => @ac, :review_type => "6-Month", :review_date => Date.today - 5.days)
     end
 
     it "should delete the review when the associate consultant is deleted" do
@@ -58,15 +53,15 @@ describe AssociateConsultant do
     end
 
     it "should return only the most recent review" do
-      latest_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month")
+      latest_review = create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month")
       @ac.reviews.count.should eq(2)
 
       @ac.upcoming_review.should eq(latest_review)
     end
 
     it "should return only the future review closest to today" do
-      upcoming_review = FactoryGirl.create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month", :review_date => Date.today + 5.months)
-      review18 = FactoryGirl.create(:new_review_type, :associate_consultant => @ac, :review_type => "18-Month", :review_date => Date.today + 12.months)
+      upcoming_review = create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month", :review_date => Date.today + 5.months)
+      review18 = create(:new_review_type, :associate_consultant => @ac, :review_type => "18-Month", :review_date => Date.today + 12.months)
 
       @ac.reviews.count.should eq(3)
       @ac.upcoming_review.should eq(upcoming_review)

@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Group # #{n}" }
 
     factory :reviewing_group_with_users do
-      users {[FactoryGirl.create(:user)]}
+      users {[create(:user)]}
     end
 
   end

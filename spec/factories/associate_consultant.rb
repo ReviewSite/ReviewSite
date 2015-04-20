@@ -8,7 +8,7 @@ FactoryGirl.define do
     program_start_date Date.today - 2
 
     factory :graduated_ac do
-      program_start_date Date.today - 24.months - 1.days
+      graduated true
     end
   end
 end

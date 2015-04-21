@@ -30,6 +30,8 @@ class Feedback < ActiveRecord::Base
 
   delegate :new_review_format, to: :review
 
+  scope :unsubmitted, -> { where(submitted: false) }
+
   def reviewer
     if self.user_string.nil?
       self.user.name

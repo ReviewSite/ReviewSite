@@ -16,7 +16,7 @@ class InvitationMessageBuilder
   end
 
   def with(invitation)
-    if invitation.kind_of?(Invitation)
+    if invitation.is_a?(Invitation)
       @invitation = invitation
       self
     end
@@ -36,33 +36,33 @@ class InvitationMessageBuilder
 
   private
 
-    attr_reader :invitation
+  attr_reader :invitation
 
-    def add_error(message)
-      errors << message
-    end
+  def add_error(message)
+    errors << message
+  end
 
-    def add_errors
-      @invitation.errors.messages.values.flatten.map { |error| add_error(error) }
-    end
+  def add_errors
+    @invitation.errors.messages.values.flatten.map { |error| add_error(error) }
+  end
 
-    def add_success(message)
-      successes << message
-    end
+  def add_success(message)
+    successes << message
+  end
 
-    def build_messages(message)
-      if @invitation.save
-        add_success(message)
-      else
-        add_errors
-      end
+  def build_messages(message)
+    if @invitation.save
+      add_success(message)
+    else
+      add_errors
     end
+  end
 
-    def no_email?
-      @no_email
-    end
+  def no_email?
+    @no_email
+  end
 
-    def successes?
-      successes.any?
-    end
+  def successes?
+    successes.any?
+  end
 end

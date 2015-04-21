@@ -2,7 +2,7 @@ class InvitationMessageBuilder
   attr_reader :successes,
               :errors
 
-  def initialize(no_email)
+  def initialize(no_email = false)
     @no_email = no_email
     @successes = []
     @errors = []
@@ -10,16 +10,16 @@ class InvitationMessageBuilder
   end
 
   def build(message)
-    if @invitation.save
-      add_success(message)
-    else
-      add_errors
+    if @invitation
+      build_messages(message)
     end
   end
 
   def with(invitation)
-    @invitation = invitation
-    self
+    if invitation.kind_of?(Invitation)
+      @invitation = invitation
+      self
+    end
   end
 
   def error_message
@@ -48,6 +48,14 @@ class InvitationMessageBuilder
 
     def add_success(message)
       successes << message
+    end
+
+    def build_messages(message)
+      if @invitation.save
+        add_success(message)
+      else
+        add_errors
+      end
     end
 
     def no_email?

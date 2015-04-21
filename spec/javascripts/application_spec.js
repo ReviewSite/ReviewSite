@@ -20,3 +20,25 @@ describe("Bar",  function() {
     expect(spyEvent).toHaveBeenTriggered();
   });
 });
+
+describe("calculateAWeekBefore", function() {
+  it("calculates a date a week prior to a given date", function() {
+    var calculatedDate = ReviewSite.calculateWeekBefore(new Date("2015-07-29"));
+
+    expect(calculatedDate).toEqual(new Date("2015-07-22"));
+
+  });
+});
+
+describe("dateFormatter", function() {
+  it("formats dates", function() {
+    var formattedDate = ReviewSite.formatDate(new Date("2015-07-22"));
+
+    expect(formattedDate).toBe("2015-7-22");
+  });
+});
+
+
+
+
+

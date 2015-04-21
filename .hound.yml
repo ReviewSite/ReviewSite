@@ -6,6 +6,7 @@
 # For info on how to configure Hound CI, visit: https://houndci.com/configuration
 
 ruby:
+  config_file: .ruby-style.yml
   enabled: true
 
 coffee_script:

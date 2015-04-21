@@ -48,12 +48,14 @@ class Ability
     can :read, Feedback, { submitted: true, review: { associate_consultant: { coach_id: user.id } } }
     can :read, Feedback, { submitted: true, review: { associate_consultant: { reviewing_group_id: user.reviewing_group_ids } } }
 
-    can [:create, :new, :preview], Feedback do |feedback|
+    can [:create, :new], Feedback do |feedback|
       review = feedback.review
       review.invitations.where(email: user.email).any? ||
       (review.reviewee.id == user.id) ||
       sent_to_alias?(review, user)
     end
+
+    can :preview, Feedback, user_id: user.id
 
     # Self Assessment
     can :manage, SelfAssessment do | self_assessment |

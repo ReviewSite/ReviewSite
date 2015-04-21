@@ -9,52 +9,23 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    flash.clear
-    errors = []
-    successes = []
-    for email in params[:emails].split(",").map{ |email| email.strip.downcase } do
+    emails = params[:emails].split(',').map { |email| email.strip.downcase } 
+    builder = InvitationMessageBuilder.new(params[:no_email])
+    
+    emails.map do |email|
       @invitation = @review.invitations.build(email: email)
-      if @invitation.save and email.include? "thoughtworks.com"
-        if params[:no_email]
-          flash[:success] = "An invitation has been created!"
-        else
-          UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
-          flash[:success] = "An invitation has been sent!"
-        end
-        successes << email
-      else
-        if @invitation.errors.messages.any?
-          for error in @invitation.errors.messages.values.flatten
-            errors << error
-          end
-        end
+      if @invitation.save && !params[:no_email]
+        UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
       end
+      builder.with(@invitation).build(email)
     end
 
-    success_message = nil
-    unless successes.empty?
-      success_message = "An invitation has been "
-      if(params[:no_email])
-        success_message += "created for: "
-      else
-        success_message += "sent to: "
-      end
-      success_message += successes.join(", ")
-    end
-
-    if errors.empty?
-      if success_message
-        flash[:success] = success_message
-      end
+    if @invitation.valid?
+      flash[:success]   = builder.success_message  
       redirect_to @review
     else
-      if success_message
-        flash.now[:success] = success_message
-      end
-      flash.now[:alert] = ""
-      for error in errors do
-        flash.now[:alert] += error + "\n"
-      end
+      flash[:success]   = builder.success_message  
+      flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
       render 'new'
     end
@@ -84,6 +55,7 @@ class InvitationsController < ApplicationController
   end
 
   private
+
   def load_review
     @review = Review.find_by_id(params[:review_id])
   end

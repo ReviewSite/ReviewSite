@@ -18,18 +18,18 @@ describe AssociateConsultant do
     it { should belong_to(:user) }
   end
 
-  describe '#can_graduate?' do
-    it 'returns true when graduation date has passed' do
+  describe "#can_graduate?" do
+    it "returns true when graduation date has passed" do
       ac = create(:associate_consultant, :has_reached_graduation_date)
       ac.can_graduate?.should == true
     end
 
-    it 'returns false when graduation date has not passed' do
+    it "returns false when graduation date has not passed" do
       ac = create(:associate_consultant)
       ac.can_graduate?.should == false
     end
 
-    it 'returns false when an AC has already graduated' do
+    it "returns false when an AC has already graduated" do
       ac = create(:associate_consultant, :has_graduated)
       ac.can_graduate?.should == false
     end

@@ -28,9 +28,9 @@ class InvitationMessageBuilder
 
   def success_message
     if successes? && no_email?
-      'An invitation has been created for: ' + successes.join(', ')
+      "An invitation has been created for: " + successes.join(', ')
     elsif successes?
-      'An invitation has been sent to: ' + successes.join(', ')
+      "An invitation has been sent to: " + successes.join(', ')
     end
   end
 

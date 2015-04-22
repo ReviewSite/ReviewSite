@@ -7,7 +7,7 @@ class AssociateConsultant < ActiveRecord::Base
   has_many :reviews, dependent: :destroy
 
   validates :coach_id, numericality: { only_integer: true }, allow_blank: true
-  validates :reviewing_group_id, numericality: { only_integer: true, message: "can't be blank." } , allow_blank: false
+  validates :reviewing_group_id, numericality: { only_integer: true, message: "can't be blank." }, allow_blank: false
 
   def to_s
     self.user.name

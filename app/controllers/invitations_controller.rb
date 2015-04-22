@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    emails = params[:emails].split(',').map { |email| email.strip.downcase } 
+    emails = params[:emails].split(",").map { |email| email.strip.downcase }
     builder = InvitationMessageBuilder.new(params[:no_email])
     
     emails.map do |email|
@@ -21,10 +21,10 @@ class InvitationsController < ApplicationController
     end
 
     if @invitation.valid?
-      flash[:success]   = builder.success_message  
+      flash[:success] = builder.success_message
       redirect_to @review
     else
-      flash[:success]   = builder.success_message  
+      flash[:success] = builder.success_message
       flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
       render 'new'

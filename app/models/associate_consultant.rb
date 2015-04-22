@@ -6,10 +6,8 @@ class AssociateConsultant < ActiveRecord::Base
   belongs_to :user, :foreign_key => :user_id
   has_many :reviews, :dependent => :destroy
 
-  validates :coach_id, :numericality => { :only_integer => true },
-    :allow_blank => true
-  validates :reviewing_group_id, :numericality => { :only_integer => true,
-    :message => "can't be blank." } , :allow_blank => false
+  validates :coach_id, :numericality => { :only_integer => true }, :allow_blank => true
+  validates :reviewing_group_id, :numericality => { :only_integer => true, :message => "can't be blank." } , :allow_blank => false
 
   def to_s
     self.user.name
@@ -18,6 +16,10 @@ class AssociateConsultant < ActiveRecord::Base
   def upcoming_review
     date_range = Date.today..(Date.today + 6.months)
     self.reviews.where('review_date' => date_range).first
+  end
+
+  def can_graduate?
+    !self.graduated? && program_start_date.present? && Date.today > graduation_date
   end
 
   def has_graduated?
@@ -30,5 +32,11 @@ class AssociateConsultant < ActiveRecord::Base
       self.graduated.blank? &&
       self.program_start_date.blank? &&
       self.notes.blank?
+  end
+
+  private
+
+  def graduation_date
+    program_start_date + 24.months
   end
 end

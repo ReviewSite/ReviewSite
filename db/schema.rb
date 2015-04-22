@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150112221711) do
+ActiveRecord::Schema.define(:version => 20150420233751) do
 
   create_table "additional_emails", :force => true do |t|
     t.string   "email"
@@ -22,13 +22,13 @@ ActiveRecord::Schema.define(:version => 20150112221711) do
   end
 
   create_table "associate_consultants", :force => true do |t|
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.text     "notes"
     t.integer  "reviewing_group_id"
     t.integer  "coach_id"
     t.integer  "user_id"
-    t.boolean  "graduated"
+    t.boolean  "graduated",          :default => false
     t.date     "program_start_date"
   end
 

@@ -1,7 +1,7 @@
 FactoryGirl.define do
     factory :feedback do
-        review # FactoryGirl
-        user # FactoryGirl
+        review
+        user
         user_string nil
         submitted false
         factory :submitted_feedback do

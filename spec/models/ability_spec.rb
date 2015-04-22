@@ -195,6 +195,16 @@ describe Ability do
         should_not be_able_to(:update, feedback)
         should_not be_able_to(:destroy, feedback)
       end
+
+      it "should be able to preview own feedback" do
+        should be_able_to(:preview, feedback)
+      end
+
+      it "should not be able to preview others' feedbacks" do
+        other_user = create(:user)
+        other_feedback = create(:feedback, user: other_user)
+        should_not be_able_to(:preview, other_feedback)
+      end
     end
   end
 

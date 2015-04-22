@@ -2,12 +2,12 @@ class AssociateConsultant < ActiveRecord::Base
   attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id, :graduated, :program_start_date
 
   belongs_to :reviewing_group
-  belongs_to :coach, :class_name => "User", :foreign_key => :coach_id
-  belongs_to :user, :foreign_key => :user_id
-  has_many :reviews, :dependent => :destroy
+  belongs_to :coach, class_name: "User", foreign_key: :coach_id
+  belongs_to :user, foreign_key: :user_id
+  has_many :reviews, dependent: :destroy
 
-  validates :coach_id, :numericality => { :only_integer => true }, :allow_blank => true
-  validates :reviewing_group_id, :numericality => { :only_integer => true, :message => "can't be blank." } , :allow_blank => false
+  validates :coach_id, numericality: { only_integer: true }, allow_blank: true
+  validates :reviewing_group_id, numericality: { only_integer: true, message: "can't be blank." } , allow_blank: false
 
   def to_s
     self.user.name

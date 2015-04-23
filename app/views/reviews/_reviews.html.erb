@@ -9,7 +9,7 @@
   </tr>
   </thead>
   <tbody>
-    <% @reviews.default_load.each do |review| %>
+    <% @reviews.includes(:reviewee).default_load.each do |review| %>
 
       <tr>
         <td><%= review.reviewee.name %></td>

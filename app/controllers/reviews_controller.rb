@@ -6,11 +6,11 @@ class ReviewsController < ApplicationController
     respond_to do |format|
       format.html {
         if current_user.ac?
-          @reviews = current_user.associate_consultant.reviews
+          @reviews = current_user.includes(:reviewee).associate_consultant.reviews
         end
       }
       format.json {
-        @reviews = Review.default_load.accessibly_by(current_ability)
+        @reviews = Review.includes(:reviewee).default_load.accessibly_by(current_ability)
         render json: @reviews
       }
     end

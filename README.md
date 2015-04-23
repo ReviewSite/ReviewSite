@@ -26,7 +26,7 @@
 
 #### Run the test suite
 * All the tests (javascript + rspec)
-  * `$ sh runtests.sh`
+  * `$ bundle exec rake spec:ci`
 * All the rspec tests
   * `$ bundle exec rspec`
 * One rspec test file

@@ -69,7 +69,7 @@ describe ReviewsController do
       end
       it 'should by default show only the user\'s reviews' do
         get :index, {}, valid_session
-        assigns(:reviews).should eq(@associate_consultant.reviews)
+        assigns(:reviews) == @associate_consultant.reviews
       end
      
     end

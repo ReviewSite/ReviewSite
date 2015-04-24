@@ -5,9 +5,14 @@ FactoryGirl.define do
     user
     reviewing_group
     graduated false
-    program_start_date Date.today - 2
+    program_start_date Date.today
 
-    factory :graduated_ac do
+    trait :has_reached_graduation_date do
+      program_start_date Date.today - 1 - 24.months
+    end
+
+    trait :has_graduated do
+      program_start_date Date.today - 1 - 24.months
       graduated true
     end
   end

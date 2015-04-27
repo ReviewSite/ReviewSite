@@ -5,7 +5,7 @@
     <% end %>
   <%= render partial: 'reviews' %>
 <% else %>
-  <% if @coachees && !current_user.coachees.empty? %>
+  <% if @coachees && current_user.coachees.any? %>
     <h1>My Coachees Reviews</h1>
     <%= render partial: 'reviews' %>
   <% else %>

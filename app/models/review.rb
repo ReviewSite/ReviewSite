@@ -9,24 +9,24 @@ class Review < ActiveRecord::Base
       :review_date,
       :review_type
 
-  validates :review_type, presence: true, inclusion: { :in => REVIEW_TYPES }
+  validates :review_type, presence: true, inclusion: { in: REVIEW_TYPES }
   validates :associate_consultant_id, presence: true
-  validates :associate_consultant_id, uniqueness: { scope: [:review_type]}
+  validates :associate_consultant_id, uniqueness: { scope: [:review_type] }
   validates :feedback_deadline, presence: true
   validates :review_date, presence: true
 
   belongs_to :associate_consultant
 
-  has_many   :feedbacks,        dependent: :destroy
-  has_many   :self_assessments, dependent: :destroy
-  has_many   :invitations,      dependent: :destroy
-  has_one    :reviewee, through: :associate_consultant, source: :user
+  has_many :feedbacks,        dependent: :destroy
+  has_many :self_assessments, dependent: :destroy
+  has_many :invitations,      dependent: :destroy
+  has_one :reviewee, through: :associate_consultant, source: :user
 
   after_validation :check_errors
   after_initialize :set_new_review_format
 
   def self.default_load
-    includes( :reviewee , associate_consultant: :reviewing_group )
+    includes( :reviewee, associate_consultant: :reviewing_group )
   end
 
   def self.create_default_reviews(associate, reviews = [])

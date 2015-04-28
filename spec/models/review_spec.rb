@@ -119,4 +119,22 @@ describe Review do
       review.feedback_deadline.should == ac.program_start_date + month.months - 7.days
     end
   end
+
+  describe "#in_the_future?" do
+    it "returns true when review date is in the future from today" do
+      review = Review.new
+      review.review_date = 2.days.from_now
+      review.in_the_future?.should be_true
+    end
+    it "returns false when review date is not in the future from today" do
+      review = Review.new
+      review.review_date = 2.days.ago
+      review.in_the_future?.should be_false
+    end
+    it "returns false when review date is not set" do
+      review = Review.new
+      review.review_date = nil
+      review.in_the_future?.should be_false
+    end 
+  end
 end

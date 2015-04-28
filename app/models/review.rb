@@ -46,7 +46,7 @@ class Review < ActiveRecord::Base
   end
 
   def in_the_future?
-    self.review_date > Date.today
+    self.review_date.present? && self.review_date > Date.today
   end
 
   def questions

@@ -6,7 +6,7 @@ describe "Home page" do
   let (:reviewer) { create :user }
   let (:ac_user) { create :user}
   let! (:ac) { create :associate_consultant, coach: coach, :user => ac_user }
-  let! (:review) { create :review, associate_consultant: ac, feedback_deadline: Date.tomorrow }
+  let! (:review) { create :review, associate_consultant: ac}
   let! (:feedback) { create :feedback, review: review, user: reviewer, project_worked_on: "Test"}
 
   subject { page }
@@ -48,7 +48,9 @@ describe "Home page" do
     describe "as AC" do
       before do
         @ac_with_many_reviews = create(:associate_consultant)
-        @first_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
+        @first_review = build(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
+        @first_review.stub(:feedback_deadline_is_before_review_date).and_return(true)
+        @first_review.save
         @upcoming_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today + 1.month)
         @latest_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 7.months)
         @feedback = create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")

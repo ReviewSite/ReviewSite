@@ -16,6 +16,8 @@ class Review < ActiveRecord::Base
   validates :feedback_deadline, :presence => true
   validates :review_date, :presence => true
 
+  validate :feedback_deadline_is_before_review_date, if: :review_and_feedback_deadline_present?
+
   belongs_to :associate_consultant
   has_one    :reviewee, through: :associate_consultant, source: :user
 
@@ -130,5 +132,15 @@ class Review < ActiveRecord::Base
 
   def set_new_review_format
     self.new_review_format = true if new_record?
+  end
+
+  def feedback_deadline_is_before_review_date
+    if self.feedback_deadline >= self.review_date
+      self.errors.add(:feedback_deadline, "must be before Review Date.")
+    end
+  end
+
+  def review_and_feedback_deadline_present?
+    self.feedback_deadline.present? && self.review_date.present?
   end
 end

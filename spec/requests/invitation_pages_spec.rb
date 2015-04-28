@@ -4,7 +4,7 @@ describe "Invitations" do
   let(:admin) { create(:admin_user) }
   let(:ac_user) { create(:user) }
   let(:ac) { create(:associate_consultant, :user => ac_user) }
-  let(:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.tomorrow) }
+  let(:review) { create(:review, associate_consultant: ac) }
   let(:invited_user) { create(:user, :email => "invited@thoughtworks.com") }
   let(:uninvited_user) { create(:user, :email => "uninvited@thoughtworks.com") }
 

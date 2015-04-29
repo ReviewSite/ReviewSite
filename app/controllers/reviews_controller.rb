@@ -17,7 +17,7 @@ class ReviewsController < ApplicationController
   end
 
   def coachees
-     @reviews = @reviews.default_load
+    @reviews = @reviews.default_load
   end
 
   # GET /reviews/1

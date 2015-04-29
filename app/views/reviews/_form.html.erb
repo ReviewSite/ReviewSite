@@ -6,7 +6,6 @@
     <% if @review.persisted? %>
       <p class="help-text"><%= @review.reviewee.name %></p>
     <%else%>
-      <%= f.label :associate_consultant_id %>
       <% if @review.errors[:associate_consultant_id] %>
         <p class="field-error-message"><%= @review.errors[:associate_consultant_id].first %></p>
       <% end %>

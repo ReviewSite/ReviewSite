@@ -1,7 +1,7 @@
 ReviewSite = ReviewSite || {};
 
 var updateFeedbackDeadline = function() {
-  $("#review_review_date").change(function() {
+  $("#new_review #review_review_date").change(function() {
     var date = new Date( $("#review_review_date").val() );
     var weekAgoDate = ReviewSite.calculateWeekBefore(date);
     var weekAgoDateString = ReviewSite.formatDate(weekAgoDate);

@@ -59,7 +59,7 @@ describe AssociateConsultant do
   describe "with reviews" do
     before(:each) do
       @ac = create(:associate_consultant)
-      @review = create(:review, :associate_consultant => @ac, :review_type => "6-Month", :review_date => Date.today - 5.days)
+      @review = create(:review, :associate_consultant => @ac, :review_type => "6-Month")
     end
 
     it "should delete the review when the associate consultant is deleted" do

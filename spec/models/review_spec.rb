@@ -20,17 +20,6 @@ describe Review do
       @review.valid?.should be_false
     end
 
-    it "can find its consultant" do
-      r = Review.new
-      c = create(:associate_consultant)
-      r.review_type = "6-Month"
-      r.feedback_deadline = Date.today
-      r.review_date = Date.today
-      r.associate_consultant = c
-
-      r.save.should be_true
-    end
-
     it "allows different Review Types" do
       TYPES = ["6-Month", "12-Month", "18-Month", "24-Month"]
       TYPES.each do |type|
@@ -117,6 +106,40 @@ describe Review do
       review.review_type.should == month.to_s + "-Month"
       review.review_date.should == ac.program_start_date + month.months
       review.feedback_deadline.should == ac.program_start_date + month.months - 7.days
+    end
+  end
+
+  describe "#in_the_future?" do
+    it "returns true when review date is in the future from today" do
+      review = Review.new
+      review.review_date = 2.days.from_now
+      review.in_the_future?.should be_true
+    end
+    it "returns false when review date is not in the future from today" do
+      review = Review.new
+      review.review_date = 2.days.ago
+      review.in_the_future?.should be_false
+    end
+    it "returns false when review date is not set" do
+      review = Review.new
+      review.review_date = nil
+      review.in_the_future?.should be_false
+    end 
+  end
+
+  describe "#feedback_deadline_is_before_review_date?" do
+    it "returns true when feedback deadline is before or on review date" do
+      review = build(:review, review_date: 1.day.from_now, feedback_deadline: 1.day.ago)
+      review.valid?.should be_true
+    end
+    it "returns false when feedback deadline is after review date" do
+      review = build(:review, review_date: 1.day.from_now, feedback_deadline: 2.days.from_now)
+      review.valid?.should be_false
+    end
+    it "returns false when feedback deadline is same day as review" do
+      date = 1.day.from_now
+      review = build(:review, review_date: date, feedback_deadline: date)
+      review.valid?.should be_false
     end
   end
 end

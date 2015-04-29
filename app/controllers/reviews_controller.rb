@@ -61,9 +61,6 @@ class ReviewsController < ApplicationController
   # PUT /reviews/1
   # PUT /reviews/1.json
   def update
-
-    # params[:review][:feedback_deadline] = Date.strptime(params[:review][:feedback_deadline], "%m/%d/%Y")
-
     respond_to do |format|
       if @review.update_attributes(params[:review])
         flash[:success] = "Review was successfully updated."

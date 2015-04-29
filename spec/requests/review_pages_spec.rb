@@ -208,16 +208,16 @@ describe "Review pages" do
       it "updates the review details" do
         select "24-Month", from: "Review type"
 
-        fill_in "review_review_date", with: "2013-01-07"
-        fill_in "review_feedback_deadline", with: "2013-06-21"
+        fill_in "review_review_date", with: "2020-06-07"
+        fill_in "review_feedback_deadline", with: "2020-01-21"
 
         click_button "Save Changes"
 
         current_path.should == review_path(review)
         review.reload
         review.review_type.should == "24-Month"
-        review.review_date.should == Date.new(2013, 1, 7)
-        review.feedback_deadline.should == Date.new(2013, 06, 21)
+        review.review_date.should == Date.new(2020, 6, 7)
+        review.feedback_deadline.should == Date.new(2020, 01, 21)
       end
     end
 
@@ -327,7 +327,7 @@ describe "Review pages" do
     describe "as an ac" do
       before do
         create(:review, associate_consultant: ac_with_old_review,
-          review_type: "6-Month", review_date: Date.today - 6.months)
+          review_type: "6-Month", review_date: Date.today - 6.months, feedback_deadline: Date.today - 7.months)
         create(:review, associate_consultant: ac_with_old_review,
           review_type: "12-Month")
         sign_in ac_with_old_review.user

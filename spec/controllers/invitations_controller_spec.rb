@@ -3,7 +3,7 @@ require 'spec_helper'
 describe InvitationsController do
   let (:user) { create(:user) }
   let (:associate_consultant) { create(:associate_consultant, user: user)}
-  let (:review) { create(:review, feedback_deadline: Date.today, associate_consultant: associate_consultant) }
+  let (:review) { create(:review, associate_consultant: associate_consultant) }
 
   before { set_current_user user }
 

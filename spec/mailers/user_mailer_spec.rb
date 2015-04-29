@@ -169,7 +169,7 @@ describe UserMailer do
 
   describe "Feedback invitation" do
     let (:ac) { create(:associate_consultant) }
-    let (:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.today) }
+    let (:review) { create(:review, associate_consultant: ac) }
     let (:email) { "recipient@example.com" }
     let (:message) { "Hello. Please leave feedback." }
     let (:mail) { UserMailer.review_invitation(review, email, message) }
@@ -211,7 +211,7 @@ describe UserMailer do
 
   describe "Feedback reminder" do
     let (:ac) { create(:associate_consultant) }
-    let (:review) { create(:review, associate_consultant: ac, feedback_deadline: Date.new(2020, 1, 1)) }
+    let (:review) { create(:review, associate_consultant: ac) }
     let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
@@ -234,7 +234,7 @@ describe UserMailer do
 
       it "contains deadline message" do
         mail.body.encoded.should match(
-          "The deadline for leaving feedback is Jan. 01, 2020."
+          "The deadline for leaving feedback is #{review.feedback_deadline.to_s(:short_date)}"
         )
       end
 
@@ -278,7 +278,8 @@ describe UserMailer do
 
       it "contains deadline message" do
         mail.body.encoded.should match(
-          "The deadline for leaving feedback is Jan. 01, 2020."
+          "The deadline for leaving feedback is #{review.feedback_deadline.to_s(:short_date)}"
+
         )
       end
 

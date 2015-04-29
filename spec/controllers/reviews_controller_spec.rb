@@ -12,7 +12,7 @@ describe ReviewsController do
         review_type: '6-Month',
         associate_consultant_id: ac.id,
         review_date: Date.today,
-        feedback_deadline: Date.today,
+        feedback_deadline: 1.day.ago,
     }
   end
 

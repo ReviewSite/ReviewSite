@@ -16,7 +16,9 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def coachees; end
+  def coachees
+    @reviews = @reviews.default_load
+  end
 
   # GET /reviews/1
   # GET /reviews/1.json

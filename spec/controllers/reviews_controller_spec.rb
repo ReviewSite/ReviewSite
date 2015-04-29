@@ -102,7 +102,7 @@ describe ReviewsController do
 
     it 'should show coachee reviews' do
       get :coachees, {}, valid_session
-      assigns(:reviews).should eq(@coachee.reviews)
+      assigns(:reviews).should eq(@coachee.reviews.default_load)
     end
   end
 

@@ -8,13 +8,20 @@ describe FeedbacksHelper do
   describe '#open_requests' do
     let(:klass) { Klass.new }
 
+
+
     describe 'no unsubmitted feedback' do
-      let(:user) { build(:user) }
-      let(:invitations) { build_list(:invitation, 5) }
+      let(:user) { create(:user) }
+      let(:invitations) { create_list(:invitation, 5, email: user.email) }
 
       it 'should return the count of invitations' do
         Invitation.stub(:where).with(anything()).and_return(invitations)
         klass.open_requests(user).should == 5
+      end
+
+      it 'should not include invitations that already have submitted feedback associated with them' do
+        feedback = create(:submitted_feedback, user: user, review: invitations.first.review)
+        klass.open_requests(user).should == 4
       end
     end
 

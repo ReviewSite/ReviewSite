@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   end
 
   def all_emails
-    [self.email] + self.additional_emails.map(&:email)
+    [self.email] + self.additional_emails.select(&:confirmed_at).map(&:email)
   end
 
   def ac?

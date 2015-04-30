@@ -4,7 +4,7 @@ module FeedbacksHelper
   end
 
   def open_requests(user)
-    invitations = Invitation.where(email: user.all_emails).select do |i| i.feedback.nil? end
+    invitations = Invitation.where(email: user.all_emails).select { |i| i.feedback.nil? }
     user.feedbacks.unsubmitted.count + invitations.count
   end
 end

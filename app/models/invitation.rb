@@ -1,6 +1,5 @@
  class Invitation < ActiveRecord::Base
   belongs_to :review
-
   attr_accessible :email, :username
 
   THOUGHTWORKS_EMAIL = "thoughtworks.com"
@@ -22,16 +21,11 @@
   end
 
   def user
-    user = User.find_by_email(email)
-    if user.present?
-      user
-    else
-      find_user_by_additional_email(email)
-    end
+    User.find_by_email(email) || find_user_by_additional_email(email)
   end
 
   def feedback
-    review.feedbacks.where(user_id: user).first
+    Feedback.where(user_id: user, review_id: review_id).first
   end
 
   def delete_invite
@@ -59,7 +53,7 @@
   def find_user_by_additional_email(primary_email)
     email = AdditionalEmail.find_by_email(primary_email)
     if email.present? && email.confirmed_at?
-      User.find(email.user_id)
+      email.user
     end
   end
 

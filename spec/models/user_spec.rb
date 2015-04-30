@@ -112,4 +112,21 @@ describe User do
       user.ac?.should eq(true)
     end
   end
+
+  describe '#all_emails' do
+    it 'contains primary email' do
+      user.all_emails.should include(user.email)
+    end
+    it 'contains confirmed additional emails' do
+      user = create(:user)
+      additional_email = create(:additional_email, user: user, confirmed_at: Date.today)
+      user.all_emails.should include(additional_email.email)
+    end
+
+    it 'does not contain unconfirmed additional emails' do
+      user = create(:user)
+      additional_email = create(:additional_email, user: user)
+      user.all_emails.should_not include(additional_email.email)
+    end
+  end
 end

@@ -8,11 +8,11 @@
   validates :email, presence: { message: "Email cannot be blank." },
                     format: {
                       with: VALID_EMAIL_REGEX,
-                      message: "%{value} could not be invited -- Invalid Email." },
+                      message: "%{value} could not be invited -- invalid email." },
                     uniqueness: {
                       case_sensitive: false,
                       scope: [:review_id],
-                      message: "%{value} could not be invited -- Email already invited." }
+                      message: "%{value} could not be invited -- email already invited." }
   validate :has_no_feedback?
   validate :tw_email?
 
@@ -66,7 +66,7 @@
 
   def tw_email?
     if email && errors[:email].empty? && email.exclude?(THOUGHTWORKS_EMAIL)
-      errors.add(:email,"#{email} could not be invited -- Not a ThoughtWorks Email.")
+      errors.add(:email,"#{email} could not be invited -- not a ThoughtWorks email.")
     end
   end
 end

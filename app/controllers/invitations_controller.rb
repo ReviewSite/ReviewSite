@@ -11,7 +11,8 @@ class InvitationsController < ApplicationController
   def create
     emails = params[:emails].split(",").map { |email| email.strip.downcase }
     builder = InvitationMessageBuilder.new(params[:no_email])
-    
+    builder.check_for_emails(emails)
+
     emails.map do |email|
       @invitation = @review.invitations.build(email: email)
       if @invitation.save && !params[:no_email]
@@ -19,15 +20,15 @@ class InvitationsController < ApplicationController
       end
       builder.with(@invitation).build(email)
     end
-
-    if @invitation.valid?
-      flash[:success] = builder.success_message
-      redirect_to @review
-    else
-      flash[:success] = builder.success_message
+   
+    if builder.errors.any?
+      flash.now[:success] = builder.success_message if builder.successes.any?
       flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
-      render 'new'
+      render 'new' 
+    else
+      flash[:success] = builder.success_message if builder.successes.any?
+      redirect_to @review
     end
   end
 

@@ -23,7 +23,7 @@ class InvitationMessageBuilder
   end
 
   def error_message
-    errors.join('\n')
+    errors.join("\n")
   end
 
   def success_message
@@ -31,6 +31,12 @@ class InvitationMessageBuilder
       "An invitation has been created for: " + successes.join(", ")
     elsif successes?
       "An invitation has been sent to: " + successes.join(", ")
+    end
+  end
+
+  def check_for_emails(emails)
+    if emails.empty?
+      add_error('Must enter a valid email.') 
     end
   end
 

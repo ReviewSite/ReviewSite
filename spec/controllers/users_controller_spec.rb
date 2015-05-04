@@ -128,6 +128,53 @@ describe UsersController do
     end
   end
 
+  describe '#feedbacks' do
+    let(:user) { create(:user) }
+    before do
+      set_current_user user
+    end
+
+    it 'should assign unsubmitted feedbacks belonging to the user' do
+      feedbacks = create_list(:feedback, 2, user: user)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:feedbacks).should =~ feedbacks
+    end
+
+    it 'should not assign submitted feedbacks' do
+      unsubmitted_feedback = create(:feedback, user: user)
+      submitted_feedback = create(:submitted_feedback, user: user)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:feedbacks).should_not include(submitted_feedback)
+    end
+
+    it 'should assign invitations sent to the primary email address of the user' do
+      invitations = create_list(:invitation, 2, email: user.email)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:invitations).should =~ invitations
+    end
+
+    it 'should assign invitations sent to a confirmed additional email of the user' do
+      additional_email = create(:additional_email, user: user, confirmed_at: Date.today)
+      invitation = create(:invitation, email: additional_email.email)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:invitations).should include(invitation)
+    end
+
+    it 'should not assign invitations sent to an unconfirmed additional email' do
+      additional_email = create(:additional_email, user: user)
+      invitation = create(:invitation, email: additional_email.email)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:invitations).should_not include(invitation)
+    end
+
+    it 'should not assign invitations that have an associated feedback' do
+      invitation = create(:invitation, email: user.email)
+      feedback = create(:feedback, user: user, review: invitation.review)
+      get :feedbacks, {id: user}, valid_session
+      assigns(:invitations).should_not include(invitation)
+    end
+  end
+
   describe "PUT update/:id" do
 
     before(:each) do

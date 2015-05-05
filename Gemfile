@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+ruby '2.1.6'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.21'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'bourbon'
 gem 'neat'
@@ -31,11 +31,11 @@ end
 
 group :development do
   gem 'brakeman'
-  gem 'debugger'
   gem 'foreman'
   gem 'watchr'
   gem 'bullet'
   gem 'hirb'
+  gem 'pry-byebug'
 end
 
 group :development, :test do

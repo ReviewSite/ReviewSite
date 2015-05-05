@@ -77,16 +77,21 @@ describe InvitationsController do
         assigns(:ac).should == review.associate_consultant
       end
 
-      it "with one valid email displays error messages" do
-        post :create, {emails: "test@thoughtworks.com, !!!invalid!!!", review_id: review.id}, valid_sessions
-        flash[:success].should == "An invitation has been sent to: test@thoughtworks.com"
-        flash[:alert].should include("!!!invalid!!! could not be invited -- Invalid Email.")
+      describe "with one valid email displays error messages" do
+        before do
+          post :create, {emails: "test@thoughtworks.com, !!!invalid!!!", review_id: review.id}, valid_sessions
+        end
+        it "display success for valid email" do
+          flash[:success].should == "An invitation has been sent to: test@thoughtworks.com"
+        end
+        it "display alert for invalid email" do
+          flash[:alert].should == "!!!invalid!!! could not be invited -- invalid email."
+        end
       end
 
       it "with multiple emails with errors displays multiple error messages" do
         post :create, {emails: "!!!invalid1!!!, !!!invalid2!!!", review_id: review.id}, valid_sessions
-        flash[:alert].should include("!!!invalid1!!! could not be invited -- Invalid Email.")
-        flash[:alert].should include("!!!invalid2!!! could not be invited -- Invalid Email.")
+        flash[:alert].should == "!!!invalid1!!! could not be invited -- invalid email.\n!!!invalid2!!! could not be invited -- invalid email."
       end
 
       it "with one valid email saves the valid one" do
@@ -104,18 +109,18 @@ describe InvitationsController do
 
       it "rejects non-thoughtworks email" do
         post :create, {emails: "test@thoughtworks.com, nontw@gmail.com", review_id: review.id}, valid_sessions
-        flash[:alert].should include("nontw@gmail.com could not be invited -- Not a ThoughtWorks Email.")
+        flash[:alert].should == "nontw@gmail.com could not be invited -- not a ThoughtWorks email."
       end
 
       it "rejects improper email format" do
         post :create, {emails: "testthoughtworks.com", review_id: review.id}, valid_sessions
-        flash[:alert].should include("testthoughtworks.com could not be invited -- Invalid Email.")
+        flash[:alert].should == "testthoughtworks.com could not be invited -- invalid email."
       end
 
       it "rejects already invited user" do
         create(:invitation, email: "test@thoughtworks.com", review: review)
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
-        flash[:alert].should include("test@thoughtworks.com could not be invited -- Email already invited.")
+        flash[:alert].should == "test@thoughtworks.com could not be invited -- email already invited."
       end
     end
 
@@ -136,7 +141,7 @@ describe InvitationsController do
 
       it "renders new" do
         post :create, {emails: "test@thoughtworks.com", review_id: review.id}, valid_sessions
-        flash[:alert].should include("test@thoughtworks.com has already given feedback for this review.")
+        flash[:alert].should == "test@thoughtworks.com has already given feedback for this review."
         response.should render_template("new")
         assigns(:ac).should == review.associate_consultant
       end

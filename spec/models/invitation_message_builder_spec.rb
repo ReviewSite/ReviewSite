@@ -42,7 +42,7 @@ describe InvitationMessageBuilder do
     describe 'should return formatted string' do
       before { builder.stub(:errors).and_return(['error_one', 'error_two']) }
       subject { builder.error_message }
-      it { should == 'error_one\nerror_two'}
+      it { should == "error_one\nerror_two"}
     end
   end
 

@@ -3,30 +3,30 @@
     <li class="header">Manage Review</li>
 
     <% if can? :read, review %>
-      <%= link_to review do %>
+      <%= link_to review, id: 'track-feedback' do %>
         <li>Track Feedback Progress</li>
       <% end %>
     <% end %>
 
     <% if can? :summary, review %>
-      <%= link_to summary_review_path(review) do %>
+      <%= link_to summary_review_path(review), id: 'feedback-summary' do %>
         <li>Feedback Summary</li>
       <% end %>
     <% end %>
 
     <% if can? :create, (review.invitations.build && review.invitations.pop) %>
-      <%= link_to new_review_invitation_path(review) do %>
+      <%= link_to new_review_invitation_path(review), id: 'ask-for-feedback' do %>
         <li>Ask For Feedback</li>
       <% end %>
     <% end %>
 
     <% if can? :create, (review.self_assessments.build && review.self_assessments.pop) %>
       <% if review.self_assessments.count > 0 %>    
-        <%= link_to edit_review_self_assessment_path(review, review.self_assessments.first) do %>
+        <%= link_to edit_review_self_assessment_path(review, review.self_assessments.first), id: "submit-self-assessment" do %>
           <li>Update Self-Assessment</li>
         <% end %>
       <% else %>
-        <%= link_to new_review_self_assessment_path(review) do %>
+        <%= link_to new_review_self_assessment_path(review), id: "submit-self-assessment" do %>
           <li>Submit Self-Assessment</li>
         <% end %>
       <% end %>

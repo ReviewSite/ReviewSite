@@ -1,3 +1,39 @@
 <h1>Record External Feedback</h1>
 <h2><%= @review.pretty_print_with(current_user) %></h2>
-<%= render :partial => 'form', :locals => {:additional => true, :edit_page => false} %>
+
+<%= form_for([@review, @feedback]) do |f| %>
+	<div class="external-feedback-form">
+	  <div class="external-feedback-form-container">
+			<div class="field">
+				<%= f.label t('feedback.feedback_by') %>
+
+				<% if @feedback.errors[:user_string] %>
+					<p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
+				<% end %>
+
+				<%= f.text_field :user_string %>
+
+			  <div class="field">
+			    <%= f.label t('feedback.project_worked_on') %>
+			    <%= f.text_field :project_worked_on %>
+			  </div>
+
+			  <div class="field">
+			    <%= f.label t('feedback.role_description') %>
+			    <%= f.text_field :role_description %>
+			  </div>
+
+	    	<div class="field">
+          <%= f.label t('feedback.received') %>
+          <%= f.text_area 'comments' %>
+        </div>
+			</div>
+
+		  <div class="actions">
+		    <%= f.submit 'Save', { :id => "save-feedback-button" } %>
+		    <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
+		  </div>
+		</div>
+	</div>
+</div>
+<% end %>

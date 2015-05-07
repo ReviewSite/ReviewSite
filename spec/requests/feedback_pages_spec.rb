@@ -180,15 +180,10 @@ describe "Feedback pages", :type => :feature do
       fill_in "feedback_user_string", with: "A non-user"
       fill_in "feedback_project_worked_on", with: "A project"
       fill_in "feedback_role_description", with: "A role"
+      fill_in "feedback_comments", with: "My Comments"
     end
 
     it "saves as draft if 'Save Feedback' is clicked" do
-      page.find('h3', text: "Comments").click
-
-      inputs.each do |field, value|
-        fill_in field, with: value
-      end
-
       page.find("#save-feedback-button").click
       feedback = Feedback.last
       current_path.should == edit_review_feedback_path(review, feedback)
@@ -196,10 +191,7 @@ describe "Feedback pages", :type => :feature do
       feedback.user_string.should == "A non-user"
       feedback.project_worked_on == "A project"
       feedback.role_description == "A role"
-      inputs.each do |field, value|
-        model_attr = field[9..-1]
-        feedback.send(model_attr).should == value
-      end
+      feedback.comments == "My Comments"
     end
   end
 

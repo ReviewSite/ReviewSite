@@ -11,8 +11,8 @@ ENVIRONMENT = {
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 
-RUBY_VERSION = "2.1.6"
-# Install Ruby 2.1.6
+RUBY_VERSION = "1.9.3-p448"
+# Install Ruby 1.9.3-p448
 rbenv_ruby "#{RUBY_VERSION}" do
   ruby_version "#{RUBY_VERSION}"
   global true

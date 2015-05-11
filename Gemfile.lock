@@ -190,7 +190,7 @@ GEM
       omniauth (~> 1.2)
       ruby-saml (~> 0.7.3)
     orm_adapter (0.5.0)
-    pg (0.17.1)
+    pg (0.18.1)
     phantomjs (1.9.7.1)
     poltergeist (1.5.1)
       capybara (~> 2.1)
@@ -346,7 +346,7 @@ DEPENDENCIES
   nested_form
   omniauth
   omniauth-saml
-  pg
+  pg (~> 0.18.1)
   phantomjs
   poltergeist
   pry

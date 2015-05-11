@@ -60,7 +60,7 @@
   #############################
 
   def generate_review_with_feedbacks(id, review_type, review_date)
-    review = Review.create({ associate_consultant_id: id, review_type: review_type, feedback_deadline: review_date, review_date: review_date })
+    review = Review.create({ associate_consultant_id: id, review_type: review_type, feedback_deadline: review_date - 3.days, review_date: review_date })
 
     ## create submitted feedback
     user1 = User.find(100 - id)

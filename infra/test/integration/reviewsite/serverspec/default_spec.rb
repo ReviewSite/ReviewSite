@@ -13,9 +13,9 @@ RSpec.configure do |c|
   user    = USER
 end
 
-# Ruby 1.9.3-p448
-describe command('rbenv global 1.9.3-p448 && rbenv version') do
-  its(:stdout) { should match '1.9.3-p448' }
+# Ruby 2.1.6
+describe command('rbenv global 2.1.6 && rbenv version') do
+  its(:stdout) { should match '2.1.6' }
 end
 
 # Bundle

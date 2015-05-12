@@ -20,7 +20,7 @@
       <% end %>
     <% end %>
 
-    <% if can? :create, (review.self_assessments.build && review.self_assessments.pop) %>
+    <% if can? :create, (review.self_assessments.build) %>
       <% if review.self_assessments.count > 0 %>    
         <%= link_to edit_review_self_assessment_path(review, review.self_assessments.first), id: "submit-self-assessment" do %>
           <li>Update Self-Assessment</li>
@@ -32,7 +32,7 @@
       <% end %>
     <% end %>
 
-    <% if can? :create, (review.feedbacks.build && review.feedbacks.pop) %>
+    <% if can? :create, (review.feedbacks.build) %>
       <%= link_to additional_review_feedback_path(review) do %>
         <li>Record External Feedback</li>
       <% end %>

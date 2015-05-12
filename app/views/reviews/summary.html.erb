@@ -70,7 +70,7 @@
         <tbody>
         <% @review.self_assessments.each do |self_assessment| %>
             <tr>
-              <td><%= self_assessment.updated_at.to_date %></td>
+              <td><%= self_assessment.updated_at.try(:to_date) %></td>
               <td><%= simple_format(self_assessment.response) %></td>
 
               <% if false %>

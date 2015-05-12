@@ -11,12 +11,13 @@ class InvitationsController < ApplicationController
   def create
     emails = params[:emails].split(",").map { |email| email.strip.downcase }
     builder = InvitationMessageBuilder.new(params[:no_email])
+    copy_sender = (params[:copy_sender] == '1')
     builder.check_for_emails(emails)
 
     emails.map do |email|
       @invitation = @review.invitations.build(email: email)
       if @invitation.save && !params[:no_email]
-        UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
+        UserMailer.review_invitation(@review, "#{email}", params[:message], copy_sender).deliver
       end
       builder.with(@invitation).build(email)
     end

@@ -304,7 +304,6 @@ GEM
       macaddr (~> 1.0)
     warden (1.2.3)
       rack (>= 1.0)
-    watchr (0.7)
     websocket-driver (0.3.4)
     will_paginate (3.0.5)
     xpath (2.0.0)
@@ -362,5 +361,4 @@ DEPENDENCIES
   simplecov
   spork (= 0.9.0)
   uglifier (>= 1.0.3)
-  watchr
   will_paginate

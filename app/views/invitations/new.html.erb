@@ -20,36 +20,41 @@
   <%= text_field_tag :emails, nil, class: "long" %>
 </div>
 
-
 <div id="email_contents">
-<div class="field">
-  <%= label_tag :subject, "Subject:" %>
-  <p>[ReviewSite] You've been asked to give feedback for <%= @ac.user.name %></p>
-</div>
+  <p>
+    <%= label_tag :copy_sender, class:"checkbox" do %>
+      <%= check_box_tag :copy_sender, "1" %>Send me a copy of the request
+    <% end %>
+  </p>
 
-    <%= label_tag :message, "Body:" %>
-    <% @default_body = <<-EOM
-You have been asked to provide feedback for #{@ac.user.name}. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
-Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
+  <div class="field">
+    <%= label_tag :subject, "Subject:" %>
+    <p>[ReviewSite] You've been asked to give feedback for <%= @ac.user.name %></p>
+  </div>
 
-Name: #{@review.associate_consultant}
-Review Type: #{@review.review_type}
-Deadline: #{@review.feedback_deadline}
-  EOM
-    %>
+      <%= label_tag :message, "Body:" %>
+      <% @default_body = <<-EOM
+  You have been asked to provide feedback for #{@ac.user.name}. In order to access the site, please add the "Labs: TW Review Site" app in your Okta dashboard.
+  Once you've added the app, please visit #{new_review_feedback_url(@review)} to add and submit your feedback.
 
-    <%= text_area_tag :message, @default_body %>
-  
-</div>
-  <%= submit_tag "Send" %>
-<% end %>
-</section>
-</div>
+  Name: #{@review.associate_consultant}
+  Review Type: #{@review.review_type}
+  Deadline: #{@review.feedback_deadline}
+    EOM
+      %>
+
+      <%= text_area_tag :message, @default_body %>
+
+  </div>
+    <%= submit_tag "Send" %>
+  <% end %>
+  </section>
+  </div>
 </div>
 
 <script>
 $(document).ready(function($) {
-  $("input[type=checkbox]").click(function() {
+  $("input#no_email").click(function() {
     $("div#email_contents").slideToggle();
   })
 })

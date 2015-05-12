@@ -44,10 +44,16 @@ class UserMailer < ActionMailer::Base
     mail(:to => "<#{@coach.email}>", :subject => "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
   end
 
-  def review_invitation(review, email, message)
+  def review_invitation(review, email, message, copy_sender)
     ac = review.associate_consultant
     @custom_message = message
-    mail(:to => "<#{email}>", :subject => "[ReviewSite] You've been invited to give feedback for #{ac.user.name}")
+    if copy_sender
+      mail( to:"<#{email}>",
+            bcc: "<#{ac.user.email}>",
+            subject: "[ReviewSite] You've been invited to give feedback for #{ac.user.name}")
+    else
+      mail( to:"<#{email}>", subject: "[ReviewSite] You've been invited to give feedback for #{ac.user.name}")
+    end
   end
 
   def feedback_reminder(invitation)

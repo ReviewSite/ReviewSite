@@ -1,6 +1,9 @@
  class Invitation < ActiveRecord::Base
-  belongs_to :review
   attr_accessible :email, :username
+
+  belongs_to :review
+  has_one    :reviewee, through: :review, source: :associate_consultant
+  has_many   :feedbacks, through: :review, source: :feedbacks
 
   THOUGHTWORKS_EMAIL = "thoughtworks.com"
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -25,7 +28,7 @@
   end
 
   def feedback
-    Feedback.where(user_id: user, review_id: review_id).first
+    feedbacks.where(user_id: user).first
   end
 
   def delete_invite
@@ -38,10 +41,6 @@
     else
       user == self.user
     end
-  end
-
-  def reviewee
-    review.associate_consultant
   end
 
   def expired?

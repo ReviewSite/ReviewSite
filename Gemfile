@@ -33,7 +33,6 @@ group :development do
   gem 'brakeman'
   gem 'debugger'
   gem 'foreman'
-  gem 'watchr'
   gem 'bullet'
   gem 'hirb'
 end

@@ -172,7 +172,8 @@ describe UserMailer do
     let (:review) { create(:review, associate_consultant: ac) }
     let (:email) { "recipient@example.com" }
     let (:message) { "Hello. Please leave feedback." }
-    let (:mail) { UserMailer.review_invitation(review, email, message) }
+    let (:copy_sender) { false }
+    let (:mail) { UserMailer.review_invitation(review, email, message, copy_sender) }
 
     it 'renders the subject' do
       mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{ac.user.name}"
@@ -188,6 +189,13 @@ describe UserMailer do
 
     it 'contains params[:message]' do
       mail.body.encoded.should match("Hello. Please leave feedback.")
+    end
+
+    describe "sender selects to copy sender on email" do
+      let(:copy_sender) { true }
+      subject { UserMailer.review_invitation(review, email, message, copy_sender) }
+
+      its(:bcc) { should == ["#{ac.user.email}"] }
     end
   end
 

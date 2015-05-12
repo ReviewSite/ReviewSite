@@ -103,21 +103,9 @@ describe UsersController do
         post :create, {user: valid_params}, valid_session
         response.should redirect_to users_url
       end
-
-      it 'should send an admin email' do
-        UserMailer.any_instance.should_receive(:registration_confirmation)
-        post :create, {user: valid_params}, valid_session
-        ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
-      end
     end
 
     context "Users registers him/herself" do
-      it 'should send an admin email' do
-        UserMailer.any_instance.should_receive(:registration_confirmation)
-        post :create, {user: valid_params}, valid_session
-        ActionMailer::Base.deliveries.last.to.should == [valid_params[:email]]
-      end
-
       it 'should set the okta_name to the already authenticated okta name' do
         controller.current_okta_name = "testOKTA"
         post :create, {user: {name: "Test", email: "test@example.com", okta_name: "testOKTA", admin: false}}, valid_session

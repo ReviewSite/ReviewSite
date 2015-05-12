@@ -5,7 +5,7 @@ describe "Feedback pages", :type => :feature do
   let(:ac) { create(:associate_consultant, :user => ac_user) }
   let(:user) { create(:user) }
   let(:admin) { create(:admin_user) }
-  let(:review) { create(:review, associate_consultant: ac) }
+  let!(:review) { create(:review, associate_consultant: ac) }
   let(:inputs) { {
     'feedback_comments' => 'My Comments'
   } }
@@ -86,18 +86,14 @@ describe "Feedback pages", :type => :feature do
       click_button("Edit")
       current_path.should == edit_review_feedback_path(review, feedback)
     end
-
   end
 
   describe "'Edit Feedback' page" do
-    let!(:invitation) { create(:invitation, email: user.email,
-      review: review) }
+    let!(:invitation) { create(:invitation, email: user.email, review: review) }
     let(:feedback) { create(:feedback, review: review, user: user) }
 
     describe "as feedback owner" do
-      before do
-        sign_in user
-      end
+      before { sign_in user }
 
       describe "if feedback has been saved as draft" do
         before do
@@ -183,6 +179,8 @@ describe "Feedback pages", :type => :feature do
       sign_in ac_user
       visit additional_review_feedback_path(review)
       fill_in "feedback_user_string", with: "A non-user"
+      fill_in "feedback_project_worked_on", with: "A project"
+      fill_in "feedback_role_description", with: "A role"
     end
 
     it "saves as draft if 'Save Feedback' is clicked" do
@@ -197,6 +195,8 @@ describe "Feedback pages", :type => :feature do
       current_path.should == edit_review_feedback_path(review, feedback)
       feedback.submitted.should be_false
       feedback.user_string.should == "A non-user"
+      feedback.project_worked_on == "A project"
+      feedback.role_description == "A role"
       inputs.each do |field, value|
         model_attr = field[9..-1]
         feedback.send(model_attr).should == value
@@ -313,7 +313,7 @@ describe "Feedback pages", :type => :feature do
 
         it "redirects to homepage" do
           current_path.should == root_path
-          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
+          page.should have_selector('.flash-alert', text: "You are not authorized to access this page.")
         end
       end
     end

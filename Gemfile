@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+ruby '2.1.6'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.21'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'bourbon'
 gem 'neat'
@@ -13,12 +13,12 @@ gem 'exception_notification'
 gem 'nested_form'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-tokeninput-rails'
-gem 'pg', '~> 0.17.1'
+gem 'pg', '~> 0.18.1'
 gem 'axlsx_rails'
 gem 'faker'
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-saml'
+gem 'omniauth', '1.2.2'
+gem 'omniauth-saml', '1.3.1' 
 gem 'jquery-rails'
 gem 'will_paginate'
 
@@ -31,7 +31,7 @@ end
 
 group :development do
   gem 'brakeman'
-  gem 'debugger'
+  gem 'pry-byebug'
   gem 'foreman'
   gem 'bullet'
   gem 'hirb'

@@ -1,0 +1,2 @@
+web: rails server --port $PORT -e $RACK_ENV
+log: tail -n0 -f log/development.log

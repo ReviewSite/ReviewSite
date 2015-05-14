@@ -18,7 +18,7 @@ unless ENV['EMAIL_OVERRIDE'].nil?
         def self.delivering_email(mail)
             mail.body = "DEVELOPMENT-OVERRIDE. Was being sent to " + mail.to.first + "\n" + mail.body.to_s
             mail.to = ENV['EMAIL_OVERRIDE']
-            mail.bcc = ENV['EMAIL_OVERRIDE']
+            mail.bcc = ENV['EMAIL_BCC_OVERRIDE']
         end
     end
     ActionMailer::Base.register_interceptor(OverrideMailRecipient)

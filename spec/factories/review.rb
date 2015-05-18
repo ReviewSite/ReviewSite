@@ -10,4 +10,25 @@ FactoryGirl.define do
       new_review_format true
     end
   end
+
+  factory :six_month_review, class: Review do
+    associate_consultant
+    review_type '6-Month'
+    feedback_deadline 6.month.from_now - 1.day
+    review_date 6.month.from_now
+  end
+
+  factory :twelve_month_review, class: Review do
+    associate_consultant
+    review_type '12-Month'
+    feedback_deadline 12.month.from_now - 1.day
+    review_date 12.month.from_now
+  end
+
+  factory :eighteen_month_review, class: Review do
+    associate_consultant
+    review_type '18-Month'
+    feedback_deadline 18.month.from_now - 1.day
+    review_date 18.month.from_now
+  end
 end

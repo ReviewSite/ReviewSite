@@ -57,31 +57,24 @@ describe AssociateConsultant do
   end
 
   describe "with reviews" do
-    before(:each) do
-      @ac = create(:associate_consultant)
-      @review = create(:review, :associate_consultant => @ac, :review_type => "6-Month")
-    end
+    let(:associate_consultant) { create(:associate_consultant) }
+    let!(:six_month_review) { create(:six_month_review, :associate_consultant => associate_consultant) }
 
     it "should delete the review when the associate consultant is deleted" do
       Review.all.count.should == 1
-      @ac.destroy
+      associate_consultant.destroy
       Review.all.count.should == 0
     end
 
-    it "should return only the most recent review" do
-      latest_review = create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month")
-      @ac.reviews.count.should eq(2)
+    describe "#upcoming_review" do
+      describe "should return only the future review closest to today" do
+        let(:twelve_month_review)   { create(:twelve_month_review, associate_consultant: associate_consultant) }
+        let(:eighteen_month_review) { create(:eighteen_month_review, associate_consultant: associate_consultant) }
 
-      @ac.upcoming_review.should eq(latest_review)
+        subject { associate_consultant }
+        
+        its(:upcoming_review) { should == six_month_review }
+      end
     end
-
-    it "should return only the future review closest to today" do
-      upcoming_review = create(:new_review_type, :associate_consultant => @ac, :review_type => "12-Month", :review_date => Date.today + 5.months)
-      review18 = create(:new_review_type, :associate_consultant => @ac, :review_type => "18-Month", :review_date => Date.today + 12.months)
-
-      @ac.reviews.count.should eq(3)
-      @ac.upcoming_review.should eq(upcoming_review)
-    end
-
   end
 end

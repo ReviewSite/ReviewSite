@@ -12,7 +12,7 @@ class AssociateConsultant < ActiveRecord::Base
   def to_s
     self.user.name
   end
-
+  
   def upcoming_review
     date_range = Date.today..(Date.today + 6.months)
     self.reviews.where('review_date' => date_range).first

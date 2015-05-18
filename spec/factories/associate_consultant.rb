@@ -7,10 +7,6 @@ FactoryGirl.define do
     graduated false
     program_start_date Date.today
 
-    trait :has_reached_graduation_date do
-      program_start_date Date.today - 1 - 24.months
-    end
-
     trait :has_graduated do
       program_start_date Date.today - 1 - 24.months
       graduated true

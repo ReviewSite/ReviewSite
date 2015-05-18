@@ -6,6 +6,8 @@ class AssociateConsultant < ActiveRecord::Base
   belongs_to :user, foreign_key: :user_id
   has_many :reviews, dependent: :destroy
 
+  scope :not_graduated, -> { where(graduated: false) }
+
   validates :coach_id, numericality: { only_integer: true }, allow_blank: true
   validates :reviewing_group_id, numericality: { only_integer: true, message: "can't be blank." }, allow_blank: false
 
@@ -19,11 +21,15 @@ class AssociateConsultant < ActiveRecord::Base
   end
 
   def can_graduate?
-    !self.graduated? && program_start_date.present? && Date.today > graduation_date
+    has_not_graduated? && graduation_date_in_the_past?
   end
 
   def has_graduated?
     self.graduated?
+  end
+
+  def has_not_graduated?
+    !self.graduated?
   end
 
   def blank?
@@ -36,7 +42,18 @@ class AssociateConsultant < ActiveRecord::Base
 
   private
 
+  def graduation_date_in_the_past?
+    if graduation_date.present?
+      Date.today > graduation_date
+    else
+      false
+    end
+  end
+
   def graduation_date
-    program_start_date + 24.months
+    reviews = self.reviews.where(review_type:'24-Month')
+    if reviews.any?
+      reviews.first.review_date
+    end
   end
 end

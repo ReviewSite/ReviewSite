@@ -5,6 +5,8 @@
 	<div class="external-feedback-form">
 	  <div class="external-feedback-form-container">
 			<div class="field">
+				<%= f.hidden_field :type, value: Feedback::SELF_REPORTED %>
+
 				<%= f.label t('feedback.feedback_by') %>
 
 				<% if @feedback.errors[:user_string] %>

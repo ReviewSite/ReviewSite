@@ -9,12 +9,15 @@
           <p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
         <% end %>
 
-        <% if not additional %>
+        <% if !additional %>
           <%= @user_name %>
         <% else %>
           <%= f.text_field :user_string %>
         <% end %>
       </div>
+
+      <%= f.hidden_field :type, value: Feedback::PEER_REPORTED %>
+
 
       <div class="field">
         <%= f.label t('feedback.feedback_deadline') %>

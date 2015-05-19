@@ -2,9 +2,8 @@
 
   <% if current_user.ac? && !current_user.associate_consultant.graduated %>
     <% upcoming_review = current_user.associate_consultant.upcoming_review %>
+    <%= render partial: 'welcome/index_ac', locals: { upcoming_review: upcoming_review } %>
 
-    <h1>Your Upcoming <%= upcoming_review.review_type unless upcoming_review.nil? %> Review</h1>
-    <%= render :partial => 'welcome/index_ac', :locals => { :upcoming_review => upcoming_review } %>
   <% elsif current_user.admin? %>
     <h1>Watched Reviews</h1>
     <div class="new-review"><%= link_to 'New Review', new_review_path, :class => 'button' %></div>

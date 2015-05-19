@@ -3,7 +3,7 @@ ReviewSite::Application.configure do
     :email => {
       :email_prefix => "[ReviewSite Error] ",
       :sender_address => %{<do-not-reply@thoughtworks.org>},
-      :exception_recipients => %w{ajablonski@thoughtworks.com}
+      :exception_recipients => %w{varoske@thoughtworks.com}
     }
 
   config.after_initialize do

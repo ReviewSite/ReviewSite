@@ -17,16 +17,21 @@ class InvitationsController < ApplicationController
     emails.map do |email|
       @invitation = @review.invitations.build(email: email)
       if @invitation.save && !params[:no_email]
-        UserMailer.review_invitation(@review, "#{email}", params[:message], copy_sender).deliver
+        UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
+
+        if copy_sender
+          UserMailer.review_invitation_AC_copy(@review, params[:message]).deliver
+        end
+
       end
       builder.with(@invitation).build(email)
     end
-   
+
     if builder.errors.any?
       flash.now[:success] = builder.success_message if builder.successes.any?
       flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
-      render 'new' 
+      render 'new'
     else
       flash[:success] = builder.success_message if builder.successes.any?
       redirect_to @review

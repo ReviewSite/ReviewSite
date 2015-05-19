@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 describe UserMailer do
+  let(:user) { create(:user) }
+  let(:ac) { create(:associate_consultant) }
+  let(:review) { create(:review, associate_consultant: ac) }
+  let(:email) { "recipient@example.com" }
+  let(:donotreply) { "do-not-reply@thoughtworks.org" }
+  let(:message) { "Hello. Please leave feedback." }
+  let(:feedback) { create(:submitted_feedback, user: user, review: review) }
 
   describe 'Registration confirmation' do
-    let(:user) { create(:user) }
     let(:mail) { UserMailer.registration_confirmation(user) }
 
     it 'renders the subject' do
@@ -15,7 +21,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'assigns @name' do
@@ -29,7 +35,6 @@ describe UserMailer do
     it 'assigns myTW group url' do
       mail.body.encoded.should match(UserMailer.my_tw_url)
     end
-
   end
 
   describe 'Review creation' do
@@ -46,7 +51,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'assigns myTW group url' do
@@ -64,8 +69,6 @@ describe UserMailer do
   end
 
   describe "Multiple reviews creation" do
-    let(:ac) {create(:associate_consultant)}
-    let(:review)  {create(:new_review_type, associate_consultant: ac)}
     let(:mail) {UserMailer.reviews_creation(review) }
 
     it 'renders the subject' do
@@ -77,7 +80,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'assigns myTW group url' do
@@ -95,10 +98,6 @@ describe UserMailer do
   end
 
   describe "Feedback submitted notification for AC" do
-    let (:user) { create(:user) }
-    let (:ac) { create(:associate_consultant) }
-    let (:review) { create(:review, associate_consultant: ac) }
-    let (:feedback) { create(:submitted_feedback, user: user, review: review) }
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 
     it 'renders the subject' do
@@ -110,7 +109,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'assigns myTW group url' do
@@ -131,7 +130,6 @@ describe UserMailer do
   end
 
   describe "Feedback submitted notification for coach" do
-    let (:user) { create(:user) }
     let (:coach) { create(:coach) }
     let (:ac) { create(:associate_consultant, coach: coach) }
     let (:review) { create(:review, associate_consultant: ac) }
@@ -147,7 +145,7 @@ describe UserMailer do
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'assigns myTW group url' do
@@ -168,41 +166,49 @@ describe UserMailer do
   end
 
   describe "Feedback invitation" do
-    let (:ac) { create(:associate_consultant) }
-    let (:review) { create(:review, associate_consultant: ac) }
-    let (:email) { "recipient@example.com" }
-    let (:message) { "Hello. Please leave feedback." }
-    let (:copy_sender) { false }
-    let (:mail) { UserMailer.review_invitation(review, email, message, copy_sender) }
+    let (:mail) { UserMailer.review_invitation(review, email, message) }
 
     it 'renders the subject' do
       mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{ac.user.name}"
     end
 
     it 'renders the receiver email' do
-      mail.to.should == ["recipient@example.com"]
+      mail.to.should == [email]
     end
 
     it 'renders the sender email' do
-      mail.from.should == ['do-not-reply@thoughtworks.org']
+      mail.from.should == [donotreply]
     end
 
     it 'contains params[:message]' do
-      mail.body.encoded.should match("Hello. Please leave feedback.")
-    end
-
-    describe "sender selects to copy sender on email" do
-      let(:copy_sender) { true }
-      subject { UserMailer.review_invitation(review, email, message, copy_sender) }
-
-      its(:bcc) { should == ["#{ac.user.email}"] }
+      mail.body.encoded.should match(message)
     end
   end
+
+  describe "Feedback invitation copy sent to AC" do
+    let(:mail) { UserMailer.review_invitation_AC_copy(review, message) }
+
+    it "renders the subject" do
+      mail.subject.should eq "[ReviewSite] Here's a copy of your request for feedback"
+    end
+
+    it "renders the receiver email" do
+      mail.to.should eq [review.associate_consultant.user.email]
+    end
+
+    it "renders the sender email" do
+      mail.from.should eq [donotreply]
+    end
+
+    it "contains params[:message]" do
+      mail.body.encoded.should match(message)
+    end
+  end
+
 
   describe "Feedback declined" do
     let (:ac) { create(:associate_consultant) }
     let (:review) { create(:review, associate_consultant: ac) }
-    let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
     describe "email sent to AC" do
@@ -216,11 +222,9 @@ describe UserMailer do
     end
   end
 
-
   describe "Feedback reminder" do
     let (:ac) { create(:associate_consultant) }
     let (:review) { create(:review, associate_consultant: ac) }
-    let (:email) { "recipient@example.com" }
     let (:invitation) { review.invitations.create(email: email) }
 
     describe "feedback not started, deadline not passed" do
@@ -228,7 +232,7 @@ describe UserMailer do
       subject { mail }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
-      its (:to) { should == ["recipient@example.com"] }
+      its (:to) { should == [email] }
 
       it 'assigns myTW group url' do
         mail.body.encoded.should match(UserMailer.my_tw_url)
@@ -266,13 +270,13 @@ describe UserMailer do
     end
 
     describe "feedback started, deadline not passed" do
-      let (:reviewer) { create(:user, email: "recipient@example.com") }
+      let (:reviewer) { create(:user, email: email) }
       let!(:feedback) { create(:feedback, review: review, user: reviewer) }
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
-      its (:to) { should == ["recipient@example.com"] }
+      its (:to) { should == [email] }
 
       it 'assigns myTW group url' do
         mail.body.encoded.should match(UserMailer.my_tw_url)
@@ -316,7 +320,7 @@ describe UserMailer do
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
-      its (:to) { should == ["recipient@example.com"] }
+      its (:to) { should == [email] }
 
       it 'assigns myTW group url' do
         mail.body.encoded.should match(UserMailer.my_tw_url)
@@ -354,7 +358,7 @@ describe UserMailer do
     end
 
     describe "feedback started, deadline passed" do
-      let (:reviewer) { create(:user, email: "recipient@example.com") }
+      let (:reviewer) { create(:user, email: email) }
       let!(:feedback) { create(:feedback, review: review, user: reviewer) }
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
@@ -362,7 +366,7 @@ describe UserMailer do
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
-      its (:to) { should == ["recipient@example.com"] }
+      its (:to) { should == [email] }
 
       it 'assigns myTW group url' do
         mail.body.encoded.should match(UserMailer.my_tw_url)

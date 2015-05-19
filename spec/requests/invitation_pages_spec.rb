@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Invitations" do
   let(:admin) { create(:admin_user) }
-  let(:ac_user) { create(:user) }
-  let(:ac) { create(:associate_consultant, :user => ac_user) }
-  let(:review) { create(:review, associate_consultant: ac) }
+  let!(:ac_user) { create(:user) }
+  let!(:ac) { create(:associate_consultant, :user => ac_user) }
+  let!(:review) { create(:review, associate_consultant: ac) }
   let(:invited_user) { create(:user, :email => "invited@thoughtworks.com") }
   let(:uninvited_user) { create(:user, :email => "uninvited@thoughtworks.com") }
 
@@ -14,6 +14,7 @@ describe "Invitations" do
 
     context "as ac" do
       before do
+        ActionMailer::Base.deliveries.clear
         sign_in ac_user
         visit new_review_invitation_path(review)
         fill_in "emails", with: "reviewer@thoughtworks.com"
@@ -30,11 +31,30 @@ describe "Invitations" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
         click_button "Send"
       end
+
+      it "sends an invitation email and a copy to the AC" do
+        find(:css, "#copy_sender").set(true)
+        UserMailer.should_receive(:review_invitation).and_return(double(deliver:true))
+        UserMailer.should_receive(:review_invitation_AC_copy).and_return(double(deliver: true))
+
+        click_button "Send"
+      end
+
+      it "sends a copy of the invitation email to the AC only if selected" do
+        find(:css, "#copy_sender").set(true)
+
+        click_button "Send"
+        ActionMailer::Base.deliveries.count.should eq 2
+      end
+
+      it "should not send a copy of the invitation email to the AC if checkbox isn't selected" do
+        click_button "Send"
+        ActionMailer::Base.deliveries.count.should eq 1
+      end
     end
 
     describe "as an ac" do
       context "when I invite someone for feedback" do
-        # additional_email = "anextraemail@thoughtworks.com"
         let(:additional_email) { "anextraemail@thoughtworks.com" }
 
         before do

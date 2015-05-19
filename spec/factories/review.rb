@@ -9,6 +9,12 @@ FactoryGirl.define do
     factory :new_review_type do
       new_review_format true
     end
+
+    factory :twenty_four_month_review do
+      review_type '24-Month'
+      review_date 1.day.ago
+      feedback_deadline 2.days.ago
+    end
   end
 
   factory :six_month_review, class: Review do

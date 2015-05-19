@@ -263,7 +263,7 @@ describe "Review pages" do
       end
 
       it "links to edit review" do
-        click_link "review_edit"
+        click_link "review-edit"
         current_path.should == edit_review_path(review)
       end
 

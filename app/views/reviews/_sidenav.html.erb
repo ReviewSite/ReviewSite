@@ -33,13 +33,13 @@
     <% end %>
 
     <% if can? :create, (review.feedbacks.build) %>
-      <%= link_to additional_review_feedback_path(review) do %>
+      <%= link_to additional_review_feedback_path(review), id: "record-external" do %>
         <li>Record External Feedback</li>
       <% end %>
     <% end %>
 
     <% if can? :update, review %>
-      <%= link_to edit_review_path(review), id: "review_edit" do %>
+      <%= link_to edit_review_path(review), id: "review-edit" do %>
         <li>Edit Review Details</li>
       <% end %>
     <% end %>

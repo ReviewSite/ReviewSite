@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Self assessment page" do
   let (:admin) { create(:admin_user) }
-  let (:ac_user) { create(:user) }
-  let (:ac) { create(:associate_consultant, :user => ac_user) }
-  let (:review) { create(:review, associate_consultant: ac) }
+  let! (:ac_user) { create(:user) }
+  let! (:ac) { create(:associate_consultant, :user => ac_user) }
+  let! (:review) { create(:review, associate_consultant: ac) }
   let (:feedback) { create(:feedback) }
 
   subject { page }

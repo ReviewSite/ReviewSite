@@ -18,13 +18,12 @@ class InvitationsController < ApplicationController
       @invitation = @review.invitations.build(email: email)
       if @invitation.save && !params[:no_email]
         UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
-
-        if copy_sender
-          UserMailer.review_invitation_AC_copy(@review, params[:message]).deliver
-        end
-
       end
       builder.with(@invitation).build(email)
+    end
+
+    if copy_sender && builder.successes.any?
+      UserMailer.review_invitation_AC_copy(@review, params[:message], builder.successes).deliver
     end
 
     if builder.errors.any?

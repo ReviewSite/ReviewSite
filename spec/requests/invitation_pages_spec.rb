@@ -40,11 +40,14 @@ describe "Invitations" do
         click_button "Send"
       end
 
-      it "sends a copy of the invitation email to the AC only if selected" do
+      it "only lists successful emails in copy sent to AC" do
+        fill_in "emails", with: "reviewer1@thoughtworks.com, reviewer2"
         find(:css, "#copy_sender").set(true)
 
         click_button "Send"
         ActionMailer::Base.deliveries.count.should eq 2
+        ActionMailer::Base.deliveries.last.body.encoded.should match "reviewer1@thoughtworks.com"
+        ActionMailer::Base.deliveries.last.body.encoded.should_not match "reviewer2"
       end
 
       it "should not send a copy of the invitation email to the AC if checkbox isn't selected" do

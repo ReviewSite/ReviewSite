@@ -186,7 +186,8 @@ describe UserMailer do
   end
 
   describe "Feedback invitation copy sent to AC" do
-    let(:mail) { UserMailer.review_invitation_AC_copy(review, message) }
+    let(:emails) { [email, "second_person@thoughtworks.com"] }
+    let(:mail) { UserMailer.review_invitation_AC_copy(review, message, emails) }
 
     it "renders the subject" do
       mail.subject.should eq "[ReviewSite] Here's a copy of your request for feedback"
@@ -202,6 +203,10 @@ describe UserMailer do
 
     it "contains params[:message]" do
       mail.body.encoded.should match(message)
+    end
+
+    it "contains the emails the request was successfully sent to" do
+      mail.body.encoded.should match(emails.join(", "))
     end
   end
 

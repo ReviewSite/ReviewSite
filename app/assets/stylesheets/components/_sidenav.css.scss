@@ -42,7 +42,7 @@
 
 .sidenav a.active > li:hover {
   background-color: lighten($brand-mint, 5%) !important;
-  cursor: default;
+  cursor: pointer;
 }
 
 .excel-image {

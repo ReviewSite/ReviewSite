@@ -48,25 +48,3 @@
   </tbody>
 </table>
 </div>
-
-<script>
-  $(function () {
-  $('table#users').DataTable({
-    pagingType: "full",
-    lengthChange: false,
-    language: {
-      infoFiltered: "",
-      search: "",
-      searchPlaceholder: "Search for a user by name or email"
-    },
-    columnDefs: [
-      { orderable: false, targets: [ 2 ] },
-      { className: "nowrap button-col", targets: [2] }
-    ],
-    createdRow: function(row, data, dataIndex){
-      var email = data[1];
-      $(row).attr('id', email.substr(0, email.indexOf('@')));
-    }
-    });
-  });
-</script>

@@ -1,4 +1,4 @@
-<table class="feedback">
+<table id="feedback-received" class="feedback">
   <thead>
   <tr>
     <th>Reviewer</th>
@@ -93,15 +93,3 @@
 
   </tbody>
 </table>
-
-<script>
-  $('.feedback').DataTable({
-    columnDefs: [
-      { orderable: false, targets: [5] }
-    ],
-    paging: false,
-    lengthChange: false,
-    searching: false,
-    info: false
-    });
-</script>

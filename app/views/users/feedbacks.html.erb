@@ -5,7 +5,7 @@
 </div>
 
 <div class="form-container">
-<table id="feedbacks">
+<table id="feedback-requests">
   <thead>
     <tr>
       <th>Reviewee</th>
@@ -66,15 +66,3 @@
   </tbody>
 </table>
 </div>
-
-<script>
-  $('#feedbacks').DataTable({
-    paging: false,
-    info: false,
-    searching: false,
-    lengthChange: false,
-    columnDefs: [
-      { orderable: false, targets: [4] }
-    ]
-  });
-</script>

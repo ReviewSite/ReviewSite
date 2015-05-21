@@ -1,5 +1,5 @@
 <div class="form-container">
-<table id="reviews" class="display">
+<table id="my-reviews" class="display">
   <thead>
   <tr>
     <th>Review Type</th>
@@ -34,16 +34,3 @@
   </tbody>
 </table>
 </div>
-
-<script>
-  $('table#reviews').DataTable({
-    lengthChange: false,
-    searching: false,
-    columnDefs: [
-      { orderData: [ 1 ], targets: [ 0 ] },
-      { orderable: false, targets: [ 2 ] },
-      { className: "nowrap", targets: [ 0 ] },
-      { className: "nowrap button-col", targets: [ 2 ] }
-    ]
-  });
-</script>

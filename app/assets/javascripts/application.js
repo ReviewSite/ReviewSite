@@ -39,6 +39,7 @@ var APP = {
 
     APP.exec("components", "ac");
     APP.exec("components", "addEmail");
+    APP.exec("components", "datatables");
     APP.exec("components", "datepicker");
     APP.exec("components", "whichReviews");
     APP.exec("components", "sidenav");

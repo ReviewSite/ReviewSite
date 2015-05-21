@@ -3,7 +3,7 @@
 <div class="new-review"><%= link_to 'New Reviewing Group', new_reviewing_group_path, :class => 'button' %></div>
 
 <div class="form-container">
-<table class="datatable">
+<table id="reviewing-groups" class="datatable">
   <thead>
   <th>Name</th>
   <th>Members</th>
@@ -39,15 +39,3 @@
   </tbody>
 </table>
 </div>
-
-<script>
-  $('.datatable').DataTable({
-    info: false,
-    paging: false,
-    columnDefs: [
-      { orderable: false, targets: [2] }
-    ],
-    lengthChange: false,
-    searching: false
-  });
-</script>

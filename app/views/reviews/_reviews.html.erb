@@ -22,22 +22,3 @@
   </tbody>
 </table>
 </div>
-
-<script>
-  $(function() {
-  $('table#reviews').DataTable({
-    pagingType: "full",
-    lengthChange: false,
-    language: {
-      infoFiltered: "",
-      search: "",
-      searchPlaceholder: "Search for a review by AC or date"
-    },
-    columnDefs: [
-      { orderable: false, targets: [ 3 ] },
-      { className: "nowrap", targets: [ 0 ] },
-      { className: "nowrap button-col", targets: [ 3 ] }
-    ]
-    })
-  });
-</script>

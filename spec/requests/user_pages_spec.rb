@@ -377,11 +377,11 @@ describe "User pages: " do
 
       it "displays the feedback with a 'Resume Feedback' action if not submitted" do
         visit feedbacks_user_path(reviewer)
-        page.should have_selector('#feedbacks td', text: ac.user.name)
-        page.should have_selector('#feedbacks td', text: review.review_type)
-        page.should have_selector('#feedbacks td', text: review.feedback_deadline.to_s(:short_date))
-        page.should have_selector('#feedbacks td', text: feedback.updated_at.to_s(:short_date))
-        page.should have_selector('#feedbacks td .fa-pencil')
+        page.should have_selector('#feedback-requests td', text: ac.user.name)
+        page.should have_selector('#feedback-requests td', text: review.review_type)
+        page.should have_selector('#feedback-requests td', text: review.feedback_deadline.to_s(:short_date))
+        page.should have_selector('#feedback-requests td', text: feedback.updated_at.to_s(:short_date))
+        page.should have_selector('#feedback-requests td .fa-pencil')
         page.find(".fa-pencil").click
         current_path.should == edit_review_feedback_path(review, feedback)
       end

@@ -21,6 +21,7 @@ gem 'omniauth', '1.2.2'
 gem 'omniauth-saml', '1.3.1' 
 gem 'jquery-rails'
 gem 'will_paginate'
+gem 'puma'
 
 group :assets do
   gem 'jquery-datatables-rails', '~> 3.1.1'
@@ -32,7 +33,6 @@ end
 group :development do
   gem 'brakeman'
   gem 'pry-byebug'
-  gem 'foreman'
   gem 'bullet'
   gem 'hirb'
 end

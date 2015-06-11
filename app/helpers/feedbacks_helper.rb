@@ -4,7 +4,7 @@ module FeedbacksHelper
   end
 
   def open_requests(user)
-    invitations = Invitation.eager_load(:feedbacks).where(email: user.all_emails).select {|i| i.feedbacks.compact.empty? }
+    invitations = Invitation.eager_load(:feedbacks).where(email: user.all_emails).select {|i| i.feedbacks.where(user_id: user).compact.empty? }
     user.feedbacks.unsubmitted.size + invitations.size
   end
 end

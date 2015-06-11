@@ -20,6 +20,12 @@ describe FeedbacksHelper do
         create(:submitted_feedback, user: user, review: invitations.first.review)
         klass.open_requests(user).should == 4
       end
+
+      it 'should include invitations for reviews that have other feedback' do
+        other_user = create(:user)
+        create(:feedback, user: other_user, review: invitations.first.review)
+        klass.open_requests(user).should == 5
+      end
     end
 
     describe 'no invitations' do

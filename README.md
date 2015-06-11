@@ -17,8 +17,6 @@
 
 #### Set up the local environment
     bundle install
-    echo "PORT=9292" > .env
-    echo "RACK_ENV=development" >> .env
     bundle exec rake db:create
     bundle exec rake db:migrate
     bundle exec rake db:seed
@@ -39,14 +37,10 @@
 * See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
 
 #### Start the local server
-* `$ bundle exec foreman start` (this will not return)
-
-If your foreman is very slow, try getting a new network setup:
-* `$ sudo dhclient` (this will give a File Exists, that's ok)
-* `$ bundle exec foreman start `
+* `$ bundle exec puma`
 
 View the dev site locally:
-* `http://localhost:9292/`
+* `http://localhost:3000/`
 
 ## Deploying the ReviewSite to Heroku
 When deploying to a new Heroku instance (developers will NOT need to do

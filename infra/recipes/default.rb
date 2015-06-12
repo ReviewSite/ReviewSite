@@ -7,39 +7,23 @@ ENVIRONMENT = {
   "BUNDLE_PATH" => "#{BUNDLE_PATH}"
 }
 
-# Install rbenv
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
+include_recipe "postgresql::server"
+include_recipe "nodejs"
+package "xvfb"
+package "qt4-dev-tools"
+package "phantomjs"
 
 RUBY_VERSION = "2.1.6"
-# Install Ruby 2.1.6
 rbenv_ruby "#{RUBY_VERSION}" do
   ruby_version "#{RUBY_VERSION}"
   global true
 end
 
-# Install Bundler gem
 rbenv_gem "bundler" do
   ruby_version "#{RUBY_VERSION}"
 end
-
-# Install postgresql database
-include_recipe "postgresql::server_debian"
-
-# Change postgres password (untested)
-execute "change_postgres_password" do
-  command "echo \"ALTER USER Postgres WITH PASSWORD 'password'\" | sudo -u postgres psql"
-end
-
-# Install Node.js (required by Rails 3 asset pipeline)
-include_recipe "nodejs"
-
-# Install xvfb and qt4-dev-tools
-package "xvfb"
-package "qt4-dev-tools"
-
-# Install Phantomjs for functional tests
-package "phantomjs"
 
 # Add the BUNDLE_PATH as an environment variable
 bash "add_bundle_path" do
@@ -48,4 +32,16 @@ bash "add_bundle_path" do
   code <<-EOT
     echo "export BUNDLE_PATH=#{BUNDLE_PATH}" >> /etc/profile.d/bundle.sh
   EOT
+end
+
+execute "bundle_install" do
+  command "cd #{WORKSPACE} && bundle install"
+end
+
+execute "create_and_prepare_development_database" do
+  command "cd #{WORKSPACE} && bundle exec rake db:drop db:create db:migrate db:seed"
+end
+
+execute "create_and_prepare_test_database" do
+  command "cd #{WORKSPACE} && RAILS_ENV=test bundle exec rake db:drop db:create db:migrate"
 end

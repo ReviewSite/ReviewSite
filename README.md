@@ -4,10 +4,8 @@
 ## Project Setup
 * [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
 * Fork the repo
-* Install VirtualBox
-* Install Vagrant
-* Install Vagrant-Berkshelf plugin
-    `$ vagrant plugin install vagrant-berkshelf`
+* Install VirtualBox >= 4.3.26
+* Install Vagrant >= 1.7.2
 * Request access to Okta Preview from TechOps
 
 #### Spin up the Vagrant box
@@ -15,12 +13,9 @@
     vagrant ssh
     cd workspace
 
-#### Set up the local environment
-    bundle install
-    bundle exec rake db:create
-    bundle exec rake db:migrate
-    bundle exec rake db:seed
-    RAILS_ENV=test bundle exec rake db:migrate
+#### Start the local server
+    $ bundle exec puma
+View the dev site locally at `http://localhost:3000/`
 
 #### Run the test suite
 * All the tests (javascript + rspec)
@@ -36,15 +31,8 @@
   * To run a single test: `$ RAILS_ENV=test bundle exec rake spec:javascript SPEC=my_test`
 * See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
 
-#### Start the local server
-* `$ bundle exec puma`
-
-View the dev site locally:
-* `http://localhost:3000/`
-
 ## Deploying the ReviewSite to Heroku
-When deploying to a new Heroku instance (developers will NOT need to do
-this), please specify e-mail account settings in the following configuration
+When deploying to a new Heroku instance, please specify e-mail account settings in the following configuration
 variables.
 
 Account details for sending emails from:

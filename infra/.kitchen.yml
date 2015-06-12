@@ -1,18 +1,21 @@
 ---
 driver:
   name: vagrant
+  customize:
+    memory: 1024
   synced_folders:
   - ["../", "/home/vagrant/workspace"]
   network:
-  - ["forwarded_port", {guest: 9292, host: 9293}]
+  - ["forwarded_port", {guest: 9292, host: 3000}]
+  - ["forwarded_port", {guest: 3000, host: 3000}]
 
 provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-14.04
+  - name: kitchen-box
     driver:
-      box: trusty64
+      box: ubuntu/trusty64
 
 suites:
   - name: reviewsite

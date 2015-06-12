@@ -7,10 +7,6 @@
 
 ruby:
   config_file: .ruby-style.yml
-  enabled: true
 
 coffee_script:
   enabled: false
-
-java_script:
-  enabled: true

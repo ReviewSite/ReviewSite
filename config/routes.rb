@@ -1,6 +1,6 @@
 ReviewSite::Application.routes.draw do
 
-  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 
   resources :reviewing_groups, except: [:show]
 
@@ -42,9 +42,8 @@ ReviewSite::Application.routes.draw do
 
   root to: "welcome#index"
 
-  match "/auth/:provider/callback" => "sessions#callback"
-
-  resources :sessions, only: [:new, :create, :destroy]
+  match "/auth/:provider/callback" => "sessions#callback",
+       as: "sessions_callback"
 
   resources :welcome, only: [:index] do
     collection do
@@ -61,11 +60,11 @@ ReviewSite::Application.routes.draw do
 
   devise_for :additional_emails
 
-  get 'users/:id/add_email', to: 'users#add_email'
-  get 'users/:id/remove_email', to: 'users#remove_email'
+  get "users/:id/add_email", to: "users#add_email"
+  get "users/:id/remove_email", to: "users#remove_email"
 
-  if ENV['OKTA-TEST-MODE']
-    match '/set_temp_okta', to: 'sessions#set_temp_okta', via: :post
+  if ENV["OKTA-TEST-MODE"]
+    post "/set_temp_okta", to: "sessions#set_temp_okta"
   end
 
 end

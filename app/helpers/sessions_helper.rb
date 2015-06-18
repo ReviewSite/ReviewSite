@@ -26,19 +26,11 @@ module SessionsHelper
   end
 
   def current_okta_name
-    if ENV["OKTA-TEST-MODE"]
-      session[:temp_okta_user] || session[:userinfo].split("@")[0]
-    else
-      session[:userinfo].split("@")[0]
-    end
+    session[:temp_okta_user] || session[:userinfo].split("@")[0]
   end
 
-  def current_name
-    if ENV["OKTA-TEST-MODE"]
-      session[:temp_okta_user] || session[:userinfo].split("@")[0]
-    else
-      session[:user_name] || session[:userinfo].split("@")[0]
-    end
+  def real_name_or_default
+    session[:user_name] || current_okta_name
   end
 
   def current_email

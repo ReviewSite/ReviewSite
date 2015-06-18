@@ -1,6 +1,12 @@
 module SessionsHelper
-  def first_time_sign_in
-    User.create(name: current_name, okta_name: current_okta_name, email: current_email, admin: false)
+
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    session.delete(:return_to)
+  end
+
+  def store_location
+    session[:return_to] = request.url
   end
 
   def signed_in?(options ={})
@@ -13,20 +19,6 @@ module SessionsHelper
 
   def reset_current_user
     @current_user = User.find_by_okta_name( current_okta_name )
-  end
-
-  def redirect_back_or(default)
-    redirect_to(session[:return_to] || default)
-    session.delete(:return_to)
-  end
-
-  def store_location
-    session[:return_to] = request.url
-  end
-
-  def sign_out
-    session[:userinfo] = nil
-    redirect_to "https://thoughtworks.okta.com/login/signout?fromURI=#{ENV['URL']}"
   end
 
   def current_okta_name=(okta_name)
@@ -50,6 +42,6 @@ module SessionsHelper
   end
 
   def current_email
-    session[:userinfo]
+    session[:userinfo].downcase
   end
 end

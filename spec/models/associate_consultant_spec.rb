@@ -69,14 +69,27 @@ describe AssociateConsultant do
     end
 
     describe "#upcoming_review" do
-      describe "should return only the future review closest to today" do
-        let(:twelve_month_review)   { create(:twelve_month_review, associate_consultant: associate_consultant) }
-        let(:eighteen_month_review) { create(:eighteen_month_review, associate_consultant: associate_consultant) }
+      it "should return the review when there is only one review between now and 6 months from now" do
+        ac = create(:associate_consultant)
+        review = create(:review, associate_consultant: ac)
 
-        subject { associate_consultant }
-        
-        its(:upcoming_review) { should == six_month_review }
+        ac.upcoming_review.should eq review
       end
+
+      it "should return the review closest to today if there is more than one review between now and 6 months from now" do
+        ac = create(:associate_consultant)
+        six_month_review = create(:review, associate_consultant: ac, review_date: 3.days.from_now, review_type: "6-Month")
+        twelve_month_review = create(:review, associate_consultant:ac, review_date: 6.months.from_now, review_type: "12-Month")
+
+        ac.upcoming_review.should eq six_month_review
+      end
+
+      it "should return nil if there are no reviews between now and 6 months from now" do
+        ac = create(:associate_consultant)
+
+        ac.upcoming_review.should eq nil
+      end
+
     end
   end
 end

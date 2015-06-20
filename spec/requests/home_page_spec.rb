@@ -48,11 +48,11 @@ describe "Home page" do
     describe "as AC" do
       before do
         @ac_with_many_reviews = create(:associate_consultant)
-        @first_review = build(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "12-Month", :review_date => Date.today - 7.months)
+        @first_review = build(:review, associate_consultant: @ac_with_many_reviews, review_type: "12-Month", review_date: Date.today - 7.months)
         @first_review.stub(:feedback_deadline_is_before_review_date).and_return(true)
         @first_review.save
-        @upcoming_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "18-Month", :review_date => Date.today + 1.month)
-        @latest_review = create(:new_review_type, :associate_consultant => @ac_with_many_reviews, :review_type => "24-Month", :review_date => Date.today + 7.months)
+        @upcoming_review = create(:review, associate_consultant: @ac_with_many_reviews, review_type: "18-Month", review_date: Date.today + 1.month)
+        @latest_review = create(:review, associate_consultant: @ac_with_many_reviews, review_type: "24-Month", review_date: Date.today + 7.months)
         @feedback = create(:feedback, review: @upcoming_review, user: reviewer, project_worked_on: "Test")
 
         sign_in @ac_with_many_reviews.user

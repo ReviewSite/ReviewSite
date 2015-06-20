@@ -1,6 +1,12 @@
 module SessionsHelper
-  def first_time_sign_in
-    User.create(name: current_name, okta_name: current_okta_name, email: current_email, admin: false)
+
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    session.delete(:return_to)
+  end
+
+  def store_location
+    session[:return_to] = request.url
   end
 
   def signed_in?(options ={})
@@ -15,41 +21,19 @@ module SessionsHelper
     @current_user = User.find_by_okta_name( current_okta_name )
   end
 
-  def redirect_back_or(default)
-    redirect_to(session[:return_to] || default)
-    session.delete(:return_to)
-  end
-
-  def store_location
-    session[:return_to] = request.url
-  end
-
-  def sign_out
-    session[:userinfo] = nil
-    redirect_to "https://thoughtworks.okta.com/login/signout?fromURI=#{ENV['URL']}"
-  end
-
   def current_okta_name=(okta_name)
     session[:temp_okta_user] = okta_name
   end
 
   def current_okta_name
-    if ENV["OKTA-TEST-MODE"]
-      session[:temp_okta_user] || session[:userinfo].split("@")[0]
-    else
-      session[:userinfo].split("@")[0]
-    end
+    session[:temp_okta_user] || session[:userinfo].split("@")[0]
   end
 
-  def current_name
-    if ENV["OKTA-TEST-MODE"]
-      session[:temp_okta_user] || session[:userinfo].split("@")[0]
-    else
-      session[:user_name] || session[:userinfo].split("@")[0]
-    end
+  def real_name_or_default
+    session[:user_name] || current_okta_name
   end
 
   def current_email
-    session[:userinfo]
+    session[:userinfo].downcase
   end
 end

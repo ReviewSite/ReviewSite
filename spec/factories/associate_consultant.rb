@@ -11,5 +11,6 @@ FactoryGirl.define do
       program_start_date Date.today - 1 - 24.months
       graduated true
     end
+
   end
 end

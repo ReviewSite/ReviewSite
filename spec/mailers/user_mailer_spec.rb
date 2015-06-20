@@ -39,7 +39,7 @@ describe UserMailer do
 
   describe 'Review creation' do
     let(:ac) {create(:associate_consultant)}
-    let(:review)  {create(:new_review_type, associate_consultant: ac)}
+    let(:review)  {create(:review, associate_consultant: ac)}
     let(:mail) {UserMailer.review_creation(review) }
 
     it 'renders the subject' do

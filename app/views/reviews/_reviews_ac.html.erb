@@ -20,13 +20,11 @@
       </td>
       <td><%= review.review_date.to_s(:short_date) %></td>
       <td class="nowrap button-col">
-        <% if review.upcoming? || (review.review_date < Date.today) %>
-          <%= link_to '',
-            review ,
-            :class => "fa fa-eye fa-lg fa-fw",
-            :title => "View"
-          %>
-        <% end %>
+        <%= link_to '',
+          review ,
+          :class => "fa fa-eye fa-lg fa-fw",
+          :title => "View"
+        %>
       </td>
     </tr>
 

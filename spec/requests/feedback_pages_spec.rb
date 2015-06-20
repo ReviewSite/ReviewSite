@@ -24,7 +24,6 @@ describe "Feedback pages", :type => :feature do
       before do
         sign_in @new_user
         visit new_review_feedback_path(@current_review)
-        page.find("#ui-accordion-accordion-header-9").click
 
         inputs.each do |field, value|
           fill_in field, with: value

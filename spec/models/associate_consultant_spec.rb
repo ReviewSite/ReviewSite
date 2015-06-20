@@ -19,7 +19,7 @@ describe AssociateConsultant do
   end
 
   describe "#can_graduate?" do
-    let(:review) { create(:twenty_four_month_review) }
+    let(:review) { create(:twenty_four_month_review, review_date: 1.day.ago) }
     let(:reviews) { [review] }
     it "returns true when graduation date has passed" do
       ac = create(:associate_consultant, reviews: reviews)

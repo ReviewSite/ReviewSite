@@ -5,7 +5,5 @@ FactoryGirl.define do
     factory :reviewing_group_with_users do
       users {[create(:user)]}
     end
-
   end
-
 end

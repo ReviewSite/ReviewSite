@@ -3,16 +3,15 @@ class ReviewsController < ApplicationController
   before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email]
 
   def index
+    if current_user.ac?
+      @reviews = current_user.associate_consultant.reviews
+    end
+
+    @reviews = Review.default_load.accessible_by(current_ability)
+
     respond_to do |format|
-      format.html {
-        if current_user.ac?
-          @reviews = current_user.associate_consultant.reviews
-        end
-      }
-      format.json {
-        @reviews = Review.default_load.accessibly_by(current_ability)
-        render json: @reviews
-      }
+      format.html
+      format.json { render json: @reviews }
     end
   end
 

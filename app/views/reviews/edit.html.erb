@@ -1,5 +1,5 @@
 <h1>Edit Review</h1>
-<h2><%= @review %></h2>
+<h2><%= @review.pretty_print_with(current_user) %></h2>
 
 <div class="container">
   <%= render :partial => "sidenav", :locals => { :review => @review } %>

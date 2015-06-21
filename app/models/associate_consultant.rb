@@ -17,7 +17,7 @@ class AssociateConsultant < ActiveRecord::Base
 
   def upcoming_review
     date_range = Date.today..(Date.today + 6.months)
-    self.reviews.where("review_date" => date_range).order(:review_date).first
+    self.reviews.where(review_date: date_range).order(:review_date).first
   end
 
   def can_graduate?

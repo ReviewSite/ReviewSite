@@ -124,7 +124,7 @@ describe Review do
       review = Review.new
       review.review_date = nil
       review.in_the_future?.should be_false
-    end 
+    end
   end
 
   describe "#feedback_deadline_is_before_review_date?" do
@@ -140,6 +140,44 @@ describe Review do
       date = 1.day.from_now
       review = build(:review, review_date: date, feedback_deadline: date)
       review.valid?.should be_false
+    end
+  end
+
+  describe "#upcoming?" do
+    it "returns false if review date is blank" do
+      review = create(:review)
+      review.review_date = nil
+      review.upcoming?.should be_false
+    end
+
+    it "returns false if review date is not in next six months" do
+      review = create(:review, review_date: 12.months.from_now)
+      review.upcoming?.should be_false
+    end
+
+    describe  "when ac has only one review in the next six months" do
+      it "returns true if review date is in next six months" do
+        review = create(:review, review_date: 6.months.from_now - 1.day)
+        review.upcoming?.should be_true
+      end
+    end
+
+    describe "when ac has more than one review in the next six months" do
+      it "returns true if it is the first review date in next six months" do
+        ac = create(:associate_consultant)
+        review1 = create(:review, review_type: "6-Month", review_date: 3.days.from_now, associate_consultant: ac)
+        review2 = create(:review, review_type: "12-Month", review_date: 6.months.from_now - 2.days, associate_consultant: ac)
+
+        review1.upcoming?.should be_true
+      end
+
+      it "returns false if it is not the first review date in next six months" do
+        ac = create(:associate_consultant)
+        review1 = create(:review, review_type: "6-Month", review_date: 3.days.from_now, associate_consultant: ac)
+        review2 = create(:review, review_type: "12-Month", review_date: 6.months.from_now - 2.days, associate_consultant: ac)
+
+        review2.upcoming?.should be_false
+      end
     end
   end
 end

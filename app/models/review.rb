@@ -113,17 +113,13 @@ class Review < ActiveRecord::Base
   end
 
   def upcoming?
-    self.review_date.present? && in_next_six_months?
+    review_date.present? && self == associate_consultant.upcoming_review
   end
 
   private
 
   def check_errors
     update_errors(self)
-  end
-
-  def in_next_six_months?
-    self.review_date.between?(Date.today, Date.today + 6.months)
   end
 
   def set_new_review_format

@@ -9,15 +9,13 @@ class UsersController < ApplicationController
   end
 
   def index
+    @users = User.includes(:associate_consultant,
+                           { associate_consultant: :reviewing_group },
+                           :additional_emails)
+
     respond_to do |format|
       format.html
-      format.json {
-        @users = User.includes(:associate_consultant,
-                               {:associate_consultant => :reviewing_group},
-                               :additional_emails
-                              )
-        render json: @users
-      }
+      format.json { render json: @users }
     end
   end
 
@@ -123,15 +121,19 @@ class UsersController < ApplicationController
   end
 
   def feedbacks
-    @invitations = Invitation.where(email: current_user.all_emails).includes(review: {associate_consultant: :user}).select do |i|
-      !i.feedback
-    end
+    @invitations = Invitation.where(email: current_user.all_emails).includes(
+                                      review: :associate_consultant,
+                                      review: { associate_consultant: :user }
+                                   ).select { |invitation| !invitation.feedback }
 
-    @feedbacks = current_user.feedbacks.includes(:review).where(submitted: false)
+    @feedbacks = current_user.feedbacks.includes(:review, review: :reviewee).where(submitted: false)
   end
 
   def completed_feedback
-    @completeds = current_user.feedbacks.includes(:review, {:review => :associate_consultant}).where(submitted: true)
+    @completeds = current_user.feedbacks.includes(:review,
+                                                  review: :associate_consultant,
+                                                  review: :reviewee
+                                                 ).where(submitted: true)
   end
 
   def get_users

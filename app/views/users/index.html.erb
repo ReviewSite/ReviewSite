@@ -10,7 +10,7 @@
   <th></th>
   </thead>
   <tbody>
-    <% @users.includes(:associate_consultant, :additional_emails, {:associate_consultant => :reviewing_group}).each do |user| %>
+    <% @users.each do |user| %>
       <tr>
 
         <td>

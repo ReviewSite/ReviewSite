@@ -59,6 +59,8 @@ var completedFeedback = function() {
 
 var reviewsSeenByAC = function() {
   $("#my-reviews").DataTable({
+    paging: false,
+    info: false,
     lengthChange: false,
     searching: false,
     columnDefs: [

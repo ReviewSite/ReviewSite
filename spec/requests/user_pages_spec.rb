@@ -276,7 +276,7 @@ describe "User pages: " do
       it { should have_content("Admin No") }
 
       it "links to edit page" do
-        click_link "Edit"
+        page.find(".fa-pencil").click
         current_path.should == edit_user_path(user)
       end
 

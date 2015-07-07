@@ -2,6 +2,12 @@ class QuestionBuilder
 	def self.build(associate_consultant)
 		questions = {}
 
+		questions["Comments"] = Review::Question.new("Comments", " General Comments", ["project_worked_on", "role_description", "comments"],
+										"<p>\
+											<div class = \'ideaListHeader\'><b> Only have a minute? </b>\
+											Quickly share your feedback for #{associate_consultant}, or click continue to provide in-depth commentary.</div>\
+										</p>")
+
     questions["Role Competence"] = Review::Question.new("Role Competence", " Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
                     "<p class = \'ideaList\'> \
                       <div class = \'ideaListHeader\'><b> Understanding:</b> Does #{associate_consultant} </div>\
@@ -78,11 +84,6 @@ class QuestionBuilder
                         <li> actively contribute to the betterment of TW (ex: recruiting, provide feedback for AC Learning Plan)? </li></ul>\
                     </p>", "contributions_scale")
 
-    questions["Comments"] = Review::Question.new("Comments", " General Comments", ["comments"],
-                    "<p>\
-                      <div class = \'ideaListHeader\'><b> Anything not covered above. </b>\
-                      What else do you want to share about #{associate_consultant}?</div>\
-                    </p>")
     questions
   end
 end

@@ -1,37 +1,6 @@
 <%= form_for([@review, @feedback]) do |f| %>
 
   <div class="feedback-form-container">
-    <div class="reviewer-info">
-      <div class="field">
-        <%= f.label t('feedback.feedback_by') %>
-
-        <% if @feedback.errors[:user_string] %>
-          <p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
-        <% end %>
-
-        <% if not additional %>
-          <%= @user_name %>
-        <% else %>
-          <%= f.text_field :user_string %>
-        <% end %>
-      </div>
-
-      <div class="field">
-        <%= f.label t('feedback.feedback_deadline') %>
-        <p><%= @feedback.review.feedback_deadline %></p>
-      </div>
-
-      <div class="field">
-        <%= f.label t('feedback.project_worked_on') %>
-        <%= f.text_field :project_worked_on %>
-      </div>
-
-      <div class="field">
-        <%= f.label t('feedback.role_description') %>
-        <%= f.text_field :role_description %>
-      </div>
-    </div>
-
     <div class="feedback-form">
       <div id="accordion">
         <% @review.headings.each do |heading| %>

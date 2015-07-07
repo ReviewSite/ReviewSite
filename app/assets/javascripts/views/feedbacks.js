@@ -3,7 +3,7 @@ ReviewSite = ReviewSite || {};
 var activateAccordion = function() {
   $("#accordion").accordion({
     heightStyle:"content",
-    active: 4,
+    active: 0,
     collapsible: true
   });
 

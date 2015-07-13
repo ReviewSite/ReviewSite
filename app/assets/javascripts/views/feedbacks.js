@@ -4,15 +4,26 @@ var activateAccordion = function() {
   $("#accordion").accordion({
     heightStyle:"content",
     active: 0,
-    collapsible: true
+    collapsible: false,
+    create: function(event, ui) {
+      toggleFields({ commentsHeader: ui.header });
+    }
   });
 
   $("#accordion").on("accordionactivate", function (event, ui) {
+    toggleFields({ oldHeader: ui.oldHeader, newHeader: ui.newHeader });
+
     if (ui.newPanel.length) {
       $.scrollTo(ui.newHeader, {offset:{top:-100}});
     }
   });
+};
 
+var toggleFields = function(headers) {
+  for(var key in headers) {
+    var headerID = "#" + headers[key].attr('data-heading-title');
+    $(headerID).toggle();
+  }
 };
 
 var warnIfUnsavedChanges = function() {

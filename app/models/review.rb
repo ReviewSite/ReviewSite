@@ -84,6 +84,14 @@ class Review < ActiveRecord::Base
     end
   end
 
+  def prepare_heading_html_attribute(heading)
+    heading.downcase.gsub(/\s/,'-')
+  end
+
+  def is_comments_header(heading)
+    heading == "Comments"
+  end
+
   def has_scale(heading)
     scale_field(heading).present?
   end

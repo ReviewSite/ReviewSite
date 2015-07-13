@@ -12,10 +12,10 @@ class Feedback < ActiveRecord::Base
                   :role_description,
                   :teamwork_exceeded, :teamwork_improve, :teamwork_met,
                   :tech_exceeded, :tech_improve, :tech_met,
-                  :role_competence_went_well, :role_competence_to_be_improved, :role_competence_scale,
-                  :consulting_skills_went_well, :consulting_skills_to_be_improved, :consulting_skills_scale,
-                  :teamwork_went_well, :teamwork_to_be_improved, :teamwork_scale,
-                  :contributions_went_well, :contributions_to_be_improved, :contributions_scale,
+                  :role_competence_went_well, :role_competence_to_be_improved,
+                  :consulting_skills_went_well, :consulting_skills_to_be_improved,
+                  :teamwork_went_well, :teamwork_to_be_improved,
+                  :contributions_went_well, :contributions_to_be_improved,
                   :user_id, :user_string, :submitted
 
   validates :review_id, :presence => true

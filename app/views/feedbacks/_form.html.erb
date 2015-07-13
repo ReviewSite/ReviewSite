@@ -12,14 +12,6 @@
           <h3 data-heading-title="<%= @review.prepare_heading_html_attribute(heading)%>"><%= @review.heading_title(heading) %></h3>
           <div>
             <%= raw @review.description(heading) %>
-
-<!--             <% if @review.has_scale(heading) %>
-              <div class="scale">
-                <%= f.label @review.scale_field(heading), "Priority of this area moving forward." %>
-                <%= f.select @review.scale_field(heading), feedback_priorities, {:include_blank => ""}, {:class => "feedback_scale" } %>
-              </div>
-            <% end %> -->
-
           </div>
         <% end %>
       </div>

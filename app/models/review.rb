@@ -92,18 +92,6 @@ class Review < ActiveRecord::Base
     heading == "Comments"
   end
 
-  def has_scale(heading)
-    scale_field(heading).present?
-  end
-
-  def scale_field(heading)
-    if questions[heading].present?
-      questions[heading].scale_field
-    else
-      nil
-    end
-  end
-
   def to_s
     self.pretty_print_with(nil)
   end

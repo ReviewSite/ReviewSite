@@ -20,6 +20,11 @@ ol {
 div.ideaListHeader {
   margin-top: 10px;
   margin-bottom: -5px;
+
+  &.comments-label {
+    float: left;
+    margin: 0 0.25em 0 0;
+  }
 }
 
 div.ideaListHeader b{

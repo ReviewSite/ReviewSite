@@ -18,7 +18,7 @@
     </section>
     <section class="feedback-form">
       <% @review.headings.each do |heading| %>
-        <section id="<%= @review.prepare_heading_html_attribute(heading) %>">
+        <section class="hidden" id="<%= @review.prepare_heading_html_attribute(heading) %>">
 
         <% if(@review.is_comments_header(heading)) %>
           <div class="field">
@@ -47,13 +47,10 @@
         <% end %>
         </section>
       <% end %>
-      <div class="actions">
-        <%= f.submit 'Save', { :id => "save-feedback-button" } %>
+      <div class="actions pull-right">
+        <%= f.submit 'Save as Draft', { :class => "diet", :id => "save-feedback-button" } %>
+        <%= link_to 'Continue', '#', :onclick => "openNextAccordionPanel()", class: "button diet", id: "continue-button" %>
         <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
-
-        <% if edit_page %>
-          <%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :id => "delete-button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
-        <% end %>
       </div>
     </section>
   </div>

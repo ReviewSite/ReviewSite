@@ -22,9 +22,17 @@ var activateAccordion = function() {
 var toggleFields = function(headers) {
   for(var key in headers) {
     var headerID = "#" + headers[key].attr('data-heading-title');
-    $(headerID).toggle();
+    $(headerID).toggleClass("hidden");
   }
 };
+
+var openNextAccordionPanel = function() {
+  var $accordion = $("#accordion").accordion();
+  var current = $accordion.accordion("option", "active"),
+      maximum = $accordion.find("h3").length,
+      next = current+1 === maximum ? 0 : current+1;
+  $accordion.accordion("option", "active", next);
+}
 
 var warnIfUnsavedChanges = function() {
   $(".feedback-form-container").find("input, select, textarea").on("keyup", function() {

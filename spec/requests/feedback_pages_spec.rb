@@ -129,21 +129,10 @@ describe "Feedback pages", :type => :feature do
           end
         end
 
-        it "deletes feedback when 'Delete' is clicked" do
-          Feedback.exists?(feedback).should be_true
-          page.find("#delete-button").click()
-          Feedback.exists?(feedback).should be_false
-        end
-
         it "redirects to preview page when 'Preview & Submit' is click" do
           click_button("Preview & Submit")
           feedback_id = feedback.id
           current_path.should == preview_review_feedback_path(review, feedback)
-        end
-
-        it "redirects to home page when 'Delete' is clicked" do
-          page.find("#delete-button").click()
-          current_path.should == root_path
         end
       end
 

@@ -186,12 +186,18 @@ describe "Feedback pages", :type => :feature do
     it "saves as draft if 'Save Feedback' is clicked" do
       page.find("#save-feedback-button").click
       feedback = Feedback.last
-      current_path.should == edit_review_feedback_path(review, feedback)
+      current_path.should == edit_additional_review_feedback_path(review, feedback)
       feedback.submitted.should be_false
       feedback.user_string.should == "A non-user"
       feedback.project_worked_on == "A project"
       feedback.role_description == "A role"
       feedback.comments == "My Comments"
+    end
+
+    it "redirects to 'Preview & Submit' page when 'Preview & Submit' is clicked" do
+      click_button("Preview & Submit")
+      feedback = Feedback.last
+      current_path.should == preview_review_feedback_path(review, feedback)
     end
   end
 

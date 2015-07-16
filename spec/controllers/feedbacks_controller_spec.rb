@@ -60,13 +60,15 @@ describe FeedbacksController do
         assigns(:feedback).should be_a_new(Feedback)
         assigns(:user_name).should eq(@user.name)
       end
+    end
+  end
 
-      it "loads the existing feedback if one exists for this user" do
-        feedback = create(:feedback, :review => @review, :user => @user)
-        get :new, {:review_id => @review.id}, valid_session
-        assigns(:feedback).should eq(feedback)
-        assigns(:user_name).should eq(@user.name)
-      end
+  describe "GET new_additional" do
+    it "should create a new external feedback" do
+      feedback = create(:feedback, :review => @review, :user => @user)
+      get :new_additional, {:review_id => @review.id}, valid_session
+      assigns(:feedback).should be_a_new(Feedback)
+      assigns(:user_name).should eq(@user.name)
     end
   end
 
@@ -74,6 +76,15 @@ describe FeedbacksController do
     it "assigns the requested feedback as @feedback" do
       feedback = Feedback.create! valid_attributes
       get :edit, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      assigns(:feedback).should eq(feedback)
+      assigns(:user_name).should eq(@user.name)
+    end
+  end
+
+  describe "GET edit_additional" do
+    it "assigns the requested feedback as @feedback" do
+      feedback = Feedback.create! valid_attributes
+      get :edit_additional, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end

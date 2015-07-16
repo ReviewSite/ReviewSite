@@ -1,6 +1,3 @@
-<h1>Record External Feedback</h1>
-<h2><%= @review.pretty_print_with(current_user) %></h2>
-
 <%= form_for([@review, @feedback]) do |f| %>
 	<div class="external-feedback-form">
 	  <div class="external-feedback-form-container">
@@ -27,14 +24,17 @@
 
 	    	<div class="field">
           <%= f.label t('feedback.received') %>
-          <%= f.text_area 'comments' %>
+          <%= f.text_area :comments %>
         </div>
 			</div>
 
 		  <div class="actions">
 		    <%= f.submit 'Save', { :id => "save-feedback-button" } %>
 		    <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
-		  </div>
+				<% if edit_page %>
+					<%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :id => "delete-button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>

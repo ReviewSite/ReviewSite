@@ -32,8 +32,8 @@ class Feedback < ActiveRecord::Base
 
   scope :unsubmitted, -> { where(submitted: false) }
 
-  SELF_REPORTED = 'Self-reported'
-  PEER_REPORTED = 'Peer-reported'
+  SELF_REPORTED = "Self-reported"
+  PEER_REPORTED = "Peer-reported"
 
   def reviewer
     if self.user_string.nil?

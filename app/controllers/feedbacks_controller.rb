@@ -32,7 +32,7 @@ class FeedbacksController < ApplicationController
   end
 
   # GET /feedbacks/new_additional
-  #GET /feedbacks/new_additional.json
+  # GET /feedbacks/new_additional.json
   def new_additional
     @feedback = Feedback.new
     respond_to do |format|

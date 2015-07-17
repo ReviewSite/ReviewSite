@@ -26,7 +26,7 @@ FactoryGirl.define do
     end
 
     factory :twenty_four_month_review do
-      review_type '24-Month'
+      review_type "24-Month"
       review_date 1.day.ago
       feedback_deadline 2.days.ago
     end

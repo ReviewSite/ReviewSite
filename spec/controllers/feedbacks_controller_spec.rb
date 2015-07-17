@@ -65,8 +65,7 @@ describe FeedbacksController do
 
   describe "GET new_additional" do
     it "should create a new external feedback" do
-      feedback = create(:feedback, :review => @review, :user => @user)
-      get :new_additional, {:review_id => @review.id}, valid_session
+      get :new_additional, { review_id: @review.id }, valid_session
       assigns(:feedback).should be_a_new(Feedback)
       assigns(:user_name).should eq(@user.name)
     end
@@ -84,7 +83,7 @@ describe FeedbacksController do
   describe "GET edit_additional" do
     it "assigns the requested feedback as @feedback" do
       feedback = Feedback.create! valid_attributes
-      get :edit_additional, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      get :edit_additional, { id: feedback.to_param, review_id: @review.id }, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end

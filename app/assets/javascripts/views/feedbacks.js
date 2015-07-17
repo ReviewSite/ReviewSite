@@ -21,8 +21,13 @@ var activateAccordion = function() {
 
 var toggleFields = function(headers) {
   for(var key in headers) {
-    var headerID = "#" + headers[key].attr('data-heading-title');
+    var headerTitle = headers[key].attr('data-heading-title');
+    var headerID = "#" + headerTitle;
     $(headerID).toggleClass("hidden");
+
+    if(headerTitle === "contributions") {
+      $("a#continue-button").toggleClass("disabled");
+    }
   }
 };
 

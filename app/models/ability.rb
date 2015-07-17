@@ -13,8 +13,8 @@ class Ability
     can [:show,
          :update,
          :feedbacks,
-         :completed_feedback, 
-         :add_email, 
+         :completed_feedback,
+         :add_email,
          :remove_email], User, id: user.id
 
     # Invitation
@@ -34,6 +34,10 @@ class Ability
     # Feedback
     can [:read, :update, :destroy], Feedback, submitted: false, user_id: user.id
     can [:summary, :index, :read],  Feedback, { submitted: true } if user.admin?
+
+    can [:new_additional, :edit_additional], Feedback do |feedback|
+      feedback.review.upcoming?
+    end
 
     can [:create, :new], Feedback do |feedback|
       feedback.review.upcoming? && (
@@ -71,7 +75,7 @@ class Ability
     can [:summary, :read], Review, associate_consultant: { user_id: user.id }
     can [:summary, :read, :coachees], Review, associate_consultant: { coach_id: user.id }
     can [:summary, :read], Review, associate_consultant: { reviewing_group_id: user.reviewing_group_ids }
-    can([:update], Review) do |review| 
+    can([:update], Review) do |review|
       review.reviewee == user && review.in_the_future?
     end
 

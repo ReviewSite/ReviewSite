@@ -2,8 +2,8 @@ class FeedbacksController < ApplicationController
   load_resource :review
   load_and_authorize_resource through: :review
   before_filter :load_review
-  before_filter :load_feedback, :only => [:show, :edit, :update, :submit, :unsubmit, :send_reminder ]
-  before_filter :load_user_name, :only => [:new, :edit]
+  before_filter :load_feedback, :only => [:show, :edit, :edit_additional, :update, :submit, :unsubmit, :send_reminder]
+  before_filter :load_user_name, :only => [:new, :new_additional, :edit, :edit_additional]
 
   # GET /feedbacks/1
   # GET /feedbacks/1.json
@@ -22,31 +22,46 @@ class FeedbacksController < ApplicationController
   end
 
   # GET /feedbacks/new
-  # GET /feedbacks/additional
   # GET /feedbacks/new.json
   def new
     find_feedback_for(current_user) if @review.has_existing_feedbacks?
     respond_to do |format|
-      format.html do
-        if @feedback.submitted?
-          redirect_to root_path, notice: "You have already submitted feedback."
-        else
-          render action: request.path.split("/").last # 'new' or 'additional'
-        end
-      end
+      format.html { redirect_to root_path, notice: "You have already submitted feedback." if @feedback.submitted? }
+      format.json { render json: @feedback }
+    end
+  end
+
+  # GET /feedbacks/new_additional
+  # GET /feedbacks/new_additional.json
+  def new_additional
+    @feedback = Feedback.new
+    respond_to do |format|
+      format.html
       format.json { render json: @feedback }
     end
   end
 
   # GET /feedbacks/1/edit
-  def edit; end
+  def edit
+    respond_to do |format|
+      format.html
+      format.json { render json: @feedback }
+    end
+  end
+
+  # GET /feedbacks/1/edit_additional
+  def edit_additional
+    respond_to do |format|
+      format.html
+      format.json { render json: @feedback }
+    end
+  end
 
   # POST /feedbacks
   # POST /feedbacks.json
   def create
     @feedback = @review.feedbacks.build(params[:feedback])
     @feedback.user = current_user
-
     respond_to do |format|
       if @feedback.save
         format.html { execute_button_action(format) }
@@ -55,7 +70,7 @@ class FeedbacksController < ApplicationController
         if params[:feedback][:user_string].nil?
           format.html { render action: "new" }
         else
-          format.html { render action: "additional" }
+          format.html { render action: "new_additional" }
         end
         format.json { render json: @feedback.errors, status: :unprocessable_entity }
       end
@@ -132,7 +147,11 @@ class FeedbacksController < ApplicationController
     elsif params[:preview_and_submit_button]
       redirect_to preview_review_feedback_path(@review, @feedback)
     else
-      redirect_to edit_review_feedback_path(@review, @feedback)
+      if @feedback.is_additional
+        redirect_to edit_additional_review_feedback_path(@review, @feedback)
+      else
+        redirect_to edit_review_feedback_path(@review, @feedback)
+      end
       flash[:success] = 'Feedback was saved for further editing.'
     end
   end

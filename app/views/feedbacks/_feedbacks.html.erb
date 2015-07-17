@@ -45,7 +45,11 @@
             </li>
           <% end %>
           <% if can? :edit, feedback %>
-            <li> <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %></li>
+            <% if feedback.is_additional %>
+              <li> <%= link_to '', edit_additional_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %></li>
+            <% else %>
+              <li> <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %></li>
+            <% end %>
           <% end %>
           <% if can? :show, feedback %>
             <li><%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %></li>

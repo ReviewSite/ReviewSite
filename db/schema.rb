@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150420233751) do
+ActiveRecord::Schema.define(:version => 20150507221307) do
 
   create_table "additional_emails", :force => true do |t|
     t.string   "email"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20150420233751) do
     t.integer  "consulting_skills_scale"
     t.integer  "teamwork_scale"
     t.integer  "contributions_scale"
+    t.string   "reported_by"
   end
 
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"

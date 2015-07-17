@@ -1,3 +1,4 @@
 <h1>Record External Feedback</h1>
 <h2><%= @review.pretty_print_with(current_user) %></h2>
-<%= render :partial => 'form', :locals => {:additional => true, :edit_page => false} %>
+
+<%= render :partial => 'additional', :locals => {:edit_page => false } %>

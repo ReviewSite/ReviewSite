@@ -1,0 +1,4 @@
+<h1>Edit Feedback</h1>
+<h2><%= @review.pretty_print_with(current_user) %></h2>
+
+<%= render :partial => 'additional', :locals => {:edit_page => true } %>

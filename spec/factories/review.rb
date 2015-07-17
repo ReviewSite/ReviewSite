@@ -27,7 +27,8 @@ FactoryGirl.define do
 
     factory :twenty_four_month_review do
       review_type "24-Month"
-      review_date { 24.months.from_now }
+      review_date 1.day.ago
+      feedback_deadline 2.days.ago
     end
 
   end

@@ -7,6 +7,7 @@ en:
     feedback_deadline: "Feedback deadline"
     project_worked_on: 'Project worked on together'
     role_description: 'Your role on that project'
+    received: 'Feedback received'
 
     role_competence_went_well: 'What went well'
     role_competence_to_be_improved: 'What can be improved'

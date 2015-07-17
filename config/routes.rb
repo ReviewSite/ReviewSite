@@ -6,9 +6,14 @@ ReviewSite::Application.routes.draw do
 
   resources :associate_consultants, only: [:index]
 
-  match "/reviews/:review_id/feedbacks/additional",
-        to: "feedbacks#new",
+  match "/reviews/:review_id/feedbacks/new_additional",
+        to: "feedbacks#new_additional",
         as: "additional_review_feedback",
+        via: [:get]
+
+  match "/reviews/:review_id/feedbacks/:id/edit_additional",
+        to: "feedbacks#edit_additional",
+        as: "edit_additional_review_feedback",
         via: [:get]
 
   resources :reviews do

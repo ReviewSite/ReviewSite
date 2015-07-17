@@ -1,0 +1,41 @@
+<%= form_for([@review, @feedback]) do |f| %>
+	<div class="external-feedback-form">
+	  <div class="external-feedback-form-container">
+			<div class="field">
+				<%= f.hidden_field :reported_by, value: Feedback::SELF_REPORTED %>
+
+				<%= f.label t('feedback.feedback_by') %>
+
+				<% if @feedback.errors[:user_string] %>
+					<p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
+				<% end %>
+
+				<%= f.text_field :user_string %>
+
+			  <div class="field">
+			    <%= f.label t('feedback.project_worked_on') %>
+			    <%= f.text_field :project_worked_on %>
+			  </div>
+
+			  <div class="field">
+			    <%= f.label t('feedback.role_description') %>
+			    <%= f.text_field :role_description %>
+			  </div>
+
+	    	<div class="field">
+          <%= f.label t('feedback.received') %>
+          <%= f.text_area :comments %>
+        </div>
+			</div>
+
+		  <div class="actions">
+		    <%= f.submit 'Save', { :id => "save-feedback-button" } %>
+		    <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
+				<% if edit_page %>
+					<%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :id => "delete-button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>

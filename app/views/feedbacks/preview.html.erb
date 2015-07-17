@@ -28,8 +28,12 @@
   <% end %>
 
   <% unless @feedback.comments.blank? %>
-  <label>Comments</label>
-  <%= simple_format(@feedback.comments) %>
+    <% if @feedback.is_additional %>
+      <label>Feedback received</label>
+    <% else %>
+      <label>Comments</label>
+    <% end %>
+      <%= simple_format(@feedback.comments) %>
   <% end %>
 
 </section>

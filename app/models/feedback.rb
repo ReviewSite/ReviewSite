@@ -16,7 +16,7 @@ class Feedback < ActiveRecord::Base
                   :consulting_skills_went_well, :consulting_skills_to_be_improved, :consulting_skills_scale,
                   :teamwork_went_well, :teamwork_to_be_improved, :teamwork_scale,
                   :contributions_went_well, :contributions_to_be_improved, :contributions_scale,
-                  :user_id, :user_string, :submitted
+                  :user_id, :user_string, :submitted, :reported_by
 
   validates :review_id, :presence => true
   validates :user_id, :presence => true
@@ -31,6 +31,9 @@ class Feedback < ActiveRecord::Base
   delegate :new_review_format, to: :review
 
   scope :unsubmitted, -> { where(submitted: false) }
+
+  SELF_REPORTED = "Self-reported"
+  PEER_REPORTED = "Peer-reported"
 
   def reviewer
     if self.user_string.nil?

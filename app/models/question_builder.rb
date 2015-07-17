@@ -2,6 +2,12 @@ class QuestionBuilder
 	def self.build(associate_consultant)
 		questions = {}
 
+		questions["Comments"] = Review::Question.new("Comments", " General Comments", ["project_worked_on", "role_description", "comments"],
+										"<p>\
+											<div class = \'ideaListHeader\'><b> Only have a minute? </b>\
+											Quickly share your feedback for #{associate_consultant}, or click continue to provide in-depth commentary.</div>\
+										</p>")
+
     questions["Role Competence"] = Review::Question.new("Role Competence", " Role Competence", ["role_competence_went_well", "role_competence_to_be_improved"],
                     "<p class = \'ideaList\'> \
                       <div class = \'ideaListHeader\'><b> Understanding:</b> Does #{associate_consultant} </div>\
@@ -20,7 +26,7 @@ class QuestionBuilder
                         <li> study project-related topics outside of work? </li>\
                         <li> apply lessons learned through studies to the project? </li>\
                         <li> look for and suggest new ways to improve the project? </li></ul>\
-                    </p>", "role_competence_scale")
+                    </p>")
 
     questions["Consulting Skills"] = Review::Question.new("Consulting Skills", " Consulting Skills", ["consulting_skills_went_well", "consulting_skills_to_be_improved"],
                     "<p class = \'ideaList\'> \
@@ -43,7 +49,7 @@ class QuestionBuilder
                         <li> behave appropriately in work environments? </li>\
                         <li> follow through on commitments? </li>\
                         <li> show awareness of others\' perceptions? </li></ul>\
-                    </p>", "consulting_skills_scale")
+                    </p>")
 
     questions["Teamwork"] = Review::Question.new("Teamwork", " Teamwork", ["teamwork_went_well", "teamwork_to_be_improved"],
                     "<p class = \'ideaList\'>\
@@ -58,7 +64,7 @@ class QuestionBuilder
                         <li> facilitate cross-role communication? </li>\
                         <li> resolve conflicts within the team? </li>\
                         <li> give and receive feedback well? </li></ul>\
-                    </p>", "teamwork_scale")
+                    </p>")
 
     questions["Contributions"] = Review::Question.new("Contributions", " Contributions", ["contributions_went_well", "contributions_to_be_improved"],
                     "<p class = \'ideaList\'>\
@@ -76,13 +82,8 @@ class QuestionBuilder
                       <ul class = \'ideaListElement\'>
                         <li> volunteer to organize or attend events? </li>\
                         <li> actively contribute to the betterment of TW (ex: recruiting, provide feedback for AC Learning Plan)? </li></ul>\
-                    </p>", "contributions_scale")
-
-    questions["Comments"] = Review::Question.new("Comments", " General Comments", ["comments"],
-                    "<p>\
-                      <div class = \'ideaListHeader\'><b> Anything not covered above. </b>\
-                      What else do you want to share about #{associate_consultant}?</div>\
                     </p>")
+
     questions
   end
 end

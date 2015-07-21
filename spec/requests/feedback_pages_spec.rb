@@ -166,6 +166,7 @@ describe "Feedback pages", :type => :feature do
     before do
       sign_in ac_user
       visit additional_review_feedback_path(review)
+      fill_in "feedback_user_string", with: "A user"
       fill_in "feedback_project_worked_on", with: "A project"
       fill_in "feedback_role_description", with: "A role"
       fill_in "feedback_comments", with: "My Comments"
@@ -176,6 +177,7 @@ describe "Feedback pages", :type => :feature do
       feedback = Feedback.last
       current_path.should == edit_additional_review_feedback_path(review, feedback)
       feedback.submitted.should be_false
+      feedback.user_string == "A user"
       feedback.project_worked_on == "A project"
       feedback.role_description == "A role"
       feedback.comments == "My Comments"

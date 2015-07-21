@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20150713185148) do
     t.text     "teamwork_to_be_improved"
     t.text     "contributions_went_well"
     t.text     "contributions_to_be_improved"
+    t.string   "reported_by"
   end
 
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"

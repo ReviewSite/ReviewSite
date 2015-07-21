@@ -2,12 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.reviewer-info {
-  @include span-columns(3);
+.review-descriptions {
+  @include span-columns(6);
 }
 
 .feedback-form {
-  @include span-columns(9);
+  @include span-columns(6);
+  .hidden {
+    display: none;
+  }
 }
 
 .external-feedback-form {
@@ -28,7 +31,12 @@
   min-height: 0; /* support: IE7 */
   font-size: 100%;
   background: white;
+  &.ui-accordion-header-active {
+    font-weight: bold;
+    border: 3px solid $brand-mint;
+  }
 }
+
 .ui-accordion .ui-accordion-icons {
   padding-left: 2.2em;
   padding-top: 15px;
@@ -40,10 +48,18 @@
   top: 50%;
   margin-top: -8px;
 }
+
+.comments-icon .ui-accordion-header-icon {
+  display: none;
+}
+
 .ui-accordion .ui-accordion-content {
   padding: 1em 2.2em;
   border-top: 0;
   overflow: auto;
+  &.comments-description {
+    display: none !important;
+  }
 }
 
 /* Interaction states
@@ -60,6 +76,11 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
   border: 1px solid #999999;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* Icons

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150507221307) do
+ActiveRecord::Schema.define(:version => 20150713185148) do
 
   create_table "additional_emails", :force => true do |t|
     t.string   "email"
@@ -81,10 +81,6 @@ ActiveRecord::Schema.define(:version => 20150507221307) do
     t.text     "teamwork_to_be_improved"
     t.text     "contributions_went_well"
     t.text     "contributions_to_be_improved"
-    t.integer  "role_competence_scale"
-    t.integer  "consulting_skills_scale"
-    t.integer  "teamwork_scale"
-    t.integer  "contributions_scale"
     t.string   "reported_by"
   end
 

@@ -129,21 +129,10 @@ describe "Feedback pages", :type => :feature do
           end
         end
 
-        it "deletes feedback when 'Delete' is clicked" do
-          Feedback.exists?(feedback).should be_true
-          page.find("#delete-button").click()
-          Feedback.exists?(feedback).should be_false
-        end
-
         it "redirects to preview page when 'Preview & Submit' is click" do
           click_button("Preview & Submit")
           feedback_id = feedback.id
           current_path.should == preview_review_feedback_path(review, feedback)
-        end
-
-        it "redirects to home page when 'Delete' is clicked" do
-          page.find("#delete-button").click()
-          current_path.should == root_path
         end
       end
 
@@ -177,7 +166,7 @@ describe "Feedback pages", :type => :feature do
     before do
       sign_in ac_user
       visit additional_review_feedback_path(review)
-      fill_in "feedback_user_string", with: "A non-user"
+      fill_in "feedback_user_string", with: "A user"
       fill_in "feedback_project_worked_on", with: "A project"
       fill_in "feedback_role_description", with: "A role"
       fill_in "feedback_comments", with: "My Comments"
@@ -188,7 +177,7 @@ describe "Feedback pages", :type => :feature do
       feedback = Feedback.last
       current_path.should == edit_additional_review_feedback_path(review, feedback)
       feedback.submitted.should be_false
-      feedback.user_string.should == "A non-user"
+      feedback.user_string == "A user"
       feedback.project_worked_on == "A project"
       feedback.role_description == "A role"
       feedback.comments == "My Comments"

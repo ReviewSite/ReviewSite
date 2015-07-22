@@ -10,7 +10,7 @@
 					<p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
 				<% end %>
 
-				<%= f.text_field :user_string %>
+				<%= f.text_field :user_string, required: true %>
 
 			  <div class="field">
 			    <%= f.label t('feedback.project_worked_on') %>

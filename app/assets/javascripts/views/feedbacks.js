@@ -6,38 +6,18 @@ var activateAccordion = function() {
     active: 0,
     collapsible: false,
     create: function(event, ui) {
-      toggleFields({ commentsHeader: ui.header });
+      _toggleFields({ commentsHeader: ui.header });
     }
   });
 
   $("#accordion").on("accordionactivate", function (event, ui) {
-    toggleFields({ oldHeader: ui.oldHeader, newHeader: ui.newHeader });
+    _toggleFields({ oldHeader: ui.oldHeader, newHeader: ui.newHeader });
 
     if (ui.newPanel.length) {
       $.scrollTo(ui.newHeader, {offset:{top:-100}});
     }
   });
 };
-
-var toggleFields = function(headers) {
-  for(var key in headers) {
-    var headerTitle = headers[key].attr('data-heading-title');
-    var headerID = "#" + headerTitle;
-    $(headerID).toggleClass("hidden");
-
-    if(headerTitle === "contributions") {
-      $("a#continue-button").toggleClass("disabled");
-    }
-  }
-};
-
-var openNextAccordionPanel = function() {
-  var $accordion = $("#accordion").accordion();
-  var current = $accordion.accordion("option", "active"),
-      maximum = $accordion.find("h3").length,
-      next = current+1 === maximum ? 0 : current+1;
-  $accordion.accordion("option", "active", next);
-}
 
 var warnIfUnsavedChanges = function() {
   $(".feedback-form-container").find("input, select, textarea").on("keyup", function() {
@@ -55,6 +35,42 @@ var previewAndSubmit = function() {
   });
 };
 
+var openNextAccordionPanel = function() {
+  var $accordion = $("#accordion").accordion();
+  var current = $accordion.accordion("option", "active"),
+      maximum = $accordion.find("h3").length,
+      next = current+1 === maximum ? 0 : current+1;
+  $accordion.accordion("option", "active", next);
+};
+
+var validateRequiredFields = function() {
+  var projectField = $('#feedback_project_worked_on').val();
+  var roleField = $('#feedback_role_description').val();
+  if(!projectField || !roleField) {
+    $('#accordion').accordion('activate', 0);
+    _addRequiredFieldClass(['#feedback_project_worked_on', '#feedback_role_description']);
+  }
+};
+
+var _addRequiredFieldClass = function(fields) {
+  for(var i in fields) {
+    if(!$(fields[i]).val()) {
+      $(fields[i]).addClass("required-field");
+    }
+  }
+};
+
+var _toggleFields = function(headers) {
+  for(var key in headers) {
+    var headerTitle = headers[key].attr('data-heading-title');
+    var headerID = "#" + headerTitle;
+    $(headerID).toggleClass("hidden");
+
+    if(headerTitle === "contributions") {
+      $("a#continue-button").toggleClass("disabled");
+    }
+  }
+};
 
 ReviewSite.feedbacks = {
   init: function() {

@@ -3,12 +3,13 @@
 
 en:
   feedback:
-    feedback_by: "Feedback by"
+    feedback_by: "Feedback from"
     feedback_deadline: "Feedback deadline"
     project_worked_on: 'Project worked on together'
     project_worked_on_required: '*Project worked on together'
     role_description: 'Your role on that project'
     role_description_required: '*Your role on that project'
+    role_description_self_reported: "Their role on that project"
     received: 'Feedback received'
     fast_feedback: 'Got fast feedback?'
     share_thoughts: 'Quickly share your thoughts below'

@@ -54,7 +54,7 @@
     <%= @user.associate_consultant.reviewing_group %>
   </p>
 
-  <% unless @user.associate_consultant.coach.present? %>
+  <% unless @user.associate_consultant.coach.blank? %>
   <p id="coach">
     <label>Coach</label>
     <%= @user.associate_consultant.coach %>

@@ -19,7 +19,7 @@
 			  </div>
 
 			  <div class="field">
-			    <%= f.label t('feedback.role_description') %>
+			    <%= f.label t('feedback.role_description_self_reported') %>
 			    <%= f.text_field :role_description %>
 			  </div>
 
@@ -30,8 +30,8 @@
 			</div>
 
 		  <div class="actions">
-		    <%= f.submit 'Save', { :id => "save-feedback-button" } %>
-		    <%= f.submit 'Preview & Submit', {:class => "success", :id => "preview-and-submit-button", :name => "preview_and_submit_button"} %>
+		    <%= f.submit "Save as Draft", { id: "save-feedback-button", class: "diet button" } %>
+		    <%= f.submit "Preview & Submit", { class: "button primary", id: "preview-and-submit-button", name: "preview_and_submit_button" } %>
 				<% if edit_page %>
 					<%= link_to "Delete", review_feedback_url(@review, @feedback), method: 'delete', class: "danger button pull-right", :id => "delete-button", :confirm => "Are you sure you want to delete this feedback? You will lose all progress you have made."  %>
 				<% end %>

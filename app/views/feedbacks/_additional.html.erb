@@ -5,22 +5,22 @@
 			<div class="field">
 				<%= f.hidden_field :reported_by, value: Feedback::SELF_REPORTED %>
 
-				<%= f.label t('feedback.feedback_by') %>
+				<%= f.label 'feedback_by', t('feedback.feedback_by') %>
 
 				<% if @feedback.errors[:user_string] %>
 					<p class="field-error-message"><%= @feedback.errors[:user_string].first %></p>
 				<% end %>
 
-				<%= f.text_field :user_string %>
+				<%= f.text_field :user_string, required: true %>
 
 			  <div class="field">
-			    <%= f.label t('feedback.project_worked_on') %>
-			    <%= f.text_field :project_worked_on %>
+			    <%= f.label 'project_worked_on', t('feedback.project_worked_on') %>
+			    <%= f.text_field :project_worked_on, required: true %>
 			  </div>
 
 			  <div class="field">
-			    <%= f.label t('feedback.role_description') %>
-			    <%= f.text_field :role_description %>
+			    <%= f.label 'role_description', t('feedback.role_description') %>
+			    <%= f.text_field :role_description, required: true %>
 			  </div>
 
 	    	<div class="field">

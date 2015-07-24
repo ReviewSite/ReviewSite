@@ -15,6 +15,7 @@ var viewToSideNavMap = {
   "reviews-update" : "review-edit",
   "reviews-edit" : "review-edit",
   "feedbacks-new_additional" : "record-external",
+  "feedbacks-edit_additional" : "record-external",
   "feedbacks-create" : "record-external"
 };
 

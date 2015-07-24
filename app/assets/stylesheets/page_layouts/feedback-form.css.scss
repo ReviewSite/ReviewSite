@@ -83,6 +83,17 @@
   opacity: 0.5;
 }
 
+input:required:invalid {
+  &.required-field {
+    border: 2px solid $brand-red;
+  }
+}
+input:required:valid {
+  &.required-field {
+    border: 1px solid $brand-gray;
+  }
+}
+
 /* Icons
 ----------------------------------*/
 

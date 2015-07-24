@@ -11,7 +11,7 @@ var viewToSideNavMap = {
   "self_assessments-new" : "submit-self-assessment",
   "self_assessments-update" : "submit-self-assessment",
   "self_assessments-edit" : "submit-self-assessment",
-  "feedbacks-new" : "record-external",
+  "feedbacks-new_additional" : "record-external",
   "reviews-update" : "review-edit",
   "reviews-edit" : "review-edit"
 };

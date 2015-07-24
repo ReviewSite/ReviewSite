@@ -29,10 +29,18 @@
   padding: .5em .5em .5em .7em;
   min-height: 0; /* support: IE7 */
   font-size: 100%;
+  font-weight: $bold;
   background: white;
+  color: $base-link-color;
+
   &.ui-accordion-header-active {
     font-weight: bold;
-    border: 3px solid $brand-mint;
+    color: white;
+    background: $brand-mint;
+
+    &:hover {
+      background-color: lighten($brand-mint, 5%);
+    }
   }
 }
 
@@ -53,8 +61,10 @@
 }
 
 .ui-accordion .ui-accordion-content {
+  background: white;
+  border: 1px solid $form-border-color;
   padding: 1em 2.2em;
-  border-top: 0;
+  // border-top: 0;
   overflow: auto;
   &.comments-description {
     display: none !important;
@@ -66,15 +76,12 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-  border: 1px solid #d3d3d3;
+  border: 1px solid $form-border-color;
 }
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus {
-  border: 1px solid #999999;
+
+.ui-accordion-header.ui-state-hover {
+  background-color: $brand-container-gray;
+  color: $hover-link-color;
 }
 
 .disabled {

@@ -46,6 +46,17 @@ describe FeedbacksHelper do
         klass.open_requests(user).should == 5
       end
     end
+
+    describe 'unsubmitted external feedback' do
+      let(:ac_user) { create(:user) }
+      let(:ac) { create(:associate_consultant, :user => ac_user) }
+      let!(:feedback) { create(:feedback, user: ac_user) }
+
+      it 'should not include external feedback in the count of open requests' do
+        create(:external_feedback, user: ac_user)
+        klass.open_requests(ac_user).should == 1
+      end
+    end
   end
 
   describe '#feedback_priorities' do

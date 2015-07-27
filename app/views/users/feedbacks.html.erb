@@ -46,7 +46,7 @@
       </tr>
     <% end %>
 
-    <% @feedbacks.each do |feedback| %>
+    <% get_peer_reported_feedback(@feedbacks).each do |feedback| %>
       <% review = feedback.review %>
 
       <tr>

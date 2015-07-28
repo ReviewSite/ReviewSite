@@ -127,6 +127,7 @@ class UsersController < ApplicationController
                                    ).select { |invitation| !invitation.feedback }
 
     @feedbacks = current_user.feedbacks.includes(:review, review: :reviewee).where(submitted: false)
+    @feedbacks.keep_if{ |feedback| !feedback.is_additional }
   end
 
   def completed_feedback
@@ -134,6 +135,7 @@ class UsersController < ApplicationController
                                                   review: :associate_consultant,
                                                   review: :reviewee
                                                  ).where(submitted: true)
+    @completeds.keep_if{ |feedback| !feedback.is_additional }
   end
 
   def get_users

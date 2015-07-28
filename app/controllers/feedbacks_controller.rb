@@ -141,19 +141,31 @@ class FeedbacksController < ApplicationController
 
   def execute_button_action(format)
     if params[:submit_final_button]
-      @feedback.submit_final
-      flash[:success] = 'Feedback was submitted.'
-      redirect_to completed_feedback_user_path(current_user)
+      execute_submit_final_action()
     elsif params[:preview_and_submit_button]
       redirect_to preview_review_feedback_path(@review, @feedback)
     else
-      if @feedback.is_additional
-        redirect_to edit_additional_review_feedback_path(@review, @feedback)
-      else
-        redirect_to edit_review_feedback_path(@review, @feedback)
-      end
-      flash[:success] = 'Feedback was saved for further editing.'
+      execute_save_or_edit_action()
     end
+  end
+
+  def execute_submit_final_action
+    @feedback.submit_final
+    flash[:success] = 'Feedback was submitted.'
+    if @feedback.is_additional
+      redirect_to summary_review_path(@review)
+    else
+      redirect_to completed_feedback_user_path(current_user)
+    end
+  end
+
+  def execute_save_or_edit_action
+    if @feedback.is_additional
+      redirect_to edit_additional_review_feedback_path(@review, @feedback)
+    else
+      redirect_to edit_review_feedback_path(@review, @feedback)
+    end
+    flash[:success] = 'Feedback was saved for further editing.'
   end
 
 end

@@ -7,17 +7,8 @@ module FeedbacksHelper
     invitations = Invitation.where(email: user.all_emails).select do |invitation|
       invitation.feedbacks.where(user_id: user).compact.empty?
     end
-    get_peer_reported_feedback(user.feedbacks).size + invitations.size
+    unsubmitted_feedback = user.feedbacks.unsubmitted.clone
+    unsubmitted_feedback.keep_if{ |feedback| !feedback.is_additional }
+    unsubmitted_feedback.size + invitations.size
   end
-
-  def get_peer_reported_feedback(feedbacks)
-    peer_reported_feedback = []
-    feedbacks.unsubmitted.each do |feedback|
-      if !feedback.is_additional
-        peer_reported_feedback.push(feedback)
-      end
-    end
-    return peer_reported_feedback
-  end
-
 end

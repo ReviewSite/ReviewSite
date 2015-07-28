@@ -413,4 +413,27 @@ describe "User pages: " do
       end
     end
   end
+
+  describe "EXTERNAL FEEDBACKS" do
+    let(:ac) { create(:associate_consultant) }
+    let(:ac_user) { create(:user, associate_consultant: ac) }
+    let(:review) { create(:review, associate_consultant: ac) }
+    let!(:external_feedback) { create(:external_feedback, review: review, user: ac_user) }
+
+    before do
+      sign_in ac_user
+    end
+
+    it "should not display external feedback on 'Completed Feedback' page" do
+      external_feedback.update_attribute(:submitted, true)
+      visit completed_feedback_user_path(ac_user)
+
+      page.should_not have_selector('#completeds td', text: ac.user.name)
+      page.should_not have_selector('#completeds td', text: review.review_type)
+      page.should_not have_selector('#completeds td', text: external_feedback.project_worked_on)
+      page.should_not have_selector('#completeds td', text: external_feedback.updated_at.to_date.to_s(:short_date))
+      page.should_not have_selector('#completeds td .fa-eye')
+    end
+  end
+
 end

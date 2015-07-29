@@ -12,10 +12,6 @@ var activateAccordion = function() {
 
   $("#accordion").on("accordionactivate", function (event, ui) {
     _toggleFields({ oldHeader: ui.oldHeader, newHeader: ui.newHeader });
-
-    if (ui.newPanel.length) {
-      $.scrollTo(ui.newHeader, {offset:{top:-100}});
-    }
   });
 };
 

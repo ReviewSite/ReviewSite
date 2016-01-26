@@ -36,7 +36,7 @@ describe Feedback do
     new_f.valid?.should == false
   end
 
-  it "can have a user_strincg instead of a user_id" do
+  it "can have a user_string instead of a user_id" do
     new_f = build(:feedback)
 
     new_f.user_id = nil
@@ -73,6 +73,12 @@ describe Feedback do
     it "does not send notification email when coach does not exist" do
       UserMailer.should_not_receive(:new_feedback_notification_coach)
       subject.review.associate_consultant.coach = nil
+      subject.submit_final
+    end
+
+    it "does not send notification to self for self-reported feedback" do
+      UserMailer.should_not_receive(:new_feedback_notification)
+      subject.reported_by = Feedback::SELF_REPORTED
       subject.submit_final
     end
 

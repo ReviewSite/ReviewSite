@@ -6,6 +6,8 @@
 * Fork the repo
 * Install VirtualBox >= 4.3.26
 * Install Vagrant >= 1.7.2
+* Request access to the 1Password team -- email tw-review-site@thoughtworks.com for questions
+    * Add application.yml file to config/
 * Request access to Okta Preview from TechOps
 
 #### Spin up the Vagrant box

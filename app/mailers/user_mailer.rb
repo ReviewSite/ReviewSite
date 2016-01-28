@@ -28,6 +28,16 @@ class UserMailer < ActionMailer::Base
     mail(to: "<#{@ac_email}>", from: @@donotreply, subject: "[ReviewSite] Reviews have been created for you")
   end
 
+  def review_update(review)
+    @review = review
+    @ac_name = review.reviewee.name
+    @review.invitations.each do |i|
+      @invitee_email = i.email
+      @invitee = User.where(email: @invitee_email)
+      mail(to: "<#{@invitee_email}>", from: @@donotreply, subject: "#{@ac_name}'s review has been updated")
+    end
+  end
+
   def new_feedback_notification(feedback)
     @feedback = feedback
     @review = feedback.review

@@ -19,7 +19,7 @@
     <% if @review.errors[:review_date] %>
       <p class="field-error-message"><%= @review.errors[:review_date].first %></p>
     <% end %>
-    <p class="help-text"><%= @review.review_date %>
+    <%= f.text_field :review_date, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
   <div class="field">
@@ -27,13 +27,13 @@
     <% if @review.errors[:feedback_deadline] %>
       <p class="field-error-message"><%= @review.errors[:feedback_deadline].first %></p>
     <% end %>
-   
+
     <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
     <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
   <div class="actions">
-    <%= f.submit "#{button_title}" %> 
+    <%= f.submit "#{button_title}" %>
     <%= link_to "Cancel", review_path(@review), :class => "diet button" %>
   </div>
 <% end %>

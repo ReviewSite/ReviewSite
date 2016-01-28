@@ -17,9 +17,9 @@
       </div>
     </section>
     <section class="feedback-form">
+      <!-- <%= f.hidden_field :reported_by, value: Feedback::PEER_REPORTED %> -->
       <% @review.headings.each do |heading| %>
         <section class="hidden" id="<%= @review.prepare_heading_html_attribute(heading) %>">
-
         <% if(@review.is_comments_header(heading)) %>
           <div class="field">
             <%= f.label 'project_worked_on_required', t('feedback.project_worked_on_required') %>

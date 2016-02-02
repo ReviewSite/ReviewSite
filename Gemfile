@@ -23,6 +23,7 @@ gem 'omniauth-saml', '1.3.1'
 gem 'jquery-rails'
 gem 'will_paginate'
 gem 'puma'
+gem 'rails_12factor'
 
 group :assets do
   gem 'jquery-datatables-rails', '~> 3.1.1'

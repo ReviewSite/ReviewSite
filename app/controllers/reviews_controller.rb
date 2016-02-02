@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
   load_and_authorize_resource
-  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email]
+  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders]
+  after_filter :notify_stakeholders, :only => [:update]
 
   def index
     if current_user.ac?
@@ -63,8 +64,13 @@ class ReviewsController < ApplicationController
   # PUT /reviews/1.json
   def update
     respond_to do |format|
+      original_date = @review.review_date.to_s(:short_date)
       if @review.update_attributes(params[:review])
-        flash[:success] = "Review was successfully updated."
+        message = "Review was successfully updated."
+        if review_date_changed?(original_date)
+          message = "Review was updated. Your coach and invitees have been notified of the new date."
+        end
+        flash[:success] = message
 
         format.html { redirect_to @review }
         format.json { head :no_content }
@@ -104,8 +110,16 @@ class ReviewsController < ApplicationController
     render :js => "window.location = '#{review_path}'"
   end
 
+  def review_date_changed?(original_date)
+    !Date.parse(@review.review_date.to_s).to_s(:short_date).eql?(original_date.to_s)
+  end
+
   private
   def load_review
     @review = Review.find(params[:id], :include => { :feedbacks => :review , :invitations => :review })
+  end
+
+  def notify_stakeholders
+    UserMailer.review_update(@review).deliver
   end
 end

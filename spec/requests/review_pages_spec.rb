@@ -230,6 +230,33 @@ describe "Review pages" do
        it "shows the edit page" do
         current_path.should == edit_review_path(review)
        end
+
+       it "updates the review date and feedback deadline" do
+         fill_in "review_review_date", with: "2020-06-07"
+         fill_in "review_feedback_deadline", with: "2020-01-21"
+
+         click_button "Save Changes"
+
+         current_path.should == review_path(review)
+         review.reload
+         review.review_date.should == Date.new(2020, 6, 7)
+         review.feedback_deadline.should == Date.new(2020, 01, 21)
+         page.should have_selector('.flash-success',
+          text: 'Review was updated. Your coach and invitees have been notified of the new date.')
+       end
+
+       it "updates the feedback deadline" do
+         new_deadline = (review.feedback_deadline - 1.weeks).to_date.to_s
+         fill_in "review_feedback_deadline", with: new_deadline
+
+         click_button "Save Changes"
+
+         current_path.should == review_path(review)
+         review.reload
+         review.feedback_deadline.to_s(:short_date).should == Date.parse(new_deadline).to_s(:short_date)
+         page.should have_selector('.flash-success',
+          text: 'Review was successfully updated.')
+       end
     end
   end
 

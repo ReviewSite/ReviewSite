@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   load_and_authorize_resource
   before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders]
-  after_filter :notify_stakeholders, :only => [:update]
+  # after_filter :notify_stakeholders, :only => [:update]
 
   def index
     if current_user.ac?
@@ -64,11 +64,12 @@ class ReviewsController < ApplicationController
   # PUT /reviews/1.json
   def update
     respond_to do |format|
-      original_date = @review.review_date.to_s(:short_date)
+      original_date = @review.feedback_deadline.to_s(:short_date)
       if @review.update_attributes(params[:review])
         message = "Review was successfully updated."
-        if review_date_changed?(original_date)
-          message = "Review was updated. Your coach and invitees have been notified of the new date."
+        if feedback_deadline_changed?(original_date)
+          message = "Review was updated. Your coach and invitees have been notified of the new deadline."
+          notify_stakeholders(@review)
         end
         flash[:success] = message
 
@@ -110,8 +111,8 @@ class ReviewsController < ApplicationController
     render :js => "window.location = '#{review_path}'"
   end
 
-  def review_date_changed?(original_date)
-    !Date.parse(@review.review_date.to_s).to_s(:short_date).eql?(original_date.to_s)
+  def feedback_deadline_changed?(original_date)
+    !Date.parse(@review.feedback_deadline.to_s).to_s(:short_date).eql?(original_date.to_s)
   end
 
   private
@@ -119,7 +120,12 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id], :include => { :feedbacks => :review , :invitations => :review })
   end
 
-  def notify_stakeholders
-    UserMailer.review_update(@review).deliver
+  # def notify_stakeholders
+  #   UserMailer.review_update(@review).deliver
+  # end
+  def notify_stakeholders(review)
+    @review.invitations.each do |i|
+      UserMailer.review_update(i, @review).deliver
+    end
   end
 end

@@ -8,7 +8,8 @@ class UserMailer < ActionMailer::Base
 
   def registration_confirmation(user)
     @user = user
-    mail(to: "<#{user.email}>", from: @@donotreply, subject: "[ReviewSite] You were registered!")
+    mail(to: "<#{user.email}>", from: @@donotreply,
+      subject: "[ReviewSite] You were registered!")
   end
 
   def review_creation(review)
@@ -18,24 +19,24 @@ class UserMailer < ActionMailer::Base
     @review_type = review.review_type
     @review_date = review.review_date
     @feedback_deadline = review.feedback_deadline
-    mail(to: "<#{@ac_email}>", from: @@donotreply, subject: "[ReviewSite] Your #{@review_type} review has been created")
+    mail(to: "<#{@ac_email}>", from: @@donotreply,
+      subject: "[ReviewSite] Your #{@review_type} review has been created")
   end
 
   def reviews_creation(next_review)
     @next_review = next_review
     @ac_name = next_review.reviewee.name
     @ac_email = next_review.reviewee.email
-    mail(to: "<#{@ac_email}>", from: @@donotreply, subject: "[ReviewSite] Reviews have been created for you")
+    mail(to: "<#{@ac_email}>", from: @@donotreply,
+      subject: "[ReviewSite] Reviews have been created for you")
   end
 
-  def review_update(review)
-    @review = review
+  def review_update(invitee, review)
+    @invitee_name = invitee.name
+    @feedback_deadline = review.feedback_deadline
     @ac_name = review.reviewee.name
-    @review.invitations.each do |i|
-      @invitee_email = i.email
-      @invitee = User.where(email: @invitee_email)
-      mail(to: "<#{@invitee_email}>", from: @@donotreply, subject: "#{@ac_name}'s review has been updated")
-    end
+    mail(to: "<#{invitee.email}>", from: @@donotreply,
+      subject: "#{@ac_name}'s review has been updated")
   end
 
   def new_feedback_notification(feedback)
@@ -43,7 +44,8 @@ class UserMailer < ActionMailer::Base
     @review = feedback.review
     @reviewer = feedback.user
     @reviewee = @review.associate_consultant
-    mail(to: "<#{@reviewee.user.email}>", from: @@donotreply, subject: "[ReviewSite] You have new feedback from #{@reviewer}")
+    mail(to: "<#{@reviewee.user.email}>", from: @@donotreply,
+      subject: "[ReviewSite] You have new feedback from #{@reviewer}")
   end
 
   def new_feedback_notification_coach(feedback)
@@ -52,7 +54,8 @@ class UserMailer < ActionMailer::Base
     @reviewer = feedback.user
     @reviewee = @review.associate_consultant
     @coach = @reviewee.coach unless @reviewee.coach.nil?
-    mail(to: "<#{@coach.email}>", from: @@donotreply, subject: "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
+    mail(to: "<#{@coach.email}>", from: @@donotreply,
+      subject: "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
   end
 
   def review_invitation(review, email, message)

@@ -97,6 +97,26 @@ describe UserMailer do
     end
   end
 
+  describe "Review update" do
+    let(:invitee) { create(:user) }
+    let(:user) { create(:user) }
+    let(:ac) { create(:associate_consultant, user: user) }
+    let(:review) { create(:review, associate_consultant: ac) }
+    let(:mail) { UserMailer.review_update(invitee, review) }
+
+    it 'includes the feedback deadline' do
+      mail.body.should include("#{review.feedback_deadline.to_s(:short_date)}")
+    end
+
+    it 'includes the review ac\'s name' do
+      mail.body.should include("#{user.name}")
+    end
+
+    it 'includes the reviewee\'s name' do
+      mail.body.should include("#{invitee.name}")
+    end
+  end
+
   describe "Feedback submitted notification for AC" do
     let (:mail) { UserMailer.new_feedback_notification(feedback) }
 

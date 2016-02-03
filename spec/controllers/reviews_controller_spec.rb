@@ -71,11 +71,11 @@ describe ReviewsController do
         get :index, {}, valid_session
         assigns(:reviews) == @associate_consultant.reviews
       end
-     
+
     end
 
     context 'user is not an AC' do
-      before do 
+      before do
         @coachee = create(:associate_consultant)
         @coachee.coach = user
         @coachee.save!
@@ -254,49 +254,94 @@ describe ReviewsController do
   end
 
   describe "PUT update" do
-    let(:admin_user) { create(:admin_user) }
-    before(:each) do
-      set_current_user admin_user
+    context 'as an admin' do
+      let(:admin_user) { create(:admin_user) }
+      before(:each) do
+        set_current_user admin_user
+      end
+
+      describe "with valid params" do
+        it "updates the requested review" do
+          review = Review.create! valid_attributes
+          # Assuming there are no other reviews in the database, this
+          # specifies that the Review created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Review.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => review.to_param, :review => {'these' => 'params'}}, valid_session
+        end
+
+        it "assigns the requested review as @review" do
+          review = Review.create! valid_attributes
+          put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
+          assigns(:review).should eq(review)
+        end
+
+        it "redirects to the review" do
+          review = Review.create! valid_attributes
+          put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
+          response.should redirect_to(review)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the review as @review" do
+          review = Review.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Review.any_instance.stub(:save).and_return(false)
+          put :update, {:id => review.to_param, :review => {}}, valid_session
+          assigns(:review).should eq(review)
+        end
+
+        it "re-renders the 'edit' template" do
+          review = Review.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Review.any_instance.stub(:save).and_return(false)
+          put :update, {:id => review.to_param, :review => {}}, valid_session
+          response.should render_template("edit")
+        end
+      end
     end
-    describe "with valid params" do
-      it "updates the requested review" do
-        review = Review.create! valid_attributes
-        # Assuming there are no other reviews in the database, this
-        # specifies that the Review created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Review.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => review.to_param, :review => {'these' => 'params'}}, valid_session
+
+    context 'as a user' do
+      let(:review_user) { create(:user) }
+      let(:ac) { create(:associate_consultant, user: review_user) }
+      before(:each) do
+        @review = Review.create! valid_attributes
+        @review.update_attribute(:associate_consultant_id, ac.id)
+        @review.update_attribute(:review_date, @review.review_date + 1.month)
+        @review.update_attribute(:reviewee, ac.user)
+        set_current_user ac.user
       end
 
-      it "assigns the requested review as @review" do
-        review = Review.create! valid_attributes
-        put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
-        assigns(:review).should eq(review)
+      describe "with valid params" do
+        it "updates the requested review" do
+          Review.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => @review.to_param, :review => {'these' => 'params'}}, valid_session
+        end
       end
 
-      it "redirects to the review" do
-        review = Review.create! valid_attributes
-        put :update, {:id => review.to_param, :review => valid_attributes}, valid_session
-        response.should redirect_to(review)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the review as @review" do
-        review = Review.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Review.any_instance.stub(:save).and_return(false)
-        put :update, {:id => review.to_param, :review => {}}, valid_session
-        assigns(:review).should eq(review)
+      it "should notify invitees when the deadline changes" do
+        @review.invitations << FactoryGirl.create_list(:invitation, 5)
+        UserMailer.should_receive(:review_update).exactly(@review.invitations.count).times.and_return(double(deliver: true))
+        put :update, {:id => @review.to_param, :review => {'feedback_deadline' => @review.feedback_deadline - 2.weeks,
+          'review_date' => @review.review_date}}, valid_session
       end
 
-      it "re-renders the 'edit' template" do
-        review = Review.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Review.any_instance.stub(:save).and_return(false)
-        put :update, {:id => review.to_param, :review => {}}, valid_session
-        response.should render_template("edit")
+      it "should not notify invitees when the deadline doesn't change" do
+        @review.invitations << FactoryGirl.create_list(:invitation, 5)
+        UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
+        put :update, {:id => @review.to_param,
+          :review => {'feedback_deadline' => @review.feedback_deadline,
+            'review_date' => @review.review_date}}, valid_session
+      end
+
+      it "should not notify invitees when the review date changes" do
+        @review.invitations << FactoryGirl.create_list(:invitation, 5)
+        UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
+        put :update, {:id => @review.to_param,
+          :review => {'feedback_deadline' => @review.feedback_deadline,
+            'review_date' => @review.review_date + 2.months}}, valid_session
       end
     end
   end

@@ -242,7 +242,7 @@ describe "Review pages" do
          review.review_date.should == Date.new(2020, 6, 7)
          review.feedback_deadline.should == Date.new(2020, 01, 21)
          page.should have_selector('.flash-success',
-          text: 'Review was updated. Your coach and invitees have been notified of the new deadline.')
+          text: 'Review was updated. Your invitees have been notified of the new feedback deadline.')
        end
 
        it "updates the feedback deadline" do
@@ -255,7 +255,7 @@ describe "Review pages" do
          review.reload
          review.feedback_deadline.to_s(:short_date).should == Date.parse(new_deadline).to_s(:short_date)
          page.should have_selector('.flash-success',
-          text: 'Review was updated. Your coach and invitees have been notified of the new deadline.')
+          text: 'Review was updated. Your invitees have been notified of the new feedback deadline.')
        end
 
        it "updates the review date" do

@@ -111,11 +111,6 @@ describe UserMailer do
     it 'includes the review ac\'s name' do
       mail.body.should include("#{user.name}")
     end
-
-    it 'includes the reviewee\'s name' do
-      invitee_name = User.where(:email => invitee.email).name
-      mail.body.should include("#{invitee_name}")
-    end
   end
 
   describe "Feedback submitted notification for AC" do

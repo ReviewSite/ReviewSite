@@ -68,7 +68,7 @@ class ReviewsController < ApplicationController
       if @review.update_attributes(params[:review])
         message = "Review was successfully updated."
         if feedback_deadline_changed?(original_date)
-          message = "Review was updated. Your coach and invitees have been notified of the new deadline."
+          message = "Review was updated. Your invitees have been notified of the new feedback deadline."
           notify_stakeholders(@review)
         end
         flash[:success] = message

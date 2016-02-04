@@ -34,13 +34,13 @@
     <% if @review.errors[:feedback_deadline] %>
       <p class="field-error-message"><%= @review.errors[:feedback_deadline].first %></p>
     <% end %>
-   
-    <p class="help-text">The feedback deadline will be displayed on the feedback form to help reviewers respond in a timely manner.</p>
+
+    <p class="help-text">The feedback deadline will help reviewers respond in a timely manner. Changing the deadline will notify reviewers via email.</p>
     <%= f.text_field :feedback_deadline, class: "datepicker future", placeholder: "yyyy-mm-dd"%>
   </div>
 
   <div class="actions">
-    <%= f.submit "#{button_title}" %> 
+    <%= f.submit "#{button_title}" %>
     <%= link_to "Cancel", :back, :class => "diet button" %>
   </div>
 <% end %>

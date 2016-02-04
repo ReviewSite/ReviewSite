@@ -32,7 +32,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def review_update(invitee, review)
-    @invitee_name = invitee.name
+    invitee_user = User.where(email: invitee)
+    @invitee_name = invitee_user.name
+
     @feedback_deadline = review.feedback_deadline
     @ac_name = review.reviewee.name
     mail(to: "<#{invitee.email}>", from: @@donotreply,

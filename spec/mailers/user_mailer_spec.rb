@@ -113,7 +113,8 @@ describe UserMailer do
     end
 
     it 'includes the reviewee\'s name' do
-      mail.body.should include("#{invitee.name}")
+      invitee_name = User.where(:email => invitee.email).name
+      mail.body.should include("#{invitee_name}")
     end
   end
 

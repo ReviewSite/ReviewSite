@@ -19,7 +19,7 @@ class Ability
 
     # Invitation
     can :manage, Invitation do |invite|
-      invite.review.upcoming? && review_participant?(invite.review, user)
+      review_participant?(invite.review, user)
     end
 
     if user.admin?
@@ -63,9 +63,7 @@ class Ability
 
     # Self Assessment
     can :manage, SelfAssessment do | self_assessment |
-      (self_assessment.review_happened_recently? ||
-      self_assessment.review.upcoming?) &&
-      own_review?(self_assessment.review, user)
+        own_review?(self_assessment.review, user)
     end
 
     # Additional Email
@@ -76,7 +74,7 @@ class Ability
     can [:summary, :read, :coachees], Review, associate_consultant: { coach_id: user.id }
     can [:summary, :read], Review, associate_consultant: { reviewing_group_id: user.reviewing_group_ids }
     can([:update], Review) do |review|
-      review.reviewee == user && review.in_the_future?
+      review.reviewee == user
     end
 
   end

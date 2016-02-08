@@ -19,20 +19,10 @@ describe "Side Navbar" do
       end
     end
 
-    context "when review is beyond two weeks old" do
-      it "should not show submit-assessment button" do
+    context "when review is in the past" do
+      it "should show submit-assessment button" do
         @review = create(:review, associate_consultant: ac,
           review_date: Date.today - 5.years, review_type: "6-Month", feedback_deadline: Date.today - 6.years)
-        visit review_path(@review)
-
-        page.should_not have_selector("a", text: "Submit Self-Assessment")
-      end
-    end
-
-    context "when review happened recently (within two weeks)" do
-      it "should show submit self-assessment button" do
-        @review = create(:review, associate_consultant: ac,
-          review_date: Date.today - 2.weeks, review_type: "6-Month", feedback_deadline: Date.today - 3.weeks)
         visit review_path(@review)
 
         page.should have_selector("a", text: "Submit Self-Assessment")

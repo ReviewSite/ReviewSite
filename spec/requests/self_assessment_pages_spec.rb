@@ -56,12 +56,20 @@ describe "Self assessment page" do
                                     text: 'These are some notes that I have written')
         fill_in 'Performance Assessment', with: 'Now I have edited my self-assessment.'
 
-
         click_button 'Save Changes'
         current_path.should == summary_review_path(review)
 
         self_assessment.reload
         self_assessment.response.should == 'Now I have edited my self-assessment.'
+      end
+
+      it "doesn't let ACs submit blank self assessments" do
+        fill_in 'Performance Assessment', with: ''
+
+        click_button 'Save Changes'
+        current_path.should == review_self_assessment_path(review, self_assessment)
+
+        page.should have_selector('p.field-error-message', text: 'can\'t be blank')
       end
     end
 

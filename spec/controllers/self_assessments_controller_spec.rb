@@ -69,7 +69,15 @@ describe SelfAssessmentsController do
         post :create, {:self_assessment => {}, :review_id => @review.id}, valid_session
         response.should render_template("new")
       end
+
+      it "throws an error for a blank response" do
+        post :create, {:self_assessment => { response: nil },
+          :review_id => @review.id}, valid_session
+        response.should render_template("new")
+        assigns(:self_assessment).errors[:response].first.should eq('can\'t be blank')
+      end
     end
+    
     describe "when creating a self-assessment for another person" do
       before(:each) do
         @new_review = create(:review)

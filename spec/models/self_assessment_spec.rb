@@ -27,12 +27,11 @@ describe SelfAssessment do
     @self_assessment.valid?.should == false
   end
 
-  if false
-    it "requires learning assessment text" do
-      @self_assessment.response = "text text"
-      @self_assessment.valid?.should == false
-    end
+  it "requires learning assessment text" do
+    @self_assessment.response = "text text"
+    @self_assessment.valid?.should == false
   end
+
 
   it "before the review deadline" do
     @self_assessment.review.review_date = Date.today + 5.days

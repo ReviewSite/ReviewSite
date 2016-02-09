@@ -11,10 +11,7 @@ class SelfAssessment < ActiveRecord::Base
   validates :associate_consultant, presence: true
   validates :review,   presence: true
   validates :response, presence: true
-
-  if false
-    validates :learning_assessment, presence: true
-  end
+  validates :learning_assessment, presence: true
 
   def review_happened_recently?
     in_next_two_weeks?(review.review_date)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150713185148) do
+ActiveRecord::Schema.define(:version => 20160209162358) do
 
   create_table "additional_emails", :force => true do |t|
     t.string   "email"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(:version => 20150713185148) do
     t.text     "response"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
-    t.text     "learning_assessment"
   end
 
   add_index "self_assessments", ["associate_consultant_id"], :name => "index_self_assessments_on_associate_consultant_id"

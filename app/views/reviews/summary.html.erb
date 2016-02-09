@@ -61,10 +61,6 @@
         <tr>
           <th>Date/Time</th>
           <th>Performance Assessment Notes</th>
-
-          <% if false %>
-            <th>Learning Assessment Notes</th>
-          <% end %>
         </tr>
         </thead>
         <tbody>
@@ -72,10 +68,6 @@
             <tr>
               <td><%= self_assessment.updated_at.try(:to_date) %></td>
               <td><%= simple_format(self_assessment.response) %></td>
-
-              <% if false %>
-                <td><%= simple_format(self_assessment.learning_assessment) %></td>
-              <% end %>
             </tr>
         <% end %>
         </tbody>

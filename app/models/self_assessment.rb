@@ -2,8 +2,7 @@ class SelfAssessment < ActiveRecord::Base
   attr_accessible \
     :response,
     :review_id,
-    :associate_consultant_id,
-    :learning_assessment
+    :associate_consultant_id
 
   belongs_to :review
   belongs_to :associate_consultant
@@ -11,10 +10,6 @@ class SelfAssessment < ActiveRecord::Base
   validates :associate_consultant, presence: true
   validates :review,   presence: true
   validates :response, presence: true
-
-  if false
-    validates :learning_assessment, presence: true
-  end
 
   def review_happened_recently?
     in_next_two_weeks?(review.review_date)

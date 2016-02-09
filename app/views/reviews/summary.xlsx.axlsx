@@ -59,20 +59,12 @@ wb.add_worksheet(name: "#{@review.reviewee.name.truncate(31)}") do |sheet|
   self_assessment_title_row.add_cell "Date", :style => info
   self_assessment_title_row.add_cell "Performance", :style => info
 
-  if false
-    self_assessment_title_row.add_cell "Learning", :style => info
-  end
-
   @review.self_assessments.each do |self_assessment|
     self_assessment_content = sheet.add_row
     self_assessment_content.add_cell self_assessment.updated_at.to_date.to_s
     self_assessment_content.add_cell self_assessment.response
     self_assessment_content.style = [feedback_info, feedback_info]
-
-    if false
-      self_assessment_content.add_cell self_assessment.learning_assessment
-      self_assessment_content.style = [feedback_info, feedback_info, feedback_info]
-    end
+    self_assessment_content.style = [feedback_info, feedback_info, feedback_info]
   end
 
   sheet.column_widths 25, 17, 15, 15, 37, 37, 37

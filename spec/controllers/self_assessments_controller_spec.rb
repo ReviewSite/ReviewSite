@@ -10,8 +10,7 @@ describe SelfAssessmentsController do
 
   def valid_attributes
     {
-       response: "My Response",
-       learning_assessment: "Learning Response"
+       response: "My Response"
     }
   end
 

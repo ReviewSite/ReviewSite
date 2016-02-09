@@ -30,7 +30,6 @@ class SelfAssessmentsController < ApplicationController
   end
 
   def update
-
     respond_to do |format|
       if @self_assessment.update_attributes(params[:self_assessment])
         flash[:success] = "Self Assessment was successfully updated."

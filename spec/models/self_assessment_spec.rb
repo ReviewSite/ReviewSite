@@ -20,6 +20,11 @@ describe SelfAssessment do
     @self_assessment.valid?.should == true
   end
 
+  it "requires a response" do
+    @self_assessment.response = nil
+    @self_assessment.valid?.should == false
+  end
+
   it "before the review deadline" do
     @self_assessment.review.review_date = Date.today + 5.days
     @self_assessment.review_happened_recently?.should == false

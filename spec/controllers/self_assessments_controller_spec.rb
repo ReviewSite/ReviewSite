@@ -77,7 +77,7 @@ describe SelfAssessmentsController do
         assigns(:self_assessment).errors[:response].first.should eq('can\'t be blank')
       end
     end
-    
+
     describe "when creating a self-assessment for another person" do
       before(:each) do
         @new_review = create(:review)

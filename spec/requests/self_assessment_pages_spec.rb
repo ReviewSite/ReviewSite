@@ -69,7 +69,7 @@ describe "Self assessment page" do
         click_button 'Save Changes'
         current_path.should == review_self_assessment_path(review, self_assessment)
 
-        page.should have_selector('p.field-error-message', text: 'can\'t be blank')
+        page.should have_selector('div.field > p.field-error-message', text: 'can\'t be blank')
       end
     end
 

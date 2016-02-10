@@ -9,8 +9,6 @@ var setupDefaultDatepicker = function() {
     todayHighlight: true,
     format: "yyyy-mm-dd"
   });
-
-  $(".datepicker.future").datepicker("setStartDate", "today");
 };
 
 

@@ -6,11 +6,11 @@
   <div class="main-content">
     <section class="form-container">
     <%= form_for([@review, @self_assessment]) do |f| %>
-      <% if @self_assessment.errors[:response] %>
-        <p class="field-error-message"><%= @self_assessment.errors[:response].first %></p>
-      <% end %>
       <div class="field">
         <%= f.label :response, 'Performance Assessment' %>
+        <% if @self_assessment.errors[:response] %>
+          <p class="field-error-message"><%= @self_assessment.errors[:response].first %></p>
+        <% end %>
         <%= f.text_area :response %>
       </div>
 

@@ -120,12 +120,22 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id], :include => { :feedbacks => :review , :invitations => :review })
   end
 
-  # def notify_stakeholders
-  #   UserMailer.review_update(@review).deliver
-  # end
   def notify_stakeholders(review)
-    @review.invitations.each do |i|
-      UserMailer.review_update(i, @review).deliver
+    # @review.invitations.each do |i|
+    #   UserMailer.review_update(i, @review).deliver
+    # end
+    EmailJob.perform_async(review)
+    print "\n\nOk, yeah we're in here\n\n"
+  end
+
+  class EmailJob
+    include SuckerPunch::Job
+
+    def perform(review)
+      print "\n\nDOING BACKGROUND STUFF\n\n"
+      review.invitations.each do |i|
+        UserMailer.review_update(i, review).deliver
+      end
     end
   end
 end

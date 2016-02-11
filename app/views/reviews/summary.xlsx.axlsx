@@ -22,7 +22,7 @@ wb.add_worksheet(name: "#{@review.reviewee.name.truncate(31)}") do |sheet|
     title_row.add_cell "Project"
     title_row.add_cell "Role"
     header_group.each do |header|
-      if header
+      if (header && !(['project_worked_on', 'role_description'].include?(header)))
         title_row.add_cell header.titleize
       end
     end
@@ -33,8 +33,6 @@ wb.add_worksheet(name: "#{@review.reviewee.name.truncate(31)}") do |sheet|
       feedback_row = sheet.add_row
       feedback_row.add_cell feedback.updated_at.to_date.to_s
       feedback_row.add_cell feedback.reviewer
-      feedback_row.add_cell feedback.project_worked_on
-      feedback_row.add_cell feedback.role_description
 
       header_group.each do |header|
 

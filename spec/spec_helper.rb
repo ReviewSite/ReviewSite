@@ -9,6 +9,7 @@ require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'sucker_punch/testing/inline'
 
 
 OmniAuth.config.test_mode = true

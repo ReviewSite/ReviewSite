@@ -35,6 +35,8 @@
                     <td>
                       <p><b>Date:</b> <%= feedback.updated_at.to_date %></p>
                       <p><b>By:</b> <%= feedback.reviewer %></p>
+                      <p><b>Project worked on:</b> <%= feedback.project_worked_on %></p>
+                      <p><b>Role:</b> <%= feedback.role_description %></p>
                     </td>
                     <% header_group.each do |header| %>
                         <% if header.present? %>

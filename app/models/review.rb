@@ -78,7 +78,9 @@ class Review < ActiveRecord::Base
 
   def fields_for_heading(heading)
     if questions[heading].present?
-      questions[heading].fields
+      questions[heading].fields.reject { |field|
+        ['project_worked_on', 'role_description'].include?(field)
+      }
     else
       []
     end

@@ -1,36 +1,36 @@
 <% unless @feedback.role_competence_went_well.blank? %>
   <label>Role Competence went well</label>
-  <%= simple_format(@feedback.role_competence_went_well) %>
+  <%= simple_format h(@feedback.role_competence_went_well) %>
 <% end %>
 
 <% unless @feedback.role_competence_to_be_improved.blank? %>
   <label>Role Competence to be improved</label>
-  <%= simple_format(@feedback.role_competence_to_be_improved) %>
+  <%= simple_format h(@feedback.role_competence_to_be_improved) %>
 <% end %>
 
 <% unless @feedback.consulting_skills_went_well.blank? %>
   <label>Consulting Skills went well</label>
-  <%= simple_format(@feedback.consulting_skills_went_well) %>
+  <%= simple_format h(@feedback.consulting_skills_went_well) %>
 <% end %>
 
 <% unless @feedback.consulting_skills_to_be_improved.blank? %>
   <label>Consulting Skills to be improved</label>
-  <%= simple_format(@feedback.consulting_skills_to_be_improved) %>
+  <%= simple_format h(@feedback.consulting_skills_to_be_improved) %>
 <% end %>
 
 <% unless @feedback.teamwork_went_well.blank? %>
   <label>Teamwork went well</label>
-  <%= simple_format(@feedback.teamwork_went_well) %>
+  <%= simple_format h(@feedback.teamwork_went_well) %>
 <% end %>
 
 <% unless @feedback.teamwork_to_be_improved.blank? %>
   <label>Teamwork to be improved</label>
-  <%= simple_format(@feedback.teamwork_to_be_improved) %>
+  <%= simple_format h(@feedback.teamwork_to_be_improved) %>
 <% end %>
 
 <% unless @feedback.contributions_went_well.blank? %>
   <label>Contributions went well</label>
-  <%= simple_format(@feedback.contributions_went_well) %>
+  <%= simple_format h(@feedback.contributions_went_well) %>
 <% end %>
 
 <% unless @feedback.contributions_to_be_improved.blank? %>

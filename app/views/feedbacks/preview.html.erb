@@ -33,7 +33,7 @@
     <% else %>
       <label>Comments</label>
     <% end %>
-      <%= simple_format(@feedback.comments) %>
+      <%= simple_format h(@feedback.comments) %>
   <% end %>
 
 </section>

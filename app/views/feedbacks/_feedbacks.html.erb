@@ -54,6 +54,14 @@
           <% if can? :show, feedback %>
             <li><%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %></li>
           <% end %>
+          <% if can? :destroy, feedback %>
+            <li><%= link_to '', review_feedback_path(feedback.review, feedback),
+              id: "feedback_#{feedback.id}_delete",
+              data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
+              method: :delete, class: "fa fa-trash fa-lg fa-fw",
+              title: "Delete" %>
+            </li>
+          <% end %>
         </ul>
       </td>
     </tr>

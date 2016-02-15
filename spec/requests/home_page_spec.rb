@@ -84,6 +84,13 @@ describe "Home page" do
         page.should_not have_selector("h1", text: @first_review.review_type.upcase)
       end
 
+      it "should show the link to delete externally recorded feedback" do
+        @feedback.update_attribute(:reported_by, Feedback::SELF_REPORTED)
+        visit root_path
+        id_link = review_feedback_path(@feedback.review, @feedback)
+        page.should have_selector("a[href='#{id_link}'].fa-trash")
+      end
+
       describe "who has graduated", js: true do
         before do
           graduated_ac = create(:associate_consultant,

@@ -33,6 +33,10 @@ class Ability
 
     # Feedback
     can [:read, :update, :destroy], Feedback, submitted: false, user_id: user.id
+    can :destroy, Feedback do |feedback|
+      feedback.reported_by == Feedback::SELF_REPORTED &&
+        feedback.review.associate_consultant.user_id == user.id
+    end
     can [:summary, :index, :read],  Feedback, { submitted: true } if user.admin?
 
     can [:new_additional, :edit_additional], Feedback do |feedback|

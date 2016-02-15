@@ -92,6 +92,14 @@ describe Ability do
       end
     end
 
+    describe "deadling with external feedback" do
+      it "should be able to delete submitted external feedback" do
+        review = create(:review, associate_consultant: ac)
+        feedback = create(:feedback, reported_by: Feedback::SELF_REPORTED, review: review)
+        should be_able_to(:destroy, feedback)
+      end
+    end
+
     describe "dealing with Invitation" do
       it "should be able to manage invitation for own review" do
         invitation = create(:invitation, review: review)

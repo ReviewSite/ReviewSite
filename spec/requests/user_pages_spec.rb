@@ -382,8 +382,14 @@ describe "User pages: " do
         page.should have_selector('#feedback-requests td', text: review.feedback_deadline.to_s(:short_date))
         page.should have_selector('#feedback-requests td', text: feedback.updated_at.to_s(:short_date))
         page.should have_selector('#feedback-requests td .fa-pencil')
+        page.should have_selector('a.fa-trash')
         page.find(".fa-pencil").click
         current_path.should == edit_review_feedback_path(review, feedback)
+      end
+
+      it "should delete the feedback when the trash button is clicked" do
+        visit feedbacks_user_path(reviewer)
+        page.find("a.fa-trash")
       end
 
 

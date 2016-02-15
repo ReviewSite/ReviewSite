@@ -193,7 +193,6 @@ describe Ability do
           "own unsubmitted feedback" do
         should be_able_to(:read, feedback)
         should be_able_to(:update, feedback)
-        should be_able_to(:destroy, feedback)
       end
 
       it "should be able to view, but not update, or destroy "\

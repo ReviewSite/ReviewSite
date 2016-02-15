@@ -55,11 +55,22 @@
         <td><%= review.feedback_deadline.to_s(:short_date) %></td>
         <td><%= feedback.updated_at.to_s(:short_date) %></td>
         <td class="nowrap button-col">
-          <%= link_to "",
-            edit_review_feedback_path(review, feedback),
-            class: "fa fa-pencil fa-lg fa-fw",
-            title: "Edit"
-          %>
+          <ul>
+            <li>
+              <%= link_to "", edit_review_feedback_path(review, feedback),
+                class: "fa fa-pencil fa-lg fa-fw",
+                title: "Edit" %>
+            </li>
+            <% if can? :destroy, feedback %>
+              <li class="nowrap button-col">
+                <%= link_to '', review_feedback_path(feedback.review, feedback),
+                  id: "feedback_#{feedback.id}_delete",
+                  data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
+                  method: :delete, class: "fa fa-trash fa-lg fa-fw",
+                  title: "Delete" %>
+              </li>
+            <% end %>
+          </ul>
         </td>
       </tr>
     <% end %>

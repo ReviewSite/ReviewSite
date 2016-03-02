@@ -13,12 +13,27 @@ unless ENV['DOMAIN'].nil?
   ActionMailer::Base.default_url_options[:host] = ENV['DOMAIN']
 end
 
+def determineEnvironment
+  environment = Rails.env
+  if (environment == "production")
+    "production"
+  elsif (environment == "test")
+    "QA"
+  else
+    "development"
+  end
+end
+
 unless ENV['EMAIL_OVERRIDE'].nil?
     class OverrideMailRecipient
         def self.delivering_email(mail)
+            subject = mail.subject
+            environment = determineEnvironment()
+            mail.subject = "[Review Site - #{environment}] " + subject
             mail.body = "DEVELOPMENT-OVERRIDE. Was being sent to " + mail.to.first + "\n" + mail.body.to_s
             mail.to = ENV['EMAIL_OVERRIDE']
             mail.bcc = ENV['EMAIL_BCC_OVERRIDE']
+
         end
     end
     ActionMailer::Base.register_interceptor(OverrideMailRecipient)

@@ -1,3 +1,4 @@
+include AppEnvironment
 ActionMailer::Base.smtp_settings = {
   :address              => ENV['MAIL_SERVER'],
   :port                 => ENV['MAIL_PORT'],
@@ -11,15 +12,6 @@ ActionMailer::Base.default :from => ENV['MAIL_FULL_EMAIL']
 
 unless ENV['DOMAIN'].nil?
   ActionMailer::Base.default_url_options[:host] = ENV['DOMAIN']
-end
-
-def determineEnvironment
-  environment = ENV["APP_NAME"]
-  if (environment == "twreviewsite")
-    "Prod"
-  elsif (environment == "twreviewsite-dev")
-    "QA"
-  end
 end
 
 unless ENV['EMAIL_OVERRIDE'].nil?

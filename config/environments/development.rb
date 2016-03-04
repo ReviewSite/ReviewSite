@@ -1,7 +1,9 @@
+include AppEnvironment
 ReviewSite::Application.configure do
+  environment = determineEnvironment()
   config.middleware.use ExceptionNotification::Rack,
     :email => {
-      :email_prefix => "[ReviewSite Error] ",
+      :email_prefix => "(#{environment})[ReviewSite Error] ",
       :sender_address => %{<do-not-reply@thoughtworks.org>},
       :exception_recipients => %w{varoske@thoughtworks.com}
     }

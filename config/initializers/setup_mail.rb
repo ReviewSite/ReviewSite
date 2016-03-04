@@ -14,13 +14,11 @@ unless ENV['DOMAIN'].nil?
 end
 
 def determineEnvironment
-  environment = Rails.env
-  if (environment == "production")
-    "production"
-  elsif (environment == "test")
+  environment = ENV["APP_NAME"]
+  if (environment == "twreviewsite")
+    "Prod"
+  elsif (environment == "twreviewsite-dev")
     "QA"
-  else
-    "development"
   end
 end
 
@@ -29,7 +27,7 @@ unless ENV['EMAIL_OVERRIDE'].nil?
         def self.delivering_email(mail)
             subject = mail.subject
             environment = determineEnvironment()
-            mail.subject = "[Review Site - #{environment}] " + subject
+            mail.subject = "(#{environment}) " + subject
             mail.body = "DEVELOPMENT-OVERRIDE. Was being sent to " + mail.to.first + "\n" + mail.body.to_s
             mail.to = ENV['EMAIL_OVERRIDE']
             mail.bcc = ENV['EMAIL_BCC_OVERRIDE']

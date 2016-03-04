@@ -35,7 +35,7 @@ class UserMailer < ActionMailer::Base
     @feedback_deadline = review.feedback_deadline
     @ac_name = review.reviewee.name
     mail(to: "<#{invitee.email}>", from: @@donotreply,
-      subject: "#{@ac_name}'s review has been updated")
+      subject: "[ReviewSite] #{@ac_name}'s review has been updated")
   end
 
   def new_feedback_notification(feedback)

@@ -121,18 +121,13 @@ class ReviewsController < ApplicationController
   end
 
   def notify_stakeholders(review)
-    # @review.invitations.each do |i|
-    #   UserMailer.review_update(i, @review).deliver
-    # end
     EmailJob.perform_async(review)
-    print "\n\nOk, yeah we're in here\n\n"
   end
 
   class EmailJob
     include SuckerPunch::Job
 
     def perform(review)
-      print "\n\nDOING BACKGROUND STUFF\n\n"
       review.invitations.each do |i|
         UserMailer.review_update(i, review).deliver
       end

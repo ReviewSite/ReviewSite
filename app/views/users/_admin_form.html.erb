@@ -42,7 +42,7 @@
       <div class="field">
         <%= check_box_tag 'isac',
           '1', # value
-          !@user.associate_consultant.blank? || !@user.associate_consultant.errors.empty?, #checked
+          @user.associate_consultant.present?, #checked
           disabled: @user.ac? %>
         <%= f.label "Associate Consultant", class: "checkbox" %>
         <% unless @user.ac? %>

@@ -65,7 +65,7 @@
               <li class="nowrap button-col">
                 <%= link_to '', review_feedback_path(feedback.review, feedback),
                   id: "feedback_#{feedback.id}_delete",
-                  data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
+                  data: { confirm: "Are you sure you want to delete the feedback you started for #{review.associate_consultant}? The invitation will not be deleted, so you will have the opportunity to start your feedback over again." },
                   method: :delete, class: "fa fa-trash fa-lg fa-fw",
                   title: "Delete" %>
               </li>

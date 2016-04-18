@@ -3,7 +3,7 @@ ReviewSite::Application.configure do
     :email => {
       :email_prefix => "#[ReviewSite Error] ",
       :sender_address => %{<do-not-reply@thoughtworks.org>},
-      :exception_recipients => %w{varoske@thoughtworks.com}
+      :exception_recipients => ENV['MAIL_EXCEPTION_RECIPIENT']
     }
 
   config.after_initialize do
@@ -55,6 +55,8 @@ ReviewSite::Application.configure do
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
+
+  #NOTE: If you wanted to send emails out. Set this as :smtp (instead of :test)
   config.action_mailer.delivery_method = :test
 
   # for checking devise confirmation emails

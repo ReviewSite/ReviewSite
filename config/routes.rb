@@ -67,6 +67,7 @@ ReviewSite::Application.routes.draw do
 
   get "users/:id/add_email", to: "users#add_email"
   get "users/:id/remove_email", to: "users#remove_email"
+  get "/exception", to: "exception#index"
 
   if ENV["OKTA-TEST-MODE"]
     post "/set_temp_okta", to: "sessions#set_temp_okta"

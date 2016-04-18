@@ -4,7 +4,7 @@ ReviewSite::Application.configure do
     :email => {
         :email_prefix => "(#{environment})[ReviewSite Error] ",
         :sender_address => %{<do-not-reply@thoughtworks.org>},
-        :exception_recipients => %w{tw-review-site@thoughtworks.com}
+        :exception_recipients => ENV['MAIL_EXCEPTION_RECIPIENT']
     }
 
   # Settings specified here will take precedence over those in config/application.rb

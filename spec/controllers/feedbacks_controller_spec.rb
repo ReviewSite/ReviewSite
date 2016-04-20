@@ -216,7 +216,13 @@ describe FeedbacksController do
       }.to change(Feedback, :count).by(-1)
     end
 
-    it "redirects to the feedbacks list" do
+    it "displays a success message" do
+      feedback = Feedback.create! valid_attributes
+      delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      flash[:success].should == "You have successfully deleted your feedback for #{@review.reviewee}."
+    end
+
+    it "redirects to the home page" do
       feedback = Feedback.create! valid_attributes
       delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       response.should redirect_to(root_url)

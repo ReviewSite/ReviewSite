@@ -95,7 +95,11 @@ class FeedbacksController < ApplicationController
   # DELETE /feedbacks/1.json
   def destroy
     @feedback.destroy
-    flash[:success] = "You have successfully deleted your feedback for #{@review.reviewee}."
+    if (@feedback.reported_by == Feedback::SELF_REPORTED)
+      flash[:success] = "You have successfully deleted the external feedback recorded from #{@feedback.reviewer}."
+    else
+      flash[:success] = "You have successfully deleted your feedback for #{@review.reviewee}."
+    end
     respond_to do |format|
       format.html { redirect_to root_path }
       format.json { head :no_content }

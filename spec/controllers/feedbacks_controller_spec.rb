@@ -222,6 +222,13 @@ describe FeedbacksController do
       flash[:success].should == "You have successfully deleted your feedback for #{@review.reviewee}."
     end
 
+    it "displays a different success message when AC is deleting external feedback" do
+      feedback = Feedback.create! valid_attributes
+      feedback.update_attribute(:reported_by, Feedback::SELF_REPORTED)
+      delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
+      flash[:success].should == "You have successfully deleted the external feedback recorded from #{feedback.reviewer}."
+    end
+
     it "redirects to the home page" do
       feedback = Feedback.create! valid_attributes
       delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session

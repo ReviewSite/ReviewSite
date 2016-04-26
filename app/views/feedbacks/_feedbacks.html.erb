@@ -6,7 +6,17 @@
     <th>Invite Sent</th>
     <th>Updated</th>
     <th>Status</th>
-    <th></th>
+    <th>
+      <%= link_to '',
+                  send_reminder_to_all_review_path(review),
+                  data: {
+                      confirm: "This will send a reminder email to everyone.\nAre you sure you want to?"
+                  },
+                  method: :post,
+                  class: "fa fa-envelope fa-lg fa-fw",
+                  title: "Send reminder"
+      %>
+    </th>
   </tr>
   </thead>
   <tbody>

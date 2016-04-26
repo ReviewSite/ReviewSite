@@ -20,6 +20,7 @@ ReviewSite::Application.routes.draw do
     member do
       get :summary
       get :send_email
+      post :send_reminder_to_all
     end
 
     collection do

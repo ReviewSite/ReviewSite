@@ -379,4 +379,8 @@ describe ReviewsController do
       response.should be_success
     end
   end
+
+  describe "send reminders to all" do
+    let()
+  end
 end

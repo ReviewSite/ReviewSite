@@ -77,6 +77,13 @@ class UserMailer < ActionMailer::Base
         )
   end
 
+  def feedback_reminder_2(reviewer_email, review, feedback)
+    @ac = review.reviewee
+    @review = review
+    @feedback = feedback
+    mail(to: "<#{reviewer_email}>", from: @@donotreply, subject: "[ReviewSite] Please leave feedback for #{@ac.user.name}")
+  end
+
   def feedback_reminder(invitation)
     @ac = invitation.reviewee
     @review = invitation.review

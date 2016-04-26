@@ -335,7 +335,7 @@ describe UserMailer do
       end
     end
 
-    describe "feedback not started, deadline not passed" do
+    describe "feedback not started, deadline passed" do
       let (:mail) { UserMailer.feedback_reminder(invitation) }
       subject { mail }
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }

@@ -80,6 +80,7 @@ class Ability
     can([:update], Review) do |review|
       review.reviewee == user
     end
+    can [:send_reminder_to_all], Review, associate_consultant: { user_id: user.id }
 
   end
 

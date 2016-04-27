@@ -249,7 +249,7 @@ describe UserMailer do
     let (:invitation) { review.invitations.create(email: email) }
 
     describe "feedback not started, deadline not passed" do
-      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      let (:mail) { UserMailer.reminder_for_invitation(invitation) }
       subject { mail }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
@@ -293,7 +293,7 @@ describe UserMailer do
     describe "feedback started, deadline not passed" do
       let (:reviewer) { create(:user, email: email) }
       let!(:feedback) { create(:feedback, review: review, user: reviewer) }
-      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      let (:mail) { UserMailer.reminder_for_feedback(feedback) }
       subject { mail }
 
       its (:subject) { should == "[ReviewSite] Please leave feedback for #{ac.user.name}" }
@@ -335,8 +335,8 @@ describe UserMailer do
       end
     end
 
-    describe "feedback not started, deadline not passed" do
-      let (:mail) { UserMailer.feedback_reminder(invitation) }
+    describe "feedback not started, deadline passed" do
+      let (:mail) { UserMailer.reminder_for_invitation(invitation) }
       subject { mail }
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }
 
@@ -381,7 +381,7 @@ describe UserMailer do
     describe "feedback started, deadline passed" do
       let (:reviewer) { create(:user, email: email) }
       let!(:feedback) { create(:feedback, review: review, user: reviewer) }
-      let (:mail) { UserMailer.feedback_reminder(invitation) }
+      let (:mail) { UserMailer.reminder_for_feedback(feedback) }
       subject { mail }
 
       before { review.update_attribute(:feedback_deadline, Date.new(2000, 1, 1)) }

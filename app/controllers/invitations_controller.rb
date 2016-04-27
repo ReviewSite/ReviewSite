@@ -51,10 +51,8 @@ class InvitationsController < ApplicationController
   end
 
   def send_reminder
-    if @invitation.feedback and @invitation.feedback.submitted?
-      flash[:alert] = "Feedback already submitted. Reminder not sent."
-    else
-      UserMailer.feedback_reminder(@invitation).deliver
+    if !@invitation.feedback
+      UserMailer.reminder_for_invitation(@invitation).deliver
       flash[:success] = "Reminder email was sent!"
     end
     redirect_to @review

@@ -1,0 +1,16 @@
+Hi there!
+
+This is a reminder to submit your feedback for <%== @review %>.
+
+You have saved feedback, but it has not yet been submitted. To continue working, please visit <%== edit_review_feedback_url(@review, @feedback) %>.
+
+<% if @review.feedback_deadline >= Date.today %>
+    The deadline for leaving feedback is <%== @review.feedback_deadline.to_s(:short_date) %>.
+<% else %>
+    Even though the feedback deadline has passed, we would love to hear your thoughts.
+<% end %>
+
+If you have any questions, please feel free to post them in our myThoughtWorks group at <%== UserMailer.my_tw_url %>.
+
+Thanks,
+<%== @review.reviewee.name %> and the ReviewSite Team

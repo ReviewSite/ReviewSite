@@ -51,11 +51,9 @@ class InvitationsController < ApplicationController
   end
 
   def send_reminder
-    if @invitation.should_send_email_for_unstarted_feedback?
-      UserMailer.feedback_reminder(@invitation).deliver
+    if !@invitation.feedback
+      UserMailer.reminder_for_invitation(@invitation).deliver
       flash[:success] = "Reminder email was sent!"
-    else
-      flash[:alert] = "Feedback already submitted. Reminder not sent."
     end
     redirect_to @review
   end

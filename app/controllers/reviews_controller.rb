@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   load_and_authorize_resource
-  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders, :send_reminder_to_all]
+  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders]
   # after_filter :notify_stakeholders, :only => [:update]
 
   def index
@@ -58,22 +58,6 @@ class ReviewsController < ApplicationController
         format.json { render json: @review.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def send_reminder_to_all
-    all_invitation_emails = ""
-    @review.invitations.each do |invitation|
-      if !invitation.feedback
-         all_invitation_emails += invitation.email + "\n"
-      end
-    end
-    @review.feedbacks.each do |feedback|
-      if !feedback.submitted
-        all_invitation_emails += feedback.user.email + "\n"
-      end
-    end
-    flash[:success] = all_invitation_emails
-    redirect_to root_path
   end
 
   # PUT /reviews/1

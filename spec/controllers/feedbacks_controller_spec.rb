@@ -65,7 +65,7 @@ describe FeedbacksController do
 
   describe "GET new_additional" do
     it "should create a new external feedback" do
-      get :new_additional, { review_id: @review.id }, valid_session
+      get :new_additional, {review_id: @review.id}, valid_session
       assigns(:feedback).should be_a_new(Feedback)
       assigns(:user_name).should eq(@user.name)
     end
@@ -83,7 +83,7 @@ describe FeedbacksController do
   describe "GET edit_additional" do
     it "assigns the requested feedback as @feedback" do
       feedback = Feedback.create! valid_attributes
-      get :edit_additional, { id: feedback.to_param, review_id: @review.id }, valid_session
+      get :edit_additional, {id: feedback.to_param, review_id: @review.id}, valid_session
       assigns(:feedback).should eq(feedback)
       assigns(:user_name).should eq(@user.name)
     end
@@ -237,18 +237,48 @@ describe FeedbacksController do
   end
 
   describe "POST send_reminder" do
-    it "should send a new invitation if the feedback doesn't have one" do
-      feedback = Feedback.create! valid_attributes
-      Invitation.stub(:new).and_return(:invitation)
-      UserMailer.should_receive(:feedback_reminder).with(:invitation).and_return(double(deliver: true))
-      post :send_reminder, {:review_id => @review.id, :id => feedback.id}, valid_session
+    describe "without submitted feedback" do
+      let! (:feedback) { create(:feedback, review: @review, user: @user) }
+
+      it "redirects to the review" do
+        post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        response.should redirect_to(@review)
+      end
+
+      it "notifies that email has been sent" do
+        post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        flash[:success].should == "Reminder email was sent!"
+      end
+
+      it "delivers an email with the correct content" do
+        ActionMailer::Base.deliveries.clear
+        post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        num_deliveries = ActionMailer::Base.deliveries.size
+        num_deliveries.should == 1
+        message = ActionMailer::Base.deliveries.first
+        message.to.should == [@user.email]
+        message.body.encoded.should match("You have saved feedback, but it has not yet been submitted. To continue working, please visit")
+      end
     end
 
-    it "creates an invitation with the email of the reviewer" do
-      feedback = Feedback.create! valid_attributes
-      post :send_reminder, {:review_id => @review.id, :id => feedback.id}, valid_session
-      email = ActionMailer::Base.deliveries.last
-      email.to.should == [feedback.user.email]
+    describe "with submitted feedback" do
+      let! (:feedback) { create(:submitted_feedback, review: @review, user: @user) }
+
+      it "redirects to the review" do
+        post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        response.should redirect_to(@review)
+      end
+
+      it "notifies that email has not been sent" do
+        post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        flash[:alert].should == "Feedback already submitted. Reminder not sent."
+      end
+
+      it "does not send an email" do
+        expect do
+          post :send_reminder, {id: feedback.to_param, review_id: @review.id}, valid_session
+        end.to change{ ActionMailer::Base.deliveries.length }.by(0)
+      end
     end
   end
 end

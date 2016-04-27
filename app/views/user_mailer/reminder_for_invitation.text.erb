@@ -2,11 +2,7 @@ Hi there!
 
 This is a reminder to submit your feedback for <%== @review %>.
 
-<% if @feedback %>
-You have saved feedback, but it has not yet been submitted. To continue working, please visit <%== edit_review_feedback_url(@review, @feedback) %>.
-<% else %>
 To get started, please visit <%== new_review_feedback_url(@review) %>.
-<% end %>
 
 <% if @review.feedback_deadline >= Date.today %>
 The deadline for leaving feedback is <%== @review.feedback_deadline.to_s(:short_date) %>.

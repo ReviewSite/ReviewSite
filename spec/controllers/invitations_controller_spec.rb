@@ -198,31 +198,7 @@ describe InvitationsController do
   describe "POST send_reminder" do
     let! (:invitation) { review.invitations.create!(email: "test@thoughtworks.com") }
 
-    describe "with submitted feedback" do
-      let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
-      let! (:feedback) { create(:submitted_feedback, review: review, user: reviewer) }
-
-      it "redirects to the review" do
-        post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        response.should redirect_to(review)
-      end
-
-      it "notifies that email has not been sent" do
-        post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        flash[:alert].should == "Feedback already submitted. Reminder not sent."
-      end
-
-      it "does not send an email" do
-        expect do
-          post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
-        end.to change{ ActionMailer::Base.deliveries.length }.by(0)
-      end
-    end
-
-    describe "without submitted feedback" do
-      let (:reviewer) { create(:user, email: "test@thoughtworks.com") }
-      let! (:feedback) { create(:feedback, review: review, user: reviewer) }
-
+    describe "for invitation with no feedback" do
       it "redirects to the review" do
         post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
         response.should redirect_to(review)
@@ -240,9 +216,19 @@ describe InvitationsController do
         num_deliveries.should == 1
         message = ActionMailer::Base.deliveries.first
         message.to.should == ["test@thoughtworks.com"]
-        message.body.encoded.should match(
-          "You have saved feedback, but it has not yet been submitted. To continue working, please visit"
-        )
+        message.body.encoded.should match("To get started, please visit")
+      end
+    end
+
+    describe "for invitation with feedback" do
+      let (:reviewer) { FactoryGirl.create(:user, email: "test@thoughtworks.com") }
+      let! (:feedback) { FactoryGirl.create(:feedback, review: review, user: reviewer) }
+
+      it "does not send an email" do
+        ActionMailer::Base.deliveries.clear
+        post :send_reminder, {id: invitation.to_param, review_id: review.id}, valid_sessions
+        num_deliveries = ActionMailer::Base.deliveries.size
+        num_deliveries.should == 0
       end
     end
   end

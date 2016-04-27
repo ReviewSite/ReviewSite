@@ -19,31 +19,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def email_sent_for_unsubmitted_feedback(feedback)
-    if feedback.submitted
-      return false
-    else
-      if feedback.invitation
-        invitation = feedback.invitation
-      else
-        review = feedback.review
-        invitation = review.invitations.build(:email => @feedback.user.email)
-      end
-      send_reminder_email(invitation)
-      return true
-    end
-  end
-
-  def email_sent_for_unstarted_feedback(invitation)
-    if invitation.feedback and invitation.feedback.submitted?
-      return false
-    else
-      send_reminder_email(invitation)
-      return true
-    end
-  end
-
-  def send_reminder_email(invitation)
-    UserMailer.feedback_reminder(invitation).deliver
-  end
 end

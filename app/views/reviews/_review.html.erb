@@ -1,10 +1,10 @@
 <h1><%= review.pretty_print_with(current_user) %></h1>
-<h2>Review Date IS COMING: <%= review.review_date.to_s(:short_date) %></h2>
+<h2>Review Date: <%= review.review_date.to_s(:short_date) %></h2>
 
 <%= render :partial => "reviews/sidenav", :locals => { :review => review } %>
 
 <div class="main-content">
   <%= render :partial => 'feedbacks/feedbacks', :locals => {
-      :review => review, :feedbacks => review.feedbacks, :invitations => review.invitations
+      :feedbacks => review.feedbacks, :invitations => review.invitations
   } %>
 </div>

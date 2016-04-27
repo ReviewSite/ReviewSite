@@ -47,10 +47,6 @@
     review.feedback_deadline < Date.today && feedback && feedback.submitted?
   end
 
-  def should_send_email_for_unstarted_feedback?
-    return !(feedback && feedback.submitted?)
-  end
-
   private
 
   def find_user_by_additional_email(primary_email)

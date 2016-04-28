@@ -5,7 +5,7 @@ describe ReviewsController do
   # Review. As you add validations to Review, be sure to
   # update the return value of this method accordingly.
 
-  let(:ac) {create(:associate_consultant)}
+  let(:ac) { create(:associate_consultant) }
 
   def valid_attributes
     {
@@ -17,7 +17,7 @@ describe ReviewsController do
   end
 
   def valid_session
-    { userinfo: "test@test.com"}
+    {userinfo: "test@test.com"}
   end
 
   describe "GET index" do
@@ -25,16 +25,16 @@ describe ReviewsController do
     let(:user) { create(:user) }
 
     before do
-        User.stub(:find_by_okta_name).and_return(user)
-        set_current_user user
-        Review.stub(:includes).and_return(Review)
-        Review.stub(:all).and_return([review])
+      User.stub(:find_by_okta_name).and_return(user)
+      set_current_user user
+      Review.stub(:includes).and_return(Review)
+      Review.stub(:all).and_return([review])
     end
 
     context 'user has permission to view review summary' do
       before do
-       Review.stub(:accessible_by).and_return([review])
-       controller.stub(:can?).and_return(true)
+        Review.stub(:accessible_by).and_return([review])
+        controller.stub(:can?).and_return(true)
       end
 
       it 'should assign all the reviews the user can summarize' do
@@ -93,12 +93,12 @@ describe ReviewsController do
   describe "GET coachees" do
     let(:user) { create(:user) }
     before do
-        @coachee = create(:associate_consultant)
-        @coachee.coach = user
-        @coachee.save!
-        Review.create_default_reviews(@coachee)
-        Review.stub(:accessible_by).and_return(@coachee.reviews)
-      end
+      @coachee = create(:associate_consultant)
+      @coachee.coach = user
+      @coachee.save!
+      Review.create_default_reviews(@coachee)
+      Review.stub(:accessible_by).and_return(@coachee.reviews)
+    end
 
     it 'should show coachee reviews' do
       get :coachees, {}, valid_session
@@ -240,7 +240,7 @@ describe ReviewsController do
       it "assigns a newly created but unsaved review as @review" do
         # Trigger the behavior that occurs when invalid params are submitted
         Review.any_instance.stub(:save).and_return(false)
-        post :create, {:review => { associate_consultant_id: ac.user.name}}, valid_session
+        post :create, {:review => {associate_consultant_id: ac.user.name}}, valid_session
         assigns(:review).should be_a_new(Review)
       end
 
@@ -325,23 +325,23 @@ describe ReviewsController do
         @review.invitations << FactoryGirl.create_list(:invitation, 5)
         UserMailer.should_receive(:review_update).exactly(@review.invitations.count).times.and_return(double(deliver: true))
         put :update, {:id => @review.to_param, :review => {'feedback_deadline' => @review.feedback_deadline - 2.weeks,
-          'review_date' => @review.review_date}}, valid_session
+                                                           'review_date' => @review.review_date}}, valid_session
       end
 
       it "should not notify invitees when the deadline doesn't change" do
         @review.invitations << FactoryGirl.create_list(:invitation, 5)
         UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
         put :update, {:id => @review.to_param,
-          :review => {'feedback_deadline' => @review.feedback_deadline,
-            'review_date' => @review.review_date}}, valid_session
+                      :review => {'feedback_deadline' => @review.feedback_deadline,
+                                  'review_date' => @review.review_date}}, valid_session
       end
 
       it "should not notify invitees when the review date changes" do
         @review.invitations << FactoryGirl.create_list(:invitation, 5)
         UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
         put :update, {:id => @review.to_param,
-          :review => {'feedback_deadline' => @review.feedback_deadline,
-            'review_date' => @review.review_date + 2.months}}, valid_session
+                      :review => {'feedback_deadline' => @review.feedback_deadline,
+                                  'review_date' => @review.review_date + 2.months}}, valid_session
       end
     end
   end
@@ -377,6 +377,27 @@ describe ReviewsController do
     it "should show send email on review creation" do
       get :send_email, {:id => review.to_param}, valid_session
       response.should be_success
+    end
+  end
+
+  describe "POST send reminder to all" do
+    let(:ac_user) { create(:user) }
+    let(:ac) { create(:associate_consultant, user: ac_user) }
+    let(:review) { create(:review, associate_consultant: ac) }
+    let(:unsubmitted_feedback_reviewer) { create(:user) }
+    let(:submitted_feedback_reviewer) { create(:user) }
+    let(:invited_reviewer) { create(:user) }
+
+    let! (:feedback) { create(:feedback, review: review, user: unsubmitted_feedback_reviewer) }
+    let! (:submitted_feedback) { create(:submitted_feedback, review: review, user: submitted_feedback_reviewer) }
+    let! (:invitation) { review.invitations.create!(email: invited_reviewer.email) }
+
+    it "should send an email reminder to invitation and unfinished feedback" do
+      set_current_user ac_user
+      ActionMailer::Base.deliveries.clear
+      post :send_reminder_to_all, {id: review.to_param}, valid_session
+      num_deliveries = ActionMailer::Base.deliveries.size
+      num_deliveries.should == 2
     end
   end
 end

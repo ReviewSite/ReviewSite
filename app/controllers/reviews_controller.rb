@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   load_and_authorize_resource
-  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders]
+  before_filter :load_review, :only => [:show, :edit, :update, :destroy, :send_email, :notify_stakeholders, :send_reminder_to_all]
   # after_filter :notify_stakeholders, :only => [:update]
 
   def index
@@ -102,6 +102,20 @@ class ReviewsController < ApplicationController
       format.json { render json: @feedbacks }
       format.xlsx
     end
+  end
+
+  def send_reminder_to_all
+    @review.feedbacks.each do |feedback|
+      if !feedback.submitted?
+        UserMailer.reminder_for_feedback(feedback).deliver
+      end
+    end
+    @review.invitations.each do |invitation|
+      if !invitation.feedback
+        UserMailer.reminder_for_invitation(invitation).deliver
+      end
+    end
+    redirect_to @review
   end
 
   def send_email

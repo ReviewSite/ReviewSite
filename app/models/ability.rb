@@ -77,6 +77,7 @@ class Ability
     can [:summary, :read], Review, associate_consultant: { user_id: user.id }
     can [:summary, :read, :coachees], Review, associate_consultant: { coach_id: user.id }
     can [:summary, :read], Review, associate_consultant: { reviewing_group_id: user.reviewing_group_ids }
+    can :send_reminder_to_all, Review, associate_consultant: { user_id: user.id }
     can([:update], Review) do |review|
       review.reviewee == user
     end

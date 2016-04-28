@@ -392,12 +392,18 @@ describe ReviewsController do
     let! (:submitted_feedback) { create(:submitted_feedback, review: review, user: submitted_feedback_reviewer) }
     let! (:invitation) { review.invitations.create!(email: invited_reviewer.email) }
 
-    it "should send an email reminder to invitation and unfinished feedback" do
+    it "should send an email reminder to users with invitations and unfinished feedback" do
       set_current_user ac_user
       ActionMailer::Base.deliveries.clear
       post :send_reminder_to_all, {id: review.to_param}, valid_session
       num_deliveries = ActionMailer::Base.deliveries.size
       num_deliveries.should == 2
+
+      unsubmitted_feedback_email = ActionMailer::Base.deliveries.first
+      unsubmitted_feedback_email.to.should == [unsubmitted_feedback_reviewer.email]
+
+      invitation_email = ActionMailer::Base.deliveries.second
+      invitation_email.to.should == [invited_reviewer.email]
     end
   end
 end

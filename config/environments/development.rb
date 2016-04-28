@@ -57,7 +57,7 @@ ReviewSite::Application.configure do
   # ActionMailer::Base.deliveries array.
 
   #NOTE: If you wanted to send emails out. Set this as :smtp (instead of :test)
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :test
 
   # for checking devise confirmation emails
   # config.action_mailer.default_url_options = { :host => 'localhost:9292' }

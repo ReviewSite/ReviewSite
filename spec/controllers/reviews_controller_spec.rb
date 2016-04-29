@@ -390,6 +390,7 @@ describe ReviewsController do
 
     let! (:feedback) { create(:feedback, review: review, user: unsubmitted_feedback_reviewer) }
     let! (:submitted_feedback) { create(:submitted_feedback, review: review, user: submitted_feedback_reviewer) }
+    let! (:external_feedback) { create(:feedback, review: review, user: ac_user, reported_by: Feedback::SELF_REPORTED) }
     let! (:invitation) { review.invitations.create!(email: invited_reviewer.email) }
 
     it "should send an email reminder to users with invitations and unfinished feedback" do

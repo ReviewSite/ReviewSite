@@ -106,7 +106,7 @@ class ReviewsController < ApplicationController
 
   def send_reminder_to_all
     @review.feedbacks.each do |feedback|
-      if !feedback.submitted?
+      if !feedback.submitted? && feedback.reported_by != Feedback::SELF_REPORTED
         UserMailer.reminder_for_feedback(feedback).deliver
       end
     end

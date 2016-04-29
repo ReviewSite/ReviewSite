@@ -25,3 +25,28 @@ span.fa-lock, span.fa-unlock {
 .fa-hidden {
   visibility: hidden;
 }
+
+.fa-remind-all {
+  color: $brand-white;
+  -webkit-transition: 0.2s ease-in-out;
+  -moz-transition: 0.2s ease-in-out;
+  -o-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+
+  &:hover{
+    -ms-transform: translate(0px,-3px);
+    -webkit-transform: translate(0px,-3px);
+    -o-transform: translate(0px,-3px);
+    transform: translate(0px,-3px);
+    color: $brand-white;
+  }
+
+  &:active {
+    color: $brand-white;
+  }
+}
+
+.fa-disabled {
+  pointer-events: none;
+  color: $brand-disabled-gray;
+}

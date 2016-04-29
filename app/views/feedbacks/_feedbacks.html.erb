@@ -6,15 +6,17 @@
     <th>Invite Sent</th>
     <th>Updated</th>
     <th>Status</th>
-    <th><%= link_to '',
+    <th class="button-col"><%= link_to '',
                     send_reminder_to_all_review_path(review),
                     data: {
-                        confirm: "This will send a reminder email to everyone.\nAre you sure you want to?"
+                        confirm: "This will send a reminder email to everyone who hasn't completed your feedback.\nAre you sure you want to?"
                     },
                     method: :post,
-                    class: "fa fa-envelope fa-lg fa-fw",
-                    title: "Send reminder"
+                    class: "fa fa-envelope fa-lg fa-fw fa-remind-all",
+                    title: "Remind everyone"
     %></th>
+    <th class="button-col"></th>
+    <th class="right-most-button-col"></th>
   </tr>
   </thead>
   <tbody>
@@ -38,9 +40,7 @@
         <% end %>
       </td>
       <td class="nowrap button-col">
-        <ul>
           <% if (not feedback.submitted?) and (not feedback.is_additional) and (can? :send_reminder, feedback) %>
-            <li>
               <%= link_to '',
                 send_reminder_review_feedback_path(feedback.review, feedback),
                 data: {
@@ -50,27 +50,35 @@
                 class: "fa fa-envelope fa-lg fa-fw",
                 title: "Send reminder"
               %>
-            </li>
-          <% end %>
-          <% if can? :edit, feedback %>
-            <% if feedback.is_additional %>
-              <li> <%= link_to '', edit_additional_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %></li>
-            <% else %>
-              <li> <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %></li>
+          <%else%>
+            <% if can? :edit, feedback %>
+                <% if feedback.is_additional %>
+                    <%= link_to '', edit_additional_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %>
+                <% else %>
+                    <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %>
+                <% end %>
+            <%else%>
+                <a class="fa fa-envelope fa-lg fa-fw fa-disabled"></a>
             <% end %>
           <% end %>
-          <% if can? :show, feedback %>
-            <li><%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %></li>
-          <% end %>
-          <% if can? :destroy, feedback %>
-            <li><%= link_to '', review_feedback_path(feedback.review, feedback),
-              id: "feedback_#{feedback.id}_delete",
-              data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
-              method: :delete, class: "fa fa-trash fa-lg fa-fw",
-              title: "Delete" %>
-            </li>
-          <% end %>
-        </ul>
+      </td>
+      <td class="nowrap button-col">
+        <% if can? :show, feedback %>
+          <%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %>
+        <%else%>
+          <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
+        <% end %>
+      </td>
+      <td class="nowrap right-most-button-col">
+        <% if can? :destroy, feedback %>
+          <%= link_to '', review_feedback_path(feedback.review, feedback),
+                          id: "feedback_#{feedback.id}_delete",
+                          data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
+                          method: :delete, class: "fa fa-trash fa-lg fa-fw",
+                          title: "Delete" %>
+        <%else%>
+            <a class="fa fa-trash fa-lg fa-fw fa-disabled"></a>
+        <% end %>
       </td>
     </tr>
   <% end %>
@@ -84,28 +92,27 @@
       <td></td>
       <td class="nowrap"><span class="fa fa-lock fa-fw fa-hidden"></span> Not Started</td>
       <td class="nowrap button-col">
-        <ul>
-          <% if can? :send_reminder, invitation %>
-          <li>
-            <%= link_to '',
-              send_reminder_review_invitation_path(invitation.review, invitation),
-              data: {confirm: "This will send a reminder email to #{invitation.email}.\nAre you sure you want to?"},
-              method: :post, class: "fa fa-envelope fa-lg fa-fw",
-              title: "Send reminder"
-            %>
-          </li>
-          <% end %>
-          <% if can? :destroy, invitation %>
-          <li>
-            <%= link_to '',
-              review_invitation_path(invitation.review, invitation),
-              data: { confirm: "Are you sure you no longer want feedback from #{invitation.email}?" },
-              method: :delete, class: "fa fa-trash fa-lg fa-fw",
-              title: "Delete"
-            %>
-          </li>
-          <% end %>
-        </ul>
+        <% if can? :send_reminder, invitation %>
+          <%= link_to '',
+            send_reminder_review_invitation_path(invitation.review, invitation),
+            data: {confirm: "This will send a reminder email to #{invitation.email}.\nAre you sure you want to?"},
+            method: :post, class: "fa fa-envelope fa-lg fa-fw",
+            title: "Send reminder"
+          %>
+        <% end %>
+      </td>
+      <td class="nowrap button-col">
+        <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
+      </td>
+      <td class="nowrap right-most-button-col">
+        <% if can? :destroy, invitation %>
+          <%= link_to '',
+                      review_invitation_path(invitation.review, invitation),
+                      data: { confirm: "Are you sure you no longer want feedback from #{invitation.email}?" },
+                      method: :delete, class: "fa fa-trash fa-lg fa-fw",
+                      title: "Delete"
+          %>
+        <% end %>
       </td>
     </tr>
     <% end %>

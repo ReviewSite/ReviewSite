@@ -28,16 +28,16 @@ span.fa-lock, span.fa-unlock {
 
 .fa-remind-all {
   color: $brand-white;
-  -webkit-transition: 0.2s ease-in-out;
-  -moz-transition: 0.2s ease-in-out;
-  -o-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  -webkit-transition: 0.2s ease-out;
+  -moz-transition: 0.2s ease-out;
+  -o-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
 
   &:hover{
-    -ms-transform: translate(0px,-3px);
-    -webkit-transform: translate(0px,-3px);
-    -o-transform: translate(0px,-3px);
-    transform: translate(0px,-3px);
+    -ms-transform: translate(0px,-2px);
+    -webkit-transform: translate(0px,-2px);
+    -o-transform: translate(0px,-2px);
+    transform: translate(0px,-2px);
     color: $brand-white;
   }
 

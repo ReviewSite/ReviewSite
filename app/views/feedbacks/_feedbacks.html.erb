@@ -6,17 +6,17 @@
     <th>Invite Sent</th>
     <th>Updated</th>
     <th>Status</th>
-    <th class="button-col"><%= link_to '',
+    <th class="nowrap button-col"><%= link_to '',
                     send_reminder_to_all_review_path(review),
                     data: {
-                        confirm: "This will send a reminder email to everyone who hasn't completed your feedback.\nAre you sure you want to?"
+                        confirm: "This will send a reminder email to everyone who still needs to submit feedback to you.\nAre you sure you want to?"
                     },
                     method: :post,
                     class: "fa fa-envelope fa-lg fa-fw fa-remind-all",
                     title: "Remind everyone"
     %></th>
-    <th class="button-col"></th>
-    <th class="right-most-button-col"></th>
+    <th class="nowrap button-col"></th>
+    <th class="nowrap button-col"></th>
   </tr>
   </thead>
   <tbody>
@@ -69,7 +69,7 @@
           <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
         <% end %>
       </td>
-      <td class="nowrap right-most-button-col">
+      <td class="nowrap button-col">
         <% if can? :destroy, feedback %>
           <%= link_to '', review_feedback_path(feedback.review, feedback),
                           id: "feedback_#{feedback.id}_delete",
@@ -104,7 +104,7 @@
       <td class="nowrap button-col">
         <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
       </td>
-      <td class="nowrap right-most-button-col">
+      <td class="nowrap button-col">
         <% if can? :destroy, invitation %>
           <%= link_to '',
                       review_invitation_path(invitation.review, invitation),

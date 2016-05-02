@@ -405,6 +405,8 @@ describe ReviewsController do
 
       invitation_email = ActionMailer::Base.deliveries.second
       invitation_email.to.should == [invited_reviewer.email]
+
+      flash[:success].should == "A reminder has been sent to these reviewers and emails: \n "+unsubmitted_feedback_reviewer.name+", "+invited_reviewer.email
     end
   end
 end

@@ -105,15 +105,21 @@ class ReviewsController < ApplicationController
   end
 
   def send_reminder_to_all
+    sent_reviewers_and_emails = []
     @review.feedbacks.each do |feedback|
       if !feedback.submitted? && feedback.reported_by != Feedback::SELF_REPORTED
         UserMailer.reminder_for_feedback(feedback).deliver
+        sent_reviewers_and_emails.append feedback.reviewer
       end
     end
     @review.invitations.each do |invitation|
       if !invitation.feedback
         UserMailer.reminder_for_invitation(invitation).deliver
+        sent_reviewers_and_emails.append invitation.email
       end
+    end
+    unless sent_reviewers_and_emails.empty?
+      flash[:success] = "A reminder has been sent to these reviewers and emails: \n "+sent_reviewers_and_emails.join(', ')
     end
     redirect_to @review
   end

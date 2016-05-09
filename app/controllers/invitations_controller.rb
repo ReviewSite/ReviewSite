@@ -30,6 +30,7 @@ class InvitationsController < ApplicationController
       flash.now[:success] = builder.success_message if builder.successes.any?
       flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
+      @new_message = params[:message]
       render 'new'
     else
       flash[:success] = builder.success_message if builder.successes.any?

@@ -63,7 +63,7 @@
           <% end %>
       </td>
       <td class="nowrap button-col">
-        <% if can? :show, feedback %>
+        <% if can? :show, feedback and feedback.submitted?%>
           <%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %>
         <%else%>
           <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>

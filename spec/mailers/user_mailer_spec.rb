@@ -182,10 +182,11 @@ describe UserMailer do
   end
 
   describe "Feedback invitation" do
-    let (:mail) { UserMailer.review_invitation(review, email, message) }
+    let (:subject) { "Please leave me some feedback"}
+    let (:mail) { UserMailer.review_invitation(review, email, message, subject) }
 
     it 'renders the subject' do
-      mail.subject.should == "[ReviewSite] You've been invited to give feedback for #{ac.user.name}"
+      mail.subject.should == subject
     end
 
     it 'renders the receiver email' do

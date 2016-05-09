@@ -28,8 +28,12 @@
   </p>
 
   <div class="field">
-    <%= label_tag :subject, "Subject:" %>
-    <p>[ReviewSite] You've been asked to give feedback for <%= @ac.user.name %></p>
+    <p><%= label_tag :subject, "*Subject:" %>
+      <% if !!@new_subject %>
+        <%= text_field_tag :subject, @new_subject, required: true %></p>
+      <% else %>
+        <%= text_field_tag :subject, "[ReviewSite] You've been asked to give feedback for #{@ac.user.name}", required: true %></p>
+      <% end %>
   </div>
 
       <%= label_tag :message, "Body:" %>

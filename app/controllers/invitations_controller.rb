@@ -17,7 +17,7 @@ class InvitationsController < ApplicationController
     emails.map do |email|
       @invitation = @review.invitations.build(email: email)
       if @invitation.save && !params[:no_email]
-        UserMailer.review_invitation(@review, "#{email}", params[:message]).deliver
+        UserMailer.review_invitation(@review, "#{email}", params[:message], params[:subject]).deliver
       end
       builder.with(@invitation).build(email)
     end
@@ -30,6 +30,7 @@ class InvitationsController < ApplicationController
       flash.now[:success] = builder.success_message if builder.successes.any?
       flash.now[:alert] = builder.error_message
       @ac = @review.associate_consultant
+      @new_subject = params[:subject]
       @new_message = params[:message]
       render 'new'
     else

@@ -57,13 +57,13 @@ class UserMailer < ActionMailer::Base
       subject: "[ReviewSite] Your coachee, #{@reviewee}, has new feedback from #{@reviewer}")
   end
 
-  def review_invitation(review, email, message)
+  def review_invitation(review, email, message, subject)
     ac = review.associate_consultant
     @custom_message = message
 
     mail( to: "<#{email}>",
           from: @@donotreply,
-          subject: "[ReviewSite] You've been invited to give feedback for #{ac.user.name}")
+          subject: subject)
   end
 
   def review_invitation_AC_copy(review, message, successful_emails)

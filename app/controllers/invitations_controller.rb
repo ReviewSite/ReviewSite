@@ -48,8 +48,7 @@ class InvitationsController < ApplicationController
     else
       flash[:success] = "#{invitation_email}\'s invitation has been deleted."
     end
-
-    redirect_to root_path
+    redirect_to :back
   end
 
   def send_reminder

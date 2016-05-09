@@ -5,7 +5,10 @@ describe InvitationsController do
   let (:associate_consultant) { create(:associate_consultant, user: user)}
   let (:review) { create(:review, associate_consultant: associate_consultant) }
 
-  before { set_current_user user }
+  before(:each) do
+    @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
+    set_current_user user
+  end
 
   def valid_sessions
     {userinfo: "test@test.com"}
@@ -158,9 +161,9 @@ describe InvitationsController do
       end.to change(Invitation, :count).by(-1)
     end
 
-    it "redirects to the homepage" do
+    it "redirects to the referrer" do
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions
-      response.should redirect_to(root_path)
+      response.should redirect_to(:back)
     end
 
     it "flashes a notification" do

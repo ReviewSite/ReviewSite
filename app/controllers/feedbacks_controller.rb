@@ -101,7 +101,7 @@ class FeedbacksController < ApplicationController
       flash[:success] = "You have successfully deleted your feedback for #{@review.reviewee}."
     end
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

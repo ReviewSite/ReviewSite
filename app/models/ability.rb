@@ -56,6 +56,8 @@ class Ability
     can :read, Feedback, { submitted: true, review: { associate_consultant: { coach_id: user.id } } }
     can :read, Feedback, { submitted: true, review: { associate_consultant: { reviewing_group_id: user.reviewing_group_ids } } }
 
+    can :show, Feedback, { reported_by: Feedback::SELF_REPORTED, submitted:true}
+
     can [:create, :new], Feedback do |feedback|
       review = feedback.review
       review.invitations.where(email: user.email).any? ||

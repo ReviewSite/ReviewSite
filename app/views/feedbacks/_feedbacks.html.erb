@@ -16,7 +16,6 @@
                     title: "Remind everyone"
     %></th>
     <th class="nowrap button-col"></th>
-    <th class="nowrap button-col"></th>
   </tr>
   </thead>
   <tbody>
@@ -58,16 +57,11 @@
                     <%= link_to '', edit_review_feedback_path(feedback.review, feedback), id:"feedback_#{feedback.id}_edit", class: "fa fa-pencil fa-lg fa-fw", title: "Edit" %>
                 <% end %>
             <%else%>
-                <a class="fa fa-envelope fa-lg fa-fw fa-disabled"></a>
+                <% if can? :show, feedback and feedback.submitted?%>
+                    <%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %>
+                <% end %>
             <% end %>
           <% end %>
-      </td>
-      <td class="nowrap button-col">
-        <% if can? :show, feedback and feedback.submitted?%>
-          <%= link_to '', [feedback.review, feedback], class: "fa fa-eye fa-lg fa-fw", title: "View" %>
-        <%else%>
-          <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
-        <% end %>
       </td>
       <td class="nowrap button-col">
         <% if can? :destroy, feedback %>
@@ -76,8 +70,6 @@
                           data: { confirm: "Are you sure you want to delete the feedback you recorded from #{feedback.reviewer.titleize}?" },
                           method: :delete, class: "fa fa-trash fa-lg fa-fw",
                           title: "Delete" %>
-        <%else%>
-            <a class="fa fa-trash fa-lg fa-fw fa-disabled"></a>
         <% end %>
       </td>
     </tr>
@@ -100,9 +92,6 @@
             title: "Send reminder"
           %>
         <% end %>
-      </td>
-      <td class="nowrap button-col">
-        <a class="fa fa-eye fa-lg fa-fw fa-disabled"></a>
       </td>
       <td class="nowrap button-col">
         <% if can? :destroy, invitation %>

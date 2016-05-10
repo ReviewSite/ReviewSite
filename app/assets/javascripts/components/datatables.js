@@ -36,7 +36,7 @@ var feedbackRequests = function() {
 var feedbackSeenByAC = function() {
   $("#feedback-received").DataTable({
     columnDefs: [
-      { orderable: false, targets: [5,6,7] }
+      { orderable: false, targets: [5,6] }
     ],
     paging: false,
     lengthChange: false,

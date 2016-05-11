@@ -4,11 +4,11 @@ class ReviewsController < ApplicationController
   # after_filter :notify_stakeholders, :only => [:update]
 
   def index
-    if current_user.ac?
-      @reviews = current_user.associate_consultant.reviews
-    end
-
     @reviews = Review.default_load.accessible_by(current_ability)
+
+    if current_user.ac?
+      @reviews = current_user.associate_consultant.reviews.includes(:associate_consultant)
+    end
 
     respond_to do |format|
       format.html

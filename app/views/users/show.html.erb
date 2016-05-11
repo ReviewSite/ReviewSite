@@ -19,6 +19,13 @@
 </p>
 
 <p>
+  <label>Alias Email(s)</label>
+    <% @user.additional_emails.each do |alias_email| %>
+        <%= alias_email.email %><br />
+    <% end %>
+</p>
+
+<p>
   <label>Admin</label>
   <%= to_yes_no_string(@user.admin) %>
 </p>

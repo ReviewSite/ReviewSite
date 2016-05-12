@@ -3,71 +3,73 @@
 
 <div class="new-review">
   <% if current_user.admin? %>
-    <%= link_to "Manage Users", users_path, class: "diet button" %>
+      <%= link_to "Manage Users", users_path, class: "diet button" %>
   <% end %>
 </div>
 
 <section class="form-container">
-<% if current_user.admin? %>
-  <%= link_to "", @user, method: :delete, data: { confirm: "Are you sure you want to delete this user?"}, class: "fa fa-lg fa-fw fa-trash pull-right" %>
-<% end %>
-<%= link_to "", edit_user_path(@user), class: "fa fa-lg fa-fw fa-pencil pull-right" %>
+  <% if current_user.admin? %>
+      <%= link_to "", @user, method: :delete, data: {confirm: "Are you sure you want to delete this user?"}, class: "fa fa-lg fa-fw fa-trash pull-right" %>
+  <% end %>
+  <%= link_to "", edit_user_path(@user), class: "fa fa-lg fa-fw fa-pencil pull-right" %>
 
-<p>
-  <label>Primary Email</label>
-  <%= @user.email %>
-</p>
-
-<p>
-  <label>Alias Email(s)</label>
-    <% @user.additional_emails.each do |alias_email| %>
-        <%= alias_email.email %><br />
-    <% end %>
-</p>
-
-<p>
-  <label>Admin</label>
-  <%= to_yes_no_string(@user.admin) %>
-</p>
-
-<p id="isAC">
-  <label>Associate Consultant</label>
-  <%= to_yes_no_string(@user.ac?) %>
-</p>
-
-
-<% if @user.ac? %>
-  <p id="hasGraduated">
-    <label>Graduated</label>
-    <%= to_yes_no_string(@user.associate_consultant.has_graduated?) %>
+  <p>
+    <label>Primary Email</label>
+    <%= @user.email %>
   </p>
 
-  <% unless @user.associate_consultant.program_start_date.blank? %>
-  <p id="program-start-date">
-    <label>Program Start Date</label>
-      <%= @user.associate_consultant.program_start_date.strftime(Date::DATE_FORMATS[:short_date]) %>
-  </p>
+  <% unless @user.additional_emails.empty? %>
+      <p>
+        <label>Alias Email(s)</label>
+        <% @user.additional_emails.each do |alias_email| %>
+            <%= alias_email.email %><br/>
+        <% end %>
+      </p>
   <% end %>
 
-  <% if current_user.admin? && @user.associate_consultant.notes.present? %>
-  <p id="notes">
-    <label>Notes</label>
-    <%= @user.associate_consultant.notes %>
+  <p>
+    <label>Admin</label>
+    <%= to_yes_no_string(@user.admin) %>
   </p>
+
+  <p id="isAC">
+    <label>Associate Consultant</label>
+    <%= to_yes_no_string(@user.ac?) %>
+  </p>
+
+
+  <% if @user.ac? %>
+      <p id="hasGraduated">
+        <label>Graduated</label>
+        <%= to_yes_no_string(@user.associate_consultant.has_graduated?) %>
+      </p>
+
+      <% unless @user.associate_consultant.program_start_date.blank? %>
+          <p id="program-start-date">
+            <label>Program Start Date</label>
+            <%= @user.associate_consultant.program_start_date.strftime(Date::DATE_FORMATS[:short_date]) %>
+          </p>
+      <% end %>
+
+      <% if current_user.admin? && @user.associate_consultant.notes.present? %>
+          <p id="notes">
+            <label>Notes</label>
+            <%= @user.associate_consultant.notes %>
+          </p>
+      <% end %>
+
+      <p id="reviewing-group">
+        <label>Reviewing Group</label>
+        <%= @user.associate_consultant.reviewing_group %>
+      </p>
+
+      <% unless @user.associate_consultant.coach.blank? %>
+          <p id="coach">
+            <label>Coach</label>
+            <%= @user.associate_consultant.coach %>
+          </p>
+      <% end %>
+
   <% end %>
-
-  <p id="reviewing-group">
-    <label>Reviewing Group</label>
-    <%= @user.associate_consultant.reviewing_group %>
-  </p>
-
-  <% unless @user.associate_consultant.coach.blank? %>
-  <p id="coach">
-    <label>Coach</label>
-    <%= @user.associate_consultant.coach %>
-  </p>
-  <% end %>
-
-<% end %>
 
 </section>

@@ -14,9 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    if signed_in?
-      redirect_to root_url, :alert => exception.message
-    end
+    render "public/403", :status => 403
   end
 
 end

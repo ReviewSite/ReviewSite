@@ -145,8 +145,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "should redirect to homepage" do
-          current_path.should == root_path
-          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
+          page.should have_content "You are not authorized to access this page!"
         end
       end
     end
@@ -158,8 +157,7 @@ describe "Feedback pages", :type => :feature do
       end
 
       it "should redirect to homepage" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end
@@ -231,8 +229,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "redirects to homepage" do
-          current_path.should == root_path
-          page.should have_selector('.flash-alert', text:"You are not authorized to access this page.")
+          page.should have_content "You are not authorized to access this page!"
         end
       end
     end
@@ -300,8 +297,7 @@ describe "Feedback pages", :type => :feature do
         end
 
         it "redirects to homepage" do
-          current_path.should == root_path
-          page.should have_selector('.flash-alert', text: "You are not authorized to access this page.")
+          page.should have_content "You are not authorized to access this page!"
         end
       end
     end

@@ -94,7 +94,7 @@ describe "Invitations" do
         other_user = create(:user)
         sign_in other_user
         visit new_review_invitation_path(review)
-        current_path.should == root_path
+        page.should have_content "You are not authorized to access this page!"
       end
     end
 

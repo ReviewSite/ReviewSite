@@ -84,7 +84,7 @@ describe SelfAssessmentsController do
       end
       it "cannot succeed" do
         post :create, {:self_assessment => valid_attributes, :review_id => @new_review.id}, valid_session
-        response.should redirect_to(root_path)
+        assert_response(403)
       end
     end
   end

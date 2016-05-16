@@ -46,7 +46,7 @@ describe "User pages: " do
           user = create(:user, okta_name: "nottaken",
             email: "randomemailthatworks@thoughtworks.com")
           fill_in "new-email",        with: additional_email
-          click_link "Add"
+          click_on("add-email")
         end
 
         it "should display the email" do
@@ -73,7 +73,7 @@ describe "User pages: " do
           user = create(:user, okta_name: "reserved",
             email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",        with: additional_email
-          click_link "Add"
+          click_on("add-email")
         end
 
         it "should display the email with an error message" do
@@ -94,7 +94,7 @@ describe "User pages: " do
           user = create(:user, okta_name: "nottaken",
             email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",              with: additional_email
-          click_link "Add"
+          click_on("add-email")
 
           page.should have_selector('.field-error-message',
             text: "Email must be a ThoughtWorks email")
@@ -107,7 +107,7 @@ describe "User pages: " do
           user = create(:user, okta_name: "nottaken",
           email: "somethingnottaken@thoughtworks.com")
           fill_in "new-email",              with: additional_email
-          click_link "Add"
+          click_on("add-email")
 
           page.should have_selector('.field-error-message',
             text: "Email is invalid")

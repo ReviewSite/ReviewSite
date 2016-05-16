@@ -4,6 +4,7 @@ describe FeedbacksController do
   before(:each) do
     @review = create(:review)
     @user = create(:user)
+    @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
     set_current_user(@user)
     Ability.any_instance.stub(:can?).and_return(true)
   end
@@ -227,12 +228,6 @@ describe FeedbacksController do
       feedback.update_attribute(:reported_by, Feedback::SELF_REPORTED)
       delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
       flash[:success].should == "You have successfully deleted the external feedback recorded from #{feedback.reviewer}."
-    end
-
-    it "redirects to the home page" do
-      feedback = Feedback.create! valid_attributes
-      delete :destroy, {:id => feedback.to_param, :review_id => @review.id}, valid_session
-      response.should redirect_to(root_url)
     end
   end
 

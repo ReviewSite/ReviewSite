@@ -350,7 +350,7 @@ describe "Review pages" do
 
       it "links to delete an invitation" do
         page.find(".fa-trash").click
-        current_path.should == root_path
+        current_path.should == review_path(review)
         page.should have_selector('.flash-success', text: 'bob@thoughtworks.com\'s invitation has been deleted.')
       end
     end

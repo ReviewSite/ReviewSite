@@ -51,7 +51,7 @@ describe UsersController do
 
       it "should be forbidden" do
         post :create, {user: valid_params}, valid_session
-        response.should redirect_to root_path
+        assert_response(403)
       end
     end
 
@@ -247,7 +247,7 @@ describe UsersController do
       it "cannot update another user's password" do
         other_user = create(:user, :name => "Jane" )
         put :update, {id: other_user, user: valid_params}, valid_session
-        response.should redirect_to root_path
+        assert_response(403)
         other_user.reload
         other_user.name.should == "Jane"
       end

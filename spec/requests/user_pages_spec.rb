@@ -255,8 +255,7 @@ describe "User pages: " do
       it "cannot create new users" do
         sign_in create(:user)
         visit new_user_path
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: "You are not authorized to access this page.")
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end
@@ -358,8 +357,7 @@ describe "User pages: " do
       end
 
       it "is inaccessible" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end
@@ -414,8 +412,7 @@ describe "User pages: " do
       end
 
       it "is inaccessible" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end

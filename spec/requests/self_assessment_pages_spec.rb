@@ -36,8 +36,7 @@ describe "Self assessment page" do
       end
 
       it "forbids coach from editing users' self assessments" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end
@@ -80,8 +79,7 @@ describe "Self assessment page" do
       end
 
       it "forbids coach from editing users' self assessments" do
-        current_path.should == root_path
-        page.should have_selector('.flash-alert', text: 'You are not authorized to access this page.')
+        page.should have_content "You are not authorized to access this page!"
       end
     end
   end

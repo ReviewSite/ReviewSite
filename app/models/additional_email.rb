@@ -3,6 +3,7 @@ class AdditionalEmail < ActiveRecord::Base
 
   THOUGHTWORKS_EMAIL = "thoughtworks.com"
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  EMAIL_TAKEN_MESSAGE = "has already been taken"
 
   devise :database_authenticatable, :confirmable
 
@@ -12,7 +13,8 @@ class AdditionalEmail < ActiveRecord::Base
 
   validates :email, presence:   true,
                     format:     { with: VALID_EMAIL_REGEX },
-                    uniqueness: { case_sensitive: false }
+                    uniqueness: { case_sensitive: false,
+                      message: EMAIL_TAKEN_MESSAGE }
   validates :user_id, presence: true
   validate  :must_be_thoughtworks_email
   validate  :uniqueness_of_email
@@ -33,7 +35,7 @@ class AdditionalEmail < ActiveRecord::Base
 
   def uniqueness_of_email
     if User.find_by_email(email).present?
-      errors.add(:email, "this email has already been taken")
+      errors.add(:email, EMAIL_TAKEN_MESSAGE)
     end
   end
 end

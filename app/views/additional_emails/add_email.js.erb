@@ -1,4 +1,5 @@
 <% if email.errors.any? %>
+  $("#additional_email .field-error-message").remove();
   $("label:contains('Add Alias Email')").append("<p class='field-error-message'><%= email.errors.full_messages.first %></p>");
   $("#new-email").val("<%= email.email %>");
 <% else %>

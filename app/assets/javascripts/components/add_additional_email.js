@@ -2,7 +2,8 @@ ReviewSite = ReviewSite || {};
 ReviewSite.components = ReviewSite.components || {};
 
 var addAdditionalEmail = function() {
-  $("#add-email").on("click", function(){
+  $("#add-email").on("click", function(event){
+    event.preventDefault();
     $.ajax({
       complete: function(request){},
       data: "additional_email="+ $("#new-email").val(),

@@ -16,8 +16,9 @@
     <p class="field-error-message"><%= @invitation.errors[:emails].first %></p>
   <% end %>
 
-  <p class="help-text">Must have an '@thoughtworks.com' email address; separate multiple emails with ','</p>
-  <%= text_field_tag :emails, nil, class: "long", required: true %>
+  <p class="help-text">Must have an '@thoughtworks.com' email address; hit [,] after entering an email</p>
+  <!--%= text_field_tag :emails, nil, class: "long", required: true %-->
+  <%= select_tag :emails, nil ,class: "long", required: true, multiple:true %>
 </div>
 
 <div id="email_contents">

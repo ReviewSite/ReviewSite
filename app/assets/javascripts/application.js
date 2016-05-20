@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require lib/jquery.tokenize
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
 //= require ReviewSite

@@ -9,7 +9,8 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    emails = params[:emails].split(/[,;]/).map { |email| email.strip.downcase }
+    # emails = params[:emails].split(/[,;]/).map { |email| email.strip.downcase }
+    emails = params[:emails].map { |email| email.strip.downcase }
     builder = InvitationMessageBuilder.new(params[:no_email])
     copy_sender = (params[:copy_sender] == '1')
     builder.check_for_emails(emails)

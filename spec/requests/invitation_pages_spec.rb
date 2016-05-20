@@ -10,48 +10,50 @@ describe "Invitations" do
 
   subject { page }
 
-  describe "invitation form" do
+  describe "invitation form", :js => true do
 
     context "as ac" do
       before do
         ActionMailer::Base.deliveries.clear
         sign_in ac_user
         visit new_review_invitation_path(review)
-        fill_in "emails", with: "reviewer@thoughtworks.com"
+        # fill_in "emails", with: "reviewer@thoughtworks.com"
+        find(".TokensContainer").click
+        find(".TokensContainer").native.send_keys("reviewer@thoughtworks.com,")
         fill_in "message", with: "Why, hello!"
       end
 
-      it "redirects to review after submission" do
-        click_button "Send"
+      it "redirects to review after submission", :focus => true do
+        find("#send-request").trigger('click')
         current_path.should == review_path(review)
         page.should have_selector('.flash-success')
       end
 
       it "sends an invitation email" do
         UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
-        click_button "Send"
+        find("#send-request").trigger('click')
       end
 
       it "sends an invitation email and a copy to the AC" do
         find(:css, "#copy_sender").set(true)
-        UserMailer.should_receive(:review_invitation).and_return(double(deliver:true))
+        UserMailer.should_receive(:review_invitation).and_return(double(deliver: true))
         UserMailer.should_receive(:review_invitation_AC_copy).and_return(double(deliver: true))
 
-        click_button "Send"
+        find("#send-request").trigger('click')
       end
 
       it "only lists successful emails in copy sent to AC" do
         fill_in "emails", with: "reviewer1@thoughtworks.com, reviewer2"
         find(:css, "#copy_sender").set(true)
 
-        click_button "Send"
+        find("#send-request").trigger('click')
         ActionMailer::Base.deliveries.count.should eq 2
         ActionMailer::Base.deliveries.last.body.encoded.should match "reviewer1@thoughtworks.com"
         ActionMailer::Base.deliveries.last.body.encoded.should_not match "reviewer2"
       end
 
       it "should not send a copy of the invitation email to the AC if checkbox isn't selected" do
-        click_button "Send"
+        find("#send-request").trigger('click')
         ActionMailer::Base.deliveries.count.should eq 1
       end
     end
@@ -62,12 +64,12 @@ describe "Invitations" do
 
         before do
           create(:additional_email, email: additional_email,
-            user_id: invited_user.id)
+                 user_id: invited_user.id)
           sign_in ac_user
           visit new_review_invitation_path(review)
           fill_in "emails", with: additional_email
           fill_in "message", with: "Why, hello!"
-          click_button "Send"
+          find("#send-request").trigger('click')
         end
         context "with an unconfirmed email alias" do
           it "should not display a feedback request" do

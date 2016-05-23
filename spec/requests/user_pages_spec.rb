@@ -127,9 +127,9 @@ describe "User pages: " do
         visit edit_user_path(nonadmin)
         page.find("#user_associate_consultant_attributes_graduated", visible: false).should be_disabled
         page.find('[name="user[associate_consultant_attributes][graduated]"][type="hidden"]', visible: false).should be_disabled
-        page.find("#user_admin").trigger("click")
+        page.find("#user_admin").click
 
-        page.find("#user-form-submit").trigger("click")
+        page.find("#user-form-submit").click
 
         page.should have_selector("tr##{id_selector} .fa-key")
 
@@ -145,9 +145,9 @@ describe "User pages: " do
         visit users_path
 
         visit edit_user_path(nonadmin)
-        page.find("#isac").trigger("click")
+        page.find("#isac").click
         fill_in "Program start date", with: "2014-07-08"
-        page.find("#user_associate_consultant_attributes_graduated", visible: true).trigger("click")
+        page.find("#user_associate_consultant_attributes_graduated").click
         select reviewing_group.name, from: "Reviewing group"
 
         click_button "Save Changes"
@@ -169,7 +169,7 @@ describe "User pages: " do
         visit users_path
 
         visit edit_user_path(nonadmin)
-        page.find("#isac").trigger('click')
+        page.find("#isac").click
         fill_in "Program start date", with: "2014-07-08"
         select reviewing_group.name, from: "Reviewing group"
 
@@ -222,7 +222,7 @@ describe "User pages: " do
         fill_in "Okta name", with: "glob"
 
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: false)
-        page.find('#isac').trigger('click')
+        page.find('#isac').click
         page.should have_selector("#user_associate_consultant_attributes_graduated", visible: true)
 
         fill_in "Program start date", with: "2014-07-08"

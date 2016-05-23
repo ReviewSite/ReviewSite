@@ -158,18 +158,19 @@ describe "Review pages" do
         sign_in admin
         visit new_review_path
 
-        unique_user = create(:user)
-        @unique_ac = create(:associate_consultant, :user => unique_user)
+        @unique_user = create(:user)
+        create(:associate_consultant, :user => @unique_user)
       end
 
       it "creates a new review", js: true do
         review = create(:review)
         page.execute_script( " $('.datepicker').datepicker('remove'); " )
-        page.find_by_id('review_associate_consultant_id', visible: false).
-          set(@unique_ac.id)
+        page.find("#token-input-review_associate_consultant_id").native.send_keys(@unique_user.name)
+        page.find(".token-input-selected-dropdown-item").click
         select "24-Month", from: "Review type"
 
         fill_in "review_review_date", with: "07/08/2014"
+        page.find_by_id("review_feedback_deadline").click
         page.find_by_id("review_feedback_deadline").value.should == "2014-7-1"
         fill_in "review_feedback_deadline", with: "21/06/2014"
 
@@ -306,7 +307,7 @@ describe "Review pages" do
 
       it "links to destroy review", js: true do
         click_link "review_destroy"
-        page.evaluate_script("window.confirm = function() { return true; }")
+        page.driver.browser.switch_to.alert.accept
         current_path.should == root_path
         Review.find_by_id(review).should be_nil
       end

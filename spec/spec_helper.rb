@@ -42,12 +42,6 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
 
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false, timeout: 180)
-  end
-
-  Capybara.javascript_driver = :poltergeist
-
   Capybara.default_wait_time = 10
 
   config.include Capybara::DSL

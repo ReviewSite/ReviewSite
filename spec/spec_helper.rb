@@ -55,6 +55,10 @@ RSpec.configure do |config|
     c.syntax = [:should, :expect]
   end
 
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = [:should, :expect]
+  end
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end

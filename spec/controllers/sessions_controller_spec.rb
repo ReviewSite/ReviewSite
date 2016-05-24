@@ -23,7 +23,7 @@ describe SessionsController do
         post :callback, { provider: :saml }
 
         new_user = User.last
-        new_user.admin.should be_false
+        new_user.admin.should be false
         new_user.name.should eq unpersisted_user_name
         new_user.okta_name.should eq "twer"
         new_user.email.should eq unpersisted_user_email

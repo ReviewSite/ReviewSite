@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.6'
 
-gem 'rails', '3.2.21'
+gem 'rails', '3.2.22.2'
 gem 'figaro'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'bourbon'
@@ -41,8 +41,9 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '3.4.1'
   gem 'guard-rspec', '0.5.5'
+  gem 'rspec-its'
   gem 'pry'
   gem 'pry-nav'
   gem 'jasmine-rails'

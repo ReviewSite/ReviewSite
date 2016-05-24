@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe ReviewingGroupsController do
+describe ReviewingGroupsController, :type => :controller do
   describe "routing" do
 
     it "routes to #index" do

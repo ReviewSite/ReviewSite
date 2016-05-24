@@ -36,7 +36,7 @@ describe "Feedback pages", :type => :feature do
         page.execute_script(' $("#save-feedback-button").click(); ')
         page.should have_selector(".flash")
         feedback = Feedback.last
-        feedback.submitted.should be_false
+        feedback.submitted.should be false
 
         inputs.each do |field, value|
           model_attr = field[9..-1]
@@ -74,7 +74,7 @@ describe "Feedback pages", :type => :feature do
       id = feedback.id
       feedback = Feedback.find(id)
       current_path.should == completed_feedback_user_path(user)
-      feedback.submitted.should be_true
+      feedback.submitted.should be true
 
       ActionMailer::Base.deliveries.length.should == 2
       mail = ActionMailer::Base.deliveries.first
@@ -123,7 +123,7 @@ describe "Feedback pages", :type => :feature do
           page.find("#save-feedback-button").click
           feedback = Feedback.last
           current_path.should == edit_review_feedback_path(review, feedback)
-          feedback.submitted.should be_false
+          feedback.submitted.should be false
 
           inputs.each do |field, value|
             model_attr = field[9..-1]
@@ -176,7 +176,7 @@ describe "Feedback pages", :type => :feature do
       page.find("#save-feedback-button").click
       feedback = Feedback.last
       current_path.should == edit_additional_review_feedback_path(review, feedback)
-      feedback.submitted.should be_false
+      feedback.submitted.should be false
       feedback.user_string == "A user"
       feedback.project_worked_on == "A project"
       feedback.role_description == "A role"

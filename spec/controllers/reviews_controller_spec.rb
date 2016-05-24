@@ -361,7 +361,7 @@ describe ReviewsController do
     it "redirects to the reviews list" do
       review = Review.create! valid_attributes
       delete :destroy, {:id => review.to_param}, valid_session
-      response.should redirect_to(root_url)
+      response.should redirect_to(root_path)
     end
   end
 

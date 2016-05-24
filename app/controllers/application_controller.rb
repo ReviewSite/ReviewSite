@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
 
-
   def require_login
     unless session[:userinfo]
       store_location
@@ -14,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    render "public/403", :status => 403
+    render file: "#{Rails.root}/public/403", formats: [:html], :status => 403
   end
 
 end

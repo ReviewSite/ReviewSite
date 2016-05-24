@@ -68,7 +68,7 @@ describe UsersController do
 
       it 'should create reviews for ac' do
         reviews = [double(Review).as_null_object]
-        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.stub(:create_default_reviews).and_return(reviews)
         Review.should_receive(:create_default_reviews)
 
         post :create, {user: valid_ac_params, isac: 1}, valid_session
@@ -76,22 +76,22 @@ describe UsersController do
 
       it 'should email the AC after reviews are created' do
         reviews = [double(Review).as_null_object]
-        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.stub(:create_default_reviews).and_return(reviews)
 
         message = double(Mail::Message)
         message.should_receive(:deliver)
-        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.stub(:reviews_creation).and_return(message)
         UserMailer.should_receive(:reviews_creation).with(reviews[0])
 
         post :create, {user: valid_ac_params, isac: 1}, valid_session
       end
 
       it 'should not create reviews when ac lacks start date' do
-        Review.should_not_receive(:create_default_reviews)
+        expect(Review).not_to receive(:create_default_reviews)
         post :create, {user: invalid_ac_params, isac: 1}, valid_session
         user = assigns(:user)
 
-        user.associate_consultant.reviews.size.should == 0
+        expect(user.associate_consultant.reviews.size).to equal 0
       end
 
       it 'should set the flash message' do
@@ -101,7 +101,7 @@ describe UsersController do
 
       it 'should redirect to the users page' do
         post :create, {user: valid_params}, valid_session
-        response.should redirect_to users_url
+        response.should redirect_to users_path
       end
     end
 
@@ -181,7 +181,7 @@ describe UsersController do
 
       it "should create four reviews for the AC" do
         reviews = [double(Review).as_null_object]
-        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.stub(:create_default_reviews).and_return(reviews)
         Review.should_receive(:create_default_reviews)
 
         put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
@@ -189,11 +189,11 @@ describe UsersController do
 
       it 'should email the AC after reviews are created' do
         reviews = [double(Review).as_null_object]
-        Review.stub!(:create_default_reviews).and_return(reviews)
+        Review.stub(:create_default_reviews).and_return(reviews)
 
         message = double(Mail::Message)
         message.should_receive(:deliver)
-        UserMailer.stub!(:reviews_creation).and_return(message)
+        UserMailer.stub(:reviews_creation).and_return(message)
         UserMailer.should_receive(:reviews_creation).with(reviews[0])
 
         put :update, {id: @user, user: valid_ac_params, isac: 1}, valid_session
@@ -216,7 +216,7 @@ describe UsersController do
       end
 
       it "should redirect to users page" do
-        response.should redirect_to users_url
+        response.should redirect_to users_path
       end
 
       it "should have a flash notice" do

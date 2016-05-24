@@ -330,7 +330,7 @@ describe ReviewsController do
 
       it "should not notify invitees when the deadline doesn't change" do
         @review.invitations << FactoryGirl.create_list(:invitation, 5)
-        UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
+        UserMailer.should_receive(:review_update).exactly(0).times
         put :update, {:id => @review.to_param,
                       :review => {'feedback_deadline' => @review.feedback_deadline,
                                   'review_date' => @review.review_date}}, valid_session
@@ -338,7 +338,7 @@ describe ReviewsController do
 
       it "should not notify invitees when the review date changes" do
         @review.invitations << FactoryGirl.create_list(:invitation, 5)
-        UserMailer.should_receive(:review_update).exactly(0).times.and_return(double(deliver: true))
+        UserMailer.should_receive(:review_update).exactly(0).times
         put :update, {:id => @review.to_param,
                       :review => {'feedback_deadline' => @review.feedback_deadline,
                                   'review_date' => @review.review_date + 2.months}}, valid_session
@@ -361,7 +361,7 @@ describe ReviewsController do
     it "redirects to the reviews list" do
       review = Review.create! valid_attributes
       delete :destroy, {:id => review.to_param}, valid_session
-      response.should redirect_to(root_url)
+      response.should redirect_to(root_path)
     end
   end
 

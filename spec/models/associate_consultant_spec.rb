@@ -23,7 +23,7 @@ describe AssociateConsultant do
     let(:reviews) { [review] }
     it "returns true when graduation date has passed" do
       ac = create(:associate_consultant, reviews: reviews)
-      ac.can_graduate?.should be_true
+      ac.can_graduate?.should be true
     end
 
     it "returns false when graduation date has not passed" do

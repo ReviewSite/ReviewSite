@@ -54,7 +54,7 @@ describe ReviewingGroupsController do
 
       it "redirects to the reviewing_groups list" do
         post :create, {:reviewing_group => valid_attributes}, valid_session
-        response.should redirect_to(reviewing_groups_url)
+        response.should redirect_to(reviewing_groups_path)
       end
     end
 
@@ -96,7 +96,7 @@ describe ReviewingGroupsController do
       it "redirects to the reviewing_group" do
         reviewing_group = ReviewingGroup.create! valid_attributes
         put :update, {:id => reviewing_group.to_param, :reviewing_group => valid_attributes}, valid_session
-        response.should redirect_to(reviewing_groups_url)
+        response.should redirect_to(reviewing_groups_path)
       end
     end
 
@@ -130,7 +130,7 @@ describe ReviewingGroupsController do
     it "redirects to the reviewing_groups list" do
       reviewing_group = ReviewingGroup.create! valid_attributes
       delete :destroy, {:id => reviewing_group.to_param}, valid_session
-      response.should redirect_to(reviewing_groups_url)
+      response.should redirect_to(reviewing_groups_path)
     end
   end
 

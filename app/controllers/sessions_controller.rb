@@ -8,12 +8,12 @@ class SessionsController < ApplicationController
 
     @current_user = User.where(email: current_email).first_or_create(name: real_name_or_default, okta_name: current_okta_name, admin: false)
 
-    redirect_back_or(root_url)
+    redirect_back_or(root_path)
   end
 
   def set_temp_okta
     self.current_okta_name = params["temp-okta"]
-    redirect_to root_url
+    redirect_to root_path
   end
 
 end

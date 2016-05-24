@@ -5,7 +5,6 @@ SimpleCov.start "rails"
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
@@ -48,11 +47,23 @@ RSpec.configure do |config|
 
   config.include WaitForAjax, type: :feature
 
+  config.include Rails.application.routes.url_helpers
+
+  config.infer_spec_type_from_file_location!
+
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = [:should, :expect]
+  end
+
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
     if example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
     else

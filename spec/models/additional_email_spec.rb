@@ -14,7 +14,7 @@ describe AdditionalEmail do
 
   describe "Default values" do
     it "include an unconfirmed email" do
-      email.confirmed_at.should be_false
+      email.confirmed_at.should be_falsey
     end
   end
 

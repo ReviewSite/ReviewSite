@@ -117,7 +117,7 @@ class UsersController < ApplicationController
   def destroy
     flash[:success] = "User \"#{@user.name}\" was successfully deleted."
     @user.destroy
-    redirect_to users_url
+    redirect_to users_path
   end
 
   def feedbacks

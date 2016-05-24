@@ -53,15 +53,15 @@ describe "Invitation" do
 
   describe "sent_to?" do
     it "should be false if user's email doesn't match invitation's email" do
-      subject.sent_to?( create(:user) ).should be_false
+      subject.sent_to?( create(:user) ).should be false
     end
 
     it "should be true if user's email matches invitation's email" do
-      subject.sent_to?( create(:user, email: invitation.email) ).should be_true
+      subject.sent_to?( create(:user, email: invitation.email) ).should be true
     end
 
     it "should not be sent to nil" do
-      subject.sent_to?(nil).should be_false
+      subject.sent_to?(nil).should be false
     end
   end
 
@@ -71,30 +71,30 @@ describe "Invitation" do
     it "should be false if feedback deadline has not passed and feedback is not submitted" do
       review.update_attribute(:feedback_deadline, Date.tomorrow)
       create(:feedback, review: review, user: user)
-      subject.expired?.should be_false
+      expect(subject.expired?).to be false
     end
 
     it "should be false if feedback deadline has not passed and feedback is submitted" do
       review.update_attribute(:feedback_deadline, Date.tomorrow)
       create(:submitted_feedback, review: review, user: user)
-      subject.expired?.should be_false
+      subject.expired?.should be false
     end
 
     it "should be false if feedback deadline has passed and feedback is not submitted" do
       review.update_attribute(:feedback_deadline, Date.yesterday)
       create(:feedback, review: review, user: user)
-      subject.expired?.should be_false
+      subject.expired?.should be false
     end
 
     it "should be false if feedback deadline has passed and feedback does not exist" do
       review.update_attribute(:feedback_deadline, Date.yesterday)
-      subject.expired?.should be_false
+      subject.expired?.should be_falsey
     end
 
     it "should be true if feedback deadline has passed and feedback is submitted" do
       review.update_attribute(:feedback_deadline, Date.yesterday)
       create(:submitted_feedback, review: review, user: user)
-      subject.expired?.should be_true
+      subject.expired?.should be true
     end
   end
 

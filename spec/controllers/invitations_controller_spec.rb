@@ -183,7 +183,7 @@ describe InvitationsController do
 
       message = double(Mail::Message)
       message.should_receive(:deliver)
-      UserMailer.stub!(:feedback_declined).and_return(message)
+      UserMailer.stub(:feedback_declined).and_return(message)
       UserMailer.should_receive(:feedback_declined).with(invitation)
 
       delete :destroy, {id: invitation.to_param, review_id: review.id}, valid_sessions

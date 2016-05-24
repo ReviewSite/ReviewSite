@@ -53,7 +53,7 @@ end
 
 group :test do
   gem 'rack_session_access'
-  gem 'shoulda-matchers', '1.3.0'
+  gem 'shoulda-matchers', '2.8.0'
   gem 'poltergeist'
   gem 'phantomjs'
   gem 'capybara'

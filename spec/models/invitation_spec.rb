@@ -71,7 +71,7 @@ describe "Invitation" do
     it "should be false if feedback deadline has not passed and feedback is not submitted" do
       review.update_attribute(:feedback_deadline, Date.tomorrow)
       create(:feedback, review: review, user: user)
-      subject.expired?.should be false
+      expect(subject.expired?).to be false
     end
 
     it "should be false if feedback deadline has not passed and feedback is submitted" do

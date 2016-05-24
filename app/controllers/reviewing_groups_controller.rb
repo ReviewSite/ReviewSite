@@ -37,7 +37,7 @@ class ReviewingGroupsController < ApplicationController
       if @reviewing_group.save
         flash[:success] = "Reviewing group \"#{params[:reviewing_group][:name]}\" was successfully created."
 
-        format.html { redirect_to reviewing_groups_url }
+        format.html { redirect_to reviewing_groups_path }
         format.json { head :no_content }
       else
         format.html { render action: "new" }
@@ -53,7 +53,7 @@ class ReviewingGroupsController < ApplicationController
       if @reviewing_group.update_attributes(params[:reviewing_group])
         flash[:success] = "Reviewing group \"#{params[:reviewing_group][:name]}\" was successfully updated."
 
-        format.html { redirect_to reviewing_groups_url }
+        format.html { redirect_to reviewing_groups_path }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -69,7 +69,7 @@ class ReviewingGroupsController < ApplicationController
     @reviewing_group.destroy
 
     respond_to do |format|
-      format.html { redirect_to reviewing_groups_url }
+      format.html { redirect_to reviewing_groups_path }
       format.json { head :no_content }
     end
   end

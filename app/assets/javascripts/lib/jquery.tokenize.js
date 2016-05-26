@@ -153,6 +153,7 @@
             });
 
             this.searchInput.on('blur', function(){
+                $this.tokenAdd($this.searchInput.val(), '');
                 $this.tokensContainer.removeClass('Focused');
             });
 

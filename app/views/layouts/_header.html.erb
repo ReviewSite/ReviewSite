@@ -30,8 +30,6 @@
               <% if !current_user.coachees.empty? %>
                 <li> <%= link_to "Coachee Reviews", coachees_reviews_path %> </li>
               <% end %>
-            <% elsif can? :index, Review %>
-              <li> <%= link_to "Watched Reviews", reviews_path %> </li>
             <% end %>
 
             <% if current_user.admin? %>

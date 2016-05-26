@@ -16,7 +16,6 @@ var tokenizeEmailsToField = function () {
         searchMinLength: Number.MAX_SAFE_INTEGER-1,
         searchMaxLength: Number.MAX_SAFE_INTEGER
     });
-    $("")
 };
 
 ReviewSite.invitations = {

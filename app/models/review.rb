@@ -24,6 +24,8 @@ class Review < ActiveRecord::Base
   has_many :invitations,      dependent: :destroy
   has_one :reviewee, through: :associate_consultant, source: :user
 
+
+
   after_validation :check_errors
   after_initialize :set_new_review_format
 

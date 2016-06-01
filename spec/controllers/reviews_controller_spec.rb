@@ -310,7 +310,6 @@ describe ReviewsController do
         @review = Review.create! valid_attributes
         @review.update_attribute(:associate_consultant_id, ac.id)
         @review.update_attribute(:review_date, @review.review_date + 1.month)
-        @review.update_attribute(:reviewee, ac.user)
         set_current_user ac.user
       end
 

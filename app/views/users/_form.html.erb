@@ -11,17 +11,12 @@
 
   <div class="field">
     <%= f.label :email, "Primary Email" %>
-    <% if @user.errors[:email] %>
-      <p class="field-error-message"><%= @user.errors[:email].first %></p>
-    <% end %>
     <%= @user.email %>
   </div>
 
   <div class="field">
     <%= render partial: 'edit_profile' %>
   </div>
-
-  <%= f.hidden_field :okta_name, value: current_okta_name %>
 
   <div class="actions">
     <%= f.submit "#{button_title}", :id => "user-form-submit" %>

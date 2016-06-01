@@ -1,10 +1,19 @@
 class AssociateConsultant < ActiveRecord::Base
-  attr_accessible :notes, :reviewing_group_id, :coach_id, :user_id, :associate_consultant_id, :graduated, :program_start_date
+  attr_accessible :notes,
+                  :reviewing_group_id,
+                  :coach_id,
+                  :user_id,
+                  :associate_consultant_id,
+                  :graduated,
+                  :program_start_date,
+                  :as => :admin
 
   belongs_to :reviewing_group
   belongs_to :coach, class_name: "User", foreign_key: :coach_id
   belongs_to :user, foreign_key: :user_id
   has_many :reviews, dependent: :destroy
+
+  accepts_nested_attributes_for :reviews
 
   scope :not_graduated, -> { where(graduated: false) }
 

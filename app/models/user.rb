@@ -3,11 +3,15 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   attr_accessible \
+      :name
+
+  attr_accessible \
       :name,
       :okta_name,
       :email,
       :admin,
-      :associate_consultant_attributes
+      :associate_consultant_attributes,
+      :as => :admin
 
   has_many :feedbacks
   has_many :coachees, class_name:'AssociateConsultant', foreign_key: 'coach_id'

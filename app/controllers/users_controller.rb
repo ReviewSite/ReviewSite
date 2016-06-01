@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => :create
   before_filter :load_user, :only => [:show, :edit, :update, :destroy, :feedbacks]
   respond_to :js
 
@@ -28,7 +28,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(params[:user], :as => :admin)
+    authorize! :create, @user
 
     if @user.save
       flash[:success] = "User \"#{@user.name}\" was successfully created"
@@ -55,7 +56,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(params[:user])
+    update_attributes_success = false
+
+    if current_user.admin?
+      update_attributes_success = @user.update_attributes(params[:user], :as => :admin)
+    else
+      update_attributes_success = @user.update_attributes(params[:user])
+    end
+
+    if update_attributes_success
       flash[:success] = "User \"#{@user.name}\" was successfully updated"
       selected = "1"
       if params[:isac] == selected && !@user.associate_consultant.program_start_date.nil?

@@ -18,7 +18,7 @@
 //= require_tree .
 //= require bootstrap-datepicker/core
 //= require jquery.tokeninput
-//
+//= require jquery_nested_form
 //
 
 // Using the Garber-Irish Implementation for namespaces

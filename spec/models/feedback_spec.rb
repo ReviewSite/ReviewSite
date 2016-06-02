@@ -10,7 +10,7 @@ end
 
 describe Feedback do
   it "has a review" do
-    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman")
+    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman", :role_competence_to_be_improved => "Needs to learn rails")
     f.user = create(:user)
     f.valid?.should == false
 
@@ -20,7 +20,7 @@ describe Feedback do
   end
 
   it "has a user" do
-    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman")
+    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman", :role_competence_to_be_improved => "Needs to learn rails")
     f.review = create(:review)
     f.valid?.should == false
 
@@ -30,7 +30,7 @@ describe Feedback do
   end
 
   it "has a role description" do
-    feedback = Feedback.new(:project_worked_on => "Garbage Can")
+    feedback = Feedback.new(:project_worked_on => "Garbage Can", :role_competence_to_be_improved => "Needs to learn rails")
     feedback.review = create(:review)
     feedback.user = create(:user)
     feedback.valid?.should == false
@@ -40,12 +40,22 @@ describe Feedback do
   end
 
   it "has a project worked on" do
-    feedback = Feedback.new(:role_description => "Fire Starter")
+    feedback = Feedback.new(:role_description => "Fire Starter", :role_competence_to_be_improved => "Needs to learn rails")
     feedback.review = create(:review)
     feedback.user = create(:user)
     feedback.valid?.should == false
 
     feedback.project_worked_on = "Garbage Can"
+    feedback.valid?.should == true
+  end
+
+  it "has at least one feedback field" do
+    feedback = Feedback.new(:role_description => "Fire Starter", :project_worked_on => "Garbage Can")
+    feedback.review = create(:review)
+    feedback.user = create(:user)
+    feedback.valid?.should == false
+
+    feedback.role_competence_to_be_improved = "Needs to learn rails"
     feedback.valid?.should == true
   end
 

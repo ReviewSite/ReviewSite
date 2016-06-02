@@ -22,6 +22,7 @@ class Feedback < ActiveRecord::Base
   validates :user_id, :presence => true
   validates :project_worked_on, :presence => true
   validates :role_description, :presence => true
+  validate :has_one_feedback_field
 
   validates :user_string, :presence => true, :unless => "user_string.nil?"
 
@@ -62,5 +63,15 @@ class Feedback < ActiveRecord::Base
 
   def is_additional
     not user_string.nil?
+  end
+
+  def has_one_feedback_field
+      if comments.blank? &&
+         role_competence_went_well.blank? && role_competence_to_be_improved.blank? &&
+         consulting_skills_went_well.blank? && consulting_skills_to_be_improved.blank? &&
+         teamwork_went_well.blank? && teamwork_to_be_improved.blank? &&
+         contributions_went_well.blank? && contributions_to_be_improved.blank?
+      errors[:base] = "At least one feedback field must be filled out"
+    end
   end
 end

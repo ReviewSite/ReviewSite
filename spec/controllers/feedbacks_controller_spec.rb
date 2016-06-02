@@ -6,6 +6,7 @@ describe FeedbacksController do
     @user = create(:user)
     @project_worked_on = "Death Star II"
     @role_description = "Independent Contractor"
+    @role_competence_to_be_improved = "Needs to learn rails"
     @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
     set_current_user(@user)
     Ability.any_instance.stub(:can?).and_return(true)
@@ -15,7 +16,8 @@ describe FeedbacksController do
     { review_id: @review.id,
       user_id: @user.id,
       project_worked_on: @project_worked_on,
-      role_description: @role_description }
+      role_description: @role_description,
+      role_competence_to_be_improved: @role_competence_to_be_improved}
   end
 
   def valid_session
@@ -101,7 +103,8 @@ describe FeedbacksController do
           post :create, {
             :feedback => {
               :project_worked_on => @project_worked_on,
-              :role_description => @role_description
+              :role_description => @role_description,
+              :role_competence_to_be_improved => @role_competence_to_be_improved
             },
             :review_id => @review.id,
            }, valid_session
@@ -112,7 +115,8 @@ describe FeedbacksController do
         post :create, {
             :feedback => {
                 :project_worked_on => @project_worked_on,
-                :role_description => @role_description
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
             },
             :review_id => @review.id,
         }, valid_session
@@ -126,7 +130,8 @@ describe FeedbacksController do
         post :create, {
             :feedback => {
                 :project_worked_on => @project_worked_on,
-                :role_description => @role_description
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
             },
             :review_id => @review.id,
         }, valid_session
@@ -137,7 +142,8 @@ describe FeedbacksController do
         post :create, {
             :feedback => {
                 :project_worked_on => @project_worked_on,
-                :role_description => @role_description
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
             },
             :review_id => @review.id,
             :submit_final_button => 'Submit Final'
@@ -152,7 +158,8 @@ describe FeedbacksController do
         post :create, {
             :feedback => {
                 :project_worked_on => @project_worked_on,
-                :role_description => @role_description
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
             },
             :review_id => @review.id,
             :submit_final_button => 'Submit Final'
@@ -163,7 +170,8 @@ describe FeedbacksController do
         post :create, {
           :feedback => {
             :project_worked_on => @project_worked_on,
-            :role_description => @role_description
+            :role_description => @role_description,
+            :role_competence_to_be_improved => @role_competence_to_be_improved
           },
           :review_id => @review.id
         }, valid_session

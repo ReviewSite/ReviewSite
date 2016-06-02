@@ -3,6 +3,8 @@ FactoryGirl.define do
     review
     user
     user_string nil
+    project_worked_on "Death Star II"
+    role_description "Independent Contractor"
     submitted false
 
     factory :submitted_feedback do

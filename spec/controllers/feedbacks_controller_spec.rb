@@ -4,6 +4,8 @@ describe FeedbacksController do
   before(:each) do
     @review = create(:review)
     @user = create(:user)
+    @project_worked_on = "Death Star II"
+    @role_description = "Independent Contractor"
     @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
     set_current_user(@user)
     Ability.any_instance.stub(:can?).and_return(true)
@@ -11,7 +13,9 @@ describe FeedbacksController do
 
   def valid_attributes
     { review_id: @review.id,
-      user_id: @user.id}
+      user_id: @user.id,
+      project_worked_on: @project_worked_on,
+      role_description: @role_description }
   end
 
   def valid_session
@@ -94,12 +98,24 @@ describe FeedbacksController do
     describe "with valid params" do
       it "creates a new Feedback" do
         expect {
-          post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+          post :create, {
+            :feedback => {
+              :project_worked_on => @project_worked_on,
+              :role_description => @role_description
+            },
+            :review_id => @review.id,
+           }, valid_session
         }.to change(Feedback, :count).by(1)
       end
 
       it "assigns a newly created feedback as @feedback" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description
+            },
+            :review_id => @review.id,
+        }, valid_session
         assigns(:feedback).should be_a(Feedback)
         assigns(:feedback).should be_persisted
         assigns(:feedback).user.should eq(@user)
@@ -107,12 +123,25 @@ describe FeedbacksController do
       end
 
       it "sets the submitted to false by default" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description
+            },
+            :review_id => @review.id,
+        }, valid_session
         assigns(:feedback).submitted.should == false
       end
 
       it "sets the submitted to true if clicked on the 'Submit Final' button" do
-        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description
+            },
+            :review_id => @review.id,
+            :submit_final_button => 'Submit Final'
+        }, valid_session
         assigns(:feedback).reload
         assigns(:feedback).submitted.should == true
       end
@@ -120,11 +149,24 @@ describe FeedbacksController do
       it "sends a notification email if clicked on the 'Submit Final' button" do
         UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
         UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
-        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description
+            },
+            :review_id => @review.id,
+            :submit_final_button => 'Submit Final'
+        }, valid_session
       end
 
       it "redirects to the created feedback edit path" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+          :feedback => {
+            :project_worked_on => @project_worked_on,
+            :role_description => @role_description
+          },
+          :review_id => @review.id
+        }, valid_session
         response.should redirect_to(edit_review_feedback_path(@review.id, Feedback.last.id))
       end
     end

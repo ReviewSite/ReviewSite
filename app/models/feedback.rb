@@ -20,6 +20,8 @@ class Feedback < ActiveRecord::Base
 
   validates :review_id, :presence => true
   validates :user_id, :presence => true
+  validates :project_worked_on, :presence => true
+  validates :role_description, :presence => true
 
   validates :user_string, :presence => true, :unless => "user_string.nil?"
 

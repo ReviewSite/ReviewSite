@@ -62,8 +62,9 @@ class FeedbacksController < ApplicationController
   def create
     @feedback = @review.feedbacks.build(params[:feedback])
     @feedback.user = current_user
+    @validate = params[:commit] != "Save as Draft"
     respond_to do |format|
-      if @feedback.save
+      if @feedback.save(:validate => @validate)
         format.html { execute_button_action(format) }
         format.json { render json: [@review, @feedback], status: :created, location: [@review, @feedback] }
       else
@@ -80,8 +81,10 @@ class FeedbacksController < ApplicationController
   # PUT /feedbacks/1
   # PUT /feedbacks/1.json
   def update
+    @validate = params[:commit] != "Save as Draft"
     respond_to do |format|
-      if @feedback.update_attributes(params[:feedback])
+      @feedback.attributes = params[:feedback]
+      if @feedback.save(:validate => @validate)
         format.html { execute_button_action(format) }
         format.json { head :no_content }
       else

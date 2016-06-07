@@ -204,8 +204,10 @@ describe FeedbacksController do
         # specifies that the Feedback created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Feedback.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => feedback.to_param, :feedback => {'these' => 'params'}, :review_id => @review.id}, valid_session
+        put :update, {:id => feedback.to_param, :feedback => feedback, :review_id => @review.id}, valid_session
+        assigns(:feedback).should be_a (Feedback)
+        assigns(:feedback).user.should eq(@user)
+        assigns(:feedback).review.should eq(@review)
       end
 
       it "assigns the requested feedback as @feedback" do

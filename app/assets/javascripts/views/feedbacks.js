@@ -42,9 +42,9 @@ var openNextAccordionPanel = function () {
 var validateAllRequired = function(showErrors) {
     var valid = validateRequiredFields(showErrors) && validateOneOfManyRequiredFields(showErrors);
     if (valid) {
-        $("#preview-and-submit-button").removeClass('diet').addClass('primary');
+        $("#preview-and-submit-button").removeClass('diet').addClass('success');
     } else {
-        $("#preview-and-submit-button").removeClass('primary').addClass('diet');
+        $("#preview-and-submit-button").removeClass('success').addClass('diet');
     }
     return valid;
 };

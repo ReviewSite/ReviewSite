@@ -60,15 +60,15 @@ describe('feedbacks', function () {
             spyOn(window, 'validateOneOfManyRequiredFields').and.returnValue(true);
             expect(validateAllRequired()).toBe(true);
         });
-        it('should change diet to primary when all validations pass', function () {
+        it('should change diet to success when all validations pass', function () {
             setFixtures('<input class="button diet" id="preview-and-submit-button">');
             spyOn(window, 'validateRequiredFields').and.returnValue(true);
             spyOn(window, 'validateOneOfManyRequiredFields').and.returnValue(true);
             validateAllRequired();
-            expect($('#preview-and-submit-button')).toHaveClass("primary");
+            expect($('#preview-and-submit-button')).toHaveClass("success");
         });
-        it('should change primary to diet when any validation fails', function () {
-            setFixtures('<input class="button primary" id="preview-and-submit-button">');
+        it('should change success to diet when any validation fails', function () {
+            setFixtures('<input class="button success" id="preview-and-submit-button">');
             spyOn(window, 'validateRequiredFields').and.returnValue(true);
             spyOn(window, 'validateOneOfManyRequiredFields').and.returnValue(false);
             validateAllRequired();

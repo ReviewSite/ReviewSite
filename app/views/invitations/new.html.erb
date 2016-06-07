@@ -50,7 +50,7 @@
       <% if !!@new_message %>
       <%= text_area_tag :message, @new_message, required: true %>
       <% else %>
-      <%= text_area_tag :message, @default_body %>
+      <%= text_area_tag :message, @default_body, required: true %>
       <% end %>
   </div>
     <%= submit_tag "Send", id: "send-request" %>

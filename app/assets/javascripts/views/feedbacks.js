@@ -124,5 +124,6 @@ ReviewSite.feedbacks = {
         warnIfUnsavedChanges();
         previewAndSubmit();
         setupRequiredErrorHandler();
+        validateAllRequired(false);
     }
 };

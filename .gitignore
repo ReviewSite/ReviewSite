@@ -43,3 +43,5 @@ vagrant_postgres91_utf8_rails/.vagrant.v1.1366390144
 
 # Ignore application configuration
 /config/application.yml
+
+setMailEnv.sh

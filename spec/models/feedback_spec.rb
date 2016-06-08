@@ -1,8 +1,16 @@
 require 'spec_helper'
 
+def build_new_valid_feedback (attributes={})
+  feedback = build(:feedback)
+  attributes.each do |property_name, property_value|
+    feedback.send("#{property_name}=", property_value)
+  end
+  feedback
+end
+
 describe Feedback do
   it "has a review" do
-    f = Feedback.new
+    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman", :role_competence_to_be_improved => "Needs to learn rails")
     f.user = create(:user)
     f.valid?.should == false
 
@@ -12,7 +20,7 @@ describe Feedback do
   end
 
   it "has a user" do
-    f = Feedback.new
+    f = Feedback.new(:project_worked_on => "Gotham", :role_description => "Batman", :role_competence_to_be_improved => "Needs to learn rails")
     f.review = create(:review)
     f.valid?.should == false
 
@@ -21,9 +29,40 @@ describe Feedback do
     f.valid?.should == true
   end
 
+  it "has a role description" do
+    feedback = Feedback.new(:project_worked_on => "Garbage Can", :role_competence_to_be_improved => "Needs to learn rails")
+    feedback.review = create(:review)
+    feedback.user = create(:user)
+    feedback.valid?.should == false
+
+    feedback.role_description = "Fire Starter"
+    feedback.valid?.should == true
+  end
+
+  it "has a project worked on" do
+    feedback = Feedback.new(:role_description => "Fire Starter", :role_competence_to_be_improved => "Needs to learn rails")
+    feedback.review = create(:review)
+    feedback.user = create(:user)
+    feedback.valid?.should == false
+
+    feedback.project_worked_on = "Garbage Can"
+    feedback.valid?.should == true
+  end
+
+  it "has at least one feedback field" do
+    feedback = Feedback.new(:role_description => "Fire Starter", :project_worked_on => "Garbage Can")
+    feedback.review = create(:review)
+    feedback.user = create(:user)
+    feedback.valid?.should == false
+
+    feedback.role_competence_to_be_improved = "Needs to learn rails"
+    feedback.valid?.should == true
+  end
+
   it "cannot create 2nd feedback for the same review/user combination" do
-    old_f = create(:feedback)
-    new_f = build(:feedback)
+    old_f = build_new_valid_feedback
+    old_f.save
+    new_f = build_new_valid_feedback
 
     new_f.valid?.should ==  true
 
@@ -37,8 +76,7 @@ describe Feedback do
   end
 
   it "can have a user_string instead of a user_id" do
-    new_f = build(:feedback)
-
+    new_f = build_new_valid_feedback
     new_f.user_id = nil
     new_f.user_string = "Jane Doe"
     new_f.valid?.should == false
@@ -48,12 +86,13 @@ describe Feedback do
   end
 
   it "has the user's name for the reviewed" do
-    new_f = create(:feedback)
+    new_f = build_new_valid_feedback
+    new_f.save
     new_f.reviewer.should == new_f.user.name
   end
 
   it "has the customer user_string for the reviewer" do
-    new_f = create(:feedback, :user_string => "Holly")
+    new_f = build_new_valid_feedback({ user_string: "Holly" })
     new_f.reviewer.should == "Holly"
   end
 
@@ -61,8 +100,8 @@ describe Feedback do
     let(:coach) { create(:coach) }
     let(:ac) { create(:associate_consultant, coach: coach) }
     let(:review) { create(:review, associate_consultant: ac) }
-    subject { build(:feedback, id: 1, review: review,
-      user: ac.user) }
+    subject { build_new_valid_feedback( { id: 1, review: review,
+      user: ac.user }) }
 
     it "sends notification email" do
       UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))

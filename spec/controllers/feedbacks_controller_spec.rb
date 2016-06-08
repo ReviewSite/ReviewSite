@@ -4,6 +4,9 @@ describe FeedbacksController do
   before(:each) do
     @review = create(:review)
     @user = create(:user)
+    @project_worked_on = "Death Star II"
+    @role_description = "Independent Contractor"
+    @role_competence_to_be_improved = "Needs to learn rails"
     @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
     set_current_user(@user)
     Ability.any_instance.stub(:can?).and_return(true)
@@ -11,7 +14,10 @@ describe FeedbacksController do
 
   def valid_attributes
     { review_id: @review.id,
-      user_id: @user.id}
+      user_id: @user.id,
+      project_worked_on: @project_worked_on,
+      role_description: @role_description,
+      role_competence_to_be_improved: @role_competence_to_be_improved}
   end
 
   def valid_session
@@ -94,12 +100,26 @@ describe FeedbacksController do
     describe "with valid params" do
       it "creates a new Feedback" do
         expect {
-          post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+          post :create, {
+            :feedback => {
+              :project_worked_on => @project_worked_on,
+              :role_description => @role_description,
+              :role_competence_to_be_improved => @role_competence_to_be_improved
+            },
+            :review_id => @review.id,
+           }, valid_session
         }.to change(Feedback, :count).by(1)
       end
 
       it "assigns a newly created feedback as @feedback" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
+            },
+            :review_id => @review.id,
+        }, valid_session
         assigns(:feedback).should be_a(Feedback)
         assigns(:feedback).should be_persisted
         assigns(:feedback).user.should eq(@user)
@@ -107,12 +127,27 @@ describe FeedbacksController do
       end
 
       it "sets the submitted to false by default" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
+            },
+            :review_id => @review.id,
+        }, valid_session
         assigns(:feedback).submitted.should == false
       end
 
       it "sets the submitted to true if clicked on the 'Submit Final' button" do
-        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
+            },
+            :review_id => @review.id,
+            :submit_final_button => 'Submit Final'
+        }, valid_session
         assigns(:feedback).reload
         assigns(:feedback).submitted.should == true
       end
@@ -120,11 +155,26 @@ describe FeedbacksController do
       it "sends a notification email if clicked on the 'Submit Final' button" do
         UserMailer.should_receive(:new_feedback_notification).and_return(double(deliver: true))
         UserMailer.should_receive(:new_feedback_notification_coach).and_return(double(deliver: true))
-        post :create, {:feedback => {}, :review_id => @review.id, :submit_final_button => 'Submit Final'}, valid_session
+        post :create, {
+            :feedback => {
+                :project_worked_on => @project_worked_on,
+                :role_description => @role_description,
+                :role_competence_to_be_improved => @role_competence_to_be_improved
+            },
+            :review_id => @review.id,
+            :submit_final_button => 'Submit Final'
+        }, valid_session
       end
 
       it "redirects to the created feedback edit path" do
-        post :create, {:feedback => {}, :review_id => @review.id}, valid_session
+        post :create, {
+          :feedback => {
+            :project_worked_on => @project_worked_on,
+            :role_description => @role_description,
+            :role_competence_to_be_improved => @role_competence_to_be_improved
+          },
+          :review_id => @review.id
+        }, valid_session
         response.should redirect_to(edit_review_feedback_path(@review.id, Feedback.last.id))
       end
     end
@@ -154,8 +204,10 @@ describe FeedbacksController do
         # specifies that the Feedback created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Feedback.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => feedback.to_param, :feedback => {'these' => 'params'}, :review_id => @review.id}, valid_session
+        put :update, {:id => feedback.to_param, :feedback => feedback, :review_id => @review.id}, valid_session
+        assigns(:feedback).should be_a (Feedback)
+        assigns(:feedback).user.should eq(@user)
+        assigns(:feedback).review.should eq(@review)
       end
 
       it "assigns the requested feedback as @feedback" do

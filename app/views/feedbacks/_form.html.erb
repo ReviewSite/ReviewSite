@@ -23,18 +23,21 @@
         <% if(@review.is_comments_header(heading)) %>
           <div class="field">
             <%= f.label 'project_worked_on_required', t('feedback.project_worked_on_required') %>
-            <%= f.text_field :project_worked_on, required: true %>
+            <%= f.text_field :project_worked_on, class: "required" %>
+            <small class="field-error-message">Please fill out this field.</small>
           </div>
 
           <div class="field">
             <%= f.label 'role_description_required', t('feedback.role_description_required') %>
-            <%= f.text_field :role_description, required: true %>
+            <%= f.text_field :role_description, class: "required" %>
+            <small class="field-error-message">Please fill out this field.</small>
           </div>
 
           <div class="field">
             <div class="ideaListHeader comments-label"><b><%= t('feedback.fast_feedback') %></b></div>
             <%= f.label t('feedback.share_thoughts') %>
-            <%= f.text_area :comments %>
+            <%= f.text_area :comments, class: "one-of-many-required" %>
+            <small class="field-error-message">Please fill out <strong>one</strong> of the comment fields.</small>
           </div>
         <% end %>
 
@@ -42,16 +45,17 @@
           <% next if(@review.is_comments_header(heading)) %>
           <div class="field">
             <%= f.label field %>
-            <%= f.text_area field %>
+            <%= f.text_area field, class: "one-of-many-required" %>
+            <small class="field-error-message">Please fill out <strong>one</strong> of the comment fields.</small>
           </div>
         <% end %>
         </section>
       <% end %>
       <div class="actions">
-        <%= f.submit 'Save as Draft', { :class => "diet", :id => "save-feedback-button", onclick: "validateRequiredFields()" } %>
-        <%= link_to 'Continue', '#', :onclick => "openNextAccordionPanel()", class: "button diet", id: "continue-button" %>
+        <%= f.submit 'Save as Draft', { :class => "diet", :id => "save-feedback-button" } %>
+        <%= link_to 'Continue', '#', :onclick => "openNextAccordionPanel()", class: "button primary", id: "continue-button" %>
         <div class="pull-right">
-          <%= f.submit "Preview & Submit", { class: "button primary", id: "preview-and-submit-button", name: "preview_and_submit_button", onclick: "validateRequiredFields()" } %>
+          <%= f.submit "Preview & Submit", { class: "button diet", id: "preview-and-submit-button", name: "preview_and_submit_button", onclick: "return(validateAllRequired(true))" } %>
         </div>
       </div>
     </section>

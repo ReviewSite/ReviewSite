@@ -3,20 +3,22 @@
 
 ## Project Setup
 * [Set up Git locally](https://github.com/ReviewSite/ReviewSite/wiki/1.-Setting-Up-Git-Locally)
-* Fork the repo
-* Install VirtualBox >= 4.3.26
-* Install Vagrant >= 1.7.2
-* Request access to the 1Password team -- email tw-review-site@thoughtworks.com for questions
-    * Add application.yml file to config/
-* Request access to Okta Preview from TechOps
+* Clone the repo
+* Add application.yml file from 1Password to config/
 
 #### Spin up the Vagrant box
     vagrant up
     vagrant ssh
     cd workspace
 
+#### Install Dependencies and Setup Database
+    $ bundle install
+    $ bundle exec rake db:drop db:create db:migrate db:seed
+    $ RAILS_ENV=test bundle exec rake db:drop db:create db:migrate
+
 #### Start the local server
     $ bundle exec puma
+Go to the local site through Okta Preview
 View the dev site locally at `http://localhost:3000/`
 
 #### Run the test suite
@@ -32,6 +34,7 @@ View the dev site locally at `http://localhost:3000/`
   * `$ RAILS_ENV=test bundle exec rake spec:javascript`
   * To run a single test: `$ RAILS_ENV=test bundle exec rake spec:javascript SPEC=my_test`
 * See the wiki for a [guide on Manual Testing](https://github.com/ReviewSite/ReviewSite/wiki/3.-Manual-Testing-Guide)
+* You can run the functional tests on your local machine (not vagrant) to debug them in Firefox
 
 ## Deploying the ReviewSite to Heroku
 When deploying to a new Heroku instance, please specify e-mail account settings in the following configuration

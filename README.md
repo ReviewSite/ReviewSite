@@ -7,11 +7,17 @@
 * Add application.yml file from 1Password to config/
 
 #### Spin up the Vagrant box
+* During the provising process you will need to enter your system administrator password for the NFS share mount
+
+
     vagrant up
     vagrant ssh
     cd workspace
 
 #### Install Dependencies and Setup Database
+* Run setup.sh OR run the following
+
+
     $ bundle install
     $ bundle exec rake db:drop db:create db:migrate db:seed
     $ RAILS_ENV=test bundle exec rake db:drop db:create db:migrate

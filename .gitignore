@@ -45,3 +45,7 @@ vagrant_postgres91_utf8_rails/.vagrant.v1.1366390144
 /config/application.yml
 
 setMailEnv.sh
+
+# Ignore packer artifacts
+/packer/*.box
+/packer/packer_cache

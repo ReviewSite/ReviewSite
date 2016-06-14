@@ -1,7 +1,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "review-site/dev"
 
   # Configure cached packages to be shared between instances of the same base box.
   # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
@@ -15,13 +15,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "forwarded_port", guest: 9292, host: 3000
   config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "private_network", ip: "192.168.44.10"
 
-  config.vm.synced_folder "./", "/home/vagrant/workspace"
+  config.vm.synced_folder "./", "/home/vagrant/workspace", nfs: true,
+    mount_options: %w{nolock,vers=3,udp,noatime,actimeo=1}
   config.omnibus.chef_version = '12.9.41'
 
   config.vm.provider "virtualbox" do |v|
     v.name = "review-site-box"
-    v.memory = 1024
+    v.memory = 2048
     v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
   end
 

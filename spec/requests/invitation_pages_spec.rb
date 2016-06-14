@@ -82,7 +82,6 @@ describe "Invitations" do
           it "should display a feedback request" do
             extra_email = AdditionalEmail.find_by_email(additional_email)
             extra_email.confirmed_at = Date.today
-
             page.should have_content(ac_user.name)
           end
         end

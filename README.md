@@ -16,12 +16,11 @@
 
 #### Install Dependencies and Setup Database
 * Run setup.sh OR run the following
-
-
-    $ bundle install
-    $ bundle exec rake db:drop db:create db:migrate db:seed
-    $ RAILS_ENV=test bundle exec rake db:drop db:create db:migrate
-
+```
+$ bundle install
+$ bundle exec rake db:drop db:create db:migrate db:seed
+$ RAILS_ENV=test bundle exec rake db:drop db:create db:migrate
+```
 #### Start the local server
     $ bundle exec puma
 Go to the local site through Okta Preview

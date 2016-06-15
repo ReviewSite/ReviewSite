@@ -6,13 +6,17 @@
   # create test users
   #############################
 
-  admin = User.create(name: "admin admin", okta_name: "admin", email: "admin@thoughtworks.com" )
-  admin.admin = true
+  admin = User.create(name: "admin admin")
+  admin.okta_name = "admin"
+  admin.email = "admin@thoughtworks.com"
   admin.save!
 
   99.times do |n|
     first_name = Faker::Name.first_name
-    User.create(name: "#{first_name} #{Faker::Name.last_name}", okta_name: "user#{n}", email: "user#{n}@thoughtworks.com" )
+    user = User.create(name: "#{first_name} #{Faker::Name.last_name}")
+    user.okta_name = "user#{n}"
+    user.email = "user#{n}@thoughtworks.com"
+    user.save!
   end
 
   sally = User.find(2)
@@ -51,7 +55,11 @@
   #############################
 
   (16..100).to_a.each do |i|
-    AssociateConsultant.create({user_id: i, reviewing_group_id: groups.sample.id, coach_id: @users.sample.id})
+    associateConsultant = AssociateConsultant.create
+    associateConsultant.user_id = i
+    associateConsultant.reviewing_group_id = groups.sample.id
+    associateConsultant.coach_id = @users.sample.id
+    associateConsultant.save!
   end
 
 

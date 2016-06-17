@@ -98,14 +98,6 @@ var setupRequiredErrorHandler = function() {
     });
 };
 
-var _addRequiredFieldClass = function (fields) {
-    for (var i in fields) {
-        if (!$(fields[i]).val()) {
-            $(fields[i]).addClass("required-field");
-        }
-    }
-};
-
 var _toggleFields = function (headers) {
     for (var key in headers) {
         var headerTitle = headers[key].attr('data-heading-title');

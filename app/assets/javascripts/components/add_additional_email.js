@@ -1,50 +1,60 @@
 ReviewSite = ReviewSite || {};
 ReviewSite.components = ReviewSite.components || {};
 
-var addAdditionalEmail = function() {
-  $("#add-email").on("click", function(event){
-    event.preventDefault();
-    $.ajax({
-      complete: function(request){},
-      data: "additional_email="+ $("#new-email").val(),
-      dataType: "script",
-      type: "get",
-      url: "add_email"
-    });
+var addAdditionalEmail = function () {
+    $("#add-email").on("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+            complete: function (request) {
+            },
+            data: "additional_email=" + $("#new-email").val(),
+            dataType: "script",
+            type: "get",
+            url: "add_email"
+        });
 
-    $("#new-email").val("");
-  });
+        $("#new-email").val("");
+    });
 };
 
-var removeAdditionalEmail = function() {
-  $(document).on("click", ".remove-additional-email", function(){
-    $.ajax({
-      complete: function(request){},
-      data: "additional_email_id="+ $(this).attr("id"),
-      dataType: "script",
-      type: "get",
-      url: "remove_email"
+var removeAdditionalEmail = function () {
+    $(document).on("click", ".remove-additional-email", function () {
+        $.ajax({
+            complete: function (request) {
+            },
+            data: "additional_email_id=" + $(this).attr("id"),
+            dataType: "script",
+            type: "get",
+            url: "remove_email"
+        });
+
+        var email_id = $(this).attr("id");
+
+        $(".email-address-column#" + email_id).closest("tr").remove();
     });
-
-    var email_id = $(this).attr("id");
-
-    $(".email-address-column#" + email_id).closest("tr").remove();
-  });
 };
 
-var addEmailOnPressEnter = function() {
-  $("#new-email").keypress(function (e) {
-    var key = e.which;
-    if(key == 13) {
+var addEmailOnPressEnter = function () {
+    $("#new-email").keypress(function (e) {
+        var key = e.which;
+        if (key == 13) {
+            $("#add-email").click();
+            return false;
+        }
+    });
+};
+
+var addEmailOnSaveChanges = function () {
+   $("form[id*=edit_user_]").submit (function () {
         $("#add-email").click();
-        return false;
-    }
-  });
-};
+        return true
+    })
+}
 
 
-ReviewSite.components.addEmail = function() {
-  addAdditionalEmail();
-  removeAdditionalEmail();
-  addEmailOnPressEnter();
+ReviewSite.components.addEmail = function () {
+    addAdditionalEmail();
+    removeAdditionalEmail();
+    addEmailOnPressEnter();
+    addEmailOnSaveChanges();
 };

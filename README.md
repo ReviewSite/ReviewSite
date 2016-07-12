@@ -10,9 +10,9 @@
 * During the provising process you will need to enter your system administrator password for the NFS share mount
 
 
-    vagrant up
-    vagrant ssh
-    cd workspace
+    1. `vagrant up`
+    2. `vagrant ssh`
+    3. `cd workspace`
 
 #### Install Dependencies and Setup Database
 * Run setup.sh OR run the following

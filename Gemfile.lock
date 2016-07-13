@@ -73,6 +73,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.13)
+      capybara (>= 1.0, < 3)
+      launchy
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     cliver (0.3.2)
@@ -324,6 +327,7 @@ GEM
     uniform_notifier (1.5.0)
     uuid (2.3.7)
       macaddr (~> 1.0)
+    vagrant-omnibus (1.4.1)
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.2.3)
@@ -345,6 +349,7 @@ DEPENDENCIES
   bullet
   cancancan (~> 1.9)
   capybara
+  capybara-screenshot
   coffee-rails (~> 3.2.1)
   cucumber-rails (= 1.2.1)
   database_cleaner (= 0.7.0)
@@ -389,6 +394,7 @@ DEPENDENCIES
   spork (= 0.9.0)
   sucker_punch
   uglifier (>= 1.0.3)
+  vagrant-omnibus
   will_paginate
 
 RUBY VERSION

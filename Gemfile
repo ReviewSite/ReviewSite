@@ -57,6 +57,7 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'factory_girl_rails', '1.4.0'
   gem 'cucumber-rails', '1.2.1', require: false
   gem 'database_cleaner', '0.7.0'
@@ -67,4 +68,8 @@ group :test do
   gem 'launchy', '~> 2.1.2'
   gem 'rake'
   gem 'simplecov'
+end
+
+group :plugins do
+  gem 'vagrant-omnibus'
 end
